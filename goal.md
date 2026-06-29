@@ -17,6 +17,7 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - The game uses NexusRealtime as the runtime contract and custom Gold Rush kits for orchestration.
 - Generic NexusRealtime-style kits incubate locally inside `src/kits/generic-incubator/` before any later graduation to NexusRealtime.
 - `engine.n.goldrushKitContracts` must expose the two-layer kit pairings and validate that generic kits stay neutral while GoldRush kits own game-specific rules.
+- NexusRealtime and ProtoKits source-doc alignment is tracked by `manifests/source-docs/nexus-kit-source-alignment.json` and validated by `tools/validation/validate-nexus-source-alignment.mjs`.
 - 2-100 players are supported by `engine.n.goldrushNetwork`; 50-player room partitions are internal implementation detail.
 
 ## Room Model
@@ -103,3 +104,13 @@ tools/validation/validate-approved-asset-registry.mjs
 ```
 
 The approved registry is intentionally empty while cloud import is pending. Empty state passes validation and keeps runtime placeholders active. Future approved records must target existing slots, use `sourceJobId: goldrush-dual-source-001`, include source/output hashes and approval metadata, point to committed files under `public/assets/` through browser-relative `assets/...` paths, and match the runtime file hash.
+
+## Current Nexus Source Alignment Gate
+
+```txt
+manifests/source-docs/nexus-kit-source-alignment.json
+docs/nexus-source-alignment.md
+tools/validation/validate-nexus-source-alignment.mjs
+```
+
+This gate anchors GoldRush to the installed NexusRealtime README and ProtoKits DSM/DSK docs. It checks source doc hashes and anchors, package-lock commits, local domain-kit mappings, non-adapter renderer boundaries, headless GoldRush runtime kit installation, ProtoKit construction with NexusRealtime, and the local ME goal ledger markers.

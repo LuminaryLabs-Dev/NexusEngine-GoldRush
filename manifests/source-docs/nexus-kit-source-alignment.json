@@ -1,0 +1,204 @@
+{
+  "schema": "nexusengine.goldrush.source-doc-alignment.v1",
+  "version": "0.1.0",
+  "status": "active",
+  "purpose": "Anchor NexusEngine-GoldRush kit architecture to the installed NexusRealtime and ProtoKits source docs before cloud assets replace placeholders.",
+  "sourceDocs": [
+    {
+      "id": "nexusrealtime-readme",
+      "packageName": "nexusrealtime",
+      "packageVersion": "0.1.0",
+      "lockCommit": "1b57a32f33fe7a08f8517e32f4b54243ccd162d8",
+      "path": "node_modules/nexusrealtime/README.md",
+      "sha256": "74874894ae412ec141ea9976b36ee82b22b8ddacaa3eae2bc9768edce430fc65",
+      "requiredAnchors": [
+        "Everything meaningful becomes a kit.",
+        "Every kit belongs to a domain.",
+        "install kit",
+        "validate behavior",
+        "promote stable systems"
+      ]
+    },
+    {
+      "id": "protokits-readme",
+      "packageName": "@luminarylabs/nexusrealtime-protokits",
+      "packageVersion": "0.0.2",
+      "lockCommit": "6387e84d2fdfdbfb31ee458469ced7cae56c6dac",
+      "path": "node_modules/@luminarylabs/nexusrealtime-protokits/README.md",
+      "sha256": "41dbec5da63a386151c6261192f14b2f2a1253aa24b9c701e2e71694fb1aa77e",
+      "requiredAnchors": [
+        "ProtoKits is the proving ground",
+        "Domain Service Module",
+        "renderer-agnostic descriptor layer",
+        "deterministic validation",
+        "promotion candidate"
+      ]
+    },
+    {
+      "id": "protokits-start-here",
+      "packageName": "@luminarylabs/nexusrealtime-protokits",
+      "packageVersion": "0.0.2",
+      "lockCommit": "6387e84d2fdfdbfb31ee458469ced7cae56c6dac",
+      "path": "node_modules/@luminarylabs/nexusrealtime-protokits/docs/START-HERE.md",
+      "sha256": "4116d0bcaae77f386e0dd2c57bbd474e9407c07337a9addbc59e41dc93f3d6c6",
+      "requiredAnchors": [
+        "Domain Service Module",
+        "domain-first",
+        "renderer-agnostic",
+        "headless tests",
+        "Build scoped, reusable domain architecture"
+      ]
+    },
+    {
+      "id": "domain-protokit-contract",
+      "packageName": "@luminarylabs/nexusrealtime-protokits",
+      "packageVersion": "0.0.2",
+      "lockCommit": "6387e84d2fdfdbfb31ee458469ced7cae56c6dac",
+      "path": "node_modules/@luminarylabs/nexusrealtime-protokits/docs/domain-protokit-contract.md",
+      "sha256": "c44520a529d9be4b37828fc444d4fc94e5e21a5d69c0de9cd8675204dcb0742a",
+      "requiredAnchors": [
+        "Required shape",
+        "VERSION constant",
+        "resources",
+        "events",
+        "reset / getState / getSnapshot API",
+        "Domain kits must not own"
+      ]
+    },
+    {
+      "id": "dsm-start-here",
+      "packageName": "@luminarylabs/nexusrealtime-protokits",
+      "packageVersion": "0.0.2",
+      "lockCommit": "6387e84d2fdfdbfb31ee458469ced7cae56c6dac",
+      "path": "node_modules/@luminarylabs/nexusrealtime-protokits/docs/DSM-START-HERE.md",
+      "sha256": "7995835853ae971b86084935d6c380629f26760c87fcac62aa7b82d19e7af82c",
+      "requiredAnchors": [
+        "Games do not define reusable architecture.",
+        "Services/API",
+        "Data contract",
+        "Events emitted",
+        "Renderer boundary"
+      ]
+    }
+  ],
+  "principles": [
+    {
+      "id": "kit-first-runtime",
+      "summary": "Everything meaningful becomes a kit and installs into the NexusRealtime runtime.",
+      "localGate": "tools/validation/validate-runtime-kit-registry.mjs"
+    },
+    {
+      "id": "domain-first-composition",
+      "summary": "Reusable capabilities stay neutral; GoldRush composes them through custom kits and data.",
+      "localGate": "tools/validation/validate-domain-kit-contracts.mjs"
+    },
+    {
+      "id": "renderer-boundary",
+      "summary": "Domain kits expose descriptors and snapshots, while renderer adapters own DOM, Three.js, and browser surfaces.",
+      "localGate": "tools/validation/validate-nexus-source-alignment.mjs"
+    },
+    {
+      "id": "headless-proof",
+      "summary": "Kit claims are proven by headless validators before public/browser proof.",
+      "localGate": "npm run validate"
+    },
+    {
+      "id": "promotion-boundary",
+      "summary": "Generic incubator kits remain promotable only when neutral, deterministic, resettable, snapshot-safe, and validated.",
+      "localGate": "docs/architecture/graduation-rules.md"
+    }
+  ],
+  "goldRushMappings": [
+    {
+      "principleId": "kit-first-runtime",
+      "files": [
+        "src/kits/goldRushRuntime.js",
+        "src/kits/goldRushDomainKits.js",
+        "src/kits/generic-incubator/genericDomainServiceKits.js"
+      ]
+    },
+    {
+      "principleId": "domain-first-composition",
+      "files": [
+        "src/kits/generic-incubator/domainServiceKitCatalog.js",
+        "docs/architecture/domain-service-kit-system.md",
+        "docs/kits/generic/README.md",
+        "docs/kits/goldrush/README.md"
+      ]
+    },
+    {
+      "principleId": "renderer-boundary",
+      "files": [
+        "src/kits",
+        "src/renderer",
+        "docs/architecture/public-private-api-flow.md"
+      ]
+    },
+    {
+      "principleId": "headless-proof",
+      "files": [
+        "package.json",
+        "tools/validation"
+      ]
+    },
+    {
+      "principleId": "promotion-boundary",
+      "files": [
+        "docs/architecture/graduation-rules.md",
+        "src/kits/generic-incubator/domainServiceKitCatalog.js"
+      ]
+    }
+  ],
+  "kitGates": [
+    "domainPath",
+    "purpose",
+    "publicApi",
+    "internalApi",
+    "events",
+    "snapshot",
+    "reset",
+    "dataExposed",
+    "validator",
+    "graduationRule",
+    "runtimeInstall",
+    "protoKitConstruct"
+  ],
+  "forbiddenNonAdapterPatterns": [
+    "from \"three\"",
+    "from 'three'",
+    "document.",
+    "window.document",
+    "window.addEventListener",
+    "window.localStorage",
+    "globalThis.window",
+    "HTMLCanvasElement",
+    "requestAnimationFrame",
+    "localStorage",
+    "AudioContext",
+    "fetch("
+  ],
+  "adapterAllowRoots": [
+    "src/renderer",
+    "src/app",
+    "src/scenes"
+  ],
+  "goalSync": {
+    "path": "/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md",
+      "requiredMarkers": [
+        "NexusRealtime is the core runtime contract.",
+        "NexusRealtime-Kits and ProtoKits are reusable domain sources.",
+        "`Build` branch deploys to GitHub Pages on push.",
+        "Raw Unity assets are still not copied; the goal remains active."
+      ]
+  },
+  "validatorOutputs": {
+    "command": "node tools/validation/validate-nexus-source-alignment.mjs",
+    "mustReport": [
+      "sourceDocs",
+      "principles",
+      "runtimeInstall",
+      "protoKitConstruct",
+      "goalSync"
+    ]
+  }
+}
