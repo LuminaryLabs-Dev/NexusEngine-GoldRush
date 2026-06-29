@@ -23,6 +23,13 @@ NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reu
 - `goldrush-scene-transition-kit`: browser scene state, transitions, audio cues, and animation cues.
 - `goldrush-audio-state-kit`: music state and one-shot cue descriptors.
 - `goldrush-animation-state-kit`: player pose and legacy animation parameter descriptors.
+- `goldrush-match-lifecycle-kit`: match status, phase order, lifecycle clock, and end conditions.
+- `goldrush-final-rush-kit`: final rush warning, collapse pressure, pressure zones, and lockout state.
+- `goldrush-extraction-receipt-kit`: accepted/rejected/duplicate extraction receipts and totals.
+- `goldrush-room-handoff-receipt-kit`: room gate handoff receipts across shard windows and loading transitions.
+- `goldrush-scoring-kit`: player/team score rules, receipt application, penalties, bonuses, and placement.
+- `goldrush-match-results-kit`: winner, placements, awards, final reason, and final result state.
+- `goldrush-replay-summary-kit`: deterministic compact match summary from receipt and result ledgers.
 - `goldrush-asset-registry-kit`: approved runtime asset manifest and scene descriptors.
 
 ## Current Runtime Integration
@@ -46,6 +53,13 @@ The browser scaffold now installs Gold Rush custom domain service kits through t
 - `engine.n.goldrushScenes`
 - `engine.n.goldrushAudio`
 - `engine.n.goldrushAnimation`
+- `engine.n.goldrushMatch`
+- `engine.n.goldrushFinalRush`
+- `engine.n.goldrushExtractionReceipts`
+- `engine.n.goldrushRoomHandoffReceipts`
+- `engine.n.goldrushScoring`
+- `engine.n.goldrushResults`
+- `engine.n.goldrushReplaySummary`
 - `engine.n.goldrushAssets`
 
 This keeps the renderer as a consumer of snapshots and descriptors rather than the owner of game state.
@@ -56,7 +70,7 @@ For browser inspection, the app exposes:
 window.GoldRushHost.getState()
 ```
 
-This returns scenario, world, terrain, towns, paths, gold zones, loading gates, audio, animation, and camera descriptors.
+This returns scenario, world, terrain, towns, paths, gold zones, loading gates, audio, animation, camera, match, final rush, extraction receipt, handoff receipt, scoring, result, and replay summary descriptors.
 
 ## Playable Loop
 
@@ -65,7 +79,10 @@ The current playable loop is implemented through the installed kits:
 ```txt
 Mine Gold -> goldrushMining.mine -> goldrushCargo.add
 Ambush -> goldrushPerspective.set(combat) -> goldrushCombat.damage
-Cash Out -> goldrushCashout.deposit -> goldrushCargo.drop
+Final Rush -> goldrushFinalRush.arm -> goldrushFinalRush.tick
+Handoff Gate -> goldrushRoomHandoffReceipts.recordHandoff
+Cash Out -> goldrushCashout.deposit -> goldrushExtractionReceipts.recordExtraction -> goldrushScoring.applyExtractionReceipt
+End Match -> goldrushResults.finalize -> goldrushReplaySummary.capture
 ```
 
 This preserves the old Gold Rush idea that gold is score, risk, health, ammo, and loot, while the modern browser renderer stays presentation-only.

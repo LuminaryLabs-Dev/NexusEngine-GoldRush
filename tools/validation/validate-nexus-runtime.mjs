@@ -20,6 +20,13 @@ const requiredApis = [
   "goldrushWorld",
   "goldrushAudio",
   "goldrushAnimation",
+  "goldrushMatch",
+  "goldrushFinalRush",
+  "goldrushExtractionReceipts",
+  "goldrushRoomHandoffReceipts",
+  "goldrushScoring",
+  "goldrushResults",
+  "goldrushReplaySummary",
   "goldrushAssets",
 ];
 
@@ -76,10 +83,19 @@ assert(afterDamage.animationState.params.isAiming === true, "combat should switc
 assert(afterDamage.cameraState.mode === "combat", "damage should switch camera descriptor to combat");
 assert(afterDamage.cargo["player-1"] < afterMining.cargo["player-1"], "damage should put carried gold at risk");
 
+runtime.startFinalRush();
+const afterFinalRush = runtime.snapshot();
+assert(afterFinalRush.match.phase === "finalRush", "final rush should advance match lifecycle");
+assert(afterFinalRush.finalRush.pressureScalar > 0, "final rush should create collapse pressure");
+assert(afterFinalRush.finalRush.pressureScalar <= 1, "final rush pressure should stay clamped");
+
 runtime.cashOut();
 const afterCashout = runtime.snapshot();
 assert(afterCashout.cashout["player-1"] > 0, "cashout should bank remaining carried gold");
 assert(afterCashout.cargo["player-1"] === 0, "cashout should clear carried gold");
+assert(afterCashout.extractionReceipts.totals.acceptedCount === 1, "cashout should create one accepted extraction receipt");
+assert(afterCashout.scoring.leaders.teamId === "team-01", "cashout should update scoring leader");
+assert(afterCashout.scoring.teams["team-01"].totalScore > 0, "cashout should produce a positive team score");
 assert(afterCashout.sceneState.currentSceneId === "goldrush.scene.arena", "cashout should return to massive terrain arena scene");
 assert(afterCashout.sceneState.activeAudioCueId === "goldrush.audio.sfx.cashout", "cashout should cue cashout audio");
 assert(afterCashout.audioState.oneShots.some((shot) => shot.cueId === "goldrush.audio.sfx.cashout"), "cashout should emit one-shot cashout cue");
@@ -92,6 +108,17 @@ assert(
   afterCashout.assets.assets.every((asset) => asset.status === "placeholder" && asset.runtimePath === null),
   "asset slots must remain placeholders until cloud promotion"
 );
+
+runtime.requestHandoff();
+const afterHandoff = runtime.snapshot();
+assert(afterHandoff.handoffReceipts.appliedHandoffIds.length === 1, "handoff should record one accepted room gate receipt");
+
+runtime.endMatch({ reason: "manual" });
+const afterResults = runtime.snapshot();
+assert(afterResults.match.phase === "results", "end match should advance to results");
+assert(afterResults.results.status === "final", "end match should finalize result state");
+assert(afterResults.results.winner.id === "team-01", "results should report the deterministic team winner");
+assert(afterResults.replaySummary.keyMoments.length >= 3, "replay summary should include match lifecycle moments");
 
 console.log("nexus runtime passed");
 
