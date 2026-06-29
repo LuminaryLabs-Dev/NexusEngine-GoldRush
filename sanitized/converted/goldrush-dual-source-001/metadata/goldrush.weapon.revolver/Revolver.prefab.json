@@ -1,0 +1,50 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.weapon.revolver",
+  "mediaKind": "weapon",
+  "sourcePath": "GoldRush/Assets/Entities/Items/Revolver.prefab",
+  "sourceHash": "sha256:f6e99dc7696086ec6e3cd12253e577b9fa190fd6c6e3f07f43448aeb75e42901",
+  "summary": {
+    "lineCount": 195,
+    "guidCount": 3,
+    "fileIdCount": 16,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "042e10cd681c56540afb5eb747ca8606",
+      "76a76d09f986a1042a8ce8e743bae18a",
+      "80c6f5627bc8c4b4ead8977c6085a023"
+    ],
+    "fileIds": [
+      "0",
+      "4303935108725492121",
+      "1345069915778509170",
+      "470405206615830033",
+      "3863022315813610501",
+      "-8679921383154817045",
+      "919132149155446097",
+      "100100000",
+      "75873408179096058",
+      "2244020223596242431",
+      "8140796759149926532",
+      "3590767025532229041",
+      "4696858329502054644",
+      "8408548453788592432",
+      "4696440843840556341",
+      "11500000"
+    ],
+    "names": [
+      "ShootPoint",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 3,
+      "114": 1,
+      "1001": 2
+    }
+  }
+}

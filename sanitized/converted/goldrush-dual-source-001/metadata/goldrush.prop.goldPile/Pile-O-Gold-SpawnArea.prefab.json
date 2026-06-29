@@ -1,0 +1,54 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.prop.goldPile",
+  "mediaKind": "resource-node",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold SpawnArea.prefab",
+  "sourceHash": "sha256:6da5acbe3a0b67d593f9be6a6c0df3ca1760a92f2eeef30a14e535c25eda4786",
+  "summary": {
+    "lineCount": 197,
+    "guidCount": 5,
+    "fileIdCount": 16,
+    "namedObjectCount": 3,
+    "yamlTagTypes": 5
+  },
+  "references": {
+    "guids": [
+      "0000000000000000e000000000000000",
+      "75a91c0ec1596414c8457fbef39a8f89",
+      "a9796f626e16fbc4198886da25c40c65",
+      "e725a070cec140c4caffb81624c8c787",
+      "f3ad31453782d7448aec509b6439b3b2"
+    ],
+    "fileIds": [
+      "0",
+      "3381873921888665636",
+      "6733330096021928477",
+      "3905201248466275328",
+      "-2562726904039366046",
+      "4880820496212625954",
+      "3586029085878158166",
+      "11500000",
+      "4480558940279404678",
+      "-1552182283",
+      "158639473",
+      "2465220457727932946",
+      "8872498738696468633",
+      "5294620682072678186",
+      "10206",
+      "2100000"
+    ],
+    "names": [
+      "Pile O' Gold SpawnArea",
+      "m_EditorClassIdentifier:",
+      "Cylinder"
+    ],
+    "yamlTags": {
+      "1": 2,
+      "4": 2,
+      "23": 1,
+      "33": 1,
+      "114": 3
+    }
+  }
+}

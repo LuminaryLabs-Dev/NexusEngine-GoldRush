@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Gunplay.anim",
+  "sourceHash": "sha256:d78212605c717c51502720f2555518fd18c7e3172ea477710a8d38c67e4cb906",
+  "summary": {
+    "lineCount": 28638,
+    "guidCount": 0,
+    "fileIdCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0"
+    ],
+    "names": [
+      "Gunplay"
+    ],
+    "yamlTags": {
+      "74": 1
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.vehicle.train",
+  "mediaKind": "vehicle",
+  "sourcePath": "GoldRush/Assets/Entities/Vehicles/TrainEntity.prefab",
+  "sourceHash": "sha256:086fe1ca89d1764750d04b12697a93abb09639c56aa0ac7c7a6d5e86f08f87bd",
+  "summary": {
+    "lineCount": 80,
+    "guidCount": 2,
+    "fileIdCount": 8,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "9f5a4131563597e4496eadb97c64582e",
+      "a65e79822a4a8a6498b54cddc0ebf1cf"
+    ],
+    "fileIds": [
+      "0",
+      "5147580223880720026",
+      "8282222452428980062",
+      "6984756345702015291",
+      "100100000",
+      "6980372369056134457",
+      "2859965393554283427",
+      "11500000"
+    ],
+    "names": [
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "114": 1,
+      "1001": 1
+    }
+  }
+}

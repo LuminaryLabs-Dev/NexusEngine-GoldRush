@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.vehicle.trainCar",
+  "mediaKind": "vehicle",
+  "sourcePath": "GoldRush/Assets/Entities/LobbyTrainCar02.prefab",
+  "sourceHash": "sha256:af1de7d8b29c733b893e3124ac4555935f2312aa4e0c47cd29c8dcb4a68553b9",
+  "summary": {
+    "lineCount": 146,
+    "guidCount": 2,
+    "fileIdCount": 10,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "600ad730cb52a7648b0b19dee04b621a",
+      "9f5a4131563597e4496eadb97c64582e"
+    ],
+    "fileIds": [
+      "0",
+      "5147580223880720026",
+      "8282222452428980062",
+      "2117774600744531020",
+      "100100000",
+      "1844511560576163441",
+      "7739814250087276847",
+      "-8679921383154817045",
+      "919132149155446097",
+      "1939188566471316391"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

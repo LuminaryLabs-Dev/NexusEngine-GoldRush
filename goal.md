@@ -171,6 +171,20 @@ unmapped: 0
 
 This branch contains the first direct copied legacy files and the six required receipts. It is not a runtime promotion branch: `public/assets/` remains untouched, approved runtime asset records remain empty, and the final playable parity goal still requires conversion, human review, promotion, and browser proof.
 
+## Current Sanitized Conversion Pass
+
+```txt
+conversion report: reports/conversion/goldrush-dual-source-001.json
+sanitized root: sanitized/converted/goldrush-dual-source-001/
+sanitized outputs: 31
+browser-ready audio/texture copies: 7
+Unity text metadata extractions: 17
+external model conversion requests: 7
+promotion-ready assets: 0
+```
+
+The conversion pass is intentionally conservative. It copies browser-safe audio and textures into `sanitized/converted`, extracts JSON metadata from Unity scene/prefab/animation text assets, and creates external conversion request JSON for FBX model files. It does not write `public/assets/`, does not update approved runtime records, and does not claim human review.
+
 ## Current Cloud Source Access Proof
 
 ```txt

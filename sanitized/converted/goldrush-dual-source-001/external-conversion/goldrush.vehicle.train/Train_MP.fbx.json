@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.vehicle.train",
+  "mediaKind": "vehicle",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/train-track-modular-pack/source/Train_MP.fbx",
+  "sourceHash": "sha256:a946b9afacfa68abe7bc836904579593d069ec33f1795def25be80422efa8f3f",
+  "sourceBytes": 957744,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model data is retained only under raw/imported.",
+    "This descriptor does not copy FBX bytes into sanitized output.",
+    "Promotion requires converted browser output, provenance, and human review."
+  ]
+}
