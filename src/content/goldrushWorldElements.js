@@ -70,7 +70,7 @@ const towns = [
     role: "lobby-town-and-train-entry",
     position: { x: -1480, z: -460 },
     footprint: { width: 420, depth: 260 },
-    buildings: ["station", "water-tower", "freight-shed", "ticket-office"],
+    buildings: ["station", "water-tower", "freight-shed", "ticket-office", "rail-platform", "boarding-house"],
     pathIds: ["path.station-to-west-basin", "path.station-to-east-rail"],
     roomWindowIds: ["room-window-west-basin"],
   },
@@ -80,7 +80,7 @@ const towns = [
     role: "mid-map-settlement-and-cover",
     position: { x: 1180, z: 380 },
     footprint: { width: 520, depth: 340 },
-    buildings: ["saloon", "assay-office", "sheriff-post", "stable", "general-store"],
+    buildings: ["saloon", "assay-office", "sheriff-post", "stable", "general-store", "blacksmith"],
     pathIds: ["path.station-to-east-rail", "path.east-rail-to-cashout"],
     roomWindowIds: ["room-window-east-rail"],
   },
@@ -90,7 +90,7 @@ const towns = [
     role: "combat-town-and-gold-risk-zone",
     position: { x: -120, z: 920 },
     footprint: { width: 360, depth: 240 },
-    buildings: ["collapsed-cabin", "ore-bin", "mine-office"],
+    buildings: ["collapsed-cabin", "ore-bin", "mine-office", "supply-shack", "watch-post", "cookhouse"],
     pathIds: ["path.west-basin-to-cashout", "path.east-rail-to-cashout"],
     roomWindowIds: ["room-window-west-basin", "room-window-east-rail"],
   },
@@ -269,4 +269,185 @@ export function validateGoldRushWorldElements(world = createGoldRushWorldElement
     passed: failures.length === 0,
     failures,
   };
+}
+
+export function createTownLayoutDescriptors(world = createGoldRushWorldElements()) {
+  return world.towns.map((town) => {
+    const relatedPaths = world.paths.filter((path) => town.pathIds.includes(path.id));
+    return {
+      townId: town.id,
+      label: town.label,
+      role: town.role,
+      patchWindowIds: town.roomWindowIds,
+      anchor: { x: town.position.x, y: 0, z: town.position.z },
+      footprint: town.footprint,
+      streetGraph: createStreetGraphForTown(town, relatedPaths),
+      buildings: town.buildings.map((building, index) => ({
+        buildingId: `${town.id}.${building}-${index + 1}`,
+        role: building,
+        assetSlotId: `goldrush.town.${building}`,
+        transform: createBuildingTransform(town, index),
+        gameplayTags: buildingTags(building, town.role),
+      })),
+      transitionIds: town.pathIds.map((pathId) => `goldrush.transition.town.${town.id}.${pathId}`),
+    };
+  });
+}
+
+export function createPathNetworkDescriptors(world = createGoldRushWorldElements()) {
+  return world.paths.map((path) => ({
+    pathId: path.id,
+    label: path.label,
+    role: path.role,
+    points: path.points.map((point, index) => ({
+      id: `${path.id}.point-${index + 1}`,
+      x: point.x,
+      y: 0,
+      z: point.z,
+    })),
+    tags: pathTags(path),
+    connectedTownIds: world.towns.filter((town) => town.pathIds.includes(path.id)).map((town) => town.id),
+    connectedGoldZoneIds: world.goldZones
+      .filter((zone) => path.points.some((point) => distance2d(point, zone.position) <= zone.radius + 260))
+      .map((zone) => zone.id),
+  }));
+}
+
+export function createGoldZoneDescriptors(world = createGoldRushWorldElements()) {
+  return world.goldZones.map((zone) => ({
+    goldZoneId: zone.id,
+    label: zone.label,
+    role: zone.role,
+    patchWindowIds: zone.roomWindowIds,
+    center: { x: zone.position.x, y: 0, z: zone.position.z },
+    radius: zone.radius,
+    richness: zone.richness,
+    spawnRateTicks: Math.max(20, Math.round(90 - zone.richness * 50)),
+    nodeCapacity: Math.round(8 + zone.richness * 14),
+    goldAmountPerPickup: 10,
+    visualSlotId: "goldrush.prop.goldPile",
+    audioCueId: "goldrush.audio.sfx.goldPickup",
+    state: "spawning",
+  }));
+}
+
+export function createAudioStateDescriptor({ phase = "lobby", combatActive = false, sceneState = null } = {}) {
+  const boss = phase === "results" && combatActive;
+  const audioState = boss ? "boss" : combatActive || phase === "combat" ? "combat" : "wandering";
+  const musicCueId = audioState === "boss"
+    ? "goldrush.audio.music.boss"
+    : audioState === "combat"
+      ? "goldrush.audio.music.combat"
+      : "goldrush.audio.music.wandering";
+  const oneShots = [];
+  if (sceneState?.activeAudioCueId?.startsWith("goldrush.audio.sfx.")) {
+    oneShots.push({
+      cueId: sceneState.activeAudioCueId,
+      slotId: sceneState.activeAudioCueId,
+      dedupeId: sceneState.lastTransition?.id ?? sceneState.activeAudioCueId,
+    });
+  }
+  return {
+    audioState,
+    musicCueId,
+    crossfadeSeconds: audioState === "wandering" ? 5 : 1.6,
+    oneShots,
+  };
+}
+
+export function createAnimationStateDescriptor({
+  playerId = "player-1",
+  phase = "lobby",
+  combatActive = false,
+  carriedGold = 0,
+  eliminated = false,
+} = {}) {
+  const speed = phase === "lobby" || phase === "extract" ? 0 : carriedGold > 120 ? 0.45 : 0.75;
+  const isAiming = combatActive || phase === "combat";
+  const isShooting = combatActive && carriedGold > 0;
+  const baseState = eliminated ? "dead" : speed > 0 ? "run" : "idle";
+  const aimState = !isAiming ? "none" : speed > 0 ? "aimRun" : "aimIdle";
+  return {
+    playerId,
+    baseState,
+    aimState,
+    actionState: eliminated ? "none" : isShooting ? "shooting" : phase === "extract" ? "cashout" : "none",
+    clipSlotIds: {
+      base: `goldrush.anim.player.${baseState}`,
+      aim: aimState === "none" ? null : `goldrush.anim.player.${aimState}`,
+      action: isShooting ? "goldrush.anim.player.shooting" : null,
+    },
+    params: {
+      speed,
+      isAiming,
+      isShooting,
+      isRunning: speed > 0,
+      isJumping: false,
+      combatState: combatActive ? "InCombat" : "OutOfCombat",
+    },
+  };
+}
+
+function createStreetGraphForTown(town, relatedPaths) {
+  const buildingNodes = town.buildings.map((building, index) => {
+    const transform = createBuildingTransform(town, index);
+    return {
+      id: `${town.id}.street.${building}`,
+      x: transform.x,
+      y: 0,
+      z: transform.z,
+    };
+  });
+  const pathNodes = relatedPaths.map((path) => ({
+    id: `${town.id}.street.${path.id}`,
+    x: path.points[0].x,
+    y: 0,
+    z: path.points[0].z,
+  }));
+  const nodes = [
+    { id: `${town.id}.street.center`, x: town.position.x, y: 0, z: town.position.z },
+    ...buildingNodes,
+    ...pathNodes,
+  ];
+  return {
+    nodes,
+    edges: nodes.slice(1).map((node) => ({
+      from: `${town.id}.street.center`,
+      to: node.id,
+      tags: node.id.includes("path.") ? ["mainStreet", "routeConnection"] : ["mainStreet", "buildingFront"],
+    })),
+  };
+}
+
+function createBuildingTransform(town, index) {
+  const column = index % 3;
+  const row = Math.floor(index / 3);
+  return {
+    x: town.position.x + (column - 1) * 56,
+    y: 0,
+    z: town.position.z + (row - 0.5) * 44,
+    rotationY: Number((index * 0.18).toFixed(3)),
+    scale: 1,
+  };
+}
+
+function buildingTags(building, townRole) {
+  const tags = ["landmark", "cover"];
+  if (building.includes("station") || building.includes("freight")) tags.push("spawnNearby", "rail");
+  if (building.includes("saloon") || building.includes("assay")) tags.push("cashoutNearby", "townCenter");
+  if (building.includes("ore") || building.includes("mine")) tags.push("goldNearby");
+  if (townRole.includes("combat")) tags.push("combatCover");
+  return tags;
+}
+
+function pathTags(path) {
+  const tags = [path.role];
+  if (path.role.includes("cashout")) tags.push("extraction");
+  if (path.id.includes("rail")) tags.push("rail");
+  if (path.id.includes("station")) tags.push("drop");
+  return tags;
+}
+
+function distance2d(a, b) {
+  return Math.hypot(a.x - b.x, a.z - b.z);
 }

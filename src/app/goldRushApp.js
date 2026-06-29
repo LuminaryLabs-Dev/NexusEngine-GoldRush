@@ -66,6 +66,26 @@ export function createGoldRushApp(root) {
   const canvasRoot = root.querySelector("#goldrush-canvas");
   const renderer = createGoldRushRenderer(canvasRoot);
 
+  window.GoldRushHost = {
+    engine: runtime.engine,
+    runtime,
+    getState: () => {
+      const scenario = runtime.snapshot();
+      return {
+        scenario,
+        world: scenario.world,
+        terrain: scenario.terrainState,
+        towns: scenario.towns,
+        paths: scenario.paths,
+        goldZones: scenario.goldZones,
+        loadingGates: scenario.loadingGates,
+        audio: scenario.audioState,
+        animation: scenario.animationState,
+        camera: scenario.cameraState,
+      };
+    },
+  };
+
   const playerInput = root.querySelector("#player-count");
   const phaseInput = root.querySelector("#phase");
   const generateButton = root.querySelector('[data-action="generate"]');
@@ -94,7 +114,15 @@ export function createGoldRushApp(root) {
         `<span class="pill">anim: ${state.sceneState.activeAnimationCueId.replace("goldrush.anim.", "")}</span>`,
         `<span class="pill">world: ${(state.world.scale.widthMeters / 1000).toFixed(1)}km x ${(state.world.scale.depthMeters / 1000).toFixed(1)}km</span>`,
         `<span class="pill">towns: ${state.world.towns.length}</span>`,
+        `<span class="pill">town layouts: ${state.towns.length}</span>`,
+        `<span class="pill">paths: ${state.paths.length}</span>`,
+        `<span class="pill">gold zones: ${state.goldZones.length}</span>`,
         `<span class="pill">patch windows: ${state.world.activeRoomWindows.length}</span>`,
+        `<span class="pill">patches: ${state.terrainState.patchGrid.activePatchIds.length}</span>`,
+        `<span class="pill">loading gates: ${state.loadingGates.gates.length}</span>`,
+        `<span class="pill">music: ${state.audioState.musicCueId.replace("goldrush.audio.music.", "")}</span>`,
+        `<span class="pill">pose: ${state.animationState.baseState}/${state.animationState.aimState}</span>`,
+        `<span class="pill">camera kit: ${state.cameraState.mode}</span>`,
         `<span class="pill">kits: ${state.installOrder.length}</span>`,
         `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
       ])

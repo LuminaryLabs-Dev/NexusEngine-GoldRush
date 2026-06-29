@@ -25,6 +25,9 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 - Scene, transition, audio, and animation slots are represented in NexusRealtime scene state before legacy files are imported.
 - The visible arena is a GoldRush-local procedural terrain kit stack with many small tessellated patches, not a circular primitive placeholder.
 - Towns, mountains, paths, gold zones, loading gates, and room patch windows are represented by `engine.n.goldrushWorld`.
+- Terrain windows, town layouts, path networks, gold zones, loading gates, camera descriptors, audio state, and animation state are split into dedicated `engine.n.*` APIs for validation and future asset promotion.
+- `window.GoldRushHost.getState()` exposes the current kit snapshots for browser-side validation.
+- Agent perspective packets in `.agent/perspectives/` simulate creative, Unity, C#, runtime, player, market, and release viewpoints before new passes.
 
 ## Commands
 
@@ -34,7 +37,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, world descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
+`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
 
 ## Deploy
 
