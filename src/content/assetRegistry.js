@@ -1,3 +1,10 @@
 import { createPlaceholderAssetRegistry } from "./goldrushAssetSlots.js";
+import { createPresentationRegistry } from "./goldrushPresentationSlots.js";
 
-export const assetRegistry = createPlaceholderAssetRegistry();
+const assetRegistryBase = createPlaceholderAssetRegistry();
+const presentationRegistry = createPresentationRegistry();
+
+export const assetRegistry = {
+  ...assetRegistryBase,
+  presentation: presentationRegistry,
+};

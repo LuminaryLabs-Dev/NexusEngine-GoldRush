@@ -1,4 +1,5 @@
 import { defineDomainServiceKit } from "nexusrealtime";
+import { createGoldRushWorldElements, validateGoldRushWorldElements } from "../content/goldrushWorldElements.js";
 
 const version = "0.1.0";
 const stability = "prototype";
@@ -12,6 +13,8 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createCashoutKit(),
     createCombatKit(),
     createPerspectiveKit(),
+    createWorldElementKit(),
+    createSceneTransitionKit(),
     createScenarioKit(),
   ];
 }
@@ -286,6 +289,103 @@ function createPerspectiveKit() {
   });
 }
 
+function createSceneTransitionKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-scene-transition-kit",
+    domain: "goldrush-scene-transition",
+    apiName: "goldrushScenes",
+    stability,
+    version,
+    requires: ["n:goldrush-asset-registry"],
+    services: ["transition", "phase", "snapshot"],
+    metadata: {
+      purpose: "Own browser scene state, transition receipts, audio cues, and animation cues.",
+    },
+    createApi({ engine }) {
+      let currentSceneId = "goldrush.scene.mainMenu";
+      let lastTransition = {
+        id: "goldrush.transition.bootToMainMenu",
+        from: null,
+        to: currentSceneId,
+        audioCueId: "goldrush.audio.music.wandering",
+        animationCueId: "goldrush.anim.player.idle",
+        reason: "initial",
+      };
+      const history = [lastTransition];
+
+      return {
+        transition({ toSceneId, transitionId, reason = "manual" }) {
+          const assets = engine.n.goldrushAssets.snapshot();
+          const transition = assets.presentation.transitions.find((entry) => {
+            if (transitionId) return entry.id === transitionId;
+            return entry.from === currentSceneId && entry.to === toSceneId;
+          }) ?? {
+            id: transitionId ?? "goldrush.transition.direct",
+            audioCueId: "goldrush.audio.music.wandering",
+            animationCueId: "goldrush.anim.player.idle",
+          };
+          lastTransition = {
+            id: transition.id,
+            from: currentSceneId,
+            to: toSceneId,
+            audioCueId: transition.audioCueId,
+            animationCueId: transition.animationCueId,
+            reason,
+          };
+          currentSceneId = toSceneId;
+          history.push(lastTransition);
+          return this.snapshot();
+        },
+        phase(phase) {
+          const transition = transitionForPhase(phase);
+          return this.transition({ ...transition, reason: `phase:${phase}` });
+        },
+        snapshot() {
+          const assets = engine.n.goldrushAssets.snapshot();
+          const scene = assets.presentation.scenes.find((entry) => entry.id === currentSceneId) ?? null;
+          return {
+            currentSceneId,
+            scene,
+            lastTransition: structuredClone(lastTransition),
+            activeAudioCueId: lastTransition.audioCueId,
+            activeAnimationCueId: lastTransition.animationCueId,
+            history: history.slice(-10),
+          };
+        },
+      };
+    },
+  });
+}
+
+function createWorldElementKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-world-element-kit",
+    domain: "goldrush-world-elements",
+    apiName: "goldrushWorld",
+    stability,
+    version,
+    requires: ["n:goldrush-room-orchestrator"],
+    services: ["snapshot", "room-window", "validate"],
+    metadata: {
+      purpose: "Own world scale, towns, mountains, paths, gold zones, loading gates, and room patch windows.",
+    },
+    createApi({ engine }) {
+      return {
+        snapshot({ phase = "lobby" } = {}) {
+          return createGoldRushWorldElements({ rooms: engine.n.goldrushRooms.snapshot(), phase });
+        },
+        roomWindow(shardId) {
+          const world = this.snapshot();
+          return world.roomPatchWindows.find((window) => window.shardId === shardId) ?? null;
+        },
+        validate() {
+          return validateGoldRushWorldElements(this.snapshot());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -300,6 +400,8 @@ function createScenarioKit() {
       "n:goldrush-cashout",
       "n:goldrush-combat",
       "n:goldrush-perspective",
+      "n:goldrush-world-elements",
+      "n:goldrush-scene-transition",
       "n:goldrush-asset-registry",
     ],
     services: ["generate-match", "advance-phase", "snapshot"],
@@ -314,6 +416,7 @@ function createScenarioKit() {
           const rooms = engine.n.goldrushRooms.generate({ players });
           engine.n.goldrushMining.seed({ players, shardCount: rooms.shards.length });
           engine.n.goldrushCargo.seed({ players });
+          engine.n.goldrushScenes.phase(phase);
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
           state = {
             ...state,
@@ -326,6 +429,7 @@ function createScenarioKit() {
         },
         advancePhase(phase) {
           state = { ...state, phase, loop: createLoop(phase) };
+          engine.n.goldrushScenes.phase(phase);
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
           if (phase !== "combat") engine.n.goldrushPerspective.set("exploration");
           return this.snapshot();
@@ -337,6 +441,8 @@ function createScenarioKit() {
           const cargo = engine.n.goldrushCargo.snapshot();
           const cashout = engine.n.goldrushCashout.snapshot();
           const combat = engine.n.goldrushCombat.snapshot();
+          const sceneState = engine.n.goldrushScenes.snapshot();
+          const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           return {
             ...structuredClone(state),
             cameraMode: perspective.mode,
@@ -346,6 +452,8 @@ function createScenarioKit() {
             cargo,
             cashout,
             combat,
+            sceneState,
+            world,
             ledger: createLedger({
               players: state.players,
               shardCount: state.rooms.shards.length,
@@ -367,6 +475,37 @@ function createScenarioState() {
     phase: "lobby",
     rooms: { lobby: null, shards: [], ledger: null },
     loop: createLoop("lobby"),
+  };
+}
+
+function transitionForPhase(phase) {
+  if (phase === "lobby") {
+    return {
+      toSceneId: "goldrush.scene.lobby",
+      transitionId: "goldrush.transition.mainMenuToLobby",
+    };
+  }
+  if (phase === "combat") {
+    return {
+      toSceneId: "goldrush.scene.legacyGame",
+      transitionId: "goldrush.transition.explorationToCombat",
+    };
+  }
+  if (phase === "extract" || phase === "results") {
+    return {
+      toSceneId: "goldrush.scene.arena",
+      transitionId: "goldrush.transition.cashoutComplete",
+    };
+  }
+  if (phase === "drop" || phase === "prospect") {
+    return {
+      toSceneId: "goldrush.scene.arena",
+      transitionId: "goldrush.transition.lobbyToArena",
+    };
+  }
+  return {
+    toSceneId: "goldrush.scene.loading",
+    transitionId: "goldrush.transition.roomHandoffStart",
   };
 }
 

@@ -116,3 +116,41 @@ GPT-it recommended two immediate local actions before raw assets complicate the 
 2. add placeholder asset slots that mirror the legacy import candidates.
 
 The local build now has a playable loop contract in `docs/current-playable-loop.md` and asset-slot contract in `docs/asset-slot-contract.md`.
+
+## Scene, Audio, Animation, And Terrain Follow-Up
+
+GPT-it identified legacy scene/audio/animation intent that should map into stable browser slots:
+
+- Modern scenes: `Lobby.unity`, `Arena.unity`, `Loading.unity`, `PlayerTest.unity`.
+- Old scenes: `MainMenu.unity`, `Game.unity`, `Game_SinglePlayer.unity`.
+- Transition references: `MatchmakingHandler.cs`, `MainMenuManager.cs`, `LobbyManager.cs`, `CameraController.cs`.
+- Audio references: `MusicManager.cs`, `MusicManager.prefab`, `GameAudio.mixer`.
+- Animation references: `TheBossAnimationController.controller`, `PlayerAnimationController.cs`, `PlayerController.cs`.
+
+The local renderer now treats `goldrush.scene.arena` as a massive procedural terrain field made from many small tessellated patches. It must not regress to a circular primitive arena.
+
+The next cloud import branch for these references should be:
+
+```txt
+import/goldrush-scenes-audio-animation-001-raw-candidates
+```
+
+Cloud-side repo inspection may look through NexusRealtime, NexusRealtime-Kits, NexusRealtime-ProtoKits, NexusRealtime-Experiments, and related realtime kit repos for reusable kit patterns. Local Codex work must add code only inside `NexusEngine-GoldRush`.
+
+## Legacy Unity Element Inventory
+
+GPT-it searched GitHub-visible Unity YAML and C# evidence for terrain, rocks, structures, towns, gold zones, loading/matchmaking, room patches, paths, audio, animation, and camera systems.
+
+The documented continuation packet is:
+
+```txt
+docs/legacy-unity-element-inventory.md
+```
+
+The broad local implementation pass from that inventory added:
+
+```txt
+engine.n.goldrushWorld
+src/content/goldrushWorldElements.js
+tools/validation/validate-world-elements.mjs
+```

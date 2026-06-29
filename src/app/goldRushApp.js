@@ -53,7 +53,7 @@ export function createGoldRushApp(root) {
         </section>
       </section>
 
-      <section class="stage" aria-label="Gold Rush arena preview">
+      <section class="stage" aria-label="Gold Rush terrain preview">
         <div id="goldrush-canvas"></div>
         <div class="hud">
           <div class="hudLine" data-hud="rooms"></div>
@@ -88,7 +88,13 @@ export function createGoldRushApp(root) {
     root.querySelector('[data-hud="loop"]').innerHTML = state.loop
       .map((step) => `<span class="pill">${step}</span>`)
       .concat([
+        `<span class="pill">scene: ${state.sceneState.currentSceneId.replace("goldrush.scene.", "")}</span>`,
         `<span class="pill">camera: ${state.cameraMode}</span>`,
+        `<span class="pill">audio: ${state.sceneState.activeAudioCueId.replace("goldrush.audio.", "")}</span>`,
+        `<span class="pill">anim: ${state.sceneState.activeAnimationCueId.replace("goldrush.anim.", "")}</span>`,
+        `<span class="pill">world: ${(state.world.scale.widthMeters / 1000).toFixed(1)}km x ${(state.world.scale.depthMeters / 1000).toFixed(1)}km</span>`,
+        `<span class="pill">towns: ${state.world.towns.length}</span>`,
+        `<span class="pill">patch windows: ${state.world.activeRoomWindows.length}</span>`,
         `<span class="pill">kits: ${state.installOrder.length}</span>`,
         `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
       ])
@@ -126,7 +132,7 @@ export function createGoldRushApp(root) {
   });
 
   phaseInput.addEventListener("change", () => {
-    runtime.generateMatch({ players: Number(playerInput.value), phase: phaseInput.value });
+    runtime.transitionScene({ phase: phaseInput.value });
     render();
   });
 

@@ -22,6 +22,9 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 - Asset registry reads promoted runtime assets only from `public/assets`.
 - The current playable loop lets the player mine gold, survive an ambush, and cash out through NexusRealtime kit APIs.
 - Placeholder asset slots are stable IDs that future sanitized legacy assets can fill.
+- Scene, transition, audio, and animation slots are represented in NexusRealtime scene state before legacy files are imported.
+- The visible arena is a GoldRush-local procedural terrain kit stack with many small tessellated patches, not a circular primitive placeholder.
+- Towns, mountains, paths, gold zones, loading gates, and room patch windows are represented by `engine.n.goldrushWorld`.
 
 ## Commands
 
@@ -31,7 +34,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, runtime asset boundaries, asset registry promotion fields, and the production build.
+`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, world descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
 
 ## Deploy
 
