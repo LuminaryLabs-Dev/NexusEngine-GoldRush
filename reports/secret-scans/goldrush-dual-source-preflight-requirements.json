@@ -1,0 +1,111 @@
+{
+  "schema": "nexusengine.goldrush.secret-scan-requirements.v1",
+  "status": "required_before_any_raw_copy",
+  "importJobId": "goldrush-dual-source-preflight",
+  "rawAssetsCopied": false,
+  "printSecretValues": false,
+  "requiredScans": [
+    {
+      "id": "deny-path-scan",
+      "required": true,
+      "failureBehavior": "block_raw_import_branch"
+    },
+    {
+      "id": "token-pattern-scan",
+      "required": true,
+      "failureBehavior": "block_file_and_do_not_print_match"
+    },
+    {
+      "id": "package-manifest-scan",
+      "required": true,
+      "failureBehavior": "block_unity_package_manifests"
+    },
+    {
+      "id": "photon-fusion-config-scan",
+      "required": true,
+      "failureBehavior": "block_photon_fusion_configs"
+    },
+    {
+      "id": "large-file-scan",
+      "required": true,
+      "failureBehavior": "require_manual_approval_over_budget"
+    }
+  ],
+  "blockedFiles": [
+    {
+      "path": "GoldRush_Old/Packages/manifest.json",
+      "status": "BLOCKED",
+      "reason": "Known token-bearing manifest/config risk. Do not copy. Do not print values."
+    },
+    {
+      "path": "GoldRush/Packages/manifest.json",
+      "status": "BLOCKED",
+      "reason": "Unity package manifest/config. Do not copy."
+    },
+    {
+      "path": "GoldRush/Packages/packages-lock.json",
+      "status": "BLOCKED",
+      "reason": "Unity package lock/config. Do not copy."
+    },
+    {
+      "path": "GoldRush_Old/Packages/packages-lock.json",
+      "status": "BLOCKED",
+      "reason": "Unity package lock/config. Do not copy."
+    },
+    {
+      "path": "GoldRush/Assets/Photon/Fusion/Resources/PhotonAppSettings.asset",
+      "status": "BLOCKED",
+      "reason": "Photon/Fusion app config. Do not copy."
+    },
+    {
+      "path": "GoldRush_Old/Assets/Photon/Fusion/Resources/PhotonAppSettings.asset",
+      "status": "BLOCKED",
+      "reason": "Photon/Fusion app config. Do not copy."
+    }
+  ],
+  "blockedGlobs": [
+    "**/Packages/manifest.json",
+    "**/Packages/packages-lock.json",
+    "**/ProjectSettings/**",
+    "**/UserSettings/**",
+    "**/Library/**",
+    "**/Temp/**",
+    "**/Obj/**",
+    "**/Logs/**",
+    "**/Build/**",
+    "**/Builds/**",
+    "**/.vs/**",
+    "**/.idea/**",
+    "**/Assets/Photon/**",
+    "**/Assets/Photon*/**",
+    "**/Assets/Plugins/**",
+    "**/*.csproj",
+    "**/*.sln",
+    "**/.env",
+    "**/.npmrc",
+    "**/.upmconfig.toml"
+  ],
+  "tokenPatternsToDetectWithoutPrinting": [
+    "github_pat_ prefix",
+    "ghp_ prefix",
+    "oauth/token query or dependency fragments",
+    "password/secret/token key names",
+    "Photon app id fields",
+    "private registry URLs with credentials"
+  ],
+  "reportingRules": {
+    "mayPrintPath": true,
+    "mayPrintFindingType": true,
+    "mayPrintLineNumber": true,
+    "mayPrintSecretValue": false,
+    "mayPrintDependencyUrlContainingToken": false,
+    "mayPrintRedactedPreview": false
+  },
+  "localCodexValidationCanAdd": [
+    "fail if any runtime source references raw/imported/",
+    "fail if any public asset manifest references raw/imported/",
+    "fail if any blocked glob exists in the destination repo",
+    "fail if any report contains likely token prefixes",
+    "fail if public/assets contains a file without approval in sanitized registry"
+  ]
+}
