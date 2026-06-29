@@ -157,6 +157,20 @@ reports/provenance/goldrush-dual-source-001-raw-copy-worker-fetch-proof.json
 
 It proves the worker can download the 31 planned source blobs through GitHub API access, build 31 copy-ledger records, 31 hash records, 31 classification records, and find 0 secret findings without writing raw files or receipts.
 
+## Current Raw Import Branch
+
+```txt
+branch: import/goldrush-dual-source-001-raw
+raw root: raw/imported/goldrush-dual-source-001/
+raw files: 31
+raw bytes: 42,215,234
+classification candidates: 31
+blocked: 0
+unmapped: 0
+```
+
+This branch contains the first direct copied legacy files and the six required receipts. It is not a runtime promotion branch: `public/assets/` remains untouched, approved runtime asset records remain empty, and the final playable parity goal still requires conversion, human review, promotion, and browser proof.
+
 ## Current Cloud Source Access Proof
 
 ```txt

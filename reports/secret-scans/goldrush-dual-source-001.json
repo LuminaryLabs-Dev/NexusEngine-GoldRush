@@ -1,0 +1,8 @@
+{
+  "schema": "nexusengine.goldrush.secret-scan.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "status": "passed",
+  "generatedAt": "2026-06-29T22:54:00Z",
+  "rawCopyPlan": "reports/provenance/goldrush-dual-source-001-raw-copy-plan.json",
+  "findings": []
+}
