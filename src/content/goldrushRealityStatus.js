@@ -244,7 +244,7 @@ function resolveDomainState(id, context) {
     case "train-loading":
       return prototype("The loading yard and train handoff exist as a scene flow, but multiplayer synchronization and boarding polish are incomplete.", "Add boarding receipts per party member and train departure sync state.");
     case "build-deploy":
-      return realLocal("Build branch deploy workflow exists and the public Pages URL has a passing Playwright smoke proof.", ["deploy-build.yml", "npm run proof:public", "reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.json"]);
+      return realLocal("Build branch deploy workflow exists and the public Pages URL has a passing Playwright smoke proof.", ["deploy-build.yml", "npm run proof:public", "reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.json"]);
     default:
       return prototype("Unknown domain status.", "Add an explicit domain status resolver.");
   }

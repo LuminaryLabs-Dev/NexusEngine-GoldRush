@@ -28,9 +28,10 @@ const report = {
 };
 
 let browser;
+let page;
 try {
   browser = await chromium.launch({ headless: !headed });
-  const page = await browser.newPage({
+  page = await browser.newPage({
     viewport: { width: 1440, height: 900 },
     deviceScaleFactor: 1,
   });
@@ -70,7 +71,7 @@ try {
       const state = window.GoldRushHost?.getState?.();
       return state?.loadingScene?.doorOpen === true;
     }, null, { timeout: timeoutMs });
-    await holdWindowKey(page, "w", 8500);
+    await walkForwardUntilRun(page, 25000);
     await waitForScreen(page, "run", timeoutMs);
     await waitForActiveSite(page, "site.gold-field", timeoutMs);
     await capture(page, "04-gold-field");
@@ -93,6 +94,14 @@ try {
   report.status = "passed";
 } catch (error) {
   report.status = "failed";
+  if (page) {
+    try {
+      report.finalState = summarizeState(await getHostState(page));
+      await capture(page, "99-failure");
+    } catch (captureError) {
+      report.captureError = captureError.message;
+    }
+  }
   report.error = {
     message: error.message,
     stack: error.stack,
@@ -158,16 +167,36 @@ async function waitForActiveSite(page, siteId, timeout) {
   }, siteId, { timeout });
 }
 
-async function holdWindowKey(page, key, durationMs) {
-  await page.evaluate((nextKey) => {
-    window.dispatchEvent(new KeyboardEvent("keydown", { key: nextKey, bubbles: true, cancelable: true }));
-  }, key);
-  await page.keyboard.down(key).catch(() => {});
-  await page.waitForTimeout(durationMs);
-  await page.keyboard.up(key).catch(() => {});
-  await page.evaluate((nextKey) => {
-    window.dispatchEvent(new KeyboardEvent("keyup", { key: nextKey, bubbles: true, cancelable: true }));
-  }, key);
+async function walkForwardUntilRun(page, durationMs) {
+  const startedAt = Date.now();
+  await sendForwardKey(page, "keydown");
+  try {
+    while (Date.now() - startedAt < durationMs) {
+      await sendForwardKey(page, "keydown");
+      const state = await getHostState(page);
+      if (state?.screen === "run") return;
+      await page.waitForTimeout(250);
+    }
+  } finally {
+    await sendForwardKey(page, "keyup");
+  }
+}
+
+async function sendForwardKey(page, type) {
+  const isDown = type === "keydown";
+  await page.evaluate((eventType) => {
+    ["w", "ArrowUp"].forEach((key) => {
+      window.dispatchEvent(new KeyboardEvent(eventType, {
+        key,
+        code: key === "w" ? "KeyW" : "ArrowUp",
+        bubbles: true,
+        cancelable: true,
+      }));
+    });
+  }, type);
+  const operation = isDown ? "down" : "up";
+  await page.keyboard[operation]("w").catch(() => {});
+  await page.keyboard[operation]("ArrowUp").catch(() => {});
 }
 
 async function getHostState(page) {

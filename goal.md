@@ -73,8 +73,8 @@ https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
 Latest passing public smoke proof:
 
 ```txt
-reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.json
-screenshots/public-smoke/04-gold-field-2026-06-29T18-43-20-972Z.png
+reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.json
+screenshots/public-smoke/04-gold-field-2026-06-29T18-53-53-588Z.png
 ```
 
 This proof validates title -> lobby -> loading-yard train -> run scene, a 20-player match, active `site.gold-field`, procedural terrain kit loading, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.
