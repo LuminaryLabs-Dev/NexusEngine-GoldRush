@@ -1,0 +1,145 @@
+{
+  "schema": "nexusengine.goldrush.asset-classification.v1",
+  "status": "preflight_candidate_list_only",
+  "importJobId": "goldrush-dual-source-preflight",
+  "rawAssetsCopied": false,
+  "approvedForRawCopy": false,
+  "note": "This report lists candidate paths only. A cloud worker must run pre-public deny and secret scans before copying any source files into raw/imported/.",
+  "candidateAssets": [
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/Entities/Items/Revolver.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "player weapon visual and combat design reference",
+      "targetHandling": "extract descriptor and linked model/material references; do not promote prefab directly"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/Entities/Player/Player.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "prospector/player visual and state reference",
+      "targetHandling": "extract descriptor and linked model/material references; do not promote prefab directly"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/Entities/Vehicles/TrainEntity.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "train/extraction identity and arena landmark",
+      "targetHandling": "extract descriptor and linked model/material references; do not promote prefab directly"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/Entities/LobbyTrainCar02.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "train car visual identity",
+      "targetHandling": "extract descriptor and linked model/material references; do not promote prefab directly"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_01.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "western/desert flora",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_02.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "western/desert flora",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_03.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "western/desert flora",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_04.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "western/desert flora",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_01.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "gold/currency pickup visual",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_02.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "gold/currency pickup visual",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Fence_01.fbx",
+      "type": "model_fbx_candidate",
+      "intendedUse": "arena cover/boundary prop",
+      "targetHandling": "convert to sanitized GLB after provenance approval"
+    },
+    {
+      "sourceProject": "GoldRush",
+      "path": "GoldRush/Assets/Scenes/Arena.unity",
+      "type": "unity_scene_reference",
+      "intendedUse": "arena layout reference",
+      "targetHandling": "extract safe layout JSON only; do not promote Unity scene directly"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold SpawnArea.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "gold pile spawn loop reference",
+      "targetHandling": "extract spawn descriptors only; do not promote prefab directly"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/08_Terrain/Terrain.prefab",
+      "type": "unity_prefab_reference",
+      "intendedUse": "terrain/layout reference",
+      "targetHandling": "extract layout/height/placement references only after scan"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/01_Scripts/Gold/GoldPile.cs",
+      "type": "script_design_reference",
+      "intendedUse": "mining/pickup behavior reference",
+      "targetHandling": "reference only; never runtime copy"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/01_Scripts/Player/PlayerController.cs",
+      "type": "script_design_reference",
+      "intendedUse": "gold-as-health/ammo/combat state reference",
+      "targetHandling": "reference only; never runtime copy"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/01_Scripts/Player/CameraController.cs",
+      "type": "script_design_reference",
+      "intendedUse": "combat-state camera perspective reference",
+      "targetHandling": "reference only; never runtime copy"
+    },
+    {
+      "sourceProject": "GoldRush_Old",
+      "path": "GoldRush_Old/Assets/_GOLDRUSH/01_Scripts/Player/PlayerDetector.cs",
+      "type": "script_design_reference",
+      "intendedUse": "combat proximity/fight center reference",
+      "targetHandling": "reference only; never runtime copy"
+    }
+  ],
+  "blockedCategories": [
+    "Unity package manifests",
+    "Photon/Fusion plugins and configs",
+    "DOTween/Odin-style plugin folders",
+    "generated Unity folders",
+    "project settings",
+    "library/cache/build output",
+    "unknown-license third-party assets"
+  ]
+}
