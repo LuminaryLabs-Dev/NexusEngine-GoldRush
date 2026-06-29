@@ -1,0 +1,28 @@
+{
+  "original": {
+    "frames": 90,
+    "crop": "520x420+540+420 on scaled 1470px source",
+    "yavgMin": 110.184,
+    "yavgMax": 113.783,
+    "yavgRange": 3.599,
+    "ydifAvg": 6.586,
+    "ydifMax": 11.363,
+    "worstFrame": 46,
+    "evenYavg": 112.316,
+    "oddYavg": 112.165,
+    "oddEvenDelta": 0.15
+  },
+  "postfixStationary": {
+    "frames": 75,
+    "crop": "450x420+430+240 on 1280x720 source, stationary post-fix run scene",
+    "yavgMin": 82.149,
+    "yavgMax": 83.049,
+    "yavgRange": 0.9,
+    "ydifAvg": 1.129,
+    "ydifMax": 9.856,
+    "worstFrame": 32,
+    "evenYavg": 82.519,
+    "oddYavg": 82.53,
+    "oddEvenDelta": 0.012
+  }
+}

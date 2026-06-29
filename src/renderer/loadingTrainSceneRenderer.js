@@ -81,7 +81,9 @@ export function createLoadingTrainSceneRenderer(root) {
 }
 
 export function isNearTrainBoardingZone(position) {
-  return Math.hypot(position.x - 0, position.z - -7.4) <= 3.2;
+  const nearPlatform = Math.hypot(position.x - 0, position.z - -7.4) <= 3.2;
+  const crossedBoardingCorridor = Math.abs(position.x) <= 3.2 && position.z <= -4.2 && position.z >= -12;
+  return nearPlatform || crossedBoardingCorridor;
 }
 
 function createYard() {

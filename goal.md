@@ -51,3 +51,10 @@ The camera system must be treated as a kit-owned playability proof surface, not 
 ## World Understanding Rule
 
 The visual target is the space of a playable gold-rush canyon environment, not a one-to-one copy of a reference picture. Reference images provide vocabulary only. Composition must come from environment-space descriptors: canyon basin, wash-floor trail, ridge walls, mine shelf, town shelf, gold seam, and extraction sightline. Props and cameras must explain those spaces first.
+
+## Current Feedback Tracking
+
+- Feedback bugs are tracked in `.agent/feedback/`.
+- `BUG-003-character-legs-need-knees.md` is resolved locally by the two-part knee rig pass.
+- `BUG-004-frame-to-frame-terrain-player-pulsing.md` is mitigated locally by cached movement-owned render grounding and native-frame crop evidence.
+- `BUG-002-central-mountain-scale-and-camera-framing.md` remains open and is the next visible terrain composition issue.

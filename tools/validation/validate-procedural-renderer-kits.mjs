@@ -34,7 +34,7 @@ assert(
   "canyon walls must frame both sides of the playable field"
 );
 assert(
-  ["skull-head", "rib-cage", "bone-arms", "bone-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptors.playerRig.visualParts.includes(part)),
+  ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptors.playerRig.visualParts.includes(part)),
   "third-person player rig must expose readable skeleton prospector parts"
 );
 assert(descriptors.desertItems.placements.length >= 80, "desert item kit needs dense prop coverage");
@@ -110,6 +110,7 @@ assert(descriptors.glbAssets.assets.every((asset) => asset.license === "CC0-1.0"
 const rendererSource = readFileSync(new URL("../../src/renderer/goldRushRenderer.js", import.meta.url), "utf8");
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");
+const appSource = readFileSync(new URL("../../src/app/goldRushApp.js", import.meta.url), "utf8");
 assert(!rendererSource.includes("CircleGeometry"), "renderer must not use circular arena primitive");
 assert(!rendererSource.includes("BoxGeometry"), "renderer must not use box markers as the core player field");
 assert(rendererSource.includes("toneMapping"), "renderer must use tone mapping for the immersive 3D view");
@@ -122,6 +123,9 @@ assert(colliderSource.includes("raycastTerrainDown") && colliderSource.includes(
 assert(proceduralSource.includes("createSpawnPedestalGeometry"), "renderer must include a spawn pedestal under the local skeleton character");
 assert(proceduralSource.includes("shoulderTarget") && proceduralSource.includes("state.localPlayer") && proceduralSource.includes("state.localPlayer.look?.yaw"), "camera must attach over the local skeleton character shoulder and follow mouse-look yaw");
 assert(proceduralSource.includes("ribCage") && proceduralSource.includes("bone-arms"), "player rig must read as a skeleton character");
+assert(proceduralSource.includes("createKneeLegRig") && proceduralSource.includes("poseKneeLegRig"), "player legs must be two-part rigs with knee animation");
+assert(!proceduralSource.includes("Math.abs(Math.sin(walkPhase)) * (combat ? 0.015 : 0.045)"), "walk animation must not pulse the whole player root vertically");
+assert(proceduralSource.includes("renderGround") && appSource.includes("cached-movement-ground"), "renderer must consume cached movement grounding for stable player/camera height");
 
 console.log("procedural renderer kits passed");
 

@@ -516,6 +516,7 @@ function createMovementController({
 } = {}) {
   const keys = new Set();
   const position = { x: initialPosition.x, y: 0, z: initialPosition.z };
+  let groundSampleSequence = 0;
   let ground = sampleGround(position.x, position.z);
   position.y = ground.height;
   let heading = 0;
@@ -619,6 +620,12 @@ function createMovementController({
         placement: ground.placement,
         hit: ground.hit,
       },
+      renderGround: {
+        height: position.y,
+        source: "cached-movement-ground",
+        sampleSequence: ground.sampleSequence,
+        stableForFrame: true,
+      },
       terrainCollider: {
         grounded: Boolean(terrainSampler),
         blocked: terrainBlocked,
@@ -682,7 +689,12 @@ function createMovementController({
       };
     }
     const hit = terrainRaycaster?.({ x, z }) ?? null;
-    return terrainSampler({ x, z, maxWalkableSlope: maxSlopeGrade, hit });
+    const sample = terrainSampler({ x, z, maxWalkableSlope: maxSlopeGrade, hit });
+    groundSampleSequence += 1;
+    return {
+      ...sample,
+      sampleSequence: groundSampleSequence,
+    };
   }
 }
 

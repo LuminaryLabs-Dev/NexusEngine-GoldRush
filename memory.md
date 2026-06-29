@@ -47,6 +47,9 @@
 - Terrain render continuity is validated by `tools/validation/validate-terrain-continuity.mjs`. The blue/debug-looking terrain gaps were caused by downward-wound visible terrain triangles; `createBandedTriangleTerrainGeometry()` now winds top faces upward, adds band continuity metadata, and skirts exposed band edges without changing the collider/raycast contract.
 - Run-scene movement is mouse-look driven: `localPlayer.look.yaw` controls the over-the-shoulder camera, and WASD movement is relative to that camera yaw.
 - `engine.n.goldrushExtractionLoop` owns the local playable mining/carry/extract slice. It is the authority for mining progress, local combat pressure, extraction progress, final receipt, and world-space marker descriptors; the renderer only presents those descriptors.
+- Player grounding is movement-owned: `createMovementController()` samples the terrain once for the player frame and exposes `localPlayer.renderGround`. Renderers should consume that cached render-ground height instead of recomputing local player Y from presentation terrain.
+- Character walk animation should not pulse the whole player root vertically. Root height stays grounded; readable motion belongs in limb rigs, knees, boots, torso sway, camera response, or authored animation clips.
+- Loading-yard boarding should be forgiving along the rail/platform approach, not a single tiny trigger circle, so normal walking and automated proof captures can reliably reach the train handoff.
 
 ## Current Scaffold
 
@@ -86,3 +89,4 @@
 - Extraction-loop validation lives in `tools/validation/validate-goldrush-extraction-loop.mjs`; latest browser proof walked title -> lobby -> loading train -> gold field -> mine seam -> extraction and produced accepted receipt `extraction-loop-01.goldrush-run-1.receipt` with `cargoValue: 840` in `reports/goldrush-extraction-loop-01.json`.
 - The current extraction-loop screenshot proof is `screenshots/goldrush-extraction-loop-01.png`; it proves the interaction/receipt path, while the remaining blue/debug-looking terrain gaps stay visual debt for a separate terrain human-view pass.
 - Latest terrain-gap proof is `screenshots/terrain-gap-seal-01.png` with `reports/terrain-gap-seal-01.json`; browser canvas sampling found `lowerSkyBlueRatio: 0` and `lowerVeryBlueRatio: 0`. The next visual debt is central mountain scale/framing, not terrain holes.
+- Latest grounding/knee/pulse proof is `reports/grounding-knees-stability-01.md` with screenshot `screenshots/grounding-knees-stability-video-proof.png`, video `reports/videos/grounding-knees-stability-video-proof.webm`, and frame summary `reports/frame-analysis/grounding-pulse-summary.json`. It proves cached render grounding, knee-based leg animation, and no measured every-other-frame pulse in the stationary post-fix player crop.

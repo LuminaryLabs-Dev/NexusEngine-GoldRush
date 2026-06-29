@@ -358,7 +358,22 @@ function createThirdPersonRigDescriptor() {
       strideAmplitude: 0.36,
       aimSwayAmplitude: 0.08,
     },
-    visualParts: ["hat-brim", "hat-crown", "skull-head", "rib-cage", "bone-arms", "bone-legs", "belt", "boots", "satchel", "pickaxe", "spawn-pedestal"],
+    visualParts: [
+      "hat-brim",
+      "hat-crown",
+      "skull-head",
+      "rib-cage",
+      "bone-arms",
+      "bone-legs",
+      "upper-legs",
+      "knee-joints",
+      "lower-legs",
+      "belt",
+      "boots",
+      "satchel",
+      "pickaxe",
+      "spawn-pedestal",
+    ],
     scale: 1,
   };
 }
@@ -1194,21 +1209,10 @@ function mountThirdPersonPlayerKit(scene, descriptor) {
   rightArm.position.set(0.36, 0.83, 0.02);
   group.add(rightArm);
 
-  const leftLeg = new THREE.Mesh(createCuboidGeometry(0.08, 0.52, 0.08), bone);
-  leftLeg.position.set(-0.12, 0.28, 0.02);
-  group.add(leftLeg);
-
-  const rightLeg = new THREE.Mesh(createCuboidGeometry(0.08, 0.52, 0.08), bone);
-  rightLeg.position.set(0.12, 0.28, 0.02);
-  group.add(rightLeg);
-
-  const leftBoot = new THREE.Mesh(createCuboidGeometry(0.18, 0.12, 0.25), darkLeather);
-  leftBoot.position.set(-0.12, 0.04, -0.04);
-  group.add(leftBoot);
-
-  const rightBoot = new THREE.Mesh(createCuboidGeometry(0.18, 0.12, 0.25), darkLeather);
-  rightBoot.position.set(0.12, 0.04, -0.04);
-  group.add(rightBoot);
+  const leftLegRig = createKneeLegRig({ side: "left", x: -0.12, bone, bootMaterial: darkLeather });
+  const rightLegRig = createKneeLegRig({ side: "right", x: 0.12, bone, bootMaterial: darkLeather });
+  group.add(leftLegRig.group);
+  group.add(rightLegRig.group);
 
   const pick = new THREE.Mesh(createPickaxeGeometry(), gear);
   pick.position.set(0.36, 0.98, 0.08);
@@ -1247,21 +1251,61 @@ function mountThirdPersonPlayerKit(scene, descriptor) {
         ? playerPosition.z
         : (combat ? descriptor.anchor.z + 0.36 : descriptor.anchor.z + Math.cos(elapsedSeconds * 0.26) * 0.32);
       group.position.y = terrainGroundHeight(localPlayer, group.position.x, group.position.z)
-        + descriptor.anchor.y
-        + Math.abs(Math.sin(walkPhase)) * (combat ? 0.015 : 0.045) * (isMoving ? 1 : 0.45);
+        + descriptor.anchor.y;
       torso.rotation.z = combat ? aimSway * 0.5 : 0;
       head.rotation.y = combat ? aimSway : Math.sin(elapsedSeconds * 0.8) * (isMoving ? 0.05 : 0.08);
       leftArm.rotation.x = combat ? -0.2 : stride;
       rightArm.rotation.x = combat ? -0.78 + aimSway : -stride;
-      leftLeg.rotation.x = combat ? 0.05 : -stride * 0.72;
-      rightLeg.rotation.x = combat ? -0.05 : stride * 0.72;
-      leftBoot.rotation.x = leftLeg.rotation.x * 0.45;
-      rightBoot.rotation.x = rightLeg.rotation.x * 0.45;
+      poseKneeLegRig(leftLegRig, { stride: -stride, combat, idlePhase: walkPhase });
+      poseKneeLegRig(rightLegRig, { stride, combat, idlePhase: walkPhase + Math.PI });
       pick.rotation.x = combat ? -0.9 + aimSway : -0.25 - stride * 0.22;
       pick.rotation.z = combat ? -0.72 : -0.38;
       pack.scale.setScalar(1 + Math.min(0.22, ((state.cargo?.["player-1"] ?? 0) / 250) * 0.22));
     },
   };
+}
+
+function createKneeLegRig({ side, x, bone, bootMaterial }) {
+  const group = new THREE.Group();
+  group.name = `goldrush.player.${side}.leg`;
+  group.position.set(x, 0.57, 0.02);
+
+  const upperLeg = new THREE.Mesh(createCuboidGeometry(0.085, 0.27, 0.085), bone);
+  upperLeg.name = `goldrush.player.${side}.upperLeg`;
+  upperLeg.position.y = -0.13;
+  group.add(upperLeg);
+
+  const lowerGroup = new THREE.Group();
+  lowerGroup.name = `goldrush.player.${side}.lowerLegPivot`;
+  lowerGroup.position.y = -0.29;
+  group.add(lowerGroup);
+
+  const knee = new THREE.Mesh(createPrismGeometry(0.062, 0.07, 8), bone);
+  knee.name = `goldrush.player.${side}.kneeJoint`;
+  knee.rotation.z = Math.PI / 2;
+  lowerGroup.add(knee);
+
+  const lowerLeg = new THREE.Mesh(createCuboidGeometry(0.078, 0.27, 0.078), bone);
+  lowerLeg.name = `goldrush.player.${side}.lowerLeg`;
+  lowerLeg.position.y = -0.14;
+  lowerGroup.add(lowerLeg);
+
+  const boot = new THREE.Mesh(createCuboidGeometry(0.18, 0.12, 0.25), bootMaterial);
+  boot.name = `goldrush.player.${side}.boot`;
+  boot.position.set(0, -0.31, -0.055);
+  lowerGroup.add(boot);
+
+  return { group, upperLeg, lowerGroup, knee, lowerLeg, boot };
+}
+
+function poseKneeLegRig(rig, { stride = 0, combat = false, idlePhase = 0 } = {}) {
+  const plantedBias = combat ? 0.05 : 0;
+  const hipSwing = combat ? plantedBias : stride * 0.66;
+  const bend = combat ? 0.12 : 0.08 + Math.max(0, Math.sin(idlePhase)) * 0.34 + Math.abs(stride) * 0.3;
+  rig.group.rotation.x = hipSwing;
+  rig.lowerGroup.rotation.x = bend;
+  rig.boot.rotation.x = -bend * 0.42;
+  rig.knee.scale.setScalar(1 + Math.min(0.14, bend * 0.2));
 }
 
 function mountLightingCameraKit(scene, descriptor, root) {
@@ -1966,8 +2010,10 @@ function scaleForMicroKit(kit) {
 }
 
 function terrainGroundHeight(localPlayer, x, z) {
-  return Number.isFinite(localPlayer?.ground?.height)
-    ? localPlayer.ground.height
+  return Number.isFinite(localPlayer?.renderGround?.height)
+    ? localPlayer.renderGround.height
+    : Number.isFinite(localPlayer?.ground?.height)
+      ? localPlayer.ground.height
     : terrainFieldHeight(x, z);
 }
 
@@ -2498,7 +2544,7 @@ function validateThirdPersonRigDescriptor(descriptor) {
     && descriptor.aimTarget?.z > descriptor.anchor.z
     && descriptor.locomotion?.strideAmplitude > 0
     && descriptor.dependencyStrategy?.futureAssetRuntime === "three-gltf-animation-mixer"
-    && ["skull-head", "rib-cage", "bone-arms", "bone-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptor.visualParts?.includes(part));
+    && ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptor.visualParts?.includes(part));
 }
 
 function validateSkyDescriptor(descriptor) {
