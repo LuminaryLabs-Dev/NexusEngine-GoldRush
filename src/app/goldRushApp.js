@@ -66,6 +66,7 @@ export function createGoldRushApp(root) {
         <div class="hud">
           <div class="hudLine" data-hud="rooms"></div>
           <div class="hudLine" data-hud="loop"></div>
+          <div class="hudLine" data-hud="world"></div>
         </div>
       </section>
     </main>
@@ -97,6 +98,8 @@ export function createGoldRushApp(root) {
         scoring: scenario.scoring,
         results: scenario.results,
         replaySummary: scenario.replaySummary,
+        legacySources: scenario.legacySources,
+        legacyReadiness: scenario.legacyReadiness,
       };
     },
   };
@@ -126,8 +129,13 @@ export function createGoldRushApp(root) {
     const pressurePercent = Math.round((state.finalRush.pressureScalar ?? 0) * 100);
     root.querySelector('[data-hud="rooms"]').innerHTML = state.rooms.shards
       .map((room) => `<span class="pill">${room.id}: ${room.playerCount}/50</span>`)
+      .concat([
+        `<span class="pill">legacy sources: ${state.legacyReadiness.sourceProjectCount}</span>`,
+        `<span class="pill">asset readiness: ${state.legacyReadiness.totals.approvedRequiredSlots}/${state.legacyReadiness.totals.totalRequiredSlots}</span>`,
+      ])
       .join("");
     root.querySelector('[data-hud="loop"]').innerHTML = state.loop
+      .filter((step) => step.endsWith("active"))
       .map((step) => `<span class="pill">${step}</span>`)
       .concat([
         `<span class="pill">match: ${state.match.phase} / ${state.match.status}</span>`,
@@ -137,6 +145,9 @@ export function createGoldRushApp(root) {
         `<span class="pill">receipts: ${state.extractionReceipts.totals.acceptedCount} extraction / ${state.handoffReceipts.appliedHandoffIds.length} handoff</span>`,
         `<span class="pill">result: ${state.results.status}</span>`,
         `<span class="pill">replay: ${state.replaySummary.keyMoments.length} moments</span>`,
+      ])
+      .join("");
+    root.querySelector('[data-hud="world"]').innerHTML = [
         `<span class="pill">world: ${(state.world.scale.widthMeters / 1000).toFixed(1)}km x ${(state.world.scale.depthMeters / 1000).toFixed(1)}km</span>`,
         `<span class="pill">towns: ${state.world.towns.length}</span>`,
         `<span class="pill">paths: ${state.paths.length}</span>`,
@@ -145,7 +156,7 @@ export function createGoldRushApp(root) {
         `<span class="pill">camera kit: ${state.cameraState.mode}</span>`,
         `<span class="pill">kits: ${state.installOrder.length}</span>`,
         `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
-      ])
+      ]
       .join("");
 
     modeButtons.forEach((button) => {

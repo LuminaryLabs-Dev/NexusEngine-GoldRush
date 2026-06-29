@@ -5,6 +5,7 @@ const runtime = createGoldRushRuntime({ orchestrator: createRoomOrchestrator() }
 const requiredApis = [
   "goldrushRooms",
   "goldrushScenario",
+  "goldrushLegacySources",
   "goldrushTerrain",
   "goldrushTowns",
   "goldrushPaths",
@@ -56,6 +57,9 @@ assert(prospect.animationState.clipSlotIds.base === "goldrush.anim.player.run", 
 assert(prospect.cameraState.mode === "exploration", "prospect phase should expose exploration camera descriptor");
 assert(prospect.cameraState.legacyCameraModel.outOfCombatSize === 20, "camera kit should preserve legacy out-of-combat size");
 assert(prospect.installOrder.length === requiredApis.length, "all Gold Rush domain kits should install");
+assert(prospect.legacySources.sourceProjects.length === 2, "legacy source manifest should track both Unity source projects");
+assert(prospect.legacyReadiness.totals.totalRequiredSlots >= 18, "legacy source readiness should cover playable asset families");
+assert(prospect.legacyReadiness.status === "waiting-for-cloud-import", "legacy source readiness should remain blocked until assets are approved");
 
 runtime.setCameraMode("combat");
 const combat = runtime.snapshot();

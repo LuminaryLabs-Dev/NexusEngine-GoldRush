@@ -7,6 +7,7 @@ NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reu
 ## Initial Custom Kits
 
 - `goldrush-room-orchestrator-kit`: match, lobby, 50-player shards, shared ledger, handoff data.
+- `goldrush-legacy-source-kit`: cloud-side legacy source intake contract and browser-safe asset readiness.
 - `goldrush-terrain-patch-window-kit`: terrain scale, patch grid, active room windows, and point-to-patch mapping.
 - `goldrush-town-layout-kit`: town anchors, street graphs, building descriptors, and settlement transition hooks.
 - `goldrush-path-network-kit`: roads, rail, cashout routes, choke-point paths, and town/gold-zone links.
@@ -38,6 +39,7 @@ The browser scaffold now installs Gold Rush custom domain service kits through t
 
 - `engine.n.goldrushRooms`
 - `engine.n.goldrushScenario`
+- `engine.n.goldrushLegacySources`
 - `engine.n.goldrushTerrain`
 - `engine.n.goldrushTowns`
 - `engine.n.goldrushPaths`
@@ -70,7 +72,7 @@ For browser inspection, the app exposes:
 window.GoldRushHost.getState()
 ```
 
-This returns scenario, world, terrain, towns, paths, gold zones, loading gates, audio, animation, camera, match, final rush, extraction receipt, handoff receipt, scoring, result, and replay summary descriptors.
+This returns scenario, legacy source intake/readiness, world, terrain, towns, paths, gold zones, loading gates, audio, animation, camera, match, final rush, extraction receipt, handoff receipt, scoring, result, and replay summary descriptors.
 
 ## Playable Loop
 

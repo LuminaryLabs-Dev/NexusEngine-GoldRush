@@ -8,6 +8,7 @@ The repo is intentionally structured as a thin game host:
 - NexusRealtime-Kits and ProtoKits provide reusable domain behavior.
 - Gold Rush custom kits compose the game loop, room orchestration, and asset registry.
 - Legacy assets arrive through cloud-side import and sanitation gates.
+- Legacy source intake is represented by a browser-safe `engine.n.goldrushLegacySources` API and a concrete cloud-worker manifest.
 
 ## Local Rule
 
@@ -27,6 +28,7 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 - Towns, mountains, paths, gold zones, loading gates, and room patch windows are represented by `engine.n.goldrushWorld`.
 - Terrain windows, town layouts, path networks, gold zones, loading gates, camera descriptors, audio state, and animation state are split into dedicated `engine.n.*` APIs for validation and future asset promotion.
 - The match lifecycle now includes final rush pressure, extraction receipts, room handoff receipts, scoring, final results, and deterministic replay summaries.
+- The legacy source intake bridge tracks two Unity source projects, playable asset families, required promotion slots, and approval readiness for future cloud asset copy work.
 - `window.GoldRushHost.getState()` exposes the current kit snapshots for browser-side validation.
 - Agent perspective packets in `.agent/perspectives/` simulate creative, Unity, C#, runtime, player, market, and release viewpoints before new passes.
 
@@ -38,7 +40,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, match lifecycle/receipt/scoring behavior, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
+`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, match lifecycle/receipt/scoring behavior, legacy source intake readiness, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
 
 ## Deploy
 
