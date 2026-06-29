@@ -1,0 +1,95 @@
+{
+  "schema": "nexusengine.goldrush.cloud-source-discovery.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "generatedAt": "2026-06-29T22:54:00Z",
+  "generatedFrom": {
+    "sourceAccessProof": "reports/provenance/goldrush-source-access-2026-06-29.json",
+    "cloudTransferHandoff": "manifests/import-jobs/goldrush-cloud-transfer-handoff.json",
+    "method": "github-connector-and-github-api-no-local-clone",
+    "localCloneCreated": false
+  },
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "roots": [
+      {
+        "sourceKey": "goldrush-modern-unity",
+        "root": "GoldRush/",
+        "exists": true,
+        "productName": "GoldRush",
+        "unityVersion": "6000.0.37f1",
+        "productEvidence": {
+          "path": "GoldRush/ProjectSettings/ProjectSettings.asset",
+          "blobSha": "23ea5c85886167597267f7abe01a6a8195f3a5ef",
+          "sizeBytes": 25722
+        },
+        "unityVersionEvidence": {
+          "path": "GoldRush/ProjectSettings/ProjectVersion.txt",
+          "blobSha": "6539c21f1e467534578d3d5132b50e93071c1fc9"
+        },
+        "requiredSceneEvidence": [
+          {
+            "path": "GoldRush/Assets/Scenes/Lobby.unity",
+            "exists": true,
+            "blobSha": "61d01e1c96240fcb1146fe1c731c7417cf5c6fd3",
+            "sizeBytes": 555351
+          },
+          {
+            "path": "GoldRush/Assets/Scenes/Arena.unity",
+            "exists": true,
+            "blobSha": "b6ebfbabf88a086dd154748ed27915c938e0f7ea",
+            "sizeBytes": 3816370
+          },
+          {
+            "path": "GoldRush/Assets/Entities/Player/PlayerTest.unity",
+            "exists": true,
+            "blobSha": "8d8520f4ca7de5284c51c406dcb5afc3f6078e2b",
+            "sizeBytes": 16439
+          }
+        ]
+      },
+      {
+        "sourceKey": "goldrush-classic-unity",
+        "root": "GoldRush_Old/",
+        "exists": true,
+        "productName": "Gold Rush",
+        "unityVersion": "2022.3.5f1",
+        "productEvidence": {
+          "path": "GoldRush_Old/ProjectSettings/ProjectSettings.asset",
+          "blobSha": "73d841c42c60f71814ceabb2b5be8fbd601ae283",
+          "sizeBytes": 23982
+        },
+        "unityVersionEvidence": {
+          "path": "GoldRush_Old/ProjectSettings/ProjectVersion.txt",
+          "blobSha": "0a60761e0feedeb858006bb31dfceb019294b38f"
+        },
+        "requiredSceneEvidence": [
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+            "exists": true,
+            "blobSha": "363bd61582baa7ab61edef30370cfc88840eefdb",
+            "sizeBytes": 152702
+          },
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+            "exists": true,
+            "blobSha": "b5f0365a706fc14ac245e7a33f37ce0b28323603",
+            "sizeBytes": 193162
+          },
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
+            "exists": true,
+            "blobSha": "80204239d65d08d307dddb0e766d11e2a6f45531",
+            "sizeBytes": 231776
+          }
+        ]
+      }
+    ]
+  },
+  "notes": [
+    "This receipt is generated from source-access proof only.",
+    "It proves source identity for the raw-copy branch, not copied files.",
+    "The remaining deny scan, secret scan, copy ledger, hash manifest, and classification receipts must land with raw candidates."
+  ]
+}

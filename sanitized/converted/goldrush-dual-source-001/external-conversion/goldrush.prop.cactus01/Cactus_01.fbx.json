@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.prop.cactus01",
+  "mediaKind": "flora",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_01.fbx",
+  "sourceHash": "sha256:86e38cb045b2516e9c6c0d5e9c1ec579f0c758cf5e59555415af8c5a1725ef5a",
+  "sourceBytes": 78896,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model data is retained only under raw/imported.",
+    "This descriptor does not copy FBX bytes into sanitized output.",
+    "Promotion requires converted browser output, provenance, and human review."
+  ]
+}

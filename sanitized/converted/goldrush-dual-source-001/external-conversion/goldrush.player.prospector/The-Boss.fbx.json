@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/The Boss.fbx",
+  "sourceHash": "sha256:010fe6daf3629d1304a418de87f66aa7aac5fdebfa7820265ac8dafdb6ee6d03",
+  "sourceBytes": 6242272,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model data is retained only under raw/imported.",
+    "This descriptor does not copy FBX bytes into sanitized output.",
+    "Promotion requires converted browser output, provenance, and human review."
+  ]
+}

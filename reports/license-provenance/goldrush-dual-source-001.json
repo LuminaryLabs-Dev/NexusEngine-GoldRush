@@ -1,340 +1,696 @@
 {
-  "schema": "nexusengine.goldrush.sanitized-registry.v1",
+  "schema": "nexusengine.goldrush.license-provenance.v1",
   "version": "0.1.0",
   "importJobId": "goldrush-dual-source-001",
-  "generatedAt": "2026-06-29T23:05:00Z",
-  "conversionReport": "reports/conversion/goldrush-dual-source-001.json",
+  "generatedAt": "2026-06-29T23:12:25.267Z",
+  "status": "pending-license-provenance-review",
   "publicPromotion": false,
+  "runtimePromotion": false,
+  "source": {
+    "repository": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commit": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "roots": [
+      {
+        "sourceKey": "goldrush-modern-unity",
+        "root": "GoldRush/",
+        "exists": true,
+        "productName": "GoldRush",
+        "unityVersion": "6000.0.37f1",
+        "productEvidence": {
+          "path": "GoldRush/ProjectSettings/ProjectSettings.asset",
+          "blobSha": "23ea5c85886167597267f7abe01a6a8195f3a5ef",
+          "sizeBytes": 25722
+        },
+        "unityVersionEvidence": {
+          "path": "GoldRush/ProjectSettings/ProjectVersion.txt",
+          "blobSha": "6539c21f1e467534578d3d5132b50e93071c1fc9"
+        },
+        "requiredSceneEvidence": [
+          {
+            "path": "GoldRush/Assets/Scenes/Lobby.unity",
+            "exists": true,
+            "blobSha": "61d01e1c96240fcb1146fe1c731c7417cf5c6fd3",
+            "sizeBytes": 555351
+          },
+          {
+            "path": "GoldRush/Assets/Scenes/Arena.unity",
+            "exists": true,
+            "blobSha": "b6ebfbabf88a086dd154748ed27915c938e0f7ea",
+            "sizeBytes": 3816370
+          },
+          {
+            "path": "GoldRush/Assets/Entities/Player/PlayerTest.unity",
+            "exists": true,
+            "blobSha": "8d8520f4ca7de5284c51c406dcb5afc3f6078e2b",
+            "sizeBytes": 16439
+          }
+        ]
+      },
+      {
+        "sourceKey": "goldrush-classic-unity",
+        "root": "GoldRush_Old/",
+        "exists": true,
+        "productName": "Gold Rush",
+        "unityVersion": "2022.3.5f1",
+        "productEvidence": {
+          "path": "GoldRush_Old/ProjectSettings/ProjectSettings.asset",
+          "blobSha": "73d841c42c60f71814ceabb2b5be8fbd601ae283",
+          "sizeBytes": 23982
+        },
+        "unityVersionEvidence": {
+          "path": "GoldRush_Old/ProjectSettings/ProjectVersion.txt",
+          "blobSha": "0a60761e0feedeb858006bb31dfceb019294b38f"
+        },
+        "requiredSceneEvidence": [
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+            "exists": true,
+            "blobSha": "363bd61582baa7ab61edef30370cfc88840eefdb",
+            "sizeBytes": 152702
+          },
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+            "exists": true,
+            "blobSha": "b5f0365a706fc14ac245e7a33f37ce0b28323603",
+            "sizeBytes": 193162
+          },
+          {
+            "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
+            "exists": true,
+            "blobSha": "80204239d65d08d307dddb0e766d11e2a6f45531",
+            "sizeBytes": 231776
+          }
+        ]
+      }
+    ],
+    "importJobId": "goldrush-dual-source-001"
+  },
+  "evidence": {
+    "sourceDiscovery": "reports/provenance/goldrush-dual-source-001-source-discovery.json",
+    "copyLedger": "reports/provenance/goldrush-dual-source-001-copy-ledger.json",
+    "hashManifest": "reports/provenance/goldrush-dual-source-001-hashes.json",
+    "classification": "reports/asset-classification/goldrush-dual-source-001-classification.json",
+    "conversionReport": "reports/conversion/goldrush-dual-source-001.json"
+  },
+  "rules": {
+    "writesPublicAssets": false,
+    "promotesRuntimeAssets": false,
+    "requiresHumanReviewBeforePromotion": true,
+    "requiresLicenseProvenanceBeforePromotion": true,
+    "requiresApprovedRuntimeRecordBeforePromotion": true,
+    "allowsApprovalByInference": false
+  },
   "totals": {
     "candidates": 31,
-    "outputs": 31,
-    "browserReadyCopies": 7,
-    "metadataExtracted": 17,
-    "externalConversionRequests": 7,
-    "reviewOnly": 0,
-    "promotionReady": 0,
+    "pendingHumanReview": 31,
+    "pendingLicenseReview": 31,
+    "approved": 0,
+    "rejected": 0,
+    "publicPromoted": 0,
+    "runtimePromoted": 0,
     "byStatus": {
       "browser-ready-copy": 7,
       "metadata-extracted": 17,
       "requires-external-conversion": 7
     },
-    "byKind": {
+    "byOutputKind": {
       "audio": 3,
       "metadata": 17,
       "external-conversion-request": 7,
       "textures": 4
+    },
+    "byMediaKind": {
+      "music": 2,
+      "sfx": 1,
+      "scene-reference": 5,
+      "character": 8,
+      "weapon": 4,
+      "vehicle": 4,
+      "resource-node": 2,
+      "currency": 1,
+      "flora": 2,
+      "prop": 2
     }
   },
-  "assets": [
+  "items": [
     {
+      "itemId": "goldrush-dual-source-001.review.001",
       "slotId": "goldrush.audio.music.wandering",
       "mediaKind": "music",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Riding Into The Sun - Telecasted.mp3",
       "sourceHash": "sha256:8f8b06582d6afb6900b63411edd04d41284d813df45e218e5d4c8ed163c099b7",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/audio/goldrush.audio.music.wandering/Riding-Into-The-Sun---Telecasted.mp3",
       "outputHash": "sha256:8f8b06582d6afb6900b63411edd04d41284d813df45e218e5d4c8ed163c099b7",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.002",
       "slotId": "goldrush.audio.music.combat",
       "mediaKind": "music",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Raging Streets - SefChol.mp3",
       "sourceHash": "sha256:2783b8ba4c0c7d5abd74435812fcea655665c72e4ba5a464b06526531526e3f1",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/audio/goldrush.audio.music.combat/Raging-Streets---SefChol.mp3",
       "outputHash": "sha256:2783b8ba4c0c7d5abd74435812fcea655665c72e4ba5a464b06526531526e3f1",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.003",
       "slotId": "goldrush.audio.sfx.revolverShot",
       "mediaKind": "sfx",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldShotSound.ogg",
       "sourceHash": "sha256:59adcc1fecb24d02aae3818dd7b097ecbcd724c8f2337d7ef07aff0b763b88c8",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/audio/goldrush.audio.sfx.revolverShot/GoldShotSound.ogg",
       "outputHash": "sha256:59adcc1fecb24d02aae3818dd7b097ecbcd724c8f2337d7ef07aff0b763b88c8",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.004",
       "slotId": "goldrush.scene.mainMenu",
       "mediaKind": "scene-reference",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
       "sourceHash": "sha256:92d21d634d4b3822838ad22337e3c73914e9b7dcca7ed9946870c6b31bb7759f",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.scene.mainMenu/MainMenu.unity.json",
       "outputHash": "sha256:9f9ac672eeadf44d8c2f80d7a3a8a44b744f80bf5d61a6232a9c43ca0e692a81",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.005",
       "slotId": "goldrush.scene.lobby",
       "mediaKind": "scene-reference",
       "sourcePath": "GoldRush/Assets/Scenes/Lobby.unity",
       "sourceHash": "sha256:9de2a4c08ccc44e77b6576a1e6aa4a1df98e07ffad388ab89cbf6ddfa79d18f6",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.scene.lobby/Lobby.unity.json",
       "outputHash": "sha256:828980149f5b13d9b01ed11b3c76aa17344a51f9dae75e68e71e4e9e9344fa65",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.006",
       "slotId": "goldrush.scene.arena",
       "mediaKind": "scene-reference",
       "sourcePath": "GoldRush/Assets/Scenes/Arena.unity",
       "sourceHash": "sha256:65acc1ecda1c1b7fced7c98509f708f3804698774ecda79c3f26745efcbdf5a6",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.scene.arena/Arena.unity.json",
       "outputHash": "sha256:3334f3437ede66b599e8e71773a9e5ad52ca9231f296d575842a8a04f958938d",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.007",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush/Assets/Entities/Player/PlayerTest.unity",
       "sourceHash": "sha256:7a8d9fd10bebc4db910b735c1fdfba8c764b90cee535d30300f4b7e90f14daba",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.player.prospector/PlayerTest.unity.json",
       "outputHash": "sha256:bdab3eac0802b77a829f1a0e8086bd9a2af5603acf4e4bf6d8b1c19810341d6a",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.008",
       "slotId": "goldrush.scene.legacyGame",
       "mediaKind": "scene-reference",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
       "sourceHash": "sha256:21aef3da0148f0047e33e74fbce3bce8c22216a8b7b63a43e569b4052bd2009f",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.scene.legacyGame/Game.unity.json",
       "outputHash": "sha256:7db1beb5eccda780fbdb2c6f6241d8e8e6a5923f6c1894fdb9a0d483e1005895",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.009",
       "slotId": "goldrush.scene.legacySinglePlayer",
       "mediaKind": "scene-reference",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
       "sourceHash": "sha256:f1ac3c9c95fc8e7088fe1569324b1df9e74bdc9a1fcd7006a29b9e61b40f0016",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.scene.legacySinglePlayer/Game_SinglePlayer.unity.json",
       "outputHash": "sha256:71c534a6d0268f7aeadf8f1cac4681d2c473f57948d11af369f86ceb5acc2150",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.010",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Player.prefab",
       "sourceHash": "sha256:f5ef251b29ad98e1fbb555b965e37f39f46047a15791451e23a1a15a213365e5",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.player.prospector/Player.prefab.json",
       "outputHash": "sha256:75fe64d92b84af42159dfee5785a6539b2a82443ba0c4a3e3aa190382b046ff7",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.011",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/The Boss.fbx",
       "sourceHash": "sha256:010fe6daf3629d1304a418de87f66aa7aac5fdebfa7820265ac8dafdb6ee6d03",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.player.prospector/The-Boss.fbx.json",
       "outputHash": "sha256:c1aee15db5e6a0b26ab059e9a2c3da599fddec6fedc7baea5e72f1a86e67dd5c",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.012",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_diffuse.png",
       "sourceHash": "sha256:fa0c514d51cc4e240c2b9b25346f50edb9024396ef2066c609677eb3ea4780fd",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/textures/goldrush.player.prospector/Boss_diffuse.png",
       "outputHash": "sha256:fa0c514d51cc4e240c2b9b25346f50edb9024396ef2066c609677eb3ea4780fd",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.013",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_normal.png",
       "sourceHash": "sha256:41a6ca761eab3836ba33a144a1eaaacf48f430340bb1df89dd5c296af3a83c77",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/textures/goldrush.player.prospector/Boss_normal.png",
       "outputHash": "sha256:41a6ca761eab3836ba33a144a1eaaacf48f430340bb1df89dd5c296af3a83c77",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.014",
       "slotId": "goldrush.weapon.revolver",
       "mediaKind": "weapon",
       "sourcePath": "GoldRush/Assets/Entities/Items/Revolver.prefab",
       "sourceHash": "sha256:f6e99dc7696086ec6e3cd12253e577b9fa190fd6c6e3f07f43448aeb75e42901",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.weapon.revolver/Revolver.prefab.json",
       "outputHash": "sha256:4d3647851025b955bc2cbb5dd21d98d4db941b30b96cbeac37e70cd7b4a0188e",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.015",
       "slotId": "goldrush.weapon.revolver",
       "mediaKind": "weapon",
       "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1.fbx",
       "sourceHash": "sha256:0412beefb576d1e477b62b8d6a655569b233121b77aacf4b8729d78df6863f86",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.weapon.revolver/Revolver1.fbx.json",
       "outputHash": "sha256:67dcdd5ee259c2e40d913544afd775a7eb50f24bc70f55639b247b09014c1ee1",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.016",
       "slotId": "goldrush.weapon.revolver",
       "mediaKind": "weapon",
       "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Diff.png",
       "sourceHash": "sha256:56958a0f91ff57235d4d1cca09d36654753512c90866a389405d567bbe602834",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/textures/goldrush.weapon.revolver/Revolver1Diff.png",
       "outputHash": "sha256:56958a0f91ff57235d4d1cca09d36654753512c90866a389405d567bbe602834",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.017",
       "slotId": "goldrush.weapon.revolver",
       "mediaKind": "weapon",
       "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Normal.png",
       "sourceHash": "sha256:98879e46c0f2cc23d6bd4797e68fdea8e19ddcb0d766410db3b471837e1d8920",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/textures/goldrush.weapon.revolver/Revolver1Normal.png",
       "outputHash": "sha256:98879e46c0f2cc23d6bd4797e68fdea8e19ddcb0d766410db3b471837e1d8920",
-      "conversionStatus": "browser-ready-copy",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.018",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Breathing Idle.anim",
       "sourceHash": "sha256:090b80fb9f92babec47da4605a92fa2d1137cb08d254e49cf34c3ff85a83449b",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.player.prospector/Breathing-Idle.anim.json",
       "outputHash": "sha256:ffc0b72c8ae6f7ea368887af44f4297616d22a5b0f2e6e307fbb2cb053b1f7ba",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.019",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Running.anim",
       "sourceHash": "sha256:5db35623dc377aab9e32963e2912706701723962a282553b4ec30c18e5ccf36f",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.player.prospector/Running.anim.json",
       "outputHash": "sha256:e523e90886fb5913624e4dffed6399fbeb0d63185056e32e722967e2a860a3ea",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.020",
       "slotId": "goldrush.player.prospector",
       "mediaKind": "character",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Gunplay.anim",
       "sourceHash": "sha256:d78212605c717c51502720f2555518fd18c7e3172ea477710a8d38c67e4cb906",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.player.prospector/Gunplay.anim.json",
       "outputHash": "sha256:1b4efc3c8c36eb7a60a06b59aadbebef69bb94117b0c2188f0e6c03360a99307",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.021",
       "slotId": "goldrush.vehicle.train",
       "mediaKind": "vehicle",
       "sourcePath": "GoldRush/Assets/Entities/Vehicles/TrainEntity.prefab",
       "sourceHash": "sha256:086fe1ca89d1764750d04b12697a93abb09639c56aa0ac7c7a6d5e86f08f87bd",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.vehicle.train/TrainEntity.prefab.json",
       "outputHash": "sha256:c4f1320450daf6d805f6c30151af200699a940f162f0efe5cfb2008e54c1ab44",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.022",
       "slotId": "goldrush.vehicle.train",
       "mediaKind": "vehicle",
       "sourcePath": "GoldRush/Assets/World/ImportedModels/train-track-modular-pack/source/Train_MP.fbx",
       "sourceHash": "sha256:a946b9afacfa68abe7bc836904579593d069ec33f1795def25be80422efa8f3f",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.vehicle.train/Train_MP.fbx.json",
       "outputHash": "sha256:235f43136d5b23a85e5804f3b44c2cc42e5f412841c1cc9ba85a1f7169e56829",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.023",
       "slotId": "goldrush.vehicle.trainCar",
       "mediaKind": "vehicle",
       "sourcePath": "GoldRush/Assets/Entities/LobbyTrainCar.prefab",
       "sourceHash": "sha256:6c1717fb960e7d14c2d4fada10ab73cb7151db706ae96e9a5a703d8ad2010247",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.vehicle.trainCar/LobbyTrainCar.prefab.json",
       "outputHash": "sha256:8f77b7a655de5f4df767b281772a695e22dac6a7bd6efdfacfd16688b1d1290d",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.024",
       "slotId": "goldrush.vehicle.trainCar",
       "mediaKind": "vehicle",
       "sourcePath": "GoldRush/Assets/Entities/LobbyTrainCar02.prefab",
       "sourceHash": "sha256:af1de7d8b29c733b893e3124ac4555935f2312aa4e0c47cd29c8dcb4a68553b9",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.vehicle.trainCar/LobbyTrainCar02.prefab.json",
       "outputHash": "sha256:a15ef06ce0b98d56561d0509ad5aa5771ffe6ab9b6fdf20ebd34f6d9cf70e65e",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.025",
       "slotId": "goldrush.prop.goldPile",
       "mediaKind": "resource-node",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold.prefab",
       "sourceHash": "sha256:7ab0e5012055aa08efba180ce66624f2533947ce488e3b755cacb945f30ff729",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.prop.goldPile/Pile-O-Gold.prefab.json",
       "outputHash": "sha256:083d827f10bb0e5774898f40ae3305ec4e3b0b518bd15fbd8e24d3a3eb12a670",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.026",
       "slotId": "goldrush.prop.goldPile",
       "mediaKind": "resource-node",
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold SpawnArea.prefab",
       "sourceHash": "sha256:6da5acbe3a0b67d593f9be6a6c0df3ca1760a92f2eeef30a14e535c25eda4786",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.prop.goldPile/Pile-O-Gold-SpawnArea.prefab.json",
       "outputHash": "sha256:1611da0d77891942503e6870a36875c372d8ad4bdd7264bedf5fb3d578faf878",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.027",
       "slotId": "goldrush.currency.coin01",
       "mediaKind": "currency",
       "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_01.fbx",
       "sourceHash": "sha256:494f373caf3b07f7dfd881b5b3e86b3f0ae545bb17e184065204dcb4260fb964",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.currency.coin01/Coin_01.fbx.json",
       "outputHash": "sha256:f739e93529f4b024509c6921c8ce16d2c16385c5c2f2506135b6ab72a2049912",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.028",
       "slotId": "goldrush.prop.cactus01",
       "mediaKind": "flora",
       "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_01.fbx",
       "sourceHash": "sha256:86e38cb045b2516e9c6c0d5e9c1ec579f0c758cf5e59555415af8c5a1725ef5a",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.prop.cactus01/Cactus_01.fbx.json",
       "outputHash": "sha256:f42c429906ef0531e97846ed93081f7c2355cb8602c480146380815b7b4f2dc6",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.029",
       "slotId": "goldrush.prop.cactus02",
       "mediaKind": "flora",
       "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_02.fbx",
       "sourceHash": "sha256:a1bbb30870f4173605035e399fba398a8bb1f4212b555d7ea99ccecf3c5da2c0",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.prop.cactus02/Cactus_02.fbx.json",
       "outputHash": "sha256:a3c12ca0bf9c9e66397a2a9ab3c2539da5672072f1b0b91c07787e88ffbfd4dc",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.030",
       "slotId": "goldrush.prop.fence01",
       "mediaKind": "prop",
       "sourcePath": "GoldRush/Assets/World/Buildings/Fence01.prefab",
       "sourceHash": "sha256:110b41d79fb1308cf5c0153542f853739025398b220407fe9ce5e19966501165",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/metadata/goldrush.prop.fence01/Fence01.prefab.json",
       "outputHash": "sha256:e7842fd54d92f5993edd137793e04f925f09dd47963140014c10706adef6fead",
-      "conversionStatus": "metadata-extracted",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     },
     {
+      "itemId": "goldrush-dual-source-001.review.031",
       "slotId": "goldrush.prop.fence01",
       "mediaKind": "prop",
       "sourcePath": "GoldRush/Assets/World/ImportedModels/Fences/source/ENV_FenceKit_HenryB_001.fbx",
       "sourceHash": "sha256:e04dbee3065c2e3aee4bcc817d594c8e5895b81358af1bb3a139e4e6e3532244",
       "outputPath": "sanitized/converted/goldrush-dual-source-001/external-conversion/goldrush.prop.fence01/ENV_FenceKit_HenryB_001.fbx.json",
       "outputHash": "sha256:9f147bde266110f94162d759faa685979b26a470ebff84b823fa657fd0e636b2",
-      "conversionStatus": "requires-external-conversion",
-      "promotionReady": false
+      "licenseStatus": "pending-provenance-review",
+      "approvalId": null,
+      "publicPromotion": false,
+      "runtimePromotion": false,
+      "promotionBlockedBy": [
+        "license-provenance",
+        "human-review",
+        "approved-runtime-record"
+      ]
     }
   ]
 }

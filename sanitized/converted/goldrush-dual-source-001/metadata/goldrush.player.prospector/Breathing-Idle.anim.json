@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Breathing Idle.anim",
+  "sourceHash": "sha256:090b80fb9f92babec47da4605a92fa2d1137cb08d254e49cf34c3ff85a83449b",
+  "summary": {
+    "lineCount": 12282,
+    "guidCount": 0,
+    "fileIdCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0"
+    ],
+    "names": [
+      "Breathing Idle"
+    ],
+    "yamlTags": {
+      "74": 1
+    }
+  }
+}

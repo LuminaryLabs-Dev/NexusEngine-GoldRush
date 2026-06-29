@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Running.anim",
+  "sourceHash": "sha256:5db35623dc377aab9e32963e2912706701723962a282553b4ec30c18e5ccf36f",
+  "summary": {
+    "lineCount": 6612,
+    "guidCount": 0,
+    "fileIdCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0"
+    ],
+    "names": [
+      "Running"
+    ],
+    "yamlTags": {
+      "74": 1
+    }
+  }
+}

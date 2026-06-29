@@ -1,0 +1,256 @@
+{
+  "schema": "nexusengine.goldrush.copy-ledger.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "generatedAt": "2026-06-29T22:54:00Z",
+  "rawCopyPlan": "reports/provenance/goldrush-dual-source-001-raw-copy-plan.json",
+  "copiedFiles": [
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Riding Into The Sun - Telecasted.mp3",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Riding Into The Sun - Telecasted.mp3",
+      "sourceHash": "sha256:8f8b06582d6afb6900b63411edd04d41284d813df45e218e5d4c8ed163c099b7",
+      "sizeBytes": 5767873,
+      "domain": "audio-music-and-sfx",
+      "slotId": "goldrush.audio.music.wandering"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Raging Streets - SefChol.mp3",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Raging Streets - SefChol.mp3",
+      "sourceHash": "sha256:2783b8ba4c0c7d5abd74435812fcea655665c72e4ba5a464b06526531526e3f1",
+      "sizeBytes": 7263122,
+      "domain": "audio-music-and-sfx",
+      "slotId": "goldrush.audio.music.combat"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldShotSound.ogg",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldShotSound.ogg",
+      "sourceHash": "sha256:59adcc1fecb24d02aae3818dd7b097ecbcd724c8f2337d7ef07aff0b763b88c8",
+      "sizeBytes": 68388,
+      "domain": "audio-music-and-sfx",
+      "slotId": "goldrush.audio.sfx.revolverShot"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+      "sourceHash": "sha256:92d21d634d4b3822838ad22337e3c73914e9b7dcca7ed9946870c6b31bb7759f",
+      "sizeBytes": 152702,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.mainMenu"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Scenes/Lobby.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Scenes/Lobby.unity",
+      "sourceHash": "sha256:9de2a4c08ccc44e77b6576a1e6aa4a1df98e07ffad388ab89cbf6ddfa79d18f6",
+      "sizeBytes": 555351,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.lobby"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Scenes/Arena.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Scenes/Arena.unity",
+      "sourceHash": "sha256:65acc1ecda1c1b7fced7c98509f708f3804698774ecda79c3f26745efcbdf5a6",
+      "sizeBytes": 3816370,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.arena"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/PlayerTest.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/PlayerTest.unity",
+      "sourceHash": "sha256:7a8d9fd10bebc4db910b735c1fdfba8c764b90cee535d30300f4b7e90f14daba",
+      "sizeBytes": 16439,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.playerTest"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+      "sourceHash": "sha256:21aef3da0148f0047e33e74fbce3bce8c22216a8b7b63a43e569b4052bd2009f",
+      "sizeBytes": 193162,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.legacyGame"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
+      "sourceHash": "sha256:f1ac3c9c95fc8e7088fe1569324b1df9e74bdc9a1fcd7006a29b9e61b40f0016",
+      "sizeBytes": 231776,
+      "domain": "legacy-scene-layout-metadata",
+      "slotId": "goldrush.scene.legacySinglePlayer"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Player.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Player.prefab",
+      "sourceHash": "sha256:f5ef251b29ad98e1fbb555b965e37f39f46047a15791451e23a1a15a213365e5",
+      "sizeBytes": 726305,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.player.prospector"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/The Boss.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/The Boss.fbx",
+      "sourceHash": "sha256:010fe6daf3629d1304a418de87f66aa7aac5fdebfa7820265ac8dafdb6ee6d03",
+      "sizeBytes": 6242272,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.player.prospector"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_diffuse.png",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_diffuse.png",
+      "sourceHash": "sha256:fa0c514d51cc4e240c2b9b25346f50edb9024396ef2066c609677eb3ea4780fd",
+      "sizeBytes": 917510,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.player.prospector"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_normal.png",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_normal.png",
+      "sourceHash": "sha256:41a6ca761eab3836ba33a144a1eaaacf48f430340bb1df89dd5c296af3a83c77",
+      "sizeBytes": 962700,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.player.prospector"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Items/Revolver.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Items/Revolver.prefab",
+      "sourceHash": "sha256:f6e99dc7696086ec6e3cd12253e577b9fa190fd6c6e3f07f43448aeb75e42901",
+      "sizeBytes": 8029,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.weapon.revolver"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1.fbx",
+      "sourceHash": "sha256:0412beefb576d1e477b62b8d6a655569b233121b77aacf4b8729d78df6863f86",
+      "sizeBytes": 9489372,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.weapon.revolver"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Diff.png",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Diff.png",
+      "sourceHash": "sha256:56958a0f91ff57235d4d1cca09d36654753512c90866a389405d567bbe602834",
+      "sizeBytes": 854638,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.weapon.revolver"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Normal.png",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Normal.png",
+      "sourceHash": "sha256:98879e46c0f2cc23d6bd4797e68fdea8e19ddcb0d766410db3b471837e1d8920",
+      "sizeBytes": 1499326,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.weapon.revolver"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Breathing Idle.anim",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Breathing Idle.anim",
+      "sourceHash": "sha256:090b80fb9f92babec47da4605a92fa2d1137cb08d254e49cf34c3ff85a83449b",
+      "sizeBytes": 633217,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.anim.player.idle"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Running.anim",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Running.anim",
+      "sourceHash": "sha256:5db35623dc377aab9e32963e2912706701723962a282553b4ec30c18e5ccf36f",
+      "sizeBytes": 313322,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.anim.player.run"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Gunplay.anim",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Gunplay.anim",
+      "sourceHash": "sha256:d78212605c717c51502720f2555518fd18c7e3172ea477710a8d38c67e4cb906",
+      "sizeBytes": 874375,
+      "domain": "player-combat-character",
+      "slotId": "goldrush.anim.player.shooting"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Vehicles/TrainEntity.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Vehicles/TrainEntity.prefab",
+      "sourceHash": "sha256:086fe1ca89d1764750d04b12697a93abb09639c56aa0ac7c7a6d5e86f08f87bd",
+      "sizeBytes": 3246,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.vehicle.train"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/train-track-modular-pack/source/Train_MP.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/train-track-modular-pack/source/Train_MP.fbx",
+      "sourceHash": "sha256:a946b9afacfa68abe7bc836904579593d069ec33f1795def25be80422efa8f3f",
+      "sizeBytes": 957744,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.vehicle.train"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/LobbyTrainCar.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/LobbyTrainCar.prefab",
+      "sourceHash": "sha256:6c1717fb960e7d14c2d4fada10ab73cb7151db706ae96e9a5a703d8ad2010247",
+      "sizeBytes": 6298,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.vehicle.trainCar"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/LobbyTrainCar02.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/LobbyTrainCar02.prefab",
+      "sourceHash": "sha256:af1de7d8b29c733b893e3124ac4555935f2312aa4e0c47cd29c8dcb4a68553b9",
+      "sizeBytes": 6345,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.vehicle.trainCar"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold.prefab",
+      "sourceHash": "sha256:7ab0e5012055aa08efba180ce66624f2533947ce488e3b755cacb945f30ff729",
+      "sizeBytes": 156692,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.goldPile"
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold SpawnArea.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Pile O' Gold SpawnArea.prefab",
+      "sourceHash": "sha256:6da5acbe3a0b67d593f9be6a6c0df3ca1760a92f2eeef30a14e535c25eda4786",
+      "sizeBytes": 5810,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.goldPile"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_01.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_01.fbx",
+      "sourceHash": "sha256:494f373caf3b07f7dfd881b5b3e86b3f0ae545bb17e184065204dcb4260fb964",
+      "sizeBytes": 43963,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.currency.coin01"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_01.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_01.fbx",
+      "sourceHash": "sha256:86e38cb045b2516e9c6c0d5e9c1ec579f0c758cf5e59555415af8c5a1725ef5a",
+      "sizeBytes": 78896,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.cactus01"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_02.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_02.fbx",
+      "sourceHash": "sha256:a1bbb30870f4173605035e399fba398a8bb1f4212b555d7ea99ccecf3c5da2c0",
+      "sizeBytes": 94467,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.cactus02"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Fence01.prefab",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Fence01.prefab",
+      "sourceHash": "sha256:110b41d79fb1308cf5c0153542f853739025398b220407fe9ce5e19966501165",
+      "sizeBytes": 9460,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.fence01"
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Fences/source/ENV_FenceKit_HenryB_001.fbx",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Fences/source/ENV_FenceKit_HenryB_001.fbx",
+      "sourceHash": "sha256:e04dbee3065c2e3aee4bcc817d594c8e5895b81358af1bb3a139e4e6e3532244",
+      "sizeBytes": 266064,
+      "domain": "mine-town-terrain-props",
+      "slotId": "goldrush.prop.fence01"
+    }
+  ]
+}

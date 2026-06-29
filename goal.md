@@ -157,6 +157,47 @@ reports/provenance/goldrush-dual-source-001-raw-copy-worker-fetch-proof.json
 
 It proves the worker can download the 31 planned source blobs through GitHub API access, build 31 copy-ledger records, 31 hash records, 31 classification records, and find 0 secret findings without writing raw files or receipts.
 
+## Current Raw Import Branch
+
+```txt
+branch: import/goldrush-dual-source-001-raw
+raw root: raw/imported/goldrush-dual-source-001/
+raw files: 31
+raw bytes: 42,215,234
+classification candidates: 31
+blocked: 0
+unmapped: 0
+```
+
+This branch contains the first direct copied legacy files and the six required receipts. It is not a runtime promotion branch: `public/assets/` remains untouched, approved runtime asset records remain empty, and the final playable parity goal still requires conversion, human review, promotion, and browser proof.
+
+## Current Sanitized Conversion Pass
+
+```txt
+conversion report: reports/conversion/goldrush-dual-source-001.json
+sanitized root: sanitized/converted/goldrush-dual-source-001/
+sanitized outputs: 31
+browser-ready audio/texture copies: 7
+Unity text metadata extractions: 17
+external model conversion requests: 7
+promotion-ready assets: 0
+```
+
+The conversion pass is intentionally conservative. It copies browser-safe audio and textures into `sanitized/converted`, extracts JSON metadata from Unity scene/prefab/animation text assets, and creates external conversion request JSON for FBX model files. It does not write `public/assets/`, does not update approved runtime records, and does not claim human review.
+
+## Current Review And Provenance Gate
+
+```txt
+human review request: reports/human-review/goldrush-dual-source-001-request.json
+license provenance: reports/license-provenance/goldrush-dual-source-001.json
+packet builder: tools/import-sanitize/create-review-packets.mjs
+validator: tools/validation/validate-review-packets.mjs
+```
+
+The review packets cover all 31 sanitized candidates across 4 domains: audio, textures, Unity metadata, and external conversion. Current state is intentionally closed: 31 pending human reviews, 31 pending license reviews, 0 approved records, 0 public promotions, and 0 runtime promotions.
+
+The validator is now part of `npm run validate` and fails accidental approved status, filled approval ids, runtime paths, or public/runtime promotion flags before an explicit approval and approved runtime record exist.
+
 ## Current Cloud Source Access Proof
 
 ```txt

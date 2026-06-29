@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.weapon.revolver",
+  "mediaKind": "weapon",
+  "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1.fbx",
+  "sourceHash": "sha256:0412beefb576d1e477b62b8d6a655569b233121b77aacf4b8729d78df6863f86",
+  "sourceBytes": 9489372,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model data is retained only under raw/imported.",
+    "This descriptor does not copy FBX bytes into sanitized output.",
+    "Promotion requires converted browser output, provenance, and human review."
+  ]
+}

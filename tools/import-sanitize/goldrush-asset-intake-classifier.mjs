@@ -70,7 +70,7 @@ const slotRules = [
   { slotId: "goldrush.audio.music.wandering", mediaKind: "music", handling: "convert-to-browser-audio", patterns: [/wandering/i, /explor/i, /ambient/i] },
   { slotId: "goldrush.audio.music.combat", mediaKind: "music", handling: "convert-to-browser-audio", patterns: [/combat/i, /fight/i] },
   { slotId: "goldrush.audio.music.boss", mediaKind: "music", handling: "convert-to-browser-audio", patterns: [/boss/i] },
-  { slotId: "goldrush.audio.sfx.revolverShot", mediaKind: "sfx", handling: "convert-to-browser-audio", patterns: [/revolver.*shot/i, /gun.*shot/i, /shoot/i] },
+  { slotId: "goldrush.audio.sfx.revolverShot", mediaKind: "sfx", handling: "convert-to-browser-audio", patterns: [/revolver.*shot/i, /gun.*shot/i, /shoot/i, /goldshotsound/i] },
   { slotId: "goldrush.audio.sfx.goldPickup", mediaKind: "sfx", handling: "convert-to-browser-audio", patterns: [/gold.*pickup/i, /pickup/i] },
   { slotId: "goldrush.audio.sfx.cashout", mediaKind: "sfx", handling: "convert-to-browser-audio", patterns: [/cashout/i, /cash.*out/i] },
 ];

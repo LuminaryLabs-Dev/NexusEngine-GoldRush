@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "slotId": "goldrush.currency.coin01",
+  "mediaKind": "currency",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Coin_01.fbx",
+  "sourceHash": "sha256:494f373caf3b07f7dfd881b5b3e86b3f0ae545bb17e184065204dcb4260fb964",
+  "sourceBytes": 43963,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model data is retained only under raw/imported.",
+    "This descriptor does not copy FBX bytes into sanitized output.",
+    "Promotion requires converted browser output, provenance, and human review."
+  ]
+}
