@@ -1,0 +1,76 @@
+{
+  "version": "0.1.0",
+  "importJobId": "goldrush-legacy-source-intake",
+  "status": "cloud-worker-required",
+  "sourceProjects": [
+    {
+      "sourceKey": "goldrush-modern-unity",
+      "requiredScenes": [
+        "Assets/Scenes/Lobby.unity",
+        "Assets/Scenes/Arena.unity",
+        "Assets/Entities/Player/PlayerTest.unity"
+      ],
+      "candidateFamilies": [
+        "player",
+        "arena-layout",
+        "terrain",
+        "gold-node",
+        "town-props",
+        "audio"
+      ]
+    },
+    {
+      "sourceKey": "goldrush-classic-unity",
+      "requiredScenes": [
+        "Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+        "Assets/_GOLDRUSH/00_Scenes/Game.unity",
+        "Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity"
+      ],
+      "candidateFamilies": [
+        "classic-layout",
+        "combat-camera",
+        "weapons",
+        "coins",
+        "buildings",
+        "animation"
+      ]
+    }
+  ],
+  "targetFolders": {
+    "rawCandidates": "raw/imported/<importJobId>/",
+    "scanReports": "quarantine/reports/",
+    "convertedCandidates": "sanitized/converted/<importJobId>/",
+    "registry": "sanitized/registry/assets.json",
+    "publicAssets": "public/assets/"
+  },
+  "requiredReports": [
+    { "id": "deny-path-scan", "path": "quarantine/reports/<importJobId>-deny-path-scan.json" },
+    { "id": "secret-scan", "path": "reports/secret-scans/<importJobId>.json" },
+    { "id": "hash-manifest", "path": "reports/provenance/<importJobId>-hashes.json" },
+    { "id": "license-provenance", "path": "reports/license-provenance/<importJobId>.json" },
+    { "id": "human-review", "path": "reports/human-review/<importJobId>.json" },
+    { "id": "conversion", "path": "reports/conversion/<importJobId>.json" }
+  ],
+  "promotionSlots": [
+    "goldrush.scene.mainMenu",
+    "goldrush.scene.lobby",
+    "goldrush.scene.arena",
+    "goldrush.scene.legacyGame",
+    "goldrush.scene.legacySinglePlayer",
+    "goldrush.player.prospector",
+    "goldrush.weapon.revolver",
+    "goldrush.prop.goldPile",
+    "goldrush.currency.coin01",
+    "goldrush.vehicle.train",
+    "goldrush.vehicle.trainCar",
+    "goldrush.prop.cactus01",
+    "goldrush.prop.cactus02",
+    "goldrush.prop.fence01",
+    "goldrush.anim.player.aimIdle",
+    "goldrush.anim.player.shooting",
+    "goldrush.audio.sfx.revolverShot",
+    "goldrush.audio.sfx.goldPickup",
+    "goldrush.audio.sfx.cashout"
+  ],
+  "localCodexRule": "Do not clone source repositories locally. The private cloud worker must copy approved candidates into this destination repo through pull requests."
+}

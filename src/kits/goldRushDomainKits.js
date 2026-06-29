@@ -9,6 +9,11 @@ import {
   validateGoldRushWorldElements,
 } from "../content/goldrushWorldElements.js";
 import {
+  createLegacySourceReadiness,
+  goldRushLegacySourceManifest,
+  validateLegacySourceManifest,
+} from "../content/goldrushLegacySourceManifest.js";
+import {
   createExtractionReceiptKit,
   createFinalRushKit,
   createMatchLifecycleKit,
@@ -25,6 +30,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
   return [
     createRoomOrchestratorKit({ orchestrator }),
     createAssetRegistryKit({ assetRegistry }),
+    createLegacySourceKit({ assetRegistry }),
     createWorldElementKit(),
     createTerrainPatchWindowKit(),
     createTownLayoutKit(),
@@ -106,6 +112,48 @@ function createAssetRegistryKit({ assetRegistry }) {
         },
         resolve(assetId) {
           return assetRegistry.assets.find((asset) => asset.id === assetId) ?? null;
+        },
+      };
+    },
+  });
+}
+
+function createLegacySourceKit({ assetRegistry }) {
+  return defineDomainServiceKit({
+    id: "n-goldrush-legacy-source-kit",
+    domain: "goldrush-legacy-source",
+    apiName: "goldrushLegacySources",
+    stability,
+    version,
+    requires: ["n:goldrush-asset-registry"],
+    services: ["snapshot", "readiness", "import-request", "validate"],
+    metadata: {
+      purpose: "Own the cloud-side legacy source intake contract without importing raw files locally.",
+    },
+    createApi() {
+      return {
+        snapshot() {
+          return structuredClone(goldRushLegacySourceManifest);
+        },
+        readiness() {
+          return createLegacySourceReadiness({ assetRegistry });
+        },
+        importRequest({ importJobId = "goldrush-dual-source-next" } = {}) {
+          return {
+            importJobId,
+            status: "ready-for-private-cloud-worker",
+            sourceProjectCount: goldRushLegacySourceManifest.sourceProjects.length,
+            requiredStages: goldRushLegacySourceManifest.requiredImportStages,
+            targetFolders: goldRushLegacySourceManifest.targetFolders,
+            playableFamilies: goldRushLegacySourceManifest.browserPlayableFamilies.map((family) => ({
+              familyId: family.familyId,
+              requiredSlots: family.requiredSlots,
+            })),
+            localCodexRule: "edit-destination-repo-only",
+          };
+        },
+        validate() {
+          return validateLegacySourceManifest(goldRushLegacySourceManifest);
         },
       };
     },
@@ -827,6 +875,7 @@ function createScenarioKit() {
     version,
     requires: [
       "n:goldrush-room-orchestrator",
+      "n:goldrush-legacy-source",
       "n:goldrush-terrain-patch-window",
       "n:goldrush-town-layout",
       "n:goldrush-path-network",
@@ -970,6 +1019,8 @@ function createScenarioKit() {
         snapshot() {
           const perspective = engine.n.goldrushPerspective.snapshot();
           const assets = engine.n.goldrushAssets.snapshot();
+          const legacySources = engine.n.goldrushLegacySources.snapshot();
+          const legacyReadiness = engine.n.goldrushLegacySources.readiness();
           const mining = engine.n.goldrushMining.snapshot();
           const cargo = engine.n.goldrushCargo.snapshot();
           const cashout = engine.n.goldrushCashout.snapshot();
@@ -1003,6 +1054,8 @@ function createScenarioKit() {
             cameraMode: perspective.mode,
             cameraDescriptor: perspective.descriptor,
             assets,
+            legacySources,
+            legacyReadiness,
             mining,
             cargo,
             cashout,

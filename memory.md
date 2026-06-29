@@ -19,6 +19,7 @@
 - Terrain windows, town layouts, path networks, gold zones, loading gates, camera descriptors, audio state, and animation state should be exposed as dedicated NexusRealtime APIs rather than only nested world data.
 - Browser validation can inspect `window.GoldRushHost.getState()` for scenario, world, terrain, town, path, gold-zone, loading-gate, audio, animation, and camera descriptors.
 - Match lifecycle state is split into dedicated `engine.n.goldrushMatch`, `goldrushFinalRush`, `goldrushExtractionReceipts`, `goldrushRoomHandoffReceipts`, `goldrushScoring`, `goldrushResults`, and `goldrushReplaySummary` APIs.
+- Legacy source intake state is exposed through `engine.n.goldrushLegacySources`, backed by `manifests/import-jobs/goldrush-legacy-source-intake.json`, and must remain browser-safe with no raw/quarantine path strings in runtime source.
 - Scoring, result finalization, receipt application, and replay summaries are kit-owned. The renderer and HUD may only present snapshots.
 - Agent perspective packets live in `.agent/perspectives/` and simulate role, audience, market, player, runtime, import, and release viewpoints before broad changes.
 - Room shards target 50 players each, with multi-room orchestration for 2-100 player matches.
@@ -40,4 +41,5 @@
 - World element descriptors live in `src/content/goldrushWorldElements.js` and are validated by `tools/validation/validate-world-elements.mjs`.
 - Current role/market packets include creative director, expert C# developer, Unity port developer, technical art director, Nexus runtime architect, marketing lead, player segments, creator/influencer, market research, market itself, and storefront positioning.
 - Current match lifecycle proof covers final rush pressure, extraction receipts, handoff receipts, team scoring, final result state, and replay summary through `npm run check` plus browser screenshot proof in `reports/browser-match-lifecycle.png`.
+- Current asset intake proof covers two legacy source projects and 19 promotion slots, with readiness intentionally at `0/19` until cloud-approved assets replace placeholders.
 - GitHub Actions deploy workflow for the `Build` branch.

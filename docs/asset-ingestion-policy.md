@@ -36,3 +36,17 @@ Every promoted asset needs:
 - provenance status.
 - human approval id.
 - browser runtime path.
+
+## Current Intake Bridge
+
+`engine.n.goldrushLegacySources` exposes a browser-safe summary of the two legacy Unity source projects and the required playable asset families. The concrete cloud-worker request is:
+
+```txt
+manifests/import-jobs/goldrush-legacy-source-intake.json
+```
+
+Local validation for this bridge is:
+
+```txt
+node tools/validation/validate-legacy-source-intake.mjs
+```
