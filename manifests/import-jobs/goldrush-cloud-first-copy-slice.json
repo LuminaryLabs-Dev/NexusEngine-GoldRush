@@ -1,0 +1,269 @@
+{
+  "schema": "nexusengine.goldrush.cloud-first-copy-slice.v1",
+  "version": "0.1.0",
+  "status": "ready-for-cloud-worker-pre-copy",
+  "importJobId": "goldrush-dual-source-001",
+  "purpose": "Define the smallest safe first cloud-side raw copy slice that moves GoldRush from placeholders toward source-backed audio, scene metadata, player assets, and world props without claiming promotion or creating partial receipts locally.",
+  "sourceAccessProof": "reports/provenance/goldrush-source-access-2026-06-29.json",
+  "cloudTransferHandoff": "manifests/import-jobs/goldrush-cloud-transfer-handoff.json",
+  "assetIntakeClassifierJob": "manifests/import-jobs/goldrush-asset-intake-classifier.json",
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "headSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "roots": [
+      "GoldRush/",
+      "GoldRush_Old/"
+    ]
+  },
+  "destination": {
+    "nameWithOwner": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+    "rawImportBranch": "import/goldrush-dual-source-001-raw",
+    "rawRoot": "raw/imported/goldrush-dual-source-001/",
+    "mustNotWriteBeforeReview": [
+      "public/assets/",
+      "src/content/goldrushApprovedAssets.js",
+      "sanitized/converted/goldrush-dual-source-001/"
+    ]
+  },
+  "requiredReceiptGate": [
+    "reports/provenance/goldrush-dual-source-001-source-discovery.json",
+    "quarantine/reports/goldrush-dual-source-001-deny-path-scan.json",
+    "reports/secret-scans/goldrush-dual-source-001.json",
+    "reports/provenance/goldrush-dual-source-001-copy-ledger.json",
+    "reports/provenance/goldrush-dual-source-001-hashes.json",
+    "reports/asset-classification/goldrush-dual-source-001-classification.json"
+  ],
+  "preCopySequence": [
+    {
+      "id": "explain-source-intention",
+      "domain": "source-provenance",
+      "workerAction": "Read the source-access proof and handoff, then restate the source roots, source head SHA, expected products, and why each domain is being copied.",
+      "mustProduceBeforeCopy": [
+        "source commit SHA confirmation",
+        "root product/version confirmation",
+        "required scene blob confirmation"
+      ]
+    },
+    {
+      "id": "enumerate-candidates",
+      "domain": "candidate-inventory",
+      "workerAction": "List candidate paths cloud-side using the allowlist hints and source roots, but do not copy denied folders or complete third-party plugin packs.",
+      "mustProduceBeforeCopy": [
+        "candidate path list grouped by firstCopyDomains",
+        "missing slots with reason",
+        "large/LFS file flags"
+      ]
+    },
+    {
+      "id": "run-deny-and-secret-preflight",
+      "domain": "safety",
+      "workerAction": "Run deny-path and secret checks before raw copy. Findings may include redacted paths and finding types only.",
+      "mustProduceBeforeCopy": [
+        "deny-path decision",
+        "secret-scan decision",
+        "blocked candidate list"
+      ]
+    },
+    {
+      "id": "copy-raw-candidates-and-receipts",
+      "domain": "raw-copy",
+      "workerAction": "Copy approved raw candidates into the destination raw import branch and produce every required receipt in the same branch.",
+      "mustProduceBeforeCopy": [
+        "all six receipt files",
+        "copy ledger entry per copied file",
+        "sha256 hash per copied file"
+      ]
+    }
+  ],
+  "firstCopyDomains": [
+    {
+      "id": "audio-music-and-sfx",
+      "priority": 1,
+      "reason": "The browser currently uses procedural fallback tones; actual music and SFX are the highest-value parity slice and directly address the placeholder audio blocker.",
+      "sourceRoots": [
+        "GoldRush/Assets/",
+        "GoldRush_Old/Assets/"
+      ],
+      "allowExtensions": [
+        ".wav",
+        ".mp3",
+        ".ogg",
+        ".aif",
+        ".aiff"
+      ],
+      "pathHints": [
+        "**/Audio/**",
+        "**/Audios/**",
+        "**/Music/**",
+        "**/*Music*",
+        "**/*Audio*",
+        "**/*SFX*",
+        "**/*Sound*"
+      ],
+      "requiredSlots": [
+        "goldrush.audio.music.wandering",
+        "goldrush.audio.music.combat",
+        "goldrush.audio.music.boss",
+        "goldrush.audio.sfx.revolverShot",
+        "goldrush.audio.sfx.goldPickup",
+        "goldrush.audio.sfx.cashout",
+        "goldrush.audio.sfx.ambush",
+        "goldrush.audio.sfx.playerDown"
+      ],
+      "copyHandling": "raw-copy-audio-then-convert-to-browser-audio-after-review",
+      "edgeCases": [
+        "Unity AudioSource references may point to clips by GUID, so scene and prefab metadata may be needed to name the right cue.",
+        "Loop points, mixer bus intent, and volume curves must be preserved as metadata if available.",
+        "If a file is proprietary, third-party, or license-unclear, record it as blocked instead of promoting a procedural fallback as source parity."
+      ]
+    },
+    {
+      "id": "legacy-scene-layout-metadata",
+      "priority": 2,
+      "reason": "Both old versions must become one game; scene layout metadata is needed to map main menu, lobby, arena, classic combat, and classic solo flows.",
+      "sourceRoots": [
+        "GoldRush/",
+        "GoldRush_Old/"
+      ],
+      "requiredSourcePaths": [
+        "GoldRush/Assets/Scenes/Lobby.unity",
+        "GoldRush/Assets/Scenes/Arena.unity",
+        "GoldRush/Assets/Entities/Player/PlayerTest.unity",
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity"
+      ],
+      "allowExtensions": [
+        ".unity",
+        ".prefab",
+        ".mat",
+        ".asset",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp"
+      ],
+      "requiredSlots": [
+        "goldrush.scene.mainMenu",
+        "goldrush.scene.lobby",
+        "goldrush.scene.arena",
+        "goldrush.scene.playerTest",
+        "goldrush.scene.legacyGame",
+        "goldrush.scene.legacySinglePlayer"
+      ],
+      "copyHandling": "raw-copy-scenes-as-source-data-then-extract-layout-json",
+      "edgeCases": [
+        "Scene YAML is source data only and must not become a runtime import.",
+        "Missing GUID dependencies must be recorded in classification rather than silently replaced.",
+        "Photon, Fusion, plugin, ProjectSettings, and package dependency references must be denied or summarized without copying denied files."
+      ]
+    },
+    {
+      "id": "player-combat-character",
+      "priority": 3,
+      "reason": "The current character is a procedural prototype; player rig, weapon, animator, and combat animation candidates are needed for over-the-shoulder combat readability.",
+      "sourceRoots": [
+        "GoldRush/Assets/",
+        "GoldRush_Old/Assets/"
+      ],
+      "pathHints": [
+        "**/Player/**",
+        "**/Characters/**",
+        "**/Character/**",
+        "**/Animation/**",
+        "**/Animations/**",
+        "**/*Revolver*",
+        "**/*Gun*",
+        "**/*Weapon*"
+      ],
+      "allowExtensions": [
+        ".fbx",
+        ".glb",
+        ".gltf",
+        ".prefab",
+        ".controller",
+        ".anim",
+        ".avatar",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp"
+      ],
+      "requiredSlots": [
+        "goldrush.player.prospector",
+        "goldrush.weapon.revolver",
+        "goldrush.anim.player.idle",
+        "goldrush.anim.player.run",
+        "goldrush.anim.player.aimIdle",
+        "goldrush.anim.player.aimRun",
+        "goldrush.anim.player.shooting",
+        "goldrush.anim.player.dead"
+      ],
+      "copyHandling": "raw-copy-character-sources-then-convert-retarget-to-glb-animation-map",
+      "edgeCases": [
+        "Animator controllers are mapping sources only; their state names and parameters should become metadata, not browser logic.",
+        "C# player controllers may be summarized into behavior facts, but C# files must not be copied as runtime code.",
+        "If rigs differ between modern and classic sources, preserve both candidates and let review choose one runtime target."
+      ]
+    },
+    {
+      "id": "mine-town-terrain-props",
+      "priority": 4,
+      "reason": "The world still relies on generated props; mines, towns, train, cactus, fences, gold, and coins are the first source-backed object vocabulary needed for the unified canyon space.",
+      "sourceRoots": [
+        "GoldRush/Assets/",
+        "GoldRush_Old/Assets/"
+      ],
+      "pathHints": [
+        "**/Props/**",
+        "**/Environment/**",
+        "**/Environments/**",
+        "**/Terrain/**",
+        "**/Train/**",
+        "**/Mine/**",
+        "**/Town/**",
+        "**/*Gold*",
+        "**/*Coin*",
+        "**/*Cactus*",
+        "**/*Fence*"
+      ],
+      "allowExtensions": [
+        ".fbx",
+        ".glb",
+        ".gltf",
+        ".prefab",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp",
+        ".asset"
+      ],
+      "requiredSlots": [
+        "goldrush.vehicle.train",
+        "goldrush.vehicle.trainCar",
+        "goldrush.prop.goldPile",
+        "goldrush.currency.coin01",
+        "goldrush.prop.cactus01",
+        "goldrush.prop.cactus02",
+        "goldrush.prop.fence01"
+      ],
+      "copyHandling": "raw-copy-prop-sources-then-convert-to-glb-and-object-micro-kit-archetypes",
+      "edgeCases": [
+        "Do not copy entire asset-store or plugin packs when only one source-backed prop is needed.",
+        "If the train is split across engine, car, wheel, track, and material files, preserve dependency edges in the copy ledger.",
+        "Terrain meshes and materials must be classified as visual references; Nexus terrain collider remains owned by local terrain kits until conversion proves otherwise."
+      ]
+    }
+  ],
+  "acceptanceForCloudWorkerBranch": [
+    "No local clone of the legacy source repos is required or assumed.",
+    "All copied candidates stay under raw/imported/goldrush-dual-source-001/.",
+    "All six receipt files exist in the same branch as copied raw candidates.",
+    "node tools/validation/validate-cloud-asset-receipts.mjs --require-receipts passes on the import branch.",
+    "npm run check passes on the import branch.",
+    "The branch does not edit public/assets, approved asset registry, or runtime imports before conversion, provenance, and human review."
+  ]
+}

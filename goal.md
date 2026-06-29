@@ -148,3 +148,21 @@ tools/validation/validate-source-access-proof.mjs
 This proof verifies cloud/GitHub-side access to `thecrimsondeveloper/Gold_Rush` branch `development` at `144230e32b537336c83407b4ddae83cdc95c1c9e` without cloning a legacy repo locally. It proves both source roots, product names, Unity versions, and required scene blobs for `GoldRush/` and `GoldRush_Old/`.
 
 This is not the raw-copy receipt. It does not satisfy the final asset/audio import requirement, but it gives the next GPT/cloud worker exact source evidence to use before producing the mandatory receipt set.
+
+## Current First Cloud Copy Slice
+
+```txt
+manifests/import-jobs/goldrush-cloud-first-copy-slice.json
+tools/validation/validate-cloud-first-copy-slice.mjs
+```
+
+This packet is the next executable cloud-worker target. It uses the source-access proof and the cloud-transfer handoff to define the smallest safe first raw-copy slice:
+
+```txt
+audio-music-and-sfx
+legacy-scene-layout-metadata
+player-combat-character
+mine-town-terrain-props
+```
+
+It validates 4 domains, 6 required receipt files, and 29 runtime slot targets. It is still pre-copy: no raw files, converted files, approved runtime assets, or final legacy audio assets are claimed complete until the cloud import branch contains the required receipts and passes strict receipt validation.
