@@ -1,0 +1,11 @@
+{
+  "schema": "nexusengine.goldrush.deny-path-scan.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "status": "passed",
+  "scope": "selected-candidate-set",
+  "sourceCommitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+  "scannedPaths": [
+    "GoldRush/Assets/Scenes/Arena.unity"
+  ],
+  "blockedPaths": []
+}
