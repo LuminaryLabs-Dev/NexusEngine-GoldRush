@@ -58,6 +58,15 @@ try {
     await capture(page, "02-lobby");
   });
 
+  await step("select-classic-combat-version", async () => {
+    await page.locator(".advancedPanel summary").click();
+    await page.locator("[data-legacy-mode-select]").selectOption("classicCombat");
+    await assertHostState(page, (state) => {
+      return state.selectedLegacyMode?.modeId === "classicCombat"
+        && state.scenario?.legacyMode?.activeMode?.modeId === "classicCombat";
+    }, "expected lobby to select classic combat legacy mode");
+  });
+
   await step("start-loading-yard", async () => {
     await page.locator('[data-action="enter-run"]').click();
     await waitForScreen(page, "loading", timeoutMs);
@@ -72,7 +81,8 @@ try {
       return state?.loadingScene?.doorOpen === true;
     }, null, { timeout: timeoutMs });
     const walkedToRun = await walkForwardUntilRun(page, 12000);
-    if (!walkedToRun) {
+    const screenAfterWalk = await getHostState(page);
+    if (!walkedToRun && screenAfterWalk?.screen !== "run") {
       const receipt = await page.evaluate(() => window.GoldRushHost?.actions?.publicSmokePlaceAtTrainDoor?.() ?? { accepted: false, reason: "missing-action" });
       if (!receipt.accepted) throw new Error(`public smoke train-door placement failed: ${receipt.reason}`);
     }
@@ -86,6 +96,10 @@ try {
     report.finalState = summarizeState(state);
     assert(state.screen === "run", "public smoke should end in run screen");
     assert(state.scenario?.players === 20, "leader launch should create a 20-player match");
+    assert(state.scenario?.legacyMode?.activeMode?.modeId === "classicCombat", "classic combat mode should survive launch");
+    assert(state.scenario?.cameraMode === "combat", "classic combat should launch with combat camera mode");
+    assert(state.scenario?.sceneState?.currentSceneId === "goldrush.scene.legacyGame", "classic combat should target legacy Game scene");
+    assert(state.scenario?.legacyMode?.unifiedRuntime?.oneGame === true, "legacy modes should stay inside one runtime");
     assert(state.activeSite?.id === "site.gold-field", "run screen should activate the gold-field site");
     assert(state.loadedKitGroups?.includes("procedural-terrain"), "run screen should load procedural-terrain kit group");
     assert(state.localPlayer?.inputModel?.id === "camera-relative-wasd", "run player should use camera-relative WASD");
@@ -220,6 +234,17 @@ function summarizeState(state) {
     screen: state.screen,
     activeSite: state.activeSite?.id,
     players: state.scenario?.players,
+    legacyMode: state.scenario?.legacyMode ? {
+      activeModeId: state.scenario.legacyMode.activeMode?.modeId,
+      sourceVersionRole: state.scenario.legacyMode.activeMode?.sourceVersionRole,
+      oneGame: state.scenario.legacyMode.unifiedRuntime?.oneGame,
+      perspectiveSwitchesInCombat: state.scenario.legacyMode.unifiedRuntime?.perspectiveSwitchesInCombat,
+    } : null,
+    cameraMode: state.scenario?.cameraMode,
+    sceneState: {
+      currentSceneId: state.scenario?.sceneState?.currentSceneId,
+      activeAudioCueId: state.scenario?.sceneState?.activeAudioCueId,
+    },
     loadedKitGroups: state.loadedKitGroups,
     party: {
       status: state.party?.status,

@@ -7,6 +7,7 @@ The current browser build proves a local Gold Rush extraction slice without lega
 ```txt
 Title
 -> Lobby
+-> Choose version source
 -> Loading-yard train
 -> Gold field
 -> Walk to a gold seam
@@ -24,6 +25,8 @@ The loop must keep these facts true:
 - `72` simulated players generate a ready network with `2` internal partitions.
 - NexusRealtime installs the Gold Rush Domain Service Kits under `engine.n.*`.
 - `engine.n.goldrushExtractionLoop` exposes the playable local loop state.
+- The lobby exposes a secondary `Version Source` selector for `modernExtraction`, `classicCombat`, and `classicSolo`.
+- Selecting `classicCombat` launches the same runtime into `goldrush.scene.legacyGame` with combat camera mode.
 - Holding `E` near `mine-seam-01` advances mining progress and adds carried gold.
 - Holding `E` near `rail-depot-extract-01` advances extraction progress and creates an accepted receipt.
 - The receipt includes `runId`, `cargoValue`, `durationTicks`, `nextSceneId`, and `roomHandoffId`.
@@ -78,6 +81,7 @@ screenshots/public-smoke/04-gold-field-2026-06-29T18-53-53-588Z.png
 
 - Modern Gold Rush assets will fill visual/world slots.
 - Old Gold Rush gameplay informs gold-as-score, gold-as-risk, combat perspective, and cashout.
+- The browser lobby now makes the old-version paths player-reachable through the `Version Source` foldout; the mode is still runtime-owned by `engine.n.goldrushLegacyModes`.
 - NexusRealtime owns domain state through `engine.n.goldrush*` APIs.
 - Three.js consumes snapshots and renders descriptors only.
 - The camera catalog lives in domain state; the renderer only consumes the selected `threeDescriptor`.

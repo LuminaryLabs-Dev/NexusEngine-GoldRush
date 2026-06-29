@@ -1,6 +1,7 @@
 import { createNetworkOrchestrator } from "../network/networkOrchestrator.js";
 import { createPeerPartyRoom } from "../network/peerPartyRoom.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
+import { goldRushLegacyModes, resolveLegacyMode } from "../content/goldrushLegacyModes.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
 import { createTerrainColliderDescriptor, raycastTerrainDown, sampleTerrainCollider } from "../physics/terrainCollider.js";
@@ -50,6 +51,7 @@ export function createGoldRushApp(root) {
   let audio = null;
   let screen = "start";
   let selectedRoom = roomTypes[2];
+  let selectedLegacyMode = resolveLegacyMode("modernExtraction");
   const sceneKitLoader = createGoldRushSceneKitLoader();
   const terrainColliderDescriptor = createTerrainColliderDescriptor();
   const terrainPhysicsDescriptor = createCannonTerrainPhysicsDescriptor(terrainColliderDescriptor);
@@ -143,6 +145,21 @@ export function createGoldRushApp(root) {
                 <span>${massMatchPlayers} player match</span>
                 <small>leader launches mass room</small>
               </div>
+              <details class="advancedPanel">
+                <summary>Version Source</summary>
+                <label class="selectField compactSelect" for="legacy-mode">
+                  <span>Play Mode</span>
+                  <select id="legacy-mode" data-legacy-mode-select>
+                    ${goldRushLegacyModes.map((mode) => `
+                      <option value="${mode.modeId}"${mode.modeId === selectedLegacyMode.modeId ? " selected" : ""}>${mode.label}</option>
+                    `).join("")}
+                  </select>
+                </label>
+                <div class="modeReadout">
+                  <span data-legacy-mode-label>${selectedLegacyMode.label}</span>
+                  <small data-legacy-mode-role>${selectedLegacyMode.sourceVersionRole}</small>
+                </div>
+              </details>
               <div class="partyRoomPanel">
                 <div class="roomCodeLine">
                   <span>Party Code</span>
@@ -186,8 +203,11 @@ export function createGoldRushApp(root) {
   const status = root.querySelector("[data-status]");
   const loadingStatus = root.querySelector("[data-loading-status]");
   const roomSelect = root.querySelector("[data-room-select]");
+  const legacyModeSelect = root.querySelector("[data-legacy-mode-select]");
   const roomLabel = root.querySelector("[data-room-label]");
   const roomRole = root.querySelector("[data-room-role]");
+  const legacyModeLabel = root.querySelector("[data-legacy-mode-label]");
+  const legacyModeRole = root.querySelector("[data-legacy-mode-role]");
   const squadPanel = root.querySelector("[data-squad-panel]");
   const partyStatus = root.querySelector("[data-party-status]");
   const partyCode = root.querySelector("[data-party-code]");
@@ -261,6 +281,7 @@ export function createGoldRushApp(root) {
         loadedKitGroups: sceneKitSnapshot.activeKitGroups,
         sceneSites: validateGoldRushSceneSites(),
         selectedRoom,
+        selectedLegacyMode,
         scenario,
         realityStatus,
         realityValidation: runtime.engine.n.goldrushReality.validate({ sceneKitLoader: sceneKitSnapshot }),
@@ -317,13 +338,25 @@ export function createGoldRushApp(root) {
   });
 
   launchButton.addEventListener("click", () => {
-    party.startMatch({ players: massMatchPlayers, groupType: selectedRoom.id });
+    party.startMatch({
+      players: resolveLaunchPlayers(),
+      groupType: selectedRoom.id,
+      legacyModeId: selectedLegacyMode.modeId,
+    });
   });
 
   roomSelect.addEventListener("change", () => {
     selectedRoom = roomTypes.find((room) => room.id === roomSelect.value) ?? roomTypes[2];
     roomLabel.textContent = selectedRoom.label;
     roomRole.textContent = selectedRoom.role;
+  });
+
+  legacyModeSelect.addEventListener("change", () => {
+    selectedLegacyMode = resolveLegacyMode(legacyModeSelect.value);
+    runtime.setLegacyMode({ modeId: selectedLegacyMode.modeId });
+    legacyModeLabel.textContent = selectedLegacyMode.label;
+    legacyModeRole.textContent = selectedLegacyMode.sourceVersionRole;
+    renderPartyState();
   });
 
   window.addEventListener("keydown", (event) => {
@@ -531,11 +564,16 @@ export function createGoldRushApp(root) {
   }
 
   function startMassMatch(payload = {}) {
-    runtime.generateMatch({ players: payload.players ?? massMatchPlayers, phase: "prospect" });
-    runtime.setCameraMode("exploration");
+    const mode = resolveLegacyMode(payload.legacyModeId ?? selectedLegacyMode.modeId);
+    runtime.generateMatch({ players: payload.players ?? resolveLaunchPlayers(mode), phase: mode.phaseHint });
+    runtime.setLegacyMode({ modeId: mode.modeId });
     void showScreen("run").then(() => {
       if (screen === "run") startRunLoop();
     });
+  }
+
+  function resolveLaunchPlayers(mode = selectedLegacyMode) {
+    return mode.modeId === "classicSolo" ? 1 : massMatchPlayers;
   }
 
   async function startLobbyCharacter() {
@@ -549,7 +587,7 @@ export function createGoldRushApp(root) {
     partyCode.textContent = nextParty.roomCode ?? "Local";
     partyMessage.textContent = nextParty.message;
     launchButton.disabled = !nextParty.isLeader;
-    launchButton.textContent = nextParty.isLeader ? "Start" : "Waiting For Leader";
+    launchButton.textContent = nextParty.isLeader ? `Start ${selectedLegacyMode.label}` : "Waiting For Leader";
     squadPanel.innerHTML = Array.from({ length: partyCapacity }, (_, index) => {
       const member = nextParty.members[index];
       const isLocal = member?.id === nextParty.localId;

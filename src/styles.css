@@ -411,10 +411,32 @@ input {
 
 .selectField,
 .modeReadout,
-.partyRoomPanel {
+.partyRoomPanel,
+.advancedPanel {
   padding: 14px;
   display: grid;
   gap: 8px;
+}
+
+.advancedPanel {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(9, 14, 16, 0.62);
+}
+
+.advancedPanel summary {
+  color: #b8c2bd;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.compactSelect {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 select,

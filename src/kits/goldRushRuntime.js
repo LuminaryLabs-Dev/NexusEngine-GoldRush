@@ -91,7 +91,12 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function tickExtractionLoop({ localPlayer = null, input = {}, dt = 0.1 } = {}) {
     const snapshot = engine.n.goldrushExtractionLoop.tick({ localPlayer, input, dt });
-    engine.n.goldrushPerspective.set(snapshot.player.aimMode || snapshot.phase === "combat" ? "combat" : "exploration");
+    const legacyMode = engine.n.goldrushLegacyModes.snapshot().activeMode;
+    engine.n.goldrushPerspective.set(
+      legacyMode.cameraMode === "combat" || snapshot.player.aimMode || snapshot.phase === "combat"
+        ? "combat"
+        : "exploration"
+    );
     engine.n.goldrushMatch.tick({ dt });
     engine.tick();
     return snapshot;
