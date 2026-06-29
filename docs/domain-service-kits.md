@@ -30,6 +30,18 @@ The browser scaffold now installs Gold Rush custom domain service kits through t
 
 This keeps the renderer as a consumer of snapshots and descriptors rather than the owner of game state.
 
+## Playable Loop
+
+The current playable loop is implemented through the installed kits:
+
+```txt
+Mine Gold -> goldrushMining.mine -> goldrushCargo.add
+Ambush -> goldrushPerspective.set(combat) -> goldrushCombat.damage
+Cash Out -> goldrushCashout.deposit -> goldrushCargo.drop
+```
+
+This preserves the old Gold Rush idea that gold is score, risk, health, ammo, and loot, while the modern browser renderer stays presentation-only.
+
 ## Renderer Boundary
 
 Three.js renders descriptors. It does not own room state, combat state, mining state, cashout state, or match scoring.

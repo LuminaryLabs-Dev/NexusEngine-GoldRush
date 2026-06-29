@@ -334,6 +334,7 @@ function createScenarioKit() {
           const perspective = engine.n.goldrushPerspective.snapshot();
           const assets = engine.n.goldrushAssets.snapshot();
           const mining = engine.n.goldrushMining.snapshot();
+          const cargo = engine.n.goldrushCargo.snapshot();
           const cashout = engine.n.goldrushCashout.snapshot();
           const combat = engine.n.goldrushCombat.snapshot();
           return {
@@ -342,6 +343,7 @@ function createScenarioKit() {
             cameraDescriptor: perspective.descriptor,
             assets,
             mining,
+            cargo,
             cashout,
             combat,
             ledger: createLedger({
