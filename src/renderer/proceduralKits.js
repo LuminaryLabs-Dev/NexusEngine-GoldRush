@@ -76,7 +76,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
     descriptors,
     validation,
     update(state) {
-      worldElementKit.update(state.world);
+      worldElementKit.update(state);
       playerMarkerKit.update(state);
       goldGroup.rotation.y += state.cameraMode === "combat" ? 0.004 : 0.0015;
       routeGroup.children.forEach((child, index) => {
@@ -87,6 +87,9 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       });
       lightingKit.update(state);
       terrainGroup.position.y = state.cameraMode === "combat" ? -0.18 : 0;
+      const pressure = state.finalRush?.pressureScalar ?? 0;
+      scene.background = new THREE.Color(pressure > 0.6 ? 0x1d1713 : pressure > 0 ? 0x181816 : 0x121819);
+      scene.fog.color = new THREE.Color(pressure > 0.6 ? 0x2b2118 : pressure > 0 ? 0x1e201a : 0x121819);
     },
     getCamera() {
       return lightingKit.camera;
@@ -328,13 +331,21 @@ function mountWorldElementKit(scene, descriptor) {
   scene.add(group);
 
   return {
-    update(world = descriptor) {
+    update(state = { world: descriptor }) {
+      const world = state.world ?? descriptor;
       const activeIds = new Set(world.activeRoomWindows?.flatMap((window) => [
         ...window.landmarkIds,
         ...window.goldZoneIds,
       ]) ?? []);
       group.children.forEach((child) => {
         const id = child.userData.elementId ?? "";
+        if (id.startsWith("gold.zone.")) {
+          const pressure = state.finalRush?.zonePressure?.[id];
+          if (pressure) {
+            child.material.opacity = pressure.status === "locked" ? 0.12 : pressure.status === "danger" ? 0.62 : 0.36;
+            child.material.color.set(pressure.status === "locked" ? 0x6c2f2a : pressure.status === "danger" ? 0xe36b38 : 0xf5c85a);
+          }
+        }
         child.visible = activeIds.size === 0
           || activeIds.has(id)
           || id.startsWith("town.")

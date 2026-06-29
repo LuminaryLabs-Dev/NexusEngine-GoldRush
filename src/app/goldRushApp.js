@@ -2,7 +2,7 @@ import { createRoomOrchestrator } from "../rooms/roomOrchestrator.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
 import { createGoldRushRenderer } from "../renderer/goldRushRenderer.js";
 
-const phases = ["lobby", "drop", "prospect", "combat", "extract", "results"];
+const phases = ["lobby", "drop", "prospect", "combat", "finalRush", "collapse", "extract", "results"];
 
 export function createGoldRushApp(root) {
   const orchestrator = createRoomOrchestrator();
@@ -40,6 +40,14 @@ export function createGoldRushApp(root) {
             <select id="phase">
               ${phases.map((phase) => `<option value="${phase}">${phase}</option>`).join("")}
             </select>
+          </div>
+          <div class="segmented">
+            <button class="button" data-action="final-rush">Final Rush</button>
+            <button class="button" data-action="collapse">Collapse</button>
+          </div>
+          <div class="segmented">
+            <button class="button" data-action="handoff">Handoff Gate</button>
+            <button class="button" data-action="end-match">End Match</button>
           </div>
         </details>
 
@@ -82,6 +90,13 @@ export function createGoldRushApp(root) {
         audio: scenario.audioState,
         animation: scenario.animationState,
         camera: scenario.cameraState,
+        match: scenario.match,
+        finalRush: scenario.finalRush,
+        extractionReceipts: scenario.extractionReceipts,
+        handoffReceipts: scenario.handoffReceipts,
+        scoring: scenario.scoring,
+        results: scenario.results,
+        replaySummary: scenario.replaySummary,
       };
     },
   };
@@ -92,6 +107,10 @@ export function createGoldRushApp(root) {
   const mineButton = root.querySelector('[data-action="mine"]');
   const cashoutButton = root.querySelector('[data-action="cashout"]');
   const ambushButton = root.querySelector('[data-action="ambush"]');
+  const finalRushButton = root.querySelector('[data-action="final-rush"]');
+  const collapseButton = root.querySelector('[data-action="collapse"]');
+  const handoffButton = root.querySelector('[data-action="handoff"]');
+  const endMatchButton = root.querySelector('[data-action="end-match"]');
   const modeButtons = [...root.querySelectorAll("[data-mode]")];
 
   function render() {
@@ -102,26 +121,27 @@ export function createGoldRushApp(root) {
     root.querySelector('[data-stat="shards"]').textContent = state.rooms.shards.length;
     root.querySelector('[data-stat="carried"]').textContent = carriedGold;
     root.querySelector('[data-stat="banked"]').textContent = bankedGold;
+    const leaderId = state.scoring.leaders.teamId ?? "none";
+    const leaderScore = leaderId === "none" ? 0 : state.scoring.teams[leaderId]?.totalScore ?? 0;
+    const pressurePercent = Math.round((state.finalRush.pressureScalar ?? 0) * 100);
     root.querySelector('[data-hud="rooms"]').innerHTML = state.rooms.shards
       .map((room) => `<span class="pill">${room.id}: ${room.playerCount}/50</span>`)
       .join("");
     root.querySelector('[data-hud="loop"]').innerHTML = state.loop
       .map((step) => `<span class="pill">${step}</span>`)
       .concat([
-        `<span class="pill">scene: ${state.sceneState.currentSceneId.replace("goldrush.scene.", "")}</span>`,
-        `<span class="pill">camera: ${state.cameraMode}</span>`,
-        `<span class="pill">audio: ${state.sceneState.activeAudioCueId.replace("goldrush.audio.", "")}</span>`,
-        `<span class="pill">anim: ${state.sceneState.activeAnimationCueId.replace("goldrush.anim.", "")}</span>`,
+        `<span class="pill">match: ${state.match.phase} / ${state.match.status}</span>`,
+        `<span class="pill">pressure: ${pressurePercent}%</span>`,
+        `<span class="pill">extracted: ${state.extractionReceipts.totals.extractedGold}</span>`,
+        `<span class="pill">leader: ${leaderId} / ${leaderScore}</span>`,
+        `<span class="pill">receipts: ${state.extractionReceipts.totals.acceptedCount} extraction / ${state.handoffReceipts.appliedHandoffIds.length} handoff</span>`,
+        `<span class="pill">result: ${state.results.status}</span>`,
+        `<span class="pill">replay: ${state.replaySummary.keyMoments.length} moments</span>`,
         `<span class="pill">world: ${(state.world.scale.widthMeters / 1000).toFixed(1)}km x ${(state.world.scale.depthMeters / 1000).toFixed(1)}km</span>`,
         `<span class="pill">towns: ${state.world.towns.length}</span>`,
-        `<span class="pill">town layouts: ${state.towns.length}</span>`,
         `<span class="pill">paths: ${state.paths.length}</span>`,
         `<span class="pill">gold zones: ${state.goldZones.length}</span>`,
-        `<span class="pill">patch windows: ${state.world.activeRoomWindows.length}</span>`,
         `<span class="pill">patches: ${state.terrainState.patchGrid.activePatchIds.length}</span>`,
-        `<span class="pill">loading gates: ${state.loadingGates.gates.length}</span>`,
-        `<span class="pill">music: ${state.audioState.musicCueId.replace("goldrush.audio.music.", "")}</span>`,
-        `<span class="pill">pose: ${state.animationState.baseState}/${state.animationState.aimState}</span>`,
         `<span class="pill">camera kit: ${state.cameraState.mode}</span>`,
         `<span class="pill">kits: ${state.installOrder.length}</span>`,
         `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
@@ -151,6 +171,26 @@ export function createGoldRushApp(root) {
 
   ambushButton.addEventListener("click", () => {
     runtime.takeDamage();
+    render();
+  });
+
+  finalRushButton.addEventListener("click", () => {
+    runtime.startFinalRush();
+    render();
+  });
+
+  collapseButton.addEventListener("click", () => {
+    runtime.advanceCollapse();
+    render();
+  });
+
+  handoffButton.addEventListener("click", () => {
+    runtime.requestHandoff();
+    render();
+  });
+
+  endMatchButton.addEventListener("click", () => {
+    runtime.endMatch({ reason: "manual" });
     render();
   });
 

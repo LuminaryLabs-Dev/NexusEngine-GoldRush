@@ -8,6 +8,15 @@ import {
   createTownLayoutDescriptors,
   validateGoldRushWorldElements,
 } from "../content/goldrushWorldElements.js";
+import {
+  createExtractionReceiptKit,
+  createFinalRushKit,
+  createMatchLifecycleKit,
+  createMatchResultsKit,
+  createReplaySummaryKit,
+  createRoomHandoffReceiptKit,
+  createScoringKit,
+} from "./goldRushMatchLifecycleKits.js";
 
 const version = "0.1.0";
 const stability = "prototype";
@@ -31,6 +40,13 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createSceneTransitionKit(),
     createAudioStateKit(),
     createAnimationStateKit(),
+    createMatchLifecycleKit(),
+    createFinalRushKit(),
+    createExtractionReceiptKit(),
+    createRoomHandoffReceiptKit(),
+    createScoringKit(),
+    createMatchResultsKit(),
+    createReplaySummaryKit(),
     createScenarioKit(),
   ];
 }
@@ -827,8 +843,15 @@ function createScenarioKit() {
       "n:goldrush-audio-state",
       "n:goldrush-animation-state",
       "n:goldrush-asset-registry",
+      "n:goldrush-match-lifecycle",
+      "n:goldrush-final-rush",
+      "n:goldrush-extraction-receipts",
+      "n:goldrush-room-handoff-receipts",
+      "n:goldrush-scoring",
+      "n:goldrush-match-results",
+      "n:goldrush-replay-summary",
     ],
-    services: ["generate-match", "advance-phase", "snapshot"],
+    services: ["generate-match", "advance-phase", "start-match", "trigger-final-rush", "simulate-extraction", "request-handoff", "end-match", "snapshot"],
     metadata: {
       purpose: "Linearly orchestrate the complete Gold Rush match loop.",
     },
@@ -838,9 +861,15 @@ function createScenarioKit() {
       return {
         generateMatch({ players, phase }) {
           const rooms = engine.n.goldrushRooms.generate({ players });
+          engine.n.goldrushMatch.start({ players, phase });
           engine.n.goldrushMining.seed({ players, shardCount: rooms.shards.length });
           engine.n.goldrushCargo.seed({ players });
           engine.n.goldrushScenes.phase(phase);
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: "matchGenerated",
+            tick: engine.clock?.frame ?? 0,
+            payload: { players, phase, shardCount: rooms.shards.length },
+          });
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
           state = {
             ...state,
@@ -852,10 +881,90 @@ function createScenarioKit() {
           return this.snapshot();
         },
         advancePhase(phase) {
+          engine.n.goldrushMatch.advancePhase({ phase });
           state = { ...state, phase, loop: createLoop(phase) };
           engine.n.goldrushScenes.phase(phase);
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
           if (phase !== "combat") engine.n.goldrushPerspective.set("exploration");
+          return this.snapshot();
+        },
+        startMatch({ players = 2, seed = "goldrush-dev-seed", phase = "drop" } = {}) {
+          const snapshot = this.generateMatch({ players, phase });
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: "matchStarted",
+            tick: engine.clock?.frame ?? 0,
+            payload: { seed, players, phase },
+          });
+          return snapshot;
+        },
+        triggerFinalRush() {
+          const armed = engine.n.goldrushFinalRush.arm({ startTick: engine.clock?.frame ?? 0 });
+          engine.n.goldrushMatch.advancePhase({ phase: "finalRush", reason: "scenario.finalRush" });
+          state = { ...state, phase: "finalRush", loop: createLoop("finalRush") };
+          engine.n.goldrushScenes.phase("combat");
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: "finalRushStarted",
+            tick: engine.clock?.frame ?? 0,
+            payload: { accepted: armed.accepted },
+          });
+          return this.snapshot();
+        },
+        simulateExtraction({ playerId = "player-1", goldAmount = 0, cargoValue = 0, receiptId = null } = {}) {
+          const zone = engine.n.goldrushGoldZones.snapshot()[0];
+          const roomWindowId = zone?.patchWindowIds?.[0] ?? null;
+          const receipt = engine.n.goldrushExtractionReceipts.recordExtraction({
+            receiptId: receiptId ?? `extract.${playerId}.${engine.clock?.frame ?? 0}`,
+            playerId,
+            teamId: "team-01",
+            goldAmount,
+            cargoValue,
+            cashoutId: "cashout.central-yard",
+            goldZoneId: zone?.goldZoneId ?? null,
+            roomWindowId,
+            tick: engine.clock?.frame ?? 0,
+          });
+          if (receipt.status === "accepted") engine.n.goldrushScoring.applyExtractionReceipt(receipt.receiptId);
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: receipt.status === "accepted" ? "extractionAccepted" : "extractionRejected",
+            tick: receipt.tick ?? engine.clock?.frame ?? 0,
+            payload: { receiptId: receipt.receiptId, status: receipt.status },
+          });
+          return receipt;
+        },
+        requestHandoff({ gateId = null, playerIds = ["player-1"] } = {}) {
+          const gate = gateId
+            ? engine.n.goldrushLoadingGates.snapshot().gates.find((entry) => entry.id === gateId)
+            : engine.n.goldrushLoadingGates.snapshot().gates[0];
+          const receipt = engine.n.goldrushRoomHandoffReceipts.recordHandoff({
+            handoffId: `handoff.${gate?.id ?? "unknown"}.${engine.clock?.frame ?? 0}`,
+            gateId: gate?.id ?? gateId,
+            playerIds,
+            fromRoomWindowId: gate?.fromRoomWindowId,
+            toRoomWindowId: gate?.toRoomWindowId,
+            triggerPathId: gate?.triggerPathId,
+            transitionId: gate?.transitionId,
+            tick: engine.clock?.frame ?? 0,
+          });
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: receipt.status === "accepted" ? "handoffAccepted" : "handoffRejected",
+            tick: receipt.tick ?? engine.clock?.frame ?? 0,
+            payload: { handoffId: receipt.handoffId, status: receipt.status },
+          });
+          return receipt;
+        },
+        endMatch({ reason = "manual" } = {}) {
+          engine.n.goldrushMatch.requestEnd({ reason });
+          engine.n.goldrushScoring.applySurvivalBonus({ playerId: "player-1", reason: "match-end-survival" });
+          const result = engine.n.goldrushResults.finalize({ reason });
+          engine.n.goldrushMatch.advancePhase({ phase: "results", reason: "scenario.results" });
+          state = { ...state, phase: "results", loop: createLoop("results") };
+          engine.n.goldrushScenes.phase("results");
+          engine.n.goldrushReplaySummary.appendEvent({
+            type: "matchEnded",
+            tick: engine.clock?.frame ?? 0,
+            payload: { reason, accepted: result.accepted },
+          });
+          engine.n.goldrushReplaySummary.capture();
           return this.snapshot();
         },
         snapshot() {
@@ -875,8 +984,22 @@ function createScenarioKit() {
           const audioState = engine.n.goldrushAudio.snapshot({ phase: state.phase });
           const animationState = engine.n.goldrushAnimation.snapshot({ phase: state.phase });
           const cameraState = engine.n.goldrushCamera.snapshot({ phase: state.phase });
+          const match = engine.n.goldrushMatch.snapshot();
+          const finalRush = engine.n.goldrushFinalRush.snapshot();
+          const extractionReceipts = engine.n.goldrushExtractionReceipts.snapshot();
+          const handoffReceipts = engine.n.goldrushRoomHandoffReceipts.snapshot();
+          const scoring = engine.n.goldrushScoring.snapshot();
+          const results = engine.n.goldrushResults.snapshot();
+          const replaySummary = engine.n.goldrushReplaySummary.snapshot();
           return {
             ...structuredClone(state),
+            match,
+            finalRush,
+            extractionReceipts,
+            handoffReceipts,
+            scoring,
+            results,
+            replaySummary,
             cameraMode: perspective.mode,
             cameraDescriptor: perspective.descriptor,
             assets,
@@ -950,7 +1073,7 @@ function transitionForPhase(phase) {
 }
 
 function createLoop(phase) {
-  const fullLoop = ["lobby", "drop", "prospect", "combat", "extract", "results"];
+  const fullLoop = ["lobby", "drop", "prospect", "combat", "finalRush", "collapse", "extract", "results"];
   const activeIndex = Math.max(0, fullLoop.indexOf(phase));
   return fullLoop.map((step, index) => {
     if (index < activeIndex) return `${step}: complete`;

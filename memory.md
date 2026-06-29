@@ -18,6 +18,8 @@
 - Towns, mountains, paths, gold zones, loading gates, and room patch windows are first-class world descriptors owned by `engine.n.goldrushWorld`.
 - Terrain windows, town layouts, path networks, gold zones, loading gates, camera descriptors, audio state, and animation state should be exposed as dedicated NexusRealtime APIs rather than only nested world data.
 - Browser validation can inspect `window.GoldRushHost.getState()` for scenario, world, terrain, town, path, gold-zone, loading-gate, audio, animation, and camera descriptors.
+- Match lifecycle state is split into dedicated `engine.n.goldrushMatch`, `goldrushFinalRush`, `goldrushExtractionReceipts`, `goldrushRoomHandoffReceipts`, `goldrushScoring`, `goldrushResults`, and `goldrushReplaySummary` APIs.
+- Scoring, result finalization, receipt application, and replay summaries are kit-owned. The renderer and HUD may only present snapshots.
 - Agent perspective packets live in `.agent/perspectives/` and simulate role, audience, market, player, runtime, import, and release viewpoints before broad changes.
 - Room shards target 50 players each, with multi-room orchestration for 2-100 player matches.
 - Because the repository is public, `raw/imported/` is runtime quarantine only, not secrecy quarantine. Legacy files must be pre-scanned cloud-side before any raw import branch is pushed.
@@ -37,4 +39,5 @@
 - Procedural renderer kits in `src/renderer/proceduralKits.js` are validated one by one before composition.
 - World element descriptors live in `src/content/goldrushWorldElements.js` and are validated by `tools/validation/validate-world-elements.mjs`.
 - Current role/market packets include creative director, expert C# developer, Unity port developer, technical art director, Nexus runtime architect, marketing lead, player segments, creator/influencer, market research, market itself, and storefront positioning.
+- Current match lifecycle proof covers final rush pressure, extraction receipts, handoff receipts, team scoring, final result state, and replay summary through `npm run check` plus browser screenshot proof in `reports/browser-match-lifecycle.png`.
 - GitHub Actions deploy workflow for the `Build` branch.
