@@ -69,12 +69,12 @@ npm run proof:public -- --url https://luminarylabs-dev.github.io/NexusEngine-Gol
 Latest passing public proof:
 
 ```txt
-reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.json
-reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.md
-screenshots/public-smoke/01-title-2026-06-29T18-53-53-588Z.png
-screenshots/public-smoke/02-lobby-2026-06-29T18-53-53-588Z.png
-screenshots/public-smoke/03-loading-yard-2026-06-29T18-53-53-588Z.png
-screenshots/public-smoke/04-gold-field-2026-06-29T18-53-53-588Z.png
+reports/public-smoke/public-smoke-2026-06-29T21-03-19-253Z.json
+reports/public-smoke/public-smoke-2026-06-29T21-03-19-253Z.md
+screenshots/public-smoke/01-title-2026-06-29T21-03-19-253Z.png
+screenshots/public-smoke/02-lobby-2026-06-29T21-03-19-253Z.png
+screenshots/public-smoke/03-loading-yard-2026-06-29T21-03-19-253Z.png
+screenshots/public-smoke/04-gold-field-2026-06-29T21-03-19-253Z.png
 ```
 
 ## Legacy Mapping
