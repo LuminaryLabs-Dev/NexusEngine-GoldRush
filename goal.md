@@ -189,6 +189,20 @@ promotion-ready assets: 0
 
 The conversion pass is intentionally conservative. It copies browser-safe audio and textures into `sanitized/converted`, extracts JSON metadata from Unity scene/prefab/animation text assets, and creates external conversion request JSON for FBX model files. It does not write `public/assets/`, does not update approved runtime records, and does not claim human review.
 
+## Current Remaining Asset Coverage
+
+```txt
+coverage report: reports/provenance/goldrush-dual-source-001-remaining-coverage.json
+generator: tools/import-sanitize/generate-remaining-asset-coverage.mjs
+validator: tools/validation/validate-remaining-asset-coverage.mjs
+unique source paths in inventory: 768
+copied unique paths: 31
+remaining unique paths: 737
+next copy batches: 8
+```
+
+This coverage report reconciles the 796 domain candidate references into 768 unique source paths because some assets are referenced by more than one domain. It proves the first raw copy covers 4.04% of unique paths and 7.69% of unique source bytes. The next work is to ask GPT/cloud-side workers to copy the 8 planned batches with the same six-receipt gate; this report itself writes no raw files, no sanitized files, no public assets, and no approved runtime records.
+
 ## Current Review And Provenance Gate
 
 ```txt
