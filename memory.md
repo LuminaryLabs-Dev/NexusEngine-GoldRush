@@ -44,6 +44,7 @@
 - Terrain height/color math, tessellation bands, and downward raycast placement are owned by `src/physics/terrainCollider.js`. Renderers import them, movement samples them, and duplicate renderer-local terrain algorithms are invalid.
 - The current terrain collider is a sampled heightfield descriptor with a real `cannon-es` adapter in `src/physics/cannonTerrainPhysics.js`; local movement uses `raycastTerrainDown()` plus `sampleTerrainCollider()` for grounding, slope checks, step-up limits, and central mountain blockers. Rapier remains a future bridge target.
 - Near-play terrain is the upper visible/collidable band where tessellation bands overlap, so player footing uses the detailed local surface instead of the coarse far-horizon triangles.
+- Terrain render continuity is validated by `tools/validation/validate-terrain-continuity.mjs`. The blue/debug-looking terrain gaps were caused by downward-wound visible terrain triangles; `createBandedTriangleTerrainGeometry()` now winds top faces upward, adds band continuity metadata, and skirts exposed band edges without changing the collider/raycast contract.
 - Run-scene movement is mouse-look driven: `localPlayer.look.yaw` controls the over-the-shoulder camera, and WASD movement is relative to that camera yaw.
 - `engine.n.goldrushExtractionLoop` owns the local playable mining/carry/extract slice. It is the authority for mining progress, local combat pressure, extraction progress, final receipt, and world-space marker descriptors; the renderer only presents those descriptors.
 
@@ -84,3 +85,4 @@
 - Reality status validation lives in `tools/validation/validate-reality-status.mjs`; app debug state exposes `realityStatus` and `realityValidation`.
 - Extraction-loop validation lives in `tools/validation/validate-goldrush-extraction-loop.mjs`; latest browser proof walked title -> lobby -> loading train -> gold field -> mine seam -> extraction and produced accepted receipt `extraction-loop-01.goldrush-run-1.receipt` with `cargoValue: 840` in `reports/goldrush-extraction-loop-01.json`.
 - The current extraction-loop screenshot proof is `screenshots/goldrush-extraction-loop-01.png`; it proves the interaction/receipt path, while the remaining blue/debug-looking terrain gaps stay visual debt for a separate terrain human-view pass.
+- Latest terrain-gap proof is `screenshots/terrain-gap-seal-01.png` with `reports/terrain-gap-seal-01.json`; browser canvas sampling found `lowerSkyBlueRatio: 0` and `lowerVeryBlueRatio: 0`. The next visual debt is central mountain scale/framing, not terrain holes.

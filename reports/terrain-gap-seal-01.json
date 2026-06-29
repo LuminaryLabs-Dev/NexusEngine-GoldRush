@@ -1,0 +1,59 @@
+{
+  "url": "http://localhost:5178/NexusEngine-GoldRush/",
+  "screen": "run",
+  "localPlayer": {
+    "position": {
+      "x": -12,
+      "y": -0.8682768377371267,
+      "z": -20
+    },
+    "ground": {
+      "height": -0.8682768377371267,
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "placement": "downward-triangle-raycast",
+      "bandId": "near-play-band",
+      "walkable": true
+    }
+  },
+  "terrainCollider": {
+    "id": "goldrush.terrain.collider.heightfield",
+    "algorithm": "single-banded-triangle-terrain-v1",
+    "raycastMode": "downward-triangle-raycast",
+    "bridgeTargets": [
+      "cannon-es-heightfield",
+      "rapier-heightfield"
+    ],
+    "sampleShape": {
+      "columns": 89,
+      "rows": 57,
+      "sampleCount": 5073
+    }
+  },
+  "terrainPhysics": {
+    "rows": 57,
+    "columns": 89,
+    "elementSize": 2.15,
+    "sampleCount": 5073
+  },
+  "extractionLoop": {
+    "phase": "exploring",
+    "markerCount": 4
+  },
+  "pixelProof": {
+    "available": true,
+    "width": 1440,
+    "height": 900,
+    "sampled": 7632,
+    "lowerSkyBlue": 0,
+    "lowerVeryBlue": 0,
+    "lowerSkyBlueRatio": 0,
+    "lowerVeryBlueRatio": 0
+  },
+  "screenshot": "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/terrain-gap-seal-01.png",
+  "acceptance": {
+    "lowerHalfSkyBlueRatioMax": 0.08,
+    "lowerHalfVeryBlueRatioMax": 0.025,
+    "passedPixelGate": true
+  },
+  "humanViewDebt": "Central mountain scale/framing still needs a separate visual pass; this proof only accepts terrain gap sealing."
+}

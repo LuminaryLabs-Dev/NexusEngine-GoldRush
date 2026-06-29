@@ -145,10 +145,77 @@ export function createTerrainTessellationBands({
   patchSize = TERRAIN_PATCH_SIZE,
 } = {}) {
   return [
-    { id: "near-play-band", priority: 1, bounds: scaleBounds(width, depth, 0.42, 0.38), step: patchSize / 3, role: "player-footing-and-camera-detail" },
-    { id: "middle-route-band", priority: 2, bounds: scaleBounds(width, depth, 0.72, 0.68), step: patchSize, role: "walkable-route-and-mountain-approach" },
-    { id: "far-horizon-band", priority: 3, bounds: scaleBounds(width, depth, 1, 1), step: patchSize * 2, role: "large-world-silhouette" },
+    {
+      id: "near-play-band",
+      priority: 1,
+      bounds: scaleBounds(width, depth, 0.42, 0.38),
+      step: patchSize / 3,
+      role: "player-footing-and-camera-detail",
+      overlapCells: 3,
+      skirtDepth: 2.2,
+      renderOrder: 3,
+    },
+    {
+      id: "middle-route-band",
+      priority: 2,
+      bounds: scaleBounds(width, depth, 0.72, 0.68),
+      step: patchSize,
+      role: "walkable-route-and-mountain-approach",
+      overlapCells: 4,
+      skirtDepth: 4.4,
+      renderOrder: 2,
+    },
+    {
+      id: "far-horizon-band",
+      priority: 3,
+      bounds: scaleBounds(width, depth, 1, 1),
+      step: patchSize * 2,
+      role: "large-world-silhouette",
+      overlapCells: 6,
+      skirtDepth: 10,
+      horizonFadeStart: 0.72,
+      horizonFadeEnd: 1,
+      renderOrder: 1,
+    },
   ];
+}
+
+export function createTerrainContinuityDescriptor({
+  width = TERRAIN_WIDTH,
+  depth = TERRAIN_DEPTH,
+  patchSize = TERRAIN_PATCH_SIZE,
+} = {}) {
+  const bands = createTerrainTessellationBands({ width, depth, patchSize });
+  const bandPairs = [];
+  for (let index = 0; index < bands.length - 1; index += 1) {
+    const current = bands[index];
+    const next = bands[index + 1];
+    bandPairs.push({
+      innerBandId: current.id,
+      outerBandId: next.id,
+      overlapX: Number((Math.min(current.bounds.maxX, next.bounds.maxX) - Math.max(current.bounds.minX, next.bounds.minX)).toFixed(4)),
+      overlapZ: Number((Math.min(current.bounds.maxZ, next.bounds.maxZ) - Math.max(current.bounds.minZ, next.bounds.minZ)).toFixed(4)),
+      minRequiredOverlap: Math.min(current.step, next.step),
+    });
+  }
+  return {
+    id: "goldrush.terrain.render-continuity",
+    algorithm: "single-banded-triangle-terrain-v1",
+    winding: "top-face-up",
+    noDebugBlue: true,
+    bands,
+    bandPairs,
+    edgeTreatment: {
+      exposedBandEdges: "skirted",
+      skirtSource: "terrainFieldHeight",
+      colliderAffectedBySkirts: false,
+    },
+    horizonBlend: {
+      source: "far-horizon-band",
+      colorTarget: "fog-and-sandstone",
+      noFlatFillPlane: true,
+    },
+  };
 }
 
 export function validateTerrainColliderDescriptor(descriptor = createTerrainColliderDescriptor()) {
@@ -160,6 +227,27 @@ export function validateTerrainColliderDescriptor(descriptor = createTerrainColl
   if (descriptor.columns < 40 || descriptor.rows < 25) failures.push("heightfield-too-sparse");
   if (!descriptor.centralMountainBlockers?.length) failures.push("missing-central-mountain-blockers");
   if (descriptor.raycast?.mode !== "downward-triangle-raycast") failures.push("missing-downward-raycast-mode");
+  return { passed: failures.length === 0, failures, descriptor };
+}
+
+export function validateTerrainContinuityDescriptor(descriptor = createTerrainContinuityDescriptor()) {
+  const failures = [];
+  if (descriptor.algorithm !== "single-banded-triangle-terrain-v1") failures.push("algorithm-mismatch");
+  if (descriptor.winding !== "top-face-up") failures.push("missing-top-face-winding-contract");
+  if (!descriptor.noDebugBlue) failures.push("debug-blue-not-disabled");
+  if (!descriptor.edgeTreatment || descriptor.edgeTreatment.exposedBandEdges !== "skirted") failures.push("missing-skirted-edge-treatment");
+  if (descriptor.edgeTreatment?.colliderAffectedBySkirts !== false) failures.push("skirts-must-not-affect-collider");
+  if (!Array.isArray(descriptor.bands) || descriptor.bands.length < 3) failures.push("missing-render-bands");
+  descriptor.bands?.forEach((band) => {
+    if (!Number.isFinite(band.overlapCells) || band.overlapCells < 1) failures.push(`missing-overlap-cells:${band.id}`);
+    if (!Number.isFinite(band.skirtDepth) || band.skirtDepth <= 0) failures.push(`missing-skirt-depth:${band.id}`);
+    if (!Number.isFinite(band.renderOrder)) failures.push(`missing-render-order:${band.id}`);
+  });
+  descriptor.bandPairs?.forEach((pair) => {
+    if (pair.overlapX < pair.minRequiredOverlap || pair.overlapZ < pair.minRequiredOverlap) {
+      failures.push(`insufficient-band-overlap:${pair.innerBandId}:${pair.outerBandId}`);
+    }
+  });
   return { passed: failures.length === 0, failures, descriptor };
 }
 

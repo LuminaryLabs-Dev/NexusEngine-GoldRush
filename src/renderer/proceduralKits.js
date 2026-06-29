@@ -724,6 +724,9 @@ function mountTerrainKit(scene, descriptor) {
       metalness: 0.01,
       flatShading: true,
       vertexColors: true,
+      polygonOffset: true,
+      polygonOffsetFactor: 0.2,
+      polygonOffsetUnits: 0.2,
     })
   );
   mesh.name = `${descriptor.id}.continuousField`;
@@ -1528,7 +1531,7 @@ function createTrailRibbon(points, color, opacity, width) {
   return group;
 }
 
-function createBandedTriangleTerrainGeometry(descriptor) {
+export function createBandedTriangleTerrainGeometry(descriptor) {
   const vertices = [];
   const colors = [];
   const indices = [];
@@ -1540,9 +1543,10 @@ function createBandedTriangleTerrainGeometry(descriptor) {
       for (let x = band.bounds.minX; x < band.bounds.maxX; x += band.step) {
         const x1 = Math.min(x + band.step, band.bounds.maxX);
         const z1 = Math.min(z + band.step, band.bounds.maxZ);
-        pushTerrainCell(vertices, colors, indices, color, x, z, x1, z1, bandIndex);
+        pushTerrainCell(vertices, colors, indices, color, descriptor, band, x, z, x1, z1, bandIndex);
       }
     }
+    pushTerrainBandSkirts(vertices, colors, indices, color, descriptor, band, bandIndex);
   });
 
   if (descriptor.centralMountainPhysics?.enabled) {
@@ -1557,11 +1561,11 @@ function createBandedTriangleTerrainGeometry(descriptor) {
   return geometry;
 }
 
-function pushTerrainCell(vertices, colors, indices, color, x0, z0, x1, z1, bandIndex) {
+function pushTerrainCell(vertices, colors, indices, color, descriptor, band, x0, z0, x1, z1, bandIndex) {
   const base = vertices.length / 3;
   const centerX = (x0 + x1) / 2;
   const centerZ = (z0 + z1) / 2;
-  const bandYOffset = bandIndex * 0.012;
+  const bandYOffset = terrainBandYOffset(bandIndex);
   const cornerPoints = [
     [x0, z0],
     [x1, z0],
@@ -1576,16 +1580,80 @@ function pushTerrainCell(vertices, colors, indices, color, x0, z0, x1, z1, bandI
   points.forEach(([x, z]) => {
     const y = terrainFieldHeight(x, z) + bandYOffset;
     vertices.push(x, y, z);
-    color.set(terrainFieldColor(x, z));
-    const bandShade = 1 - bandIndex * 0.035;
+    color.copy(sampleTerrainRenderColor(x, z, descriptor, band));
+    const bandShade = 1 - bandIndex * 0.018;
     colors.push(color.r * bandShade, color.g * bandShade, color.b * bandShade);
   });
   indices.push(
-    base, base + 1, base + 4,
-    base + 1, base + 2, base + 4,
-    base + 2, base + 3, base + 4,
-    base + 3, base, base + 4
+    base, base + 4, base + 1,
+    base + 1, base + 4, base + 2,
+    base + 2, base + 4, base + 3,
+    base + 3, base + 4, base
   );
+}
+
+function pushTerrainBandSkirts(vertices, colors, indices, color, descriptor, band, bandIndex) {
+  const { minX, maxX, minZ, maxZ } = band.bounds;
+  const step = band.step;
+  const skirtDepth = band.skirtDepth ?? step * 2;
+  const edges = [
+    { id: "south", from: [minX, minZ], to: [maxX, minZ], axis: "x" },
+    { id: "north", from: [minX, maxZ], to: [maxX, maxZ], axis: "x" },
+    { id: "west", from: [minX, minZ], to: [minX, maxZ], axis: "z" },
+    { id: "east", from: [maxX, minZ], to: [maxX, maxZ], axis: "z" },
+  ];
+  edges.forEach((edge) => {
+    const span = edge.axis === "x" ? maxX - minX : maxZ - minZ;
+    const segments = Math.max(1, Math.ceil(span / step));
+    for (let index = 0; index < segments; index += 1) {
+      const t0 = index / segments;
+      const t1 = (index + 1) / segments;
+      const x0 = edge.axis === "x" ? minX + (maxX - minX) * t0 : edge.from[0];
+      const z0 = edge.axis === "z" ? minZ + (maxZ - minZ) * t0 : edge.from[1];
+      const x1 = edge.axis === "x" ? minX + (maxX - minX) * t1 : edge.to[0];
+      const z1 = edge.axis === "z" ? minZ + (maxZ - minZ) * t1 : edge.to[1];
+      pushTerrainSkirtSegment(vertices, colors, indices, color, descriptor, band, x0, z0, x1, z1, skirtDepth, bandIndex, edge.id);
+    }
+  });
+}
+
+function pushTerrainSkirtSegment(vertices, colors, indices, color, descriptor, band, x0, z0, x1, z1, skirtDepth, bandIndex, edgeId) {
+  const base = vertices.length / 3;
+  const bandYOffset = terrainBandYOffset(bandIndex);
+  const top0 = terrainFieldHeight(x0, z0) + bandYOffset;
+  const top1 = terrainFieldHeight(x1, z1) + bandYOffset;
+  const points = [
+    [x0, top0, z0],
+    [x1, top1, z1],
+    [x1, top1 - skirtDepth, z1],
+    [x0, top0 - skirtDepth, z0],
+  ];
+  points.forEach(([x, y, z]) => {
+    vertices.push(x, y, z);
+    color.copy(sampleTerrainRenderColor(x, z, descriptor, band)).multiplyScalar(0.7);
+    colors.push(color.r, color.g, color.b);
+  });
+  if (edgeId === "north" || edgeId === "west") {
+    indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+  } else {
+    indices.push(base, base + 2, base + 1, base, base + 3, base + 2);
+  }
+}
+
+function terrainBandYOffset(bandIndex) {
+  return bandIndex * 0.004;
+}
+
+function sampleTerrainRenderColor(x, z, descriptor, band) {
+  const color = new THREE.Color(terrainFieldColor(x, z) || 0x92703d);
+  if (band.id !== "far-horizon-band") return color;
+  const edgeX = Math.abs(x) / Math.max(1, descriptor.width * 0.5);
+  const edgeZ = Math.abs(z) / Math.max(1, descriptor.depth * 0.5);
+  const edge = Math.max(edgeX, edgeZ);
+  const start = band.horizonFadeStart ?? 0.72;
+  const end = band.horizonFadeEnd ?? 1;
+  const amount = Math.max(0, Math.min(1, (edge - start) / Math.max(0.001, end - start)));
+  return color.lerp(new THREE.Color(0xb99962), amount * 0.48);
 }
 
 function createSpaceSlabGeometry(width, depth, height) {
