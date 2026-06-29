@@ -102,6 +102,7 @@ function validateLocalMappings() {
   expect(validateScript.includes("validate-domain-kit-contracts.mjs"), "validate-script-missing-domain-kit-contracts");
   expect(validateScript.includes("validate-runtime-kit-registry.mjs"), "validate-script-missing-runtime-kit-registry");
   expect(validateScript.includes("validate-nexus-source-alignment.mjs"), "validate-script-missing-source-alignment");
+  expect(validateScript.includes("validate-goldrush-protokit-bridge.mjs"), "validate-script-missing-goldrush-protokit-bridge");
 }
 
 function validateKitContractGates() {
@@ -197,6 +198,7 @@ function validateGoalSync() {
 function validateDocs() {
   const docs = [
     "docs/nexus-source-alignment.md",
+    "docs/goldrush-protokit-bridge.md",
     "docs/architecture/domain-service-kit-system.md",
     "docs/architecture/graduation-rules.md",
   ];

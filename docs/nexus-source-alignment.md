@@ -25,6 +25,7 @@ manifests/source-docs/nexus-kit-source-alignment.json
 - NexusRealtime is the runtime substrate: install kits, tick, inspect state, validate behavior, then promote stable systems.
 - ProtoKits are reusable DSM/DSK sources: domain-first, renderer-agnostic, data-contract driven, headless validated.
 - GoldRush is not the reusable architecture source. It composes generic incubator kits and owns game-specific rules through custom kits.
+- GoldRush loads the relevant route/cargo/extraction ProtoKit stack through `engine.n.goldrushProtoKitBridge`. The imported ProtoKit stack is hosted in an isolated NexusRealtime runtime because direct main-engine ticking currently overflows inside the imported composite stack.
 - Renderer and browser code stay in adapter roots; non-adapter kits expose descriptors, snapshots, receipts, and events.
 - The ME ledger at `/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md` is a local tracking projection, not a replacement for repo validators. CI uses tracked `goal.md` as the fallback projection because the local ME folder is not present on GitHub runners.
 
@@ -32,6 +33,7 @@ manifests/source-docs/nexus-kit-source-alignment.json
 
 ```txt
 node tools/validation/validate-nexus-source-alignment.mjs
+node tools/validation/validate-goldrush-protokit-bridge.mjs
 ```
 
-The validator checks source doc anchors and hashes, package-lock commits, local kit contract mappings, non-adapter renderer boundaries, headless runtime install proof, ProtoKit construction against NexusRealtime, and goal ledger markers.
+The validators check source doc anchors and hashes, package-lock commits, local kit contract mappings, non-adapter renderer boundaries, headless runtime install proof, ProtoKit construction against NexusRealtime, the executable GoldRush ProtoKit bridge, and goal ledger markers.

@@ -39,6 +39,7 @@ import {
 import { createGoldRushExtractionLoopKit } from "./goldRushExtractionLoopKit.js";
 import { createGenericIncubatorDomainKits } from "./generic-incubator/genericDomainServiceKits.js";
 import { createGoldRushKitContractRegistryKit } from "./goldrush/goldRushKitContractRegistry.js";
+import { createGoldRushProtoKitBridgeKit } from "./protokits/goldRushProtoKitBridge.js";
 
 const version = "0.1.0";
 const stability = "prototype";
@@ -47,6 +48,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
   return [
     ...createGenericIncubatorDomainKits(),
     createGoldRushKitContractRegistryKit(),
+    createGoldRushProtoKitBridgeKit(),
     createNetworkKit({ orchestrator }),
     createRoomOrchestratorKit({ orchestrator }),
     createAssetRegistryKit({ assetRegistry }),

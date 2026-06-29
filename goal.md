@@ -20,6 +20,7 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - Generic NexusRealtime-style kits incubate locally inside `src/kits/generic-incubator/` before any later graduation to NexusRealtime.
 - `engine.n.goldrushKitContracts` must expose the two-layer kit pairings and validate that generic kits stay neutral while GoldRush kits own game-specific rules.
 - NexusRealtime and ProtoKits source-doc alignment is tracked by `manifests/source-docs/nexus-kit-source-alignment.json` and validated by `tools/validation/validate-nexus-source-alignment.mjs`.
+- The reusable ProtoKit route/cargo/extraction stack is loaded through `engine.n.goldrushProtoKitBridge`, validated by `tools/validation/validate-goldrush-protokit-bridge.mjs`, while `engine.n.goldrushExtractionLoop` remains the GoldRush-specific orchestrator.
 - 2-100 players are supported by `engine.n.goldrushNetwork`; 50-player room partitions are internal implementation detail.
 
 ## Room Model
@@ -116,3 +117,13 @@ tools/validation/validate-nexus-source-alignment.mjs
 ```
 
 This gate anchors GoldRush to the installed NexusRealtime README and ProtoKits DSM/DSK docs. It checks source doc hashes and anchors, package-lock commits, local domain-kit mappings, non-adapter renderer boundaries, headless GoldRush runtime kit installation, ProtoKit construction with NexusRealtime, and the local ME goal ledger markers.
+
+## Current ProtoKit Runtime Bridge
+
+```txt
+src/kits/protokits/goldRushProtoKitBridge.js
+docs/goldrush-protokit-bridge.md
+tools/validation/validate-goldrush-protokit-bridge.mjs
+```
+
+The bridge loads `generic-route-progress-kit`, `generic-resource-loop-kit`, `generic-pressure-loop-kit`, and `generic-route-cargo-extraction-kit` from `@luminarylabs/nexusrealtime-protokits`. It maps them to GoldRush checkpoints `mine-seam -> carry-gold -> cashout-site`, `gold` cargo, and `ambush-pressure`. The imported stack is hosted in an isolated NexusRealtime runtime because direct main-engine ticking currently overflows inside the imported composite stack; the bridge still proves the main GoldRush runtime can tick with the bridge installed.

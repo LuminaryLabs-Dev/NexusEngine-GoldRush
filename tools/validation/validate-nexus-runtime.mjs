@@ -6,6 +6,7 @@ const runtime = createGoldRushRuntime({ orchestrator: createNetworkOrchestrator(
 const requiredApis = [
   ...genericIncubatorKitContracts.map((contract) => contract.apiName),
   "goldrushKitContracts",
+  "goldrushProtoKitBridge",
   "goldrushNetwork",
   "goldrushRooms",
   "goldrushScenario",
@@ -77,6 +78,8 @@ assert(prospect.cameraState.perspectiveFamilies.length >= 10, "camera kit should
 assert(prospect.cameraState.selectedPerspective.playabilityChecks.includes("player-silhouette-readable"), "selected camera should carry playability checks");
 assert(JSON.stringify(prospect.cameraState.perspectiveCatalog).includes("goldrush.camera.pose.1000"), "camera perspective catalog should serialize the full pose set");
 assert(prospect.installOrder.length === requiredApis.length, "all Gold Rush domain kits should install");
+assert(prospect.installOrder.includes("n-goldrush-protokit-route-cargo-extraction-bridge-kit"), "GoldRush ProtoKit bridge should install into the runtime");
+assert(runtime.engine.n.goldrushProtoKitBridge.validate().passed, "GoldRush ProtoKit bridge should validate inside the runtime");
 assert(prospect.realityStatus.summary.placeholderSlots >= 30, "reality status should expose placeholder debt");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "legacy-assets" && domain.status === "blocked-cloud-import"), "legacy assets should stay cloud-blocked until promoted");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "audio-music" && domain.status === "blocked-cloud-import"), "actual audio should stay cloud-blocked until promoted");
