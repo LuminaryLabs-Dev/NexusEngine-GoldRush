@@ -166,3 +166,14 @@ mine-town-terrain-props
 ```
 
 It validates 4 domains, 6 required receipt files, and 29 runtime slot targets. It is still pre-copy: no raw files, converted files, approved runtime assets, or final legacy audio assets are claimed complete until the cloud import branch contains the required receipts and passes strict receipt validation.
+
+## Current Source Discovery Receipt Generator
+
+```txt
+tools/import-sanitize/generate-cloud-source-discovery.mjs
+tools/validation/validate-source-discovery-generator.mjs
+```
+
+The generator converts the source-access proof into the required `nexusengine.goldrush.cloud-source-discovery.v1` receipt shape for the cloud import branch. It defaults to stdout and refuses to write `reports/provenance/goldrush-dual-source-001-source-discovery.json` unless the worker passes `--allow-receipt-write`, preventing a local partial receipt from triggering the receipt gate.
+
+This helps the cloud worker start the raw-copy branch with a correct source-discovery receipt, but it still does not satisfy the raw-copy, deny-scan, secret-scan, hash, copy-ledger, or classification requirements by itself.
