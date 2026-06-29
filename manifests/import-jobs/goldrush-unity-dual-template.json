@@ -1,0 +1,60 @@
+{
+  "jobId": "goldrush-unity-dual-YYYYMMDD-001",
+  "status": "template",
+  "sourceRepos": [
+    {
+      "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+      "branch": "development",
+      "roots": [
+        "GoldRush/",
+        "GoldRush_Old/"
+      ],
+      "localCloneAllowed": false
+    }
+  ],
+  "destination": {
+    "nameWithOwner": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+    "rawPath": "raw/imported/<jobId>/",
+    "publicRuntimePath": "public/assets/"
+  },
+  "prePublicScanRequired": true,
+  "allowedCandidateCategories": [
+    "western props",
+    "train and train cars",
+    "cactus and desert flora",
+    "gold piles and coins",
+    "player or prospector visual assets",
+    "scene files as layout references only",
+    "scripts as design references only"
+  ],
+  "blockedPatterns": [
+    "*/Packages/manifest.json",
+    "*/Packages/packages-lock.json",
+    "*/ProjectSettings/**",
+    "*/UserSettings/**",
+    "*/Library/**",
+    "*/Temp/**",
+    "*/Obj/**",
+    "*/Logs/**",
+    "*/Build/**",
+    "*/Builds/**",
+    "*/Assets/Photon/**",
+    "*/Assets/**/PhotonAppSettings.asset",
+    "*/Assets/Plugins/**",
+    "*.csproj",
+    "*.sln",
+    ".env",
+    ".npmrc",
+    ".upmconfig.toml"
+  ],
+  "promotionRequiredFields": [
+    "id",
+    "sourceJobId",
+    "sourcePath",
+    "sourceHash",
+    "outputHash",
+    "provenance",
+    "approvalId",
+    "runtimePath"
+  ]
+}

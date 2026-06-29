@@ -14,6 +14,8 @@
 - Game code should compose domain kits instead of hiding reusable behavior in renderer code.
 - Renderers own presentation only.
 - Room shards target 50 players each, with multi-room orchestration for 2-100 player matches.
+- Because the repository is public, `raw/imported/` is runtime quarantine only, not secrecy quarantine. Legacy files must be pre-scanned cloud-side before any raw import branch is pushed.
+- Runtime code must never import or reference `raw/`, `quarantine/`, `sanitized/converted/`, legacy repo paths, Unity manifests, Photon/Fusion config, or plugin folders.
 
 ## Current Scaffold
 
@@ -21,4 +23,6 @@
 - Three.js presentation surface.
 - Gold Rush room orchestration data model.
 - Import/sanitize validation placeholder.
+- Room orchestration and runtime-boundary validators.
+- Import-boundary and report-secret validators for cloud-side preflight reports.
 - GitHub Actions deploy workflow for the `Build` branch.

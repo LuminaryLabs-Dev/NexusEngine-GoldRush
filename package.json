@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "check": "npm run build && node tools/import-sanitize/validate-asset-gates.mjs"
+    "check": "npm run validate && npm run build",
+    "validate": "node tools/validation/validate-room-orchestration.mjs && node tools/validation/validate-runtime-boundaries.mjs && node tools/validation/validate-import-boundaries.mjs && node tools/validation/validate-report-secrets.mjs && node tools/import-sanitize/validate-asset-gates.mjs"
   },
   "dependencies": {
     "three": "^0.168.0",

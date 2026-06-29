@@ -29,6 +29,8 @@ npm run check
 npm run dev
 ```
 
+`npm run check` validates room-shard boundaries, runtime asset boundaries, asset registry promotion fields, and the production build.
+
 ## Deploy
 
 Pushing the `Build` branch runs `.github/workflows/deploy-build.yml` and publishes the static Vite build to GitHub Pages.
