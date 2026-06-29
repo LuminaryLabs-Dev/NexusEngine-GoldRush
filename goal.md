@@ -203,6 +203,20 @@ next copy batches: 8
 
 This coverage report reconciles the 796 domain candidate references into 768 unique source paths because some assets are referenced by more than one domain. It proves the first raw copy covers 4.04% of unique paths and 7.69% of unique source bytes. The next work is to ask GPT/cloud-side workers to copy the 8 planned batches with the same six-receipt gate; this report itself writes no raw files, no sanitized files, no public assets, and no approved runtime records.
 
+## Current Next Batch Worker
+
+```txt
+worker: tools/import-sanitize/copy-remaining-batch-from-github.mjs
+validator: tools/validation/validate-remaining-batch-worker.mjs
+fetch proof: reports/provenance/goldrush-dual-source-001-next-001-fetch-proof.json
+batch: goldrush-dual-source-001.next.001.audio-music-and-sfx
+items: 15
+bytes: 90,145,108
+write mode: blocked unless --write and --confirm-public-raw-import-risk are both supplied
+```
+
+The first remaining batch worker defaults to dry-run/fetch-only. The fetch proof downloads the 15 planned audio blobs by GitHub SHA, computes hashes, records 0 secret findings, and writes no raw files. GPT-IT review confirmed the no-go conditions: the batch must stay exactly audio-only, exactly 15 files, exactly 90,145,108 bytes, no broader remaining-path scope, no default raw writes, and no promotion without receipts, conversion, license provenance, human review, and approved runtime records.
+
 ## Current Review And Provenance Gate
 
 ```txt
