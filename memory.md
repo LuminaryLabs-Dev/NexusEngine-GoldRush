@@ -11,6 +11,7 @@
 - Raw legacy data must land in `raw/imported/<jobId>/`.
 - Sanitation and conversion outputs must land in `sanitized/`.
 - Runtime app assets must land in `public/assets/`.
+- The active GPT/cloud legacy asset transfer packet is `manifests/import-jobs/goldrush-cloud-transfer-handoff.json`; it must validate before any raw import PR is treated as acceptable.
 - Game code should compose domain kits instead of hiding reusable behavior in renderer code.
 - GoldRush uses a two-layer Domain Service Kit system: neutral generic incubator kits under `src/kits/generic-incubator/` install first with `n:*:*` domainPath metadata, then GoldRush custom kits connect them into game-specific rules.
 - Generic incubator kits are local promotion candidates only. They must not contain GoldRush naming, GoldRush rules, or asset-specific assumptions, and `tools/validation/validate-domain-kit-contracts.mjs` enforces that boundary.
@@ -30,6 +31,7 @@
 - Network partitions target 50 simulated players each, with multi-room orchestration for 2-100 player matches hidden behind `goldrushNetwork`.
 - `createNetworkOrchestrator().createSession()` owns live incremental room allocation: player 51 creates partition 2, leaves compact active roster assignments back toward partition 1, and high-water partitions stay retained until match end.
 - Because the repository is public, `raw/imported/` is runtime quarantine only, not secrecy quarantine. Legacy files must be pre-scanned cloud-side before any raw import branch is pushed.
+- Cloud transfer work must prove source commit, both Unity roots, product names, scene evidence, deny-path scan, secret scan, copy ledger, hashes, conversion, provenance, and human review before promotion.
 - Runtime code must never import or reference `raw/`, `quarantine/`, `sanitized/converted/`, legacy repo paths, Unity manifests, Photon/Fusion config, or plugin folders.
 - Individual object dressing should be generated as stable `goldrush.micro.*` descriptors in `src/content/goldrushObjectMicroKits.js`, then batched by the renderer with instanced meshes. This is the local path for building thousands of small object kits without hand-authoring thousands of files.
 - Object micro-kits should use the `micro-taxonomy-v2` shape with kit id, archetype, role, biome, placement zone/cluster/anchor/avoid tags, visual batch metadata, transform, and debug provenance.
@@ -97,3 +99,4 @@
 - Latest terrain-gap proof is `screenshots/terrain-gap-seal-01.png` with `reports/terrain-gap-seal-01.json`; browser canvas sampling found `lowerSkyBlueRatio: 0` and `lowerVeryBlueRatio: 0`. The next visual debt is central mountain scale/framing, not terrain holes.
 - Latest grounding/knee/pulse proof is `reports/grounding-knees-stability-01.md` with screenshot `screenshots/grounding-knees-stability-video-proof.png`, video `reports/videos/grounding-knees-stability-video-proof.webm`, and frame summary `reports/frame-analysis/grounding-pulse-summary.json`. It proves cached render grounding, knee-based leg animation, and no measured every-other-frame pulse in the stationary post-fix player crop.
 - Latest public Pages smoke proof is `reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.json` with screenshots under `screenshots/public-smoke/`. It proves the live public URL loads title -> lobby -> loading yard -> train handoff -> `site.gold-field`, creates a 20-player match, loads the procedural terrain kit group, exposes camera-relative WASD, visible-band terrain raycast placement, `cannon-es` terrain physics, and passing reality validation.
+- Latest asset-transfer handoff proof is `node tools/validation/validate-cloud-transfer-handoff.mjs`; it validates 2 source roots, 8 worker phases, 5 domain copy groups, 19 required promotion slots, and 19 denied path patterns.

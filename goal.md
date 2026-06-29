@@ -7,6 +7,7 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 ## Required End State
 
 - Legacy assets from both old Gold Rush projects are copied into this repo through GPT/cloud-side transfer.
+- The next GPT/cloud-side transfer must follow `manifests/import-jobs/goldrush-cloud-transfer-handoff.json`.
 - Raw files land in `raw/imported/<jobId>/` only.
 - Sanitation outputs land in `sanitized/`.
 - Browser runtime assets land in `public/assets/` only after approval.
@@ -78,3 +79,17 @@ screenshots/public-smoke/04-gold-field-2026-06-29T18-53-53-588Z.png
 ```
 
 This proof validates title -> lobby -> loading-yard train -> run scene, a 20-player match, active `site.gold-field`, procedural terrain kit loading, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.
+
+## Current Asset Transfer Handoff
+
+```txt
+manifests/import-jobs/goldrush-cloud-transfer-handoff.json
+```
+
+Local validation:
+
+```txt
+node tools/validation/validate-cloud-transfer-handoff.mjs
+```
+
+This packet is ready for GPT/cloud workers to execute. It keeps local Codex out of legacy repo clones, requires both Unity roots and scene evidence, blocks Unity/project/plugin/config folders, maps copy domains to runtime slots, and requires scan/provenance/conversion/human-review reports before promotion.

@@ -1,0 +1,368 @@
+{
+  "schema": "nexusengine.goldrush.cloud-transfer-handoff.v1",
+  "version": "0.1.0",
+  "status": "ready-for-cloud-worker",
+  "importJobId": "goldrush-dual-source-001",
+  "purpose": "Give GPT/cloud workers an executable, reviewable handoff for copying legacy Gold Rush Unity candidates into NexusEngine-GoldRush without local Codex cloning old repositories.",
+  "localCodexRule": {
+    "mayCloneLegacySourceRepos": false,
+    "mayEditDestinationRepo": true,
+    "allowedLocalRepo": "LuminaryLabs-Dev/NexusEngine-GoldRush"
+  },
+  "repositories": {
+    "destination": {
+      "nameWithOwner": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+      "baseBranch": "development",
+      "rawImportBranch": "import/goldrush-dual-source-001-raw",
+      "sanitizedBranch": "import/goldrush-dual-source-001-sanitized",
+      "promotionBranch": "import/goldrush-dual-source-001-promote"
+    },
+    "source": {
+      "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+      "visibility": "private-or-cloud-only",
+      "branch": "development",
+      "commitSha": "TO_BE_FILLED_BY_CLOUD_WORKER",
+      "roots": [
+        {
+          "sourceKey": "goldrush-modern-unity",
+          "root": "GoldRush/",
+          "expectedProductName": "GoldRush",
+          "expectedUnityVersion": "6000.0.37f1",
+          "requiredSceneEvidence": [
+            "GoldRush/Assets/Scenes/Lobby.unity",
+            "GoldRush/Assets/Scenes/Arena.unity",
+            "GoldRush/Assets/Entities/Player/PlayerTest.unity"
+          ]
+        },
+        {
+          "sourceKey": "goldrush-classic-unity",
+          "root": "GoldRush_Old/",
+          "expectedProductName": "Gold Rush",
+          "expectedUnityVersion": "2022.3.5f1",
+          "requiredSceneEvidence": [
+            "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+            "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+            "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity"
+          ]
+        }
+      ]
+    }
+  },
+  "destinationFolders": {
+    "rawCandidates": "raw/imported/goldrush-dual-source-001/",
+    "denyPathReport": "quarantine/reports/goldrush-dual-source-001-deny-path-scan.json",
+    "secretScanReport": "reports/secret-scans/goldrush-dual-source-001.json",
+    "hashManifest": "reports/provenance/goldrush-dual-source-001-hashes.json",
+    "sourceDiscoveryReport": "reports/provenance/goldrush-dual-source-001-source-discovery.json",
+    "copyLedger": "reports/provenance/goldrush-dual-source-001-copy-ledger.json",
+    "classificationReport": "reports/asset-classification/goldrush-dual-source-001-classification.json",
+    "conversionReport": "reports/conversion/goldrush-dual-source-001.json",
+    "licenseProvenanceReport": "reports/license-provenance/goldrush-dual-source-001.json",
+    "humanReviewReport": "reports/human-review/goldrush-dual-source-001.json",
+    "sanitizedRegistry": "sanitized/registry/assets.json",
+    "sanitizedCandidates": "sanitized/converted/goldrush-dual-source-001/",
+    "publicRuntimeAssets": "public/assets/"
+  },
+  "cloudWorkerPhases": [
+    {
+      "id": "source-discovery",
+      "mustProduce": [
+        "source commit SHA",
+        "source root existence proof",
+        "productName evidence",
+        "Unity version evidence",
+        "required scene existence proof"
+      ],
+      "mustNotProduce": [
+        "secret values",
+        "full package manifest contents",
+        "third-party plugin dumps"
+      ]
+    },
+    {
+      "id": "pre-copy-deny-scan",
+      "mustProduce": [
+        "deny path report",
+        "blocked file count",
+        "blocked path reasons"
+      ],
+      "mustNotProduce": [
+        "denied files in raw/imported",
+        "Photon or Fusion config",
+        "Unity package manifests"
+      ]
+    },
+    {
+      "id": "pre-copy-secret-scan",
+      "mustProduce": [
+        "secret finding types only",
+        "redacted source locations",
+        "pass or blocked status"
+      ],
+      "mustNotProduce": [
+        "secret values",
+        "tokens",
+        "passwords",
+        "private keys"
+      ]
+    },
+    {
+      "id": "raw-candidate-copy",
+      "mustProduce": [
+        "raw/imported/goldrush-dual-source-001 candidate files",
+        "copy ledger",
+        "source hash for every copied file"
+      ],
+      "mustNotProduce": [
+        "public/assets files",
+        "src runtime imports",
+        "sanitized outputs"
+      ]
+    },
+    {
+      "id": "classification",
+      "mustProduce": [
+        "asset classification report",
+        "candidate to slot mapping",
+        "blocked and unmapped records"
+      ],
+      "mustNotProduce": [
+        "promotion without human review"
+      ]
+    },
+    {
+      "id": "conversion",
+      "mustProduce": [
+        "scene layout JSON candidates",
+        "GLB/GLTF model candidates",
+        "browser audio candidates",
+        "animation retarget notes",
+        "material and texture dependency map"
+      ],
+      "mustNotProduce": [
+        "Unity project settings",
+        "C# runtime code in browser app",
+        "unreviewed public runtime assets"
+      ]
+    },
+    {
+      "id": "human-review",
+      "mustProduce": [
+        "approval id for every promoted asset",
+        "provenance status",
+        "license decision",
+        "visual or audio review notes"
+      ],
+      "mustNotProduce": [
+        "approved status for unreviewed assets"
+      ]
+    },
+    {
+      "id": "public-promotion",
+      "mustProduce": [
+        "public/assets runtime files",
+        "sanitized registry update",
+        "promotion receipt",
+        "npm run check output",
+        "public smoke proof after Build deployment"
+      ],
+      "mustNotProduce": [
+        "raw Unity files in dist",
+        "runtime imports from raw/imported",
+        "runtime imports from sanitized/converted"
+      ]
+    }
+  ],
+  "deniedPatterns": [
+    "*/Packages/manifest.json",
+    "*/Packages/packages-lock.json",
+    "*/ProjectSettings/**",
+    "*/UserSettings/**",
+    "*/Library/**",
+    "*/Temp/**",
+    "*/Obj/**",
+    "*/Logs/**",
+    "*/Build/**",
+    "*/Builds/**",
+    "*/Assets/Photon/**",
+    "*/Assets/Photon*/**",
+    "*/Assets/**/PhotonAppSettings.asset",
+    "*/Assets/Plugins/**",
+    "*.csproj",
+    "*.sln",
+    ".env",
+    ".npmrc",
+    ".upmconfig.toml"
+  ],
+  "copyDomains": [
+    {
+      "id": "scene-layouts",
+      "priority": 1,
+      "intent": "Bring both legacy games into one scene-flow model by extracting scene layout data only.",
+      "slots": [
+        "goldrush.scene.mainMenu",
+        "goldrush.scene.lobby",
+        "goldrush.scene.arena",
+        "goldrush.scene.legacyGame",
+        "goldrush.scene.legacySinglePlayer"
+      ],
+      "candidateExtensions": [
+        ".unity",
+        ".prefab",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp"
+      ],
+      "handling": "extract-layout-json-and-dependency-map",
+      "edgeCases": [
+        "Scene files may reference prefabs, materials, textures, and audio by GUID; copy dependencies only after deny and secret scans.",
+        "Scene files are layout references, not direct browser runtime files.",
+        "If scene dependencies include plugin scripts or network config, block those dependencies and record the missing reference."
+      ]
+    },
+    {
+      "id": "player-combat-rig",
+      "priority": 2,
+      "intent": "Replace procedural skeleton and combat placeholders with source-backed player, weapon, and animation candidates.",
+      "slots": [
+        "goldrush.player.prospector",
+        "goldrush.weapon.revolver",
+        "goldrush.anim.player.aimIdle",
+        "goldrush.anim.player.shooting"
+      ],
+      "candidateExtensions": [
+        ".fbx",
+        ".glb",
+        ".gltf",
+        ".prefab",
+        ".controller",
+        ".anim",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".webp"
+      ],
+      "handling": "convert-or-retarget-to-glb-and-animation-map",
+      "edgeCases": [
+        "Animator controllers can be copied only as source data for retarget mapping, not as runtime code.",
+        "C# scripts may be summarized into design facts but must not become browser runtime code.",
+        "Animation clips must identify rig target, source state name, and retarget result."
+      ]
+    },
+    {
+      "id": "gold-economy",
+      "priority": 3,
+      "intent": "Replace gold, coin, pickup, and cashout placeholder surfaces with source-backed assets and cues.",
+      "slots": [
+        "goldrush.prop.goldPile",
+        "goldrush.currency.coin01",
+        "goldrush.audio.sfx.goldPickup",
+        "goldrush.audio.sfx.cashout"
+      ],
+      "candidateExtensions": [
+        ".fbx",
+        ".glb",
+        ".gltf",
+        ".prefab",
+        ".wav",
+        ".mp3",
+        ".ogg",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".webp"
+      ],
+      "handling": "convert-models-and-browser-audio",
+      "edgeCases": [
+        "Audio may be large or looped; normalize format and loudness in conversion report.",
+        "Prefab gold counts or gameplay values are design references only; NexusRealtime kits own final gameplay values.",
+        "If a pickup cue is embedded through an AudioSource reference, record source scene/prefab context."
+      ]
+    },
+    {
+      "id": "world-town-train",
+      "priority": 4,
+      "intent": "Replace procedural world props with source-backed train, town, desert, and route assets.",
+      "slots": [
+        "goldrush.vehicle.train",
+        "goldrush.vehicle.trainCar",
+        "goldrush.prop.cactus01",
+        "goldrush.prop.cactus02",
+        "goldrush.prop.fence01"
+      ],
+      "candidateExtensions": [
+        ".fbx",
+        ".glb",
+        ".gltf",
+        ".prefab",
+        ".mat",
+        ".png",
+        ".jpg",
+        ".webp"
+      ],
+      "handling": "convert-to-glb-and-placement-archetypes",
+      "edgeCases": [
+        "Do not copy entire third-party model packs until provenance allows redistribution.",
+        "If train is split into engine/car/wheel prefabs, preserve dependency graph in the copy ledger.",
+        "Town and terrain props should be mapped to object micro-kit archetypes before promotion."
+      ]
+    },
+    {
+      "id": "music-and-combat-audio",
+      "priority": 5,
+      "intent": "Replace procedural fallback tones with actual approved music and combat cues.",
+      "slots": [
+        "goldrush.audio.music.wandering",
+        "goldrush.audio.music.combat",
+        "goldrush.audio.music.boss",
+        "goldrush.audio.sfx.revolverShot"
+      ],
+      "candidateExtensions": [
+        ".wav",
+        ".mp3",
+        ".ogg"
+      ],
+      "handling": "convert-to-browser-audio-and-cue-map",
+      "edgeCases": [
+        "Loop points and mixer bus intent must be recorded if available.",
+        "Never promote music until license provenance and human review both pass.",
+        "If no usable legacy track exists, mark slot missing instead of approving procedural fallback as legacy parity."
+      ]
+    }
+  ],
+  "requiredPromotionSlots": [
+    "goldrush.scene.mainMenu",
+    "goldrush.scene.lobby",
+    "goldrush.scene.arena",
+    "goldrush.scene.legacyGame",
+    "goldrush.scene.legacySinglePlayer",
+    "goldrush.player.prospector",
+    "goldrush.weapon.revolver",
+    "goldrush.anim.player.aimIdle",
+    "goldrush.anim.player.shooting",
+    "goldrush.prop.goldPile",
+    "goldrush.currency.coin01",
+    "goldrush.audio.sfx.goldPickup",
+    "goldrush.audio.sfx.cashout",
+    "goldrush.vehicle.train",
+    "goldrush.vehicle.trainCar",
+    "goldrush.prop.cactus01",
+    "goldrush.prop.cactus02",
+    "goldrush.prop.fence01",
+    "goldrush.audio.sfx.revolverShot"
+  ],
+  "acceptanceCriteria": [
+    "source commit SHA recorded before raw copy",
+    "both Unity roots verified by productName and scene evidence",
+    "no denied pattern copied into raw/imported",
+    "secret scan passes without printing secret values",
+    "every copied file has source hash and copy ledger entry",
+    "all required promotion slots are classified as candidate, missing, or blocked with reason",
+    "no public/assets promotion before conversion, provenance, and human review",
+    "runtime code never imports raw/imported, quarantine, or sanitized/converted",
+    "npm run check passes after each PR stage",
+    "Build branch deploy and public smoke proof pass after promotion"
+  ]
+}

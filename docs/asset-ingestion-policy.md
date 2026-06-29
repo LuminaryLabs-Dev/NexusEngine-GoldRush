@@ -65,3 +65,21 @@ The classifier maps likely legacy files to Gold Rush slot IDs, blocks package/se
 ```txt
 manifests/import-jobs/goldrush-asset-intake-classifier.json
 ```
+
+## Cloud Transfer Handoff
+
+The executable cloud-worker packet is:
+
+```txt
+manifests/import-jobs/goldrush-cloud-transfer-handoff.json
+```
+
+It defines the source repository, two Unity roots, required scene evidence, denied path patterns, domain-based copy priorities, edge cases, destination folders, report outputs, and acceptance criteria.
+
+Local validation:
+
+```txt
+node tools/validation/validate-cloud-transfer-handoff.mjs
+```
+
+This validator checks that every required legacy playable slot is present in both the handoff packet and the runtime slot registry. It also verifies that the packet keeps local Codex out of legacy source clones and requires public smoke proof after promotion.
