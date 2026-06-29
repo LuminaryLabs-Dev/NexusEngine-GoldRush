@@ -140,6 +140,23 @@ The remaining asset/audio blocker now has a strict local acceptance gate before 
 
 The receipt gate now also validates against the raw-copy plan. After cloud evidence appears, the copy ledger, hash manifest, raw candidate files, and classification report must exactly cover the 31 selected raw-copy plan files with matching source paths, target raw paths, sizes, and domain ids. The eight deferred slots remain explicitly unresolved and must not be copied by the first raw-copy pass.
 
+The repo now has a guarded executable worker for the raw-copy pass:
+
+```txt
+tools/import-sanitize/copy-raw-plan-from-github.mjs
+tools/validation/validate-raw-copy-worker.mjs
+```
+
+Default mode is a no-fetch/no-write dry run. `--fetch` downloads selected source blobs in memory and proves hashes/secret checks without writing. `--write --confirm-public-raw-import-risk` writes raw files and the six receipt files, and must be used only on `import/goldrush-dual-source-001-raw` because this destination repo is public.
+
+Latest fetch-only proof:
+
+```txt
+reports/provenance/goldrush-dual-source-001-raw-copy-worker-fetch-proof.json
+```
+
+It proves the worker can download the 31 planned source blobs through GitHub API access, build 31 copy-ledger records, 31 hash records, 31 classification records, and find 0 secret findings without writing raw files or receipts.
+
 ## Current Cloud Source Access Proof
 
 ```txt

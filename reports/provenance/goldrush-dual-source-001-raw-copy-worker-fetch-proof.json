@@ -1,0 +1,59 @@
+{
+  "status": "raw-copy-worker-fetched-plan",
+  "write": false,
+  "fetch": true,
+  "importJobId": "goldrush-dual-source-001",
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e"
+  },
+  "destinationRepo": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+  "rawImportBranch": "import/goldrush-dual-source-001-raw",
+  "rawRoot": "raw/imported/goldrush-dual-source-001/",
+  "domains": [
+    {
+      "id": "audio-music-and-sfx",
+      "selectedCount": 3,
+      "deferredCount": 5,
+      "selectedBytes": 13099383
+    },
+    {
+      "id": "legacy-scene-layout-metadata",
+      "selectedCount": 6,
+      "deferredCount": 0,
+      "selectedBytes": 4965800
+    },
+    {
+      "id": "player-combat-character",
+      "selectedCount": 11,
+      "deferredCount": 3,
+      "selectedBytes": 22521066
+    },
+    {
+      "id": "mine-town-terrain-props",
+      "selectedCount": 11,
+      "deferredCount": 0,
+      "selectedBytes": 1628985
+    }
+  ],
+  "totals": {
+    "selectedFiles": 31,
+    "selectedBytes": 42215234,
+    "deferredSlots": 8
+  },
+  "receiptCounts": {
+    "copiedFiles": 31,
+    "hashFiles": 31,
+    "classificationRecords": 31,
+    "secretFindings": 0
+  },
+  "receiptsToWrite": {
+    "sourceDiscoveryReport": "reports/provenance/goldrush-dual-source-001-source-discovery.json",
+    "denyPathReport": "quarantine/reports/goldrush-dual-source-001-deny-path-scan.json",
+    "secretScanReport": "reports/secret-scans/goldrush-dual-source-001.json",
+    "copyLedger": "reports/provenance/goldrush-dual-source-001-copy-ledger.json",
+    "hashManifest": "reports/provenance/goldrush-dual-source-001-hashes.json",
+    "classificationReport": "reports/asset-classification/goldrush-dual-source-001-classification.json"
+  }
+}

@@ -80,6 +80,45 @@ The local receipt gate now cross-checks receipts against the raw-copy plan:
 node tools/validation/validate-cloud-asset-receipts.mjs
 ```
 
+## Executable Worker
+
+The destination repo includes a guarded raw-copy worker:
+
+```txt
+tools/import-sanitize/copy-raw-plan-from-github.mjs
+tools/validation/validate-raw-copy-worker.mjs
+```
+
+Default dry run does not fetch source blobs and does not write raw files:
+
+```bash
+node tools/import-sanitize/copy-raw-plan-from-github.mjs
+```
+
+Fetch-only mode downloads blobs through `gh api`, computes hashes, runs in-memory deny/secret checks, and reports receipt counts without writing:
+
+```bash
+node tools/import-sanitize/copy-raw-plan-from-github.mjs --fetch
+```
+
+Fetch-only proof can be retained without raw contents:
+
+```bash
+node tools/import-sanitize/copy-raw-plan-from-github.mjs --fetch --summary-out reports/provenance/goldrush-dual-source-001-raw-copy-worker-fetch-proof.json
+```
+
+Write mode copies raw files and writes the six receipts. Because `LuminaryLabs-Dev/NexusEngine-GoldRush` is public, write mode requires an explicit risk acknowledgement:
+
+```bash
+node tools/import-sanitize/copy-raw-plan-from-github.mjs --write --confirm-public-raw-import-risk
+```
+
+Write mode must be run only on the raw import branch:
+
+```txt
+import/goldrush-dual-source-001-raw
+```
+
 Once any raw candidate or receipt exists, the gate requires:
 
 ```txt
