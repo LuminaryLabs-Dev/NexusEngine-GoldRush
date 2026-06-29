@@ -138,6 +138,8 @@ The lobby exposes a secondary `Version Source` foldout backed by `engine.n.goldr
 
 The remaining asset/audio blocker now has a strict local acceptance gate before promotion. Cloud-side raw copy work must provide `reports/provenance/goldrush-dual-source-001-source-discovery.json`, `quarantine/reports/goldrush-dual-source-001-deny-path-scan.json`, `reports/secret-scans/goldrush-dual-source-001.json`, `reports/provenance/goldrush-dual-source-001-copy-ledger.json`, `reports/provenance/goldrush-dual-source-001-hashes.json`, and `reports/asset-classification/goldrush-dual-source-001-classification.json`. `tools/validation/validate-cloud-asset-receipts.mjs` passes in the pre-import state as `waiting-for-cloud-asset-receipts` and becomes strict as soon as raw candidates or any receipt appears. `.github/workflows/validate-cloud-import.yml` requires receipts on cloud import branches so an empty import branch cannot pass.
 
+The receipt gate now also validates against the raw-copy plan. After cloud evidence appears, the copy ledger, hash manifest, raw candidate files, and classification report must exactly cover the 31 selected raw-copy plan files with matching source paths, target raw paths, sizes, and domain ids. The eight deferred slots remain explicitly unresolved and must not be copied by the first raw-copy pass.
+
 ## Current Cloud Source Access Proof
 
 ```txt

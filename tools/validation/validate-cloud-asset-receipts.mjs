@@ -6,7 +6,11 @@ import {
 
 const repoRoot = path.resolve(new URL("../..", import.meta.url).pathname);
 const handoffPath = path.join(repoRoot, "manifests/import-jobs/goldrush-cloud-transfer-handoff.json");
+const rawCopyPlanPath = path.join(repoRoot, "reports/provenance/goldrush-dual-source-001-raw-copy-plan.json");
 const handoff = JSON.parse(readFileSync(handoffPath, "utf8"));
+const rawCopyPlan = existsSync(rawCopyPlanPath)
+  ? JSON.parse(readFileSync(rawCopyPlanPath, "utf8"))
+  : null;
 const destinationFolders = handoff.destinationFolders ?? {};
 const failures = [];
 
@@ -70,6 +74,16 @@ if (secretScan) validateSecretScan(secretScan);
 if (copyLedger) validateCopyLedger(copyLedger);
 if (hashManifest) validateHashManifest(hashManifest);
 if (classification) validateClassification(classification);
+if (copyLedger && hashManifest && classification) {
+  validateReceiptsAgainstRawCopyPlan({
+    copyLedger,
+    hashManifest,
+    classification,
+    denyScan,
+    secretScan,
+    rawCandidateFiles,
+  });
+}
 
 for (const file of rawCandidateFiles) {
   expect(!isDeniedPath(file), `raw-candidate-denied-path:${file}`);
@@ -175,6 +189,72 @@ function validateClassification(report) {
   }
 }
 
+function validateReceiptsAgainstRawCopyPlan({
+  copyLedger,
+  hashManifest,
+  classification,
+  denyScan,
+  secretScan,
+  rawCandidateFiles,
+}) {
+  expect(rawCopyPlan?.schema === "nexusengine.goldrush.cloud-raw-copy-plan.v1", "raw-copy-plan-missing-or-invalid");
+  expect(rawCopyPlan?.importJobId === handoff.importJobId, "raw-copy-plan-wrong-job");
+  if (!rawCopyPlan) return;
+
+  const planEntries = (rawCopyPlan.domains ?? []).flatMap((domain) =>
+    (domain.selected ?? []).map((entry) => ({ ...entry, domainId: domain.id }))
+  );
+  const selectedBySource = new Map(planEntries.map((entry) => [entry.sourcePath, entry]));
+  const selectedByTarget = new Map(planEntries.map((entry) => [entry.targetRawPath, entry]));
+  const copiedFiles = normalizeArray(copyLedger.copiedFiles ?? copyLedger.files);
+  const hashFiles = normalizeArray(hashManifest.files);
+  const classificationRecords = [
+    ...normalizeArray(classification.candidates),
+    ...normalizeArray(classification.unmapped),
+    ...normalizeArray(classification.blocked),
+  ];
+  const rawRoot = stripTrailingSlash(destinationFolders.rawCandidates);
+  const classificationPaths = new Set(
+    classificationRecords.map((record) => toRawDestinationPath(record.path, rawRoot))
+  );
+
+  expect(denyScan?.status === "passed", "deny-scan-must-pass-before-raw-plan-copy");
+  expect(secretScan?.status === "passed", "secret-scan-must-pass-before-raw-plan-copy");
+  expect(copiedFiles.length === planEntries.length, "copy-ledger-must-cover-exact-raw-copy-plan");
+  expect(hashFiles.length === planEntries.length, "hash-manifest-must-cover-exact-raw-copy-plan");
+  expect(rawCandidateFiles.length === planEntries.length, "raw-candidates-must-cover-exact-raw-copy-plan");
+  expect(classificationRecords.length === planEntries.length, "classification-must-cover-exact-raw-copy-plan");
+  expect((classification.blocked ?? []).length === 0, "classification-must-not-have-blocked-records-after-copy");
+
+  for (const entry of planEntries) {
+    const copied = copiedFiles.find((file) => file.sourcePath === entry.sourcePath);
+    expect(Boolean(copied), `copy-ledger-missing-plan-source:${entry.sourcePath}`);
+    if (copied) {
+      expect(copied.destinationPath === entry.targetRawPath, `copy-ledger-target-mismatch:${entry.sourcePath}`);
+      expect(copied.sizeBytes === entry.sizeBytes, `copy-ledger-size-mismatch:${entry.sourcePath}`);
+      expect(!copied.slotId || copied.slotId === entry.slotId, `copy-ledger-slot-mismatch:${entry.sourcePath}`);
+      expect(!copied.domain || copied.domain === entry.domainId, `copy-ledger-domain-mismatch:${entry.sourcePath}`);
+    }
+    expect(hashFiles.some((file) => file.path === entry.targetRawPath), `hash-manifest-missing-plan-target:${entry.targetRawPath}`);
+    expect(rawCandidateFiles.includes(entry.targetRawPath), `raw-candidate-file-missing-plan-target:${entry.targetRawPath}`);
+    expect(classificationPaths.has(entry.targetRawPath), `classification-missing-plan-target:${entry.targetRawPath}`);
+  }
+
+  for (const file of copiedFiles) {
+    expect(selectedBySource.has(file.sourcePath), `copy-ledger-source-not-in-raw-copy-plan:${file.sourcePath}`);
+    expect(selectedByTarget.has(file.destinationPath), `copy-ledger-target-not-in-raw-copy-plan:${file.destinationPath}`);
+  }
+  for (const file of hashFiles) {
+    expect(selectedByTarget.has(file.path), `hash-manifest-path-not-in-raw-copy-plan:${file.path}`);
+  }
+  for (const file of rawCandidateFiles) {
+    expect(selectedByTarget.has(file), `raw-candidate-not-in-raw-copy-plan:${file}`);
+  }
+  for (const recordPath of classificationPaths) {
+    expect(selectedByTarget.has(recordPath), `classification-path-not-in-raw-copy-plan:${recordPath}`);
+  }
+}
+
 function readReceipt(key) {
   const relPath = receiptPaths[key];
   if (!existsRepoFile(relPath)) return null;
@@ -208,6 +288,16 @@ function listRawCandidateFiles(rawRoot) {
 
 function normalizeArray(value) {
   return Array.isArray(value) ? value : [];
+}
+
+function stripTrailingSlash(value) {
+  return typeof value === "string" ? value.replace(/\/+$/, "") : "";
+}
+
+function toRawDestinationPath(value, rawRoot) {
+  const normalized = normalizePath(value ?? "");
+  if (normalized.startsWith(`${rawRoot}/`)) return normalized;
+  return `${rawRoot}/${normalized}`;
 }
 
 function existsRepoFile(relPath) {

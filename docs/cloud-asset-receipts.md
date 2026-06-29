@@ -97,6 +97,15 @@ Findings must never include a secret value. Only redacted path and finding type 
 
 Every destination path must stay under `raw/imported/goldrush-dual-source-001/`.
 
+Copy-ledger domains must use the raw-copy plan domain ids, not loose labels:
+
+```txt
+audio-music-and-sfx
+legacy-scene-layout-metadata
+player-combat-character
+mine-town-terrain-props
+```
+
 ## Hash Manifest Shape
 
 ```json
@@ -130,6 +139,50 @@ npm run check
 ```
 
 Passing this gate does not approve runtime assets. It only proves the raw copy is scan-backed, receipt-backed, and ready for conversion/review.
+
+## Raw Copy Plan Lock
+
+The receipt validator is locked to:
+
+```txt
+reports/provenance/goldrush-dual-source-001-raw-copy-plan.json
+```
+
+Once any receipt or raw candidate file appears, the cloud import must match that plan exactly:
+
+```txt
+selected raw files: 31
+selected bytes: 42,215,234
+domains: 4
+deferred slots: 8
+```
+
+Required exact-match rules:
+
+```txt
+copy ledger sourcePath must exist in the raw-copy plan
+copy ledger destinationPath must equal the planned targetRawPath
+copy ledger sizeBytes must equal the planned source size
+hash manifest paths must equal the planned targetRawPath set
+raw candidate files must equal the planned targetRawPath set
+classification records must cover every planned targetRawPath
+deny-path scan must be passed
+secret scan must be passed
+classification must have zero blocked records
+```
+
+The deferred slots remain unresolved and must not be copied in this first pass:
+
+```txt
+goldrush.audio.music.boss
+goldrush.audio.sfx.goldPickup
+goldrush.audio.sfx.cashout
+goldrush.audio.sfx.ambush
+goldrush.audio.sfx.playerDown
+goldrush.anim.player.aimIdle
+goldrush.anim.player.aimRun
+goldrush.anim.player.dead
+```
 
 ## Strict Import Branch Mode
 
