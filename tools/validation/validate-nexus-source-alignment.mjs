@@ -178,9 +178,17 @@ function validateRendererBoundary() {
 function validateGoalSync() {
   const goalPath = manifest.goalSync?.path;
   expect(typeof goalPath === "string" && goalPath.length > 0, "goal-sync-path-missing");
-  expect(existsSync(goalPath), "goal-sync-file-missing");
-  if (!existsSync(goalPath)) return;
-  const text = readFileSync(goalPath, "utf8");
+  const fallbackPath = manifest.goalSync?.ciFallbackPath
+    ? path.join(repoRoot, manifest.goalSync.ciFallbackPath)
+    : null;
+  const resolvedGoalPath = existsSync(goalPath)
+    ? goalPath
+    : process.env.CI && fallbackPath && existsSync(fallbackPath)
+      ? fallbackPath
+      : null;
+  expect(Boolean(resolvedGoalPath), "goal-sync-file-missing");
+  if (!resolvedGoalPath) return;
+  const text = readFileSync(resolvedGoalPath, "utf8");
   for (const marker of manifest.goalSync.requiredMarkers ?? []) {
     expect(text.includes(marker), `goal-sync-missing-marker:${marker}`);
   }

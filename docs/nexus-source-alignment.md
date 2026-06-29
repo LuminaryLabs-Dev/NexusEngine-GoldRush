@@ -26,7 +26,7 @@ manifests/source-docs/nexus-kit-source-alignment.json
 - ProtoKits are reusable DSM/DSK sources: domain-first, renderer-agnostic, data-contract driven, headless validated.
 - GoldRush is not the reusable architecture source. It composes generic incubator kits and owns game-specific rules through custom kits.
 - Renderer and browser code stay in adapter roots; non-adapter kits expose descriptors, snapshots, receipts, and events.
-- The ME ledger at `/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md` is a tracking projection, not a replacement for repo validators.
+- The ME ledger at `/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md` is a local tracking projection, not a replacement for repo validators. CI uses tracked `goal.md` as the fallback projection because the local ME folder is not present on GitHub runners.
 
 ## Validation
 
@@ -34,4 +34,4 @@ manifests/source-docs/nexus-kit-source-alignment.json
 node tools/validation/validate-nexus-source-alignment.mjs
 ```
 
-The validator checks source doc anchors and hashes, package-lock commits, local kit contract mappings, non-adapter renderer boundaries, headless runtime install proof, ProtoKit construction against NexusRealtime, and ME goal markers.
+The validator checks source doc anchors and hashes, package-lock commits, local kit contract mappings, non-adapter renderer boundaries, headless runtime install proof, ProtoKit construction against NexusRealtime, and goal ledger markers.

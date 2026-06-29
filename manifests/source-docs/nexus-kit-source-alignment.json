@@ -184,12 +184,13 @@
   ],
   "goalSync": {
     "path": "/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md",
-      "requiredMarkers": [
-        "NexusRealtime is the core runtime contract.",
-        "NexusRealtime-Kits and ProtoKits are reusable domain sources.",
-        "`Build` branch deploys to GitHub Pages on push.",
-        "Raw Unity assets are still not copied; the goal remains active."
-      ]
+    "ciFallbackPath": "goal.md",
+    "requiredMarkers": [
+      "NexusRealtime is the core runtime contract.",
+      "NexusRealtime-Kits and ProtoKits are reusable domain sources.",
+      "The app deploys from the `Build` branch.",
+      "Legacy assets from both old Gold Rush projects are copied into this repo through GPT/cloud-side transfer."
+    ]
   },
   "validatorOutputs": {
     "command": "node tools/validation/validate-nexus-source-alignment.mjs",
