@@ -26,4 +26,5 @@
 - Room orchestration and runtime-boundary validators.
 - Import-boundary and report-secret validators for cloud-side preflight reports.
 - Gold Rush custom domain service kits install into NexusRealtime with `engine.n.goldrush*` APIs.
+- Placeholder asset slots define stable IDs for future sanitized legacy assets without referencing raw source files.
 - GitHub Actions deploy workflow for the `Build` branch.

@@ -49,6 +49,11 @@ runtime.cashOut();
 const afterCashout = runtime.snapshot();
 assert(afterCashout.cashout["player-1"] > 0, "cashout should bank remaining carried gold");
 assert(afterCashout.cargo["player-1"] === 0, "cashout should clear carried gold");
+assert(afterCashout.assets.assets.length === 10, "placeholder asset slots should be installed");
+assert(
+  afterCashout.assets.assets.every((asset) => asset.status === "placeholder" && asset.runtimePath === null),
+  "asset slots must remain placeholders until cloud promotion"
+);
 
 console.log("nexus runtime passed");
 

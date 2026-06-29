@@ -21,6 +21,7 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 - Exploration/extraction view switches to combat view when combat state is active.
 - Asset registry reads promoted runtime assets only from `public/assets`.
 - The current playable loop lets the player mine gold, survive an ambush, and cash out through NexusRealtime kit APIs.
+- Placeholder asset slots are stable IDs that future sanitized legacy assets can fill.
 
 ## Commands
 

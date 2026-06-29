@@ -107,3 +107,12 @@ The local Build branch now installs Gold Rush custom Domain Service Kits through
 - `engine.n.goldrushAssets`
 
 The browser renderer consumes scenario snapshots and does not own match, room, mining, combat, cashout, or asset provenance state.
+
+## Current GPT Next-Step Split
+
+GPT-it recommended two immediate local actions before raw assets complicate the repo:
+
+1. freeze the playable loop as a regression contract.
+2. add placeholder asset slots that mirror the legacy import candidates.
+
+The local build now has a playable loop contract in `docs/current-playable-loop.md` and asset-slot contract in `docs/asset-slot-contract.md`.
