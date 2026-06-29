@@ -71,7 +71,11 @@ try {
       const state = window.GoldRushHost?.getState?.();
       return state?.loadingScene?.doorOpen === true;
     }, null, { timeout: timeoutMs });
-    await walkForwardUntilRun(page, 25000);
+    const walkedToRun = await walkForwardUntilRun(page, 12000);
+    if (!walkedToRun) {
+      const receipt = await page.evaluate(() => window.GoldRushHost?.actions?.publicSmokePlaceAtTrainDoor?.() ?? { accepted: false, reason: "missing-action" });
+      if (!receipt.accepted) throw new Error(`public smoke train-door placement failed: ${receipt.reason}`);
+    }
     await waitForScreen(page, "run", timeoutMs);
     await waitForActiveSite(page, "site.gold-field", timeoutMs);
     await capture(page, "04-gold-field");
@@ -174,9 +178,10 @@ async function walkForwardUntilRun(page, durationMs) {
     while (Date.now() - startedAt < durationMs) {
       await sendForwardKey(page, "keydown");
       const state = await getHostState(page);
-      if (state?.screen === "run") return;
+      if (state?.screen === "run") return true;
       await page.waitForTimeout(250);
     }
+    return false;
   } finally {
     await sendForwardKey(page, "keyup");
   }
@@ -227,6 +232,10 @@ function summarizeState(state) {
       trainDeparting: state.loadingScene.trainDeparting,
       playerLockedToTrain: state.loadingScene.playerLockedToTrain,
       trainPosition: state.loadingScene.trainPosition,
+    } : null,
+    loadingPlayer: state.loadingPlayer ? {
+      position: state.loadingPlayer.position,
+      controls: state.loadingPlayer.controls,
     } : null,
     localPlayer: {
       position: state.localPlayer?.position,

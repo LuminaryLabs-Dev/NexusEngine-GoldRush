@@ -55,6 +55,7 @@
 - Character walk animation should not pulse the whole player root vertically. Root height stays grounded; readable motion belongs in limb rigs, knees, boots, torso sway, camera response, or authored animation clips.
 - Loading-yard boarding should be forgiving along the rail/platform approach, not a single tiny trigger circle, so normal walking and automated proof captures can reliably reach the train handoff.
 - Public deploy readiness is not proven by `npm run check` alone. The Build deploy workflow runs `npm run proof:public` after GitHub Pages publishes, and that proof must validate the public URL through title, lobby, loading-yard train boarding, and the 20-player gold-field run scene.
+- Public smoke proof URLs carry a `publicSmoke` query param. The app exposes a query-gated train-door placement action only for that proof so CI can validate train boarding/departure without depending on unreliable headless keyboard focus.
 
 ## Current Scaffold
 

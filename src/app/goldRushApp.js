@@ -237,6 +237,17 @@ export function createGoldRushApp(root) {
       lobby: () => {
         void showScreen("lobby");
       },
+      publicSmokePlaceAtTrainDoor: () => {
+        if (!isPublicSmokeProof()) return { accepted: false, reason: "public-smoke-disabled" };
+        if (screen !== "loading") return { accepted: false, reason: "not-loading" };
+        loadingMovement.reset({ x: 0, z: -7.4 });
+        loadingMovement.clearKeys();
+        return {
+          accepted: true,
+          reason: "placed-at-train-door",
+          loadingPlayer: loadingMovement.snapshot(),
+        };
+      },
     },
     getState: () => {
       const scenario = runtime.snapshot();
@@ -553,6 +564,10 @@ export function createGoldRushApp(root) {
 
   renderPartyState();
   void showScreen("start");
+}
+
+function isPublicSmokeProof() {
+  return new URLSearchParams(window.location.search).has("publicSmoke");
 }
 
 function createMovementController({
