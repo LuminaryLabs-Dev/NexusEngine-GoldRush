@@ -15,6 +15,8 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - The app deploys from the `Build` branch.
 - The public Pages URL must be smoke-tested after deployment with `npm run proof:public`.
 - The game uses NexusRealtime as the runtime contract and custom Gold Rush kits for orchestration.
+- NexusRealtime is the core runtime contract.
+- NexusRealtime-Kits and ProtoKits are reusable domain sources.
 - Generic NexusRealtime-style kits incubate locally inside `src/kits/generic-incubator/` before any later graduation to NexusRealtime.
 - `engine.n.goldrushKitContracts` must expose the two-layer kit pairings and validate that generic kits stay neutral while GoldRush kits own game-specific rules.
 - NexusRealtime and ProtoKits source-doc alignment is tracked by `manifests/source-docs/nexus-kit-source-alignment.json` and validated by `tools/validation/validate-nexus-source-alignment.mjs`.

@@ -181,10 +181,10 @@ function validateGoalSync() {
   const fallbackPath = manifest.goalSync?.ciFallbackPath
     ? path.join(repoRoot, manifest.goalSync.ciFallbackPath)
     : null;
-  const resolvedGoalPath = existsSync(goalPath)
-    ? goalPath
-    : process.env.CI && fallbackPath && existsSync(fallbackPath)
-      ? fallbackPath
+  const resolvedGoalPath = process.env.CI && fallbackPath && existsSync(fallbackPath)
+    ? fallbackPath
+    : existsSync(goalPath)
+      ? goalPath
       : null;
   expect(Boolean(resolvedGoalPath), "goal-sync-file-missing");
   if (!resolvedGoalPath) return;
