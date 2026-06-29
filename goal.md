@@ -79,11 +79,13 @@ https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
 Latest passing public smoke proof:
 
 ```txt
-reports/public-smoke/public-smoke-2026-06-29T21-03-19-253Z.json
-screenshots/public-smoke/04-gold-field-2026-06-29T21-03-19-253Z.png
+GitHub Actions deploy run: 28409113671
+Build commit: 26efb992aac5794e7fe2d2bc6746e88c752d09d9
+public URL: https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
+last committed proof artifact: reports/public-smoke/public-smoke-2026-06-29T21-03-19-253Z.json
 ```
 
-This proof validates title -> lobby -> loading-yard train -> run scene, a 20-player match, active `site.gold-field`, procedural terrain kit loading, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.
+This workflow proof validates `npm run check`, deploys GitHub Pages from `Build`, installs Playwright Chromium, and runs `npm run proof:public` against the public URL. The proof path validates title -> lobby -> loading-yard train -> run scene, a 20-player match, active `site.gold-field`, procedural terrain kit loading, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.
 
 ## Current Asset Transfer Handoff
 
@@ -161,6 +163,8 @@ It proves the worker can download the 31 planned source blobs through GitHub API
 
 ```txt
 branch: import/goldrush-dual-source-001-raw
+merged into development: 26efb992aac5794e7fe2d2bc6746e88c752d09d9
+deployed through Build: 26efb992aac5794e7fe2d2bc6746e88c752d09d9
 raw root: raw/imported/goldrush-dual-source-001/
 raw files: 31
 raw bytes: 42,215,234
@@ -169,7 +173,7 @@ blocked: 0
 unmapped: 0
 ```
 
-This branch contains the first direct copied legacy files and the six required receipts. It is not a runtime promotion branch: `public/assets/` remains untouched, approved runtime asset records remain empty, and the final playable parity goal still requires conversion, human review, promotion, and browser proof.
+This import is now merged to `development` and deployed through `Build`. It contains the first direct copied legacy files and the six required receipts. It is not a runtime promotion: `public/assets/` remains untouched, approved runtime asset records remain empty, and the final playable parity goal still requires human/license approval, approved runtime promotion, and browser proof with approved assets.
 
 ## Current Sanitized Conversion Pass
 
