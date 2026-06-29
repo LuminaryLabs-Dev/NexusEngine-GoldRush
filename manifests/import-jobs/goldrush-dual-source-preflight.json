@@ -1,0 +1,96 @@
+{
+  "schema": "nexusengine.goldrush.import-job.v1",
+  "status": "preflight_only",
+  "importJobId": "goldrush-dual-source-preflight",
+  "targetRepository": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+  "targetBaseBranch": "development",
+  "preflightBranch": "import/goldrush-dual-source-preflight",
+  "sourceRepository": "thecrimsondeveloper/Gold_Rush",
+  "sourceRepositoryVisibility": "private",
+  "sourceBranch": "development",
+  "sourceCommitSha": "TO_BE_FILLED_BY_CLOUD_WORKER_BEFORE_RAW_COPY",
+  "rawCopyAllowedInThisBranch": false,
+  "rawCopyDestinationForFutureBranch": "raw/imported/goldrush-dual-source-001/",
+  "sourceProjects": [
+    {
+      "id": "modern-goldrush",
+      "root": "GoldRush/",
+      "unityVersion": "6000.0.37f1",
+      "productName": "GoldRush",
+      "sceneCandidates": [
+        "GoldRush/Assets/Scenes/Lobby.unity",
+        "GoldRush/Assets/Scenes/Arena.unity",
+        "GoldRush/Assets/Entities/Player/PlayerTest.unity"
+      ]
+    },
+    {
+      "id": "old-goldrush",
+      "root": "GoldRush_Old/",
+      "unityVersion": "2022.3.5f1",
+      "productName": "Gold Rush",
+      "sceneCandidates": [
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+        "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity"
+      ]
+    }
+  ],
+  "requiredPrePublicChecks": [
+    "deny_path_scan",
+    "secret_scan_without_printing_values",
+    "provenance_initial_classification",
+    "large_file_report",
+    "third_party_plugin_block_report",
+    "package_manifest_block_report"
+  ],
+  "blockedByDefault": [
+    "Packages/manifest.json",
+    "Packages/packages-lock.json",
+    "ProjectSettings/**",
+    "UserSettings/**",
+    "Library/**",
+    "Temp/**",
+    "Obj/**",
+    "Logs/**",
+    "Build/**",
+    "Builds/**",
+    "Assets/Photon/**",
+    "Assets/Photon*/**",
+    "Assets/Plugins/**",
+    "*.csproj",
+    "*.sln",
+    ".env",
+    ".npmrc",
+    ".upmconfig.toml"
+  ],
+  "knownSensitiveFiles": [
+    {
+      "path": "GoldRush_Old/Packages/manifest.json",
+      "status": "BLOCKED",
+      "reason": "Reported token-bearing package dependency URL. Do not copy. Do not print secret values."
+    },
+    {
+      "path": "GoldRush/Packages/manifest.json",
+      "status": "BLOCKED",
+      "reason": "Unity package manifest/config. Block by policy."
+    },
+    {
+      "path": "GoldRush/Assets/Photon/Fusion/Resources/PhotonAppSettings.asset",
+      "status": "BLOCKED",
+      "reason": "Photon/Fusion app settings/config. Block by policy."
+    },
+    {
+      "path": "GoldRush_Old/Assets/Photon/Fusion/Resources/PhotonAppSettings.asset",
+      "status": "BLOCKED",
+      "reason": "Photon/Fusion app settings/config. Block by policy."
+    }
+  ],
+  "futureRawImportRules": {
+    "copyOnlyAfterPrePublicScan": true,
+    "copyOnlyIntoRawImported": true,
+    "copyNoSecrets": true,
+    "copyNoPlugins": true,
+    "copyNoGeneratedUnityFolders": true,
+    "promoteNothingToPublicAssetsWithoutHumanReview": true
+  }
+}
