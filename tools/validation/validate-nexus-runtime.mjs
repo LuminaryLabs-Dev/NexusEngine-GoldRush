@@ -35,6 +35,21 @@ const exploration = runtime.snapshot();
 assert(exploration.cameraMode === "exploration", "exploration mode should exit combat state");
 assert(exploration.combat.active === false, "combat kit should clear active combat state");
 
+const mined = runtime.mineGold();
+assert(mined.accepted === true, "mine action should yield gold");
+const afterMining = runtime.snapshot();
+assert(afterMining.cargo["player-1"] > 0, "mined gold should enter player cargo");
+
+runtime.takeDamage();
+const afterDamage = runtime.snapshot();
+assert(afterDamage.cameraMode === "combat", "damage should force combat perspective");
+assert(afterDamage.cargo["player-1"] < afterMining.cargo["player-1"], "damage should put carried gold at risk");
+
+runtime.cashOut();
+const afterCashout = runtime.snapshot();
+assert(afterCashout.cashout["player-1"] > 0, "cashout should bank remaining carried gold");
+assert(afterCashout.cargo["player-1"] === 0, "cashout should clear carried gold");
+
 console.log("nexus runtime passed");
 
 function assert(condition, message) {

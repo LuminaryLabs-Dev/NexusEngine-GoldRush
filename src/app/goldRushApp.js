@@ -18,6 +18,11 @@ export function createGoldRushApp(root) {
 
         <div class="heroControls">
           <button class="button primary" data-action="generate">Generate Match Rooms</button>
+          <div class="segmented">
+            <button class="button" data-action="mine">Mine Gold</button>
+            <button class="button" data-action="cashout">Cash Out</button>
+          </div>
+          <button class="button" data-action="ambush">Ambush</button>
           <div class="controlRow">
             <label for="player-count">Players</label>
             <input id="player-count" type="range" min="2" max="100" value="72" />
@@ -42,8 +47,8 @@ export function createGoldRushApp(root) {
           <div class="stats">
             <div class="stat"><span class="statLabel">Players</span><span class="statValue" data-stat="players"></span></div>
             <div class="stat"><span class="statLabel">Shards</span><span class="statValue" data-stat="shards"></span></div>
-            <div class="stat"><span class="statLabel">Camera</span><span class="statValue" data-stat="camera"></span></div>
-            <div class="stat"><span class="statLabel">Kits</span><span class="statValue" data-stat="kits"></span></div>
+            <div class="stat"><span class="statLabel">Carried</span><span class="statValue" data-stat="carried"></span></div>
+            <div class="stat"><span class="statLabel">Banked</span><span class="statValue" data-stat="banked"></span></div>
           </div>
         </section>
       </section>
@@ -64,19 +69,29 @@ export function createGoldRushApp(root) {
   const playerInput = root.querySelector("#player-count");
   const phaseInput = root.querySelector("#phase");
   const generateButton = root.querySelector('[data-action="generate"]');
+  const mineButton = root.querySelector('[data-action="mine"]');
+  const cashoutButton = root.querySelector('[data-action="cashout"]');
+  const ambushButton = root.querySelector('[data-action="ambush"]');
   const modeButtons = [...root.querySelectorAll("[data-mode]")];
 
   function render() {
     const state = runtime.snapshot();
+    const carriedGold = state.cargo["player-1"] ?? 0;
+    const bankedGold = state.cashout["player-1"] ?? 0;
     root.querySelector('[data-stat="players"]').textContent = state.players;
     root.querySelector('[data-stat="shards"]').textContent = state.rooms.shards.length;
-    root.querySelector('[data-stat="camera"]').textContent = state.cameraMode;
-    root.querySelector('[data-stat="kits"]').textContent = state.installOrder.length;
+    root.querySelector('[data-stat="carried"]').textContent = carriedGold;
+    root.querySelector('[data-stat="banked"]').textContent = bankedGold;
     root.querySelector('[data-hud="rooms"]').innerHTML = state.rooms.shards
       .map((room) => `<span class="pill">${room.id}: ${room.playerCount}/50</span>`)
       .join("");
     root.querySelector('[data-hud="loop"]').innerHTML = state.loop
       .map((step) => `<span class="pill">${step}</span>`)
+      .concat([
+        `<span class="pill">camera: ${state.cameraMode}</span>`,
+        `<span class="pill">kits: ${state.installOrder.length}</span>`,
+        `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
+      ])
       .join("");
 
     modeButtons.forEach((button) => {
@@ -87,6 +102,21 @@ export function createGoldRushApp(root) {
 
   generateButton.addEventListener("click", () => {
     runtime.generateMatch({ players: Number(playerInput.value), phase: phaseInput.value });
+    render();
+  });
+
+  mineButton.addEventListener("click", () => {
+    runtime.mineGold();
+    render();
+  });
+
+  cashoutButton.addEventListener("click", () => {
+    runtime.cashOut();
+    render();
+  });
+
+  ambushButton.addEventListener("click", () => {
+    runtime.takeDamage();
     render();
   });
 
