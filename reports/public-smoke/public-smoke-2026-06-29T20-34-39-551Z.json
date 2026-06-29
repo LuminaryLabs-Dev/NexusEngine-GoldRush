@@ -1,0 +1,136 @@
+{
+  "status": "passed",
+  "url": "https://luminarylabs-dev.github.io/NexusEngine-GoldRush/?publicSmoke=mqzof1hb",
+  "startedAt": "2026-06-29T20:34:39.554Z",
+  "steps": [
+    {
+      "name": "load-public-url",
+      "status": "passed",
+      "durationMs": 1551
+    },
+    {
+      "name": "enter-lobby",
+      "status": "passed",
+      "durationMs": 3308
+    },
+    {
+      "name": "start-loading-yard",
+      "status": "passed",
+      "durationMs": 3351
+    },
+    {
+      "name": "board-train-and-enter-match",
+      "status": "passed",
+      "durationMs": 23517
+    },
+    {
+      "name": "validate-runtime-state",
+      "status": "passed",
+      "durationMs": 1095
+    }
+  ],
+  "screenshots": [
+    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/01-title-2026-06-29T20-34-39-551Z.png",
+    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/02-lobby-2026-06-29T20-34-39-551Z.png",
+    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/03-loading-yard-2026-06-29T20-34-39-551Z.png",
+    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/04-gold-field-2026-06-29T20-34-39-551Z.png"
+  ],
+  "consoleErrors": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00615a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00615a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00615a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00615a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+  ],
+  "pageErrors": [],
+  "finalState": {
+    "screen": "run",
+    "activeSite": "site.gold-field",
+    "players": 20,
+    "loadedKitGroups": [
+      "goldrush-runtime",
+      "procedural-terrain",
+      "object-micro-kits",
+      "network-orchestration"
+    ],
+    "party": {
+      "status": "local",
+      "members": 1,
+      "capacity": 4,
+      "isLeader": true
+    },
+    "loadingScene": {
+      "loadingPhase": "handoff",
+      "trainDeparting": true,
+      "playerLockedToTrain": true,
+      "trainPosition": {
+        "x": 0,
+        "z": 45
+      }
+    },
+    "loadingPlayer": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -7.4
+      },
+      "controls": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "sprint": false
+      }
+    },
+    "localPlayer": {
+      "position": {
+        "x": -12,
+        "y": -0.8682768377371267,
+        "z": -20
+      },
+      "inputModel": {
+        "id": "camera-relative-wasd",
+        "mouseLookDrivesCamera": true,
+        "wasdFollowsCameraYaw": true,
+        "forwardSign": 1,
+        "forwardOnGround": {
+          "x": 0,
+          "z": 1
+        }
+      },
+      "ground": {
+        "height": -0.8682768377371267,
+        "placement": "downward-triangle-raycast",
+        "walkable": true
+      }
+    },
+    "terrainCollider": {
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "raycastPlacement": "highest-visible-banded-triangle-hit"
+    },
+    "terrainPhysics": {
+      "engine": "cannon-es",
+      "bodyShape": "Heightfield"
+    },
+    "physicsBackend": {
+      "activeBackend": "cannon-es",
+      "recommendation": "keep-cannon-now-incubate-rapier-later"
+    },
+    "realityValidation": {
+      "passed": true,
+      "failures": []
+    }
+  },
+  "finishedAt": "2026-06-29T20:35:13.465Z"
+}
