@@ -177,3 +177,23 @@ tools/validation/validate-source-discovery-generator.mjs
 The generator converts the source-access proof into the required `nexusengine.goldrush.cloud-source-discovery.v1` receipt shape for the cloud import branch. It defaults to stdout and refuses to write `reports/provenance/goldrush-dual-source-001-source-discovery.json` unless the worker passes `--allow-receipt-write`, preventing a local partial receipt from triggering the receipt gate.
 
 This helps the cloud worker start the raw-copy branch with a correct source-discovery receipt, but it still does not satisfy the raw-copy, deny-scan, secret-scan, hash, copy-ledger, or classification requirements by itself.
+
+## Current Cloud Candidate Inventory
+
+```txt
+reports/provenance/goldrush-dual-source-001-candidate-inventory.json
+tools/import-sanitize/generate-cloud-candidate-inventory.mjs
+tools/validation/validate-cloud-candidate-inventory.mjs
+```
+
+This metadata-only inventory uses the GitHub tree API for source commit `144230e32b537336c83407b4ddae83cdc95c1c9e`; it does not clone the source repo and does not copy file contents. Current inventory:
+
+```txt
+audio-music-and-sfx: 18 candidates
+legacy-scene-layout-metadata: 6 candidates
+player-combat-character: 47 candidates
+mine-town-terrain-props: 725 candidates
+total: 796 candidates, 631,521,909 listed source bytes
+```
+
+This moves the cloud worker closer to raw copy by identifying exact candidate paths/blob SHAs, but it is still not a raw copy, deny scan, secret scan, copy ledger, hash manifest, classification receipt, conversion, review, or runtime promotion.
