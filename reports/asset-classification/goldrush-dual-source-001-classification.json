@@ -1,0 +1,64 @@
+{
+  "schema": "nexusengine.goldrush.asset-intake-classification.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "status": "candidates-ready-for-conversion-report",
+  "rootPath": "raw/imported/goldrush-dual-source-001",
+  "generatedAt": "2026-06-29T00:00:00.000Z",
+  "sourceCommitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+  "rules": {
+    "localCodexMayCloneSourceRepos": false,
+    "printsSecretValues": false,
+    "promotesWithoutHumanReview": false,
+    "allowedExtensions": [
+      ".anim",
+      ".asset",
+      ".controller",
+      ".fbx",
+      ".glb",
+      ".gltf",
+      ".jpeg",
+      ".jpg",
+      ".mat",
+      ".mp3",
+      ".ogg",
+      ".png",
+      ".prefab",
+      ".unity",
+      ".wav",
+      ".webp"
+    ]
+  },
+  "totals": {
+    "files": 1,
+    "candidates": 1,
+    "blocked": 0,
+    "needsConversion": 1,
+    "secretFindings": 0,
+    "unmapped": 0
+  },
+  "candidates": [
+    {
+      "status": "candidate",
+      "path": "GoldRush/Assets/Scenes/Arena.unity",
+      "slotId": "goldrush.scene.arena",
+      "mediaKind": "scene-reference",
+      "handling": "extract-layout-json",
+      "extension": ".unity",
+      "needsConversion": true,
+      "promoteOnlyAfter": [
+        "deny-path-scan",
+        "secret-scan",
+        "conversion-report",
+        "license-provenance",
+        "human-review"
+      ],
+      "sizeBytes": 0,
+      "sourceHash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourcePath": "GoldRush/Assets/Scenes/Arena.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Scenes/Arena.unity"
+    }
+  ],
+  "blocked": [],
+  "unmapped": []
+}
