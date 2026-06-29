@@ -84,3 +84,13 @@ For GitHub Pages under the repo path, the Vite base path should resolve to:
 ```
 
 The Build branch should contain generated static output only.
+
+## Gate 7: public Pages smoke proof
+
+After Pages deploys, prove the public URL reaches the player-visible flow:
+
+```bash
+npm run proof:public -- --url https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
+```
+
+Expected result: title -> lobby -> loading-yard train -> run scene, 20-player match, active `site.gold-field`, loaded `procedural-terrain` kit group, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.

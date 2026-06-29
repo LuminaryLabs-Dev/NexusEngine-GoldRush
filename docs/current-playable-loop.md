@@ -57,6 +57,23 @@ The human-view proof is the public page:
 https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
 ```
 
+The public smoke proof is:
+
+```bash
+npm run proof:public -- --url https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
+```
+
+Latest passing public proof:
+
+```txt
+reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.json
+reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.md
+screenshots/public-smoke/01-title-2026-06-29T18-43-20-972Z.png
+screenshots/public-smoke/02-lobby-2026-06-29T18-43-20-972Z.png
+screenshots/public-smoke/03-loading-yard-2026-06-29T18-43-20-972Z.png
+screenshots/public-smoke/04-gold-field-2026-06-29T18-43-20-972Z.png
+```
+
 ## Legacy Mapping
 
 - Modern Gold Rush assets will fill visual/world slots.

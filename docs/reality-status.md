@@ -21,7 +21,7 @@
 | Combat | `prototype` | Combat changes camera/audio/state and applies damage receipts, but lacks real aiming, projectiles, hit detection, and weapon assets. |
 | Mining/Gold | `prototype` | Mining/cashout is kit-owned state, but not physical interaction with world nodes and cargo visuals. |
 | Train Loading Scene | `prototype` | The loading yard and train handoff exist, but multiplayer sync and boarding polish are incomplete. |
-| Build/Deploy | `pending-external-proof` | Local build succeeds, but current branch/pages deployment proof still needs external verification. |
+| Build/Deploy | `real-local` | Build branch deployment exists and the public Pages URL has a passing Playwright smoke proof. |
 
 ## Runtime Contract
 

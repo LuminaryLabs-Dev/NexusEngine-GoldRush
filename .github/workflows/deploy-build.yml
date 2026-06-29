@@ -45,3 +45,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Public smoke proof
+        env:
+          GOLDRUSH_PUBLIC_URL: ${{ steps.deployment.outputs.page_url }}
+        run: npm run proof:public -- --url "$GOLDRUSH_PUBLIC_URL"

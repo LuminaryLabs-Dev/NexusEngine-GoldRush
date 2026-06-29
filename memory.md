@@ -54,6 +54,7 @@
 - Player grounding is movement-owned: `createMovementController()` samples the terrain once for the player frame and exposes `localPlayer.renderGround`. Renderers should consume that cached render-ground height instead of recomputing local player Y from presentation terrain.
 - Character walk animation should not pulse the whole player root vertically. Root height stays grounded; readable motion belongs in limb rigs, knees, boots, torso sway, camera response, or authored animation clips.
 - Loading-yard boarding should be forgiving along the rail/platform approach, not a single tiny trigger circle, so normal walking and automated proof captures can reliably reach the train handoff.
+- Public deploy readiness is not proven by `npm run check` alone. The Build deploy workflow runs `npm run proof:public` after GitHub Pages publishes, and that proof must validate the public URL through title, lobby, loading-yard train boarding, and the 20-player gold-field run scene.
 
 ## Current Scaffold
 
@@ -94,3 +95,4 @@
 - The current extraction-loop screenshot proof is `screenshots/goldrush-extraction-loop-01.png`; it proves the interaction/receipt path, while the remaining blue/debug-looking terrain gaps stay visual debt for a separate terrain human-view pass.
 - Latest terrain-gap proof is `screenshots/terrain-gap-seal-01.png` with `reports/terrain-gap-seal-01.json`; browser canvas sampling found `lowerSkyBlueRatio: 0` and `lowerVeryBlueRatio: 0`. The next visual debt is central mountain scale/framing, not terrain holes.
 - Latest grounding/knee/pulse proof is `reports/grounding-knees-stability-01.md` with screenshot `screenshots/grounding-knees-stability-video-proof.png`, video `reports/videos/grounding-knees-stability-video-proof.webm`, and frame summary `reports/frame-analysis/grounding-pulse-summary.json`. It proves cached render grounding, knee-based leg animation, and no measured every-other-frame pulse in the stationary post-fix player crop.
+- Latest public Pages smoke proof is `reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.json` with screenshots under `screenshots/public-smoke/`. It proves the live public URL loads title -> lobby -> loading yard -> train handoff -> `site.gold-field`, creates a 20-player match, loads the procedural terrain kit group, exposes camera-relative WASD, visible-band terrain raycast placement, `cannon-es` terrain physics, and passing reality validation.

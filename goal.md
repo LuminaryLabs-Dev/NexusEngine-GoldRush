@@ -11,6 +11,7 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - Sanitation outputs land in `sanitized/`.
 - Browser runtime assets land in `public/assets/` only after approval.
 - The app deploys from the `Build` branch.
+- The public Pages URL must be smoke-tested after deployment with `npm run proof:public`.
 - The game uses NexusRealtime as the runtime contract and custom Gold Rush kits for orchestration.
 - Generic NexusRealtime-style kits incubate locally inside `src/kits/generic-incubator/` before any later graduation to NexusRealtime.
 - `engine.n.goldrushKitContracts` must expose the two-layer kit pairings and validate that generic kits stay neutral while GoldRush kits own game-specific rules.
@@ -62,3 +63,18 @@ The visual target is the space of a playable gold-rush canyon environment, not a
 - `BUG-005-loading-train-sideways-and-no-boarding-sequence.md` is in active fix: train motion must follow a path, open a door, lock the player to the train, and hand off after departure.
 - `BUG-006-physics-backend-and-terrain-mesh-reliability.md` is in active fix: use the current Cannon heightfield reliably, keep Rapier as a future adapter, and remove stacked terrain surfaces that cause flicker.
 - `BUG-002-central-mountain-scale-and-camera-framing.md` remains open and is the next visible terrain composition issue.
+
+## Current Public Proof
+
+```txt
+https://luminarylabs-dev.github.io/NexusEngine-GoldRush/
+```
+
+Latest passing public smoke proof:
+
+```txt
+reports/public-smoke/public-smoke-2026-06-29T18-43-20-972Z.json
+screenshots/public-smoke/04-gold-field-2026-06-29T18-43-20-972Z.png
+```
+
+This proof validates title -> lobby -> loading-yard train -> run scene, a 20-player match, active `site.gold-field`, procedural terrain kit loading, camera-relative WASD, visible-band terrain raycast, `cannon-es` terrain physics, and passing reality validation.
