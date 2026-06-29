@@ -6,8 +6,14 @@ export function createGoldRushRenderer(root) {
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.08;
   root.appendChild(renderer.domElement);
   const proceduralScene = mountGoldRushProceduralScene({ scene, root });
+  let currentState = null;
+  let started = false;
 
   function resize() {
     const rect = root.getBoundingClientRect();
@@ -16,10 +22,20 @@ export function createGoldRushRenderer(root) {
     renderer.setSize(width, height, false);
   }
 
-  function render(state) {
+  function draw(time = 0) {
+    if (!currentState) return;
     resize();
-    proceduralScene.update(state);
+    proceduralScene.update(currentState, time / 1000);
     renderer.render(scene, proceduralScene.getCamera());
+    window.requestAnimationFrame(draw);
+  }
+
+  function render(state) {
+    currentState = state;
+    if (!started) {
+      started = true;
+      window.requestAnimationFrame(draw);
+    }
   }
 
   window.addEventListener("resize", resize);

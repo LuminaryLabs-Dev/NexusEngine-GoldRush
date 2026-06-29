@@ -14,6 +14,20 @@ import {
   validateLegacySourceManifest,
 } from "../content/goldrushLegacySourceManifest.js";
 import {
+  createGoldRushRealityStatus,
+  validateGoldRushRealityStatus,
+} from "../content/goldrushRealityStatus.js";
+import {
+  goldRushLegacyModes,
+  resolveLegacyMode,
+  validateLegacyModes,
+} from "../content/goldrushLegacyModes.js";
+import {
+  createGoldRushCameraPerspectives,
+  selectGoldRushCameraPerspective,
+  validateGoldRushCameraPerspectives,
+} from "../content/goldrushCameraPerspectives.js";
+import {
   createExtractionReceiptKit,
   createFinalRushKit,
   createMatchLifecycleKit,
@@ -28,9 +42,11 @@ const stability = "prototype";
 
 export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
   return [
+    createNetworkKit({ orchestrator }),
     createRoomOrchestratorKit({ orchestrator }),
     createAssetRegistryKit({ assetRegistry }),
     createLegacySourceKit({ assetRegistry }),
+    createRealityStatusKit(),
     createWorldElementKit(),
     createTerrainPatchWindowKit(),
     createTownLayoutKit(),
@@ -46,6 +62,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createSceneTransitionKit(),
     createAudioStateKit(),
     createAnimationStateKit(),
+    createLegacyModeKit(),
     createMatchLifecycleKit(),
     createFinalRushKit(),
     createExtractionReceiptKit(),
@@ -64,30 +81,94 @@ function createRoomOrchestratorKit({ orchestrator }) {
     apiName: "goldrushRooms",
     stability,
     version,
+    requires: ["n:goldrush-network"],
     services: ["generate", "snapshot", "handoff"],
     metadata: {
-      purpose: "Generate 50-player room shards and shared match ledger data.",
+      purpose: "Compatibility facade over the resolved Gold Rush network kit.",
     },
-    createApi() {
-      let rooms = orchestrator.generate({ players: 2 });
-
+    createApi({ engine }) {
       return {
-        generate({ players }) {
-          rooms = orchestrator.generate({ players });
-          return structuredClone(rooms);
+        generate({ players, phase } = {}) {
+          return structuredClone(engine.n.goldrushNetwork.generate({ players, phase }).rooms);
         },
         snapshot() {
-          return structuredClone(rooms);
+          return structuredClone(engine.n.goldrushNetwork.snapshot().rooms);
         },
         handoffEvent({ playerId, fromRoomId, toRoomId, reason }) {
+          const network = engine.n.goldrushNetwork.snapshot();
           return {
             type: "room.playerTransferRequested",
             playerId,
             fromRoomId,
             toRoomId,
             reason,
-            ledgerId: rooms.ledger.id,
+            ledgerId: network.ledger.id,
           };
+        },
+      };
+    },
+  });
+}
+
+function createNetworkKit({ orchestrator }) {
+  return defineDomainServiceKit({
+    id: "n-goldrush-network-kit",
+    domain: "goldrush-network",
+    apiName: "goldrushNetwork",
+    stability,
+    version,
+    services: ["generate", "snapshot", "join-player", "leave-player", "handoff", "validate"],
+    metadata: {
+      purpose: "Own multiplayer network topology while keeping 50-player partitions internal and resolved.",
+    },
+    createApi() {
+      let session = orchestrator.createSession({ players: 2, phase: "lobby" });
+      let network = session.snapshot();
+
+      return {
+        generate({ players, phase = "lobby" } = {}) {
+          session = orchestrator.createSession({ players, phase });
+          network = session.snapshot();
+          return structuredClone(network);
+        },
+        joinPlayer({ playerId = null, source = "browser-instance" } = {}) {
+          const receipt = session.joinPlayer({ playerId, source });
+          network = receipt.snapshot;
+          return structuredClone(receipt);
+        },
+        leavePlayer({ playerId, reason = "left-session" } = {}) {
+          const receipt = session.leavePlayer({ playerId, reason });
+          network = receipt.snapshot;
+          return structuredClone(receipt);
+        },
+        snapshot() {
+          return structuredClone(network);
+        },
+        handoff({ playerId = "player-1", fromPartitionId = "partition-1", toPartitionId = "partition-2", reason = "loading-gate" } = {}) {
+          const receipt = session.handoff({ playerId, toPartitionId, reason });
+          network = receipt.snapshot;
+          return structuredClone({
+            ...receipt,
+            fromPartitionId: receipt.fromPartitionId ?? fromPartitionId,
+            ledgerId: network.ledger.id,
+          });
+        },
+        validate() {
+          const failures = [];
+          if (network.players < network.policy.minPlayers || network.players > network.policy.maxPlayers) {
+            failures.push("network-player-count-out-of-range");
+          }
+          if (network.policy.partitionCapacity !== 50) failures.push("partition-capacity-changed");
+          if (network.partitions.length < 1 || network.partitions.length > 2) failures.push("invalid-partition-count");
+          if (network.partitions.some((partition) => partition.playerCount > partition.capacity)) {
+            failures.push("partition-player-count-invalid");
+          }
+          if (network.ledger.highWaterPartitionCount !== network.partitions.length) failures.push("network-ledger-high-water-mismatch");
+          if (!network.ledger.writes.includes("player-join") || !network.ledger.writes.includes("player-leave")) failures.push("network-ledger-missing-incremental-writes");
+          if (network.topology.publicLabel !== "network-ready") failures.push("network-not-publicly-ready");
+          if (network.policy.playerJoinUiFocus !== "deferred") failures.push("player-join-ui-not-deferred");
+          if (!network.debug || network.debug.visibleInPrimaryHud !== false) failures.push("internal-partitions-not-hidden");
+          return { passed: failures.length === 0, failures };
         },
       };
     },
@@ -154,6 +235,125 @@ function createLegacySourceKit({ assetRegistry }) {
         },
         validate() {
           return validateLegacySourceManifest(goldRushLegacySourceManifest);
+        },
+      };
+    },
+  });
+}
+
+function createRealityStatusKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-reality-status-kit",
+    domain: "goldrush-reality-status",
+    apiName: "goldrushReality",
+    stability,
+    version,
+    requires: ["n:goldrush-asset-registry", "n:goldrush-legacy-source", "n:goldrush-network"],
+    services: ["snapshot", "validate"],
+    metadata: {
+      purpose: "Expose real, prototype, and cloud-blocked domains so placeholders are never mistaken for completed Gold Rush parity.",
+    },
+    createApi({ engine }) {
+      return {
+        snapshot({ sceneKitLoader = null } = {}) {
+          return createGoldRushRealityStatus({
+            assetRegistry: engine.n.goldrushAssets.snapshot(),
+            legacyReadiness: engine.n.goldrushLegacySources.readiness(),
+            network: engine.n.goldrushNetwork.snapshot(),
+            installOrder: engine.game?.installOrder ?? [],
+            sceneKitLoader,
+          });
+        },
+        validate({ sceneKitLoader = null } = {}) {
+          return validateGoldRushRealityStatus(this.snapshot({ sceneKitLoader }));
+        },
+      };
+    },
+  });
+}
+
+function createLegacyModeKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-legacy-mode-kit",
+    domain: "goldrush-legacy-mode",
+    apiName: "goldrushLegacyModes",
+    stability,
+    version,
+    requires: ["n:goldrush-scene-transition", "n:goldrush-perspective", "n:goldrush-legacy-source"],
+    services: ["set", "cycle", "snapshot", "validate"],
+    metadata: {
+      purpose: "Own which old Gold Rush version intent is currently playable inside the unified browser runtime.",
+    },
+    createApi({ engine }) {
+      let activeModeId = "modernExtraction";
+      const history = [];
+
+      function applyMode(modeId, reason = "manual") {
+        const mode = resolveLegacyMode(modeId);
+        activeModeId = mode.modeId;
+        engine.n.goldrushScenes.transition({
+          toSceneId: mode.sceneId,
+          transitionId: mode.modeId === "classicCombat"
+            ? "goldrush.transition.explorationToCombat"
+            : mode.modeId === "modernExtraction"
+              ? "goldrush.transition.lobbyToArena"
+              : "goldrush.transition.direct",
+          reason: `legacy-mode:${reason}`,
+        });
+        engine.n.goldrushPerspective.set(mode.cameraMode);
+        const receipt = {
+          modeId: mode.modeId,
+          sceneId: mode.sceneId,
+          cameraMode: mode.cameraMode,
+          reason,
+          tick: engine.clock?.frame ?? 0,
+        };
+        history.push(receipt);
+        return receipt;
+      }
+
+      return {
+        set({ modeId = "modernExtraction", reason = "manual" } = {}) {
+          return { accepted: true, receipt: applyMode(modeId, reason), snapshot: this.snapshot() };
+        },
+        cycle() {
+          const currentIndex = goldRushLegacyModes.findIndex((mode) => mode.modeId === activeModeId);
+          const nextMode = goldRushLegacyModes[(currentIndex + 1) % goldRushLegacyModes.length];
+          return this.set({ modeId: nextMode.modeId, reason: "cycle" });
+        },
+        snapshot() {
+          const activeMode = resolveLegacyMode(activeModeId);
+          const readiness = engine.n.goldrushLegacySources.readiness();
+          const familyReadiness = Object.fromEntries(
+            activeMode.requiredSlotFamilies.map((familyId) => {
+              const family = readiness.families.find((entry) => entry.familyId === familyId);
+              return [familyId, family?.status ?? "unknown"];
+            })
+          );
+          return structuredClone({
+            version,
+            activeMode,
+            modes: goldRushLegacyModes,
+            familyReadiness,
+            unifiedRuntime: {
+              oneGame: true,
+              perspectiveSwitchesInCombat: activeMode.cameraMode === "combat",
+              sourceVersionRole: activeMode.sourceVersionRole,
+            },
+            history: history.slice(-12),
+          });
+        },
+        validate() {
+          const modeValidation = validateLegacyModes(goldRushLegacyModes);
+          const snapshot = this.snapshot();
+          const failures = [...modeValidation.failures];
+          if (!snapshot.unifiedRuntime.oneGame) failures.push("not-unified-runtime");
+          if (!snapshot.modes.some((mode) => mode.modeId === "classicCombat" && mode.cameraMode === "combat")) {
+            failures.push("missing-combat-perspective-shift");
+          }
+          if (!snapshot.modes.some((mode) => mode.sourceKey === "goldrush-modern-unity")) failures.push("missing-modern-source-mode");
+          if (!snapshot.modes.some((mode) => mode.sourceKey === "goldrush-classic-unity")) failures.push("missing-classic-source-mode");
+          return { passed: failures.length === 0, failures };
         },
       };
     },
@@ -354,6 +554,7 @@ function createPerspectiveKit() {
     },
     createApi({ engine }) {
       let requestedMode = "exploration";
+      const perspectiveCatalog = createGoldRushCameraPerspectives({ count: 1000 });
 
       return {
         set(mode) {
@@ -368,8 +569,8 @@ function createPerspectiveKit() {
           return {
             mode,
             descriptor: mode === "combat"
-              ? { camera: "combat-cluster", height: 4.2, distance: 5.4, target: combat.clusterId }
-              : { camera: "extraction-arena", height: 7, distance: 10, target: "player-route" },
+              ? { camera: "over-shoulder-combat", height: 2.1, distance: 4.2, target: combat.clusterId }
+              : { camera: "over-shoulder-travel", height: 2.8, distance: 6.4, target: "player-route" },
           };
         },
       };
@@ -452,7 +653,7 @@ function createWorldElementKit() {
     apiName: "goldrushWorld",
     stability,
     version,
-    requires: ["n:goldrush-room-orchestrator"],
+    requires: ["n:goldrush-network"],
     services: ["snapshot", "room-window", "validate"],
     metadata: {
       purpose: "Own world scale, towns, mountains, paths, gold zones, loading gates, and room patch windows.",
@@ -460,7 +661,7 @@ function createWorldElementKit() {
     createApi({ engine }) {
       return {
         snapshot({ phase = "lobby" } = {}) {
-          return createGoldRushWorldElements({ rooms: engine.n.goldrushRooms.snapshot(), phase });
+          return createGoldRushWorldElements({ network: engine.n.goldrushNetwork.snapshot(), phase });
         },
         roomWindow(shardId) {
           const world = this.snapshot();
@@ -779,6 +980,7 @@ function createCameraDescriptorKit() {
     },
     createApi({ engine }) {
       let requestedMode = "exploration";
+      const perspectiveCatalog = createGoldRushCameraPerspectives({ count: 1000 });
 
       return {
         set(mode) {
@@ -790,11 +992,20 @@ function createCameraDescriptorKit() {
           const terrain = engine.n.goldrushTerrain.snapshot({ phase });
           const activeWindow = terrain.roomPatchWindows.find((window) => window.active) ?? terrain.roomPatchWindows[0];
           const mode = combat.active ? "combat" : phase === "extract" ? "cashout" : requestedMode;
+          const selectedPerspective = selectGoldRushCameraPerspective(perspectiveCatalog, {
+            mode,
+            phase,
+            tick: engine.clock?.frame ?? 0,
+          });
           return {
             version,
             mode,
+            perspectiveCatalog,
+            selectedPerspective,
+            perspectiveCount: perspectiveCatalog.count,
+            perspectiveFamilies: perspectiveCatalog.families,
             legacyCameraModel: {
-              type: "orthographic-reference",
+              type: "over-the-shoulder-third-person",
               outOfCombatSize: 20,
               inCombatSizeMultiplier: 2.5,
               minSize: 10,
@@ -802,11 +1013,9 @@ function createCameraDescriptorKit() {
               followSmoothTime: 0.3,
               sizeChangeSpeed: 5,
             },
-            threeDescriptor: mode === "combat"
-              ? { fov: 42, position: [12, 10, 13], lookAt: [6, 0, 2], near: 0.1, far: 160 }
-              : { fov: 46, position: [0, 24, 35], lookAt: [0, 0, 1], near: 0.1, far: 180 },
+            threeDescriptor: selectedPerspective.threeDescriptor,
             focus: {
-              kind: mode === "combat" ? "combat-cluster" : "room-window",
+              kind: mode === "combat" ? "over-shoulder-combat" : "over-shoulder-travel",
               targetId: mode === "combat" ? combat.clusterId : activeWindow?.id ?? null,
               center: activeWindow?.originPatch ?? { x: 0, z: 0 },
               playerIds: [],
@@ -818,7 +1027,12 @@ function createCameraDescriptorKit() {
           const failures = [];
           if (!["exploration", "combat", "cashout", "loading"].includes(camera.mode)) failures.push("invalid-camera-mode");
           if (!camera.threeDescriptor?.position || !camera.threeDescriptor?.lookAt) failures.push("missing-three-descriptor");
+          if (camera.legacyCameraModel.type !== "over-the-shoulder-third-person") failures.push("not-third-person-camera");
+          if (camera.threeDescriptor.position[1] > 5.5) failures.push("camera-too-tactical");
           if (camera.legacyCameraModel.outOfCombatSize !== 20) failures.push("legacy-camera-size-mismatch");
+          if (!validateGoldRushCameraPerspectives(camera.perspectiveCatalog)) failures.push("invalid-camera-perspective-catalog");
+          if (camera.perspectiveCount < 1000) failures.push("missing-camera-perspective-volume");
+          if (!camera.selectedPerspective?.playabilityChecks?.includes("player-silhouette-readable")) failures.push("missing-camera-playability-checks");
           return { passed: failures.length === 0, failures };
         },
       };
@@ -874,7 +1088,7 @@ function createScenarioKit() {
     stability,
     version,
     requires: [
-      "n:goldrush-room-orchestrator",
+      "n:goldrush-network",
       "n:goldrush-legacy-source",
       "n:goldrush-terrain-patch-window",
       "n:goldrush-town-layout",
@@ -891,6 +1105,7 @@ function createScenarioKit() {
       "n:goldrush-scene-transition",
       "n:goldrush-audio-state",
       "n:goldrush-animation-state",
+      "n:goldrush-legacy-mode",
       "n:goldrush-asset-registry",
       "n:goldrush-match-lifecycle",
       "n:goldrush-final-rush",
@@ -909,21 +1124,28 @@ function createScenarioKit() {
 
       return {
         generateMatch({ players, phase }) {
-          const rooms = engine.n.goldrushRooms.generate({ players });
+          const network = engine.n.goldrushNetwork.generate({ players, phase });
+          const rooms = network.rooms;
           engine.n.goldrushMatch.start({ players, phase });
-          engine.n.goldrushMining.seed({ players, shardCount: rooms.shards.length });
+          engine.n.goldrushMining.seed({ players, shardCount: network.partitions.length });
           engine.n.goldrushCargo.seed({ players });
           engine.n.goldrushScenes.phase(phase);
           engine.n.goldrushReplaySummary.appendEvent({
             type: "matchGenerated",
             tick: engine.clock?.frame ?? 0,
-            payload: { players, phase, shardCount: rooms.shards.length },
+            payload: {
+              players,
+              phase,
+              networkStatus: network.status,
+              partitionCount: network.partitions.length,
+            },
           });
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
           state = {
             ...state,
             players,
             phase,
+            network,
             rooms,
             loop: createLoop(phase),
           };
@@ -1021,6 +1243,7 @@ function createScenarioKit() {
           const assets = engine.n.goldrushAssets.snapshot();
           const legacySources = engine.n.goldrushLegacySources.snapshot();
           const legacyReadiness = engine.n.goldrushLegacySources.readiness();
+          const legacyMode = engine.n.goldrushLegacyModes.snapshot();
           const mining = engine.n.goldrushMining.snapshot();
           const cargo = engine.n.goldrushCargo.snapshot();
           const cashout = engine.n.goldrushCashout.snapshot();
@@ -1042,8 +1265,12 @@ function createScenarioKit() {
           const scoring = engine.n.goldrushScoring.snapshot();
           const results = engine.n.goldrushResults.snapshot();
           const replaySummary = engine.n.goldrushReplaySummary.snapshot();
+          const network = engine.n.goldrushNetwork.snapshot();
+          const realityStatus = engine.n.goldrushReality.snapshot();
           return {
             ...structuredClone(state),
+            network,
+            rooms: network.rooms,
             match,
             finalRush,
             extractionReceipts,
@@ -1056,6 +1283,8 @@ function createScenarioKit() {
             assets,
             legacySources,
             legacyReadiness,
+            legacyMode,
+            realityStatus,
             mining,
             cargo,
             cashout,
@@ -1072,7 +1301,7 @@ function createScenarioKit() {
             cameraState,
             ledger: createLedger({
               players: state.players,
-              shardCount: state.rooms.shards.length,
+              shardCount: network.partitions.length,
               mining,
               cashout,
               combat,
@@ -1089,6 +1318,7 @@ function createScenarioState() {
   return {
     players: 2,
     phase: "lobby",
+    network: null,
     rooms: { lobby: null, shards: [], ledger: null },
     loop: createLoop("lobby"),
   };

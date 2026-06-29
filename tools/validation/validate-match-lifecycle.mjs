@@ -1,12 +1,12 @@
 import { createGoldRushRuntime } from "../../src/kits/goldRushRuntime.js";
-import { createRoomOrchestrator } from "../../src/rooms/roomOrchestrator.js";
+import { createNetworkOrchestrator } from "../../src/network/networkOrchestrator.js";
 
-const runtime = createGoldRushRuntime({ orchestrator: createRoomOrchestrator() });
+const runtime = createGoldRushRuntime({ orchestrator: createNetworkOrchestrator() });
 
 runtime.generateMatch({ players: 72, phase: "prospect" });
 let state = runtime.snapshot();
 assert(state.match.status === "running", "match should start running");
-assert(state.rooms.shards.length === 2, "72 players should produce two room shards");
+assert(state.network.partitions.length === 2, "72 players should produce two internal network partitions");
 assert(state.match.players === 72, "match lifecycle should track player count");
 
 const backward = runtime.engine.n.goldrushMatch.advancePhase({ phase: "lobby", reason: "validator.backward" });

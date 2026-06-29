@@ -12,6 +12,8 @@
 - Sanitation and conversion outputs must land in `sanitized/`.
 - Runtime app assets must land in `public/assets/`.
 - Game code should compose domain kits instead of hiding reusable behavior in renderer code.
+- `engine.n.goldrushNetwork` is the public multiplayer contract. The old shard structure is now an internal 50-player partition policy behind that kit.
+- Player joining UI is scoped to a small PeerJS party-code lobby: four players join by code, then the party leader launches the larger simulated match.
 - Renderers own presentation only.
 - Local Codex work may add or modify kits only inside `NexusEngine-GoldRush`; other kit repos are cloud/GPT-it inspection sources, not local edit targets.
 - The visible Gold Rush terrain should be a massive procedural field made from many small tessellated patches, not a circular arena primitive.
@@ -22,9 +24,27 @@
 - Legacy source intake state is exposed through `engine.n.goldrushLegacySources`, backed by `manifests/import-jobs/goldrush-legacy-source-intake.json`, and must remain browser-safe with no raw/quarantine path strings in runtime source.
 - Scoring, result finalization, receipt application, and replay summaries are kit-owned. The renderer and HUD may only present snapshots.
 - Agent perspective packets live in `.agent/perspectives/` and simulate role, audience, market, player, runtime, import, and release viewpoints before broad changes.
-- Room shards target 50 players each, with multi-room orchestration for 2-100 player matches.
+- Network partitions target 50 simulated players each, with multi-room orchestration for 2-100 player matches hidden behind `goldrushNetwork`.
+- `createNetworkOrchestrator().createSession()` owns live incremental room allocation: player 51 creates partition 2, leaves compact active roster assignments back toward partition 1, and high-water partitions stay retained until match end.
 - Because the repository is public, `raw/imported/` is runtime quarantine only, not secrecy quarantine. Legacy files must be pre-scanned cloud-side before any raw import branch is pushed.
 - Runtime code must never import or reference `raw/`, `quarantine/`, `sanitized/converted/`, legacy repo paths, Unity manifests, Photon/Fusion config, or plugin folders.
+- Individual object dressing should be generated as stable `goldrush.micro.*` descriptors in `src/content/goldrushObjectMicroKits.js`, then batched by the renderer with instanced meshes. This is the local path for building thousands of small object kits without hand-authoring thousands of files.
+- Object micro-kits should use the `micro-taxonomy-v2` shape with kit id, archetype, role, biome, placement zone/cluster/anchor/avoid tags, visual batch metadata, transform, and debug provenance.
+- Terrain patch descriptors remain the orchestration/data contract, but the visible terrain mesh should render as a continuous field so tessellation does not expose blue/debug seams.
+- Sky/terrain blending must not use a visible dome primitive in front of the player; the sky should read as background atmosphere plus horizon blend.
+- `engine.n.goldrushCamera` owns a deterministic 1,000-pose camera perspective catalog across 10 player-view families. The active camera is selected from this catalog and carries playability checks instead of being treated as one hardcoded screenshot angle.
+- Gold Rush visual composition should be driven by world/environment understanding, not by matching one reference picture. Reference images provide object vocabulary only; environment-space descriptors own canyon basin, wash floor, ridge walls, mine shelf, town shelf, gold seam, and extraction sightline placement logic.
+- Gold Rush iteration should use a live one-change playtest loop: Codex verifies or launches the debug URL, the user plays, the user reports exactly one thing to change, Codex implements that one change, validates, screenshots, and repeats.
+- The lobby should read as a squad staging screen inspired by modern battle-royale lobby composition: central character/pedestal, four party slots, compact group-type dropdown, PeerJS party-code controls, and one leader-only launch action. The party lobby caps at 4 players, while the first leader-launched mass match starts at 20 players.
+- Start-screen audio should avoid sustained humming oscillator beds. Use short plucked/tapped procedural cues until approved legacy audio is imported.
+- Scene loading is split into explicit sites so each scene can mount different kit groups: `site.start`, `site.lobby-character`, `site.loading-yard`, and `site.gold-field`.
+- Scene-site kit groups are runtime-visible through `createGoldRushSceneKitLoader()` activation receipts, `window.GoldRushHost.getState().sceneKitLoader`, and `loadedKitGroups`, so each scene can load a different kit stack through dynamic renderer imports.
+- The lobby character must be an actual Three.js character preview that spins in place on pointer drag, not a CSS/2D character.
+- The party leader `Start` flow enters a loading-yard scene before the mass match. The local player can walk to the train, the train departs, and only then does the app hand off to the 20-player gold-field runtime.
+- Terrain height/color math, tessellation bands, and downward raycast placement are owned by `src/physics/terrainCollider.js`. Renderers import them, movement samples them, and duplicate renderer-local terrain algorithms are invalid.
+- The current terrain collider is a sampled heightfield descriptor with a real `cannon-es` adapter in `src/physics/cannonTerrainPhysics.js`; local movement uses `raycastTerrainDown()` plus `sampleTerrainCollider()` for grounding, slope checks, step-up limits, and central mountain blockers. Rapier remains a future bridge target.
+- Near-play terrain is the upper visible/collidable band where tessellation bands overlap, so player footing uses the detailed local surface instead of the coarse far-horizon triangles.
+- Run-scene movement is mouse-look driven: `localPlayer.look.yaw` controls the over-the-shoulder camera, and WASD movement is relative to that camera yaw.
 
 ## Current Scaffold
 
@@ -38,8 +58,26 @@
 - Placeholder asset slots define stable IDs for future sanitized legacy assets without referencing raw source files.
 - Scene, transition, audio, and animation slots are placeholder IDs owned by `engine.n.goldrushScenes` until cloud-side sanitized legacy files are promoted.
 - Procedural renderer kits in `src/renderer/proceduralKits.js` are validated one by one before composition.
+- Object micro-kits currently generate 3,105 individual object descriptors across 34 families and 17 authored placement zones, validated by `tools/validation/validate-procedural-renderer-kits.mjs`.
+- The camera perspective catalog currently generates 1,000 serializable poses across exploration, trail, canyon, mining, town, combat, cover, extraction, spectate, and replay families, validated by `tools/validation/validate-nexus-runtime.mjs`.
+- Environment-space understanding is now exposed through `world.environmentSpaces` and `goldrush.worldUnderstanding.environmentSpace`; every object micro-kit carries an `environmentSpaceId` so prop placement explains the playable space instead of copying a picture.
+- The active playtest checkpoint is `http://localhost:5177/NexusEngine-GoldRush/`; `.agent/active/live-playtest-loop.md` tracks the one-change debug workflow.
+- The `goldrush-microkit-readability-pass-01` direction is to reduce open-field noise, use explicit placement roles, and prefer readable mine/gold/canyon clusters over even scatter.
+- Current visual proof shows town silhouettes and route readability improving, but high-fidelity authored prop geometry remains the next visual bottleneck.
 - World element descriptors live in `src/content/goldrushWorldElements.js` and are validated by `tools/validation/validate-world-elements.mjs`.
 - Current role/market packets include creative director, expert C# developer, Unity port developer, technical art director, Nexus runtime architect, marketing lead, player segments, creator/influencer, market research, market itself, and storefront positioning.
 - Current match lifecycle proof covers final rush pressure, extraction receipts, handoff receipts, team scoring, final result state, and replay summary through `npm run check` plus browser screenshot proof in `reports/browser-match-lifecycle.png`.
 - Current asset intake proof covers two legacy source projects and 19 promotion slots, with readiness intentionally at `0/19` until cloud-approved assets replace placeholders.
+- Current network-kit direction is tracked in `.agent/active/network-kit.md`; resolved architecture packets live in `.agent/resolved/`.
+- Latest network session validation proves `joinPlayer`, `leavePlayer`, duplicate join rejection, 101-player rejection, player-51 partition creation, and retained empty partition 2 after dropping below 51.
 - GitHub Actions deploy workflow for the `Build` branch.
+- PeerJS is installed for the party-code lobby layer. `src/network/peerPartyRoom.js` owns create-code, join-code, four-player cap, leader-only launch, and `start-match` broadcast behavior.
+- Latest lobby proof shows a two-tab PeerJS join with the host at `hosting / 2/4` at `.playwright-cli/page-2026-06-29T08-52-31-485Z.png`.
+- Latest launch proof shows the leader handoff into a 20-player runtime match at `.playwright-cli/page-2026-06-29T08-49-41-599Z.png`.
+- Scene-site registry lives in `src/scenes/goldRushSceneSites.js`; its local validation is `tools/validation/validate-scene-sites.mjs`.
+- Latest 3D lobby character proof is `.playwright-cli/page-2026-06-29T10-27-14-089Z.png`; Playwright verified drag rotation changed from `-0.22` to `1.376`.
+- Latest loading-yard train proof is `.playwright-cli/page-2026-06-29T10-27-30-857Z.png`; latest post-train handoff proof is `.playwright-cli/page-2026-06-29T10-28-34-680Z.png` with runtime state `screen: run`, `players: 20`.
+- Terrain collider validation lives in `tools/validation/validate-terrain-collider.mjs`; runtime debug state exposes `terrainCollider`, `terrainPhysics`, and `localPlayer.ground`.
+- Latest terrain/movement proof is `.playwright-cli/page-2026-06-29T11-02-18-085Z.png`: Playwright verified Cannon heightfield metadata, near-band downward raycast placement, mouse-look yaw `-0.676`, and W movement relative to that yaw.
+- `engine.n.goldrushReality` exposes real/prototype/cloud-blocked domain status so placeholder content cannot be mistaken for final parity. It currently marks legacy assets and actual audio/music as `blocked-cloud-import`; character rig, animation clips, combat, mining/gold, and train-loading polish as `prototype`; and local network, PeerJS party, scene-kit loading with receipts, NexusRuntime kits, and terrain collider as `real-local`.
+- Reality status validation lives in `tools/validation/validate-reality-status.mjs`; app debug state exposes `realityStatus` and `realityValidation`.

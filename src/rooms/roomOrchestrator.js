@@ -1,39 +1,15 @@
-const shardCapacity = 50;
+import { createNetworkOrchestrator } from "../network/networkOrchestrator.js";
 
 export function createRoomOrchestrator() {
-  function generate({ players }) {
-    const safePlayers = clampPlayerCount(players);
-    const shardCount = Math.ceil(safePlayers / shardCapacity);
-    const shards = Array.from({ length: shardCount }, (_, index) => {
-      const remaining = safePlayers - index * shardCapacity;
-      return {
-        id: `shard-${index + 1}`,
-        capacity: shardCapacity,
-        playerCount: Math.min(shardCapacity, remaining),
-        state: index === 0 ? "primary" : "incremental",
-        handoffTopic: `goldrush.match.handoff.${index + 1}`,
-      };
-    });
+  const networkOrchestrator = createNetworkOrchestrator();
 
-    return {
-      lobby: {
-        id: "lobby-main",
-        playerCount: safePlayers,
-        state: "ready-check",
-      },
-      shards,
-      ledger: {
-        id: "match-ledger",
-        shardIds: shards.map((room) => room.id),
-        writes: ["cashout", "combat-summary", "disconnect-lock", "final-score"],
-      },
-    };
+  function generate({ players }) {
+    return networkOrchestrator.generate({ players }).rooms;
   }
 
-  return { generate };
-}
+  function createSession({ players, phase } = {}) {
+    return networkOrchestrator.createSession({ players, phase });
+  }
 
-function clampPlayerCount(players) {
-  if (!Number.isFinite(players)) return 2;
-  return Math.min(100, Math.max(2, Math.round(players)));
+  return { generate, createSession };
 }

@@ -234,9 +234,58 @@ const loadingGates = [
   },
 ];
 
-export function createGoldRushWorldElements({ rooms = { shards: [] }, phase = "lobby" } = {}) {
-  const shardIds = rooms.shards?.map((shard) => shard.id) ?? [];
-  const activeRoomWindows = roomPatchWindows.filter((window) => shardIds.length === 0 || shardIds.includes(window.shardId));
+const environmentSpaces = [
+  {
+    id: "space.world.canyon-basin",
+    kind: "basin",
+    role: "primary-playable-volume",
+    footprint: { x: -1700, z: -980, width: 3400, depth: 1960 },
+    spatialRule: "terrain form defines play space before props are placed",
+  },
+  {
+    id: "space.world.wash-floor-trail",
+    kind: "path-corridor",
+    role: "movement-and-extraction-readability",
+    footprint: { x: -1900, z: -720, width: 3800, depth: 1380 },
+    spatialRule: "trail corridor stays clear enough to read at over-shoulder distance",
+  },
+  {
+    id: "space.world.ridge-walls",
+    kind: "canyon-wall-pair",
+    role: "geologic-container",
+    footprint: { x: -2500, z: -1500, width: 5000, depth: 3000 },
+    spatialRule: "walls frame the basin and explain mine/gold placement",
+  },
+  {
+    id: "space.world.mine-shelf",
+    kind: "work-site",
+    role: "resource-origin-and-landmark",
+    footprint: { x: -1680, z: 260, width: 820, depth: 560 },
+    spatialRule: "mine entrance, rail, cart, tailings, and gold seams belong to one shelf",
+  },
+  {
+    id: "space.world.town-shelf",
+    kind: "settlement",
+    role: "human-scale-navigation-and-cover",
+    footprint: { x: 780, z: 160, width: 920, depth: 620 },
+    spatialRule: "town frontage forms a street and cover space, not random building scatter",
+  },
+  {
+    id: "space.world.extraction-vista",
+    kind: "route-vista",
+    role: "cashout-pressure-direction",
+    footprint: { x: -260, z: 560, width: 1280, depth: 620 },
+    spatialRule: "the player should read the route out under final-rush pressure",
+  },
+];
+
+export function createGoldRushWorldElements({ network = null, rooms = { shards: [] }, phase = "lobby" } = {}) {
+  const partitionWindowIds = network?.partitions?.map((partition) => partition.roomWindowId) ?? [];
+  const shardIds = rooms.shards?.map((shard) => shard.id) ?? network?.partitions?.map((partition) => partition.shardId) ?? [];
+  const activeRoomWindows = roomPatchWindows.filter((window) => {
+    if (partitionWindowIds.length > 0) return partitionWindowIds.includes(window.id);
+    return shardIds.length === 0 || shardIds.includes(window.shardId);
+  });
   return {
     version: "0.1.0",
     source: "goldrush-local-procedural-world-elements",
@@ -250,6 +299,7 @@ export function createGoldRushWorldElements({ rooms = { shards: [] }, phase = "l
     goldZones,
     paths,
     scatterFields,
+    environmentSpaces,
     loadingGates,
   };
 }
@@ -262,6 +312,10 @@ export function validateGoldRushWorldElements(world = createGoldRushWorldElement
   if (world.mountainRanges.length < 3) failures.push("missing-mountain-boundaries");
   if (world.goldZones.length < 4) failures.push("missing-gold-zones");
   if (world.paths.length < 4) failures.push("missing-route-network");
+  if (world.environmentSpaces?.length < 6) failures.push("missing-environment-space-understanding");
+  if (!world.environmentSpaces?.some((space) => space.id === "space.world.mine-shelf" && space.spatialRule.includes("one shelf"))) {
+    failures.push("missing-mine-shelf-spatial-rule");
+  }
   if (!world.loadingGates.some((gate) => gate.transitionId === "goldrush.transition.roomHandoffStart")) {
     failures.push("missing-loading-handoff-gate");
   }

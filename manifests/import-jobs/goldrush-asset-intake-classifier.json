@@ -1,0 +1,43 @@
+{
+  "schema": "nexusengine.goldrush.asset-intake-classifier-job.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "status": "waiting-for-cloud-raw-copy",
+  "purpose": "Classify cloud-copied legacy Gold Rush candidates inside the destination repo before conversion, review, or promotion.",
+  "localCodexRule": "Local Codex may run this only inside NexusEngine-GoldRush and must not clone or inspect legacy source repos.",
+  "input": {
+    "candidateRoot": "raw/imported/goldrush-dual-source-001/",
+    "candidateRootCreatedBy": "private cloud worker after deny-path and secret scans"
+  },
+  "output": {
+    "classificationReport": "reports/asset-classification/goldrush-dual-source-001-classification.json",
+    "conversionReport": "reports/conversion/goldrush-dual-source-001.json",
+    "humanReviewReport": "reports/human-review/goldrush-dual-source-001.json",
+    "sanitizedRegistry": "sanitized/registry/assets.json"
+  },
+  "commands": [
+    "node tools/import-sanitize/classify-goldrush-import.mjs --job goldrush-dual-source-001",
+    "node tools/validation/validate-asset-intake-classifier.mjs",
+    "npm run check"
+  ],
+  "blockedIfAny": [
+    "denied-path",
+    "secret-finding",
+    "missing-human-review",
+    "candidate-without-slot",
+    "public-promotion-before-sanitation"
+  ],
+  "slotFamilies": [
+    "scene-reference",
+    "character",
+    "weapon",
+    "vehicle",
+    "resource-node",
+    "currency",
+    "flora",
+    "prop",
+    "animation",
+    "music",
+    "sfx"
+  ]
+}

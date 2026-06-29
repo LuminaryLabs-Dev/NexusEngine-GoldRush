@@ -1,0 +1,28 @@
+export const openSourceGlbAssets = [
+  {
+    id: "poly-pizza.quaternius.rocks",
+    title: "Rocks",
+    creator: "Quaternius",
+    role: "faceted-rock",
+    sourcePage: "https://poly.pizza/m/OQvi8PIZ40",
+    sourceGlb: "https://static.poly.pizza/c6f65def-08c5-4c81-b17f-f37b171ad911.glb",
+    license: "CC0-1.0",
+    licenseLabel: "Public Domain / CC0",
+    runtimePath: "assets/glb/poly-pizza/quaternius-rocks.glb",
+    placement: { x: -3.2, y: 0.22, z: 3.4, scale: 1.4, rotation: 0.4 },
+    accessed: "2026-06-29",
+  },
+  {
+    id: "poly-pizza.quaternius.cactus",
+    title: "Cactus",
+    creator: "Quaternius",
+    role: "cactus",
+    sourcePage: "https://poly.pizza/m/HsEJgRLQWX",
+    sourceGlb: "https://static.poly.pizza/c9bfa77b-fc43-402a-aee4-f34b2581b0f6.glb",
+    license: "CC0-1.0",
+    licenseLabel: "Public Domain / CC0",
+    runtimePath: "assets/glb/poly-pizza/quaternius-cactus.glb",
+    placement: { x: 5.7, y: 0.22, z: 4.2, scale: 1.1, rotation: -0.2 },
+    accessed: "2026-06-29",
+  },
+];

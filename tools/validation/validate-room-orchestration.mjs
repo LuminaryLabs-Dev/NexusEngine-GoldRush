@@ -34,6 +34,24 @@ for (const testCase of cases) {
   }
 }
 
+const session = orchestrator.createSession({ players: 49, phase: "lobby" });
+session.joinPlayer({ playerId: "player-050", source: "validator" });
+let rooms = session.snapshot().rooms;
+assert(rooms.shards.length === 1, "50 live players should still use one compatibility room shard");
+assert(rooms.shards[0].playerCount === 50, "compatibility shard 1 should hold 50 players before threshold");
+
+session.joinPlayer({ playerId: "player-051", source: "validator" });
+rooms = session.snapshot().rooms;
+assert(rooms.shards.length === 2, "player 51 should add compatibility shard 2");
+assert(rooms.shards[0].playerCount === 50, "compatibility shard 1 should remain capped");
+assert(rooms.shards[1].playerCount === 1, "compatibility shard 2 should receive overflow player");
+
+session.leavePlayer({ playerId: "player-051", reason: "validator-drop" });
+rooms = session.snapshot().rooms;
+assert(rooms.shards.length === 2, "compatibility shard 2 should stay retained after player 51 leaves");
+assert(rooms.shards[1].state === "retained", "compatibility shard 2 should be marked retained when empty");
+assert(rooms.ledger.writes.includes("player-leave"), "room ledger should include incremental leave writes");
+
 console.log("room orchestration passed");
 
 function assert(condition, message) {

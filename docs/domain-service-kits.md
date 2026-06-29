@@ -6,7 +6,8 @@ NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reu
 
 ## Initial Custom Kits
 
-- `goldrush-room-orchestrator-kit`: match, lobby, 50-player shards, shared ledger, handoff data.
+- `goldrush-network-kit`: public multiplayer topology, readiness, internal 50-player partitions, shared ledger, and handoff data.
+- `goldrush-room-orchestrator-kit`: compatibility facade over `goldrushNetwork` for older room-window references.
 - `goldrush-legacy-source-kit`: cloud-side legacy source intake contract and browser-safe asset readiness.
 - `goldrush-terrain-patch-window-kit`: terrain scale, patch grid, active room windows, and point-to-patch mapping.
 - `goldrush-town-layout-kit`: town anchors, street graphs, building descriptors, and settlement transition hooks.
@@ -18,7 +19,7 @@ NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reu
 - `goldrush-cargo-kit`: carried gold, capacity, drops, transfer, weight penalties.
 - `goldrush-cashout-kit`: deposits, scoring, extraction validation.
 - `goldrush-combat-state-kit`: combat phase, target locks, damage receipts, camera mode.
-- `goldrush-camera-descriptor-kit`: rich exploration/combat/loading/cashout camera descriptors from legacy camera evidence.
+- `goldrush-camera-descriptor-kit`: rich exploration/combat/loading/cashout camera descriptors from legacy camera evidence, plus the 1,000-pose player-view perspective catalog used for playability proof.
 - `goldrush-perspective-kit`: exploration camera versus combat camera.
 - `goldrush-world-element-kit`: world scale, towns, mountains, paths, gold zones, loading gates, and room patch windows.
 - `goldrush-scene-transition-kit`: browser scene state, transitions, audio cues, and animation cues.
@@ -38,6 +39,7 @@ NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reu
 The browser scaffold now installs Gold Rush custom domain service kits through the NexusRealtime `createRealtimeGame()` composer. Gold Rush APIs are exposed under `engine.n.*`:
 
 - `engine.n.goldrushRooms`
+- `engine.n.goldrushNetwork`
 - `engine.n.goldrushScenario`
 - `engine.n.goldrushLegacySources`
 - `engine.n.goldrushTerrain`
@@ -100,8 +102,10 @@ The current browser surface is no longer a circular arena primitive. GoldRush ow
 - `goldrush.procTerrain.patchTessellation`: broad terrain field with 300+ small tessellated patches.
 - `goldrush.procTerrain.routeRibbon`: exploration and combat path cues across the field.
 - `goldrush.procTerrain.goldNodeScatter`: distributed gold-node placeholders.
-- `goldrush.procTerrain.shardPlayerMarkers`: two 50-player shard marker lanes.
-- `goldrush.procScene.lightingCamera`: exploration and combat camera presets.
+- `goldrush.procTerrain.networkPresenceMarkers`: small debug field-team markers for internal network occupancy.
+- `goldrush.procScene.lightingCamera`: over-the-shoulder exploration and combat camera presets.
+- `goldrush.procScene.thirdPersonPlayerRig`: visible third-person player rig used as the camera anchor.
+- `goldrush.camera.perspectiveCatalog`: 1,000 deterministic camera poses across 10 families for exploration, trail, canyon, mining, town, combat, cover, extraction, spectate, and replay review.
 - `goldrush.procWorld.elements`: procedural towns, mountains, landmarks, paths, gold zones, and loading gates.
 
 Each kit is validated separately by `tools/validation/validate-procedural-renderer-kits.mjs` before the renderer composes them.

@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -17,186 +24,512 @@ body {
   overflow: hidden;
 }
 
-button,
-select,
-input {
+button {
   font: inherit;
 }
 
-.shell {
-  display: grid;
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+[hidden] {
+  display: none !important;
+}
+
+.appShell,
+.screen,
+.gameStage,
+#goldrush-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.appShell {
+  position: relative;
   min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(37, 65, 73, 0.9), rgba(10, 13, 14, 0.96)),
+    radial-gradient(circle at 50% 68%, rgba(245, 181, 68, 0.22), transparent 34%),
+    #101416;
 }
 
-.panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 22px;
-  background: #171c1e;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.brand {
+.screen {
   display: grid;
-  gap: 6px;
+  place-items: center;
+  padding: 28px;
 }
 
-.brand h1 {
+.titleBlock {
+  width: min(760px, 100%);
+  display: grid;
+  gap: 18px;
+}
+
+.titleBlock {
+  justify-items: center;
+  text-align: center;
+}
+
+.kicker {
   margin: 0;
-  font-size: 32px;
-  line-height: 1;
+  color: #f5b544;
+  font-size: 13px;
+  font-weight: 800;
   letter-spacing: 0;
-}
-
-.brand p {
-  margin: 0;
-  color: #b8c2bd;
-  line-height: 1.45;
-}
-
-.heroControls,
-.advancedControls,
-.readout {
-  display: grid;
-  gap: 10px;
-}
-
-.controlRow {
-  display: grid;
-  gap: 6px;
-}
-
-.controlRow label,
-.statLabel {
-  color: #b8c2bd;
-  font-size: 12px;
   text-transform: uppercase;
 }
 
-.segmented {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(58px, 12vw, 132px);
+  line-height: 0.88;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: clamp(34px, 7vw, 74px);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.titleBlock p:not(.kicker) {
+  color: #d8d2c6;
+  font-size: clamp(18px, 2.4vw, 25px);
+  line-height: 1.35;
+  max-width: 620px;
 }
 
 .button,
+.iconButton,
 select,
-input[type="range"] {
-  width: 100%;
-}
-
-.button,
-select {
-  border: 1px solid rgba(255, 255, 255, 0.16);
+input {
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  min-height: 42px;
-  padding: 0 12px;
   color: #f6efe3;
-  background: #22292b;
+  background: rgba(17, 24, 26, 0.82);
+  cursor: pointer;
 }
 
 .button {
-  cursor: pointer;
+  min-height: 52px;
+  padding: 0 22px;
+  font-weight: 800;
 }
 
 .button.primary {
   color: #17120a;
   background: #f5b544;
   border-color: #f5b544;
-  font-weight: 700;
 }
 
-.button.active {
-  border-color: #74d0c2;
-  color: #101416;
-  background: #74d0c2;
-}
-
-details {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 12px;
-}
-
-summary {
-  cursor: pointer;
+.button.secondary {
   color: #f6efe3;
+  background: rgba(13, 20, 22, 0.9);
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+.button:disabled {
+  color: #98a39d;
+  background: rgba(26, 32, 34, 0.88);
+  border-color: rgba(255, 255, 255, 0.12);
+  cursor: default;
 }
 
-.stat {
+.titleButton {
+  min-width: 220px;
+}
+
+.lobbyScreen {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.squadLobby {
+  min-height: 100%;
+  padding: 22px 28px 28px;
   display: grid;
-  gap: 4px;
-  min-height: 70px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 18px;
+}
+
+.lobbyTopbar {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.lobbyTopbar h2 {
+  font-size: clamp(34px, 5vw, 68px);
+}
+
+.iconButton {
+  width: 52px;
+  height: 52px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.statusBadge {
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid rgba(116, 208, 194, 0.52);
+  border-radius: 999px;
+  color: #74d0c2;
+  background: rgba(16, 37, 37, 0.72);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.squadStage {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(280px, 1fr) minmax(220px, 300px);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.squadPanel,
+.matchPanel {
+  display: grid;
+  align-content: end;
+  gap: 10px;
+  padding-bottom: 24px;
+}
+
+.squadSlot,
+.modeReadout,
+.selectField {
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 8px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(9, 14, 16, 0.72);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
 }
 
-.statValue {
-  font-size: 22px;
+.squadSlot {
+  min-height: 82px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+}
+
+.squadSlot.active {
+  border-color: #74d0c2;
+  background: rgba(25, 67, 61, 0.76);
+}
+
+.slotNumber {
+  color: #f5b544;
+  font-weight: 900;
+}
+
+.squadSlot strong,
+.modeReadout span,
+.selectField span {
+  font-weight: 900;
+}
+
+.squadSlot small,
+.modeReadout small {
+  color: #b8c2bd;
+  text-transform: uppercase;
+  grid-column: 2;
+}
+
+.characterStage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-items: end;
+  min-height: 520px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent),
+    radial-gradient(circle at 50% 78%, rgba(245, 181, 68, 0.32), transparent 24%);
+}
+
+.characterStage::before {
+  content: "";
+  position: absolute;
+  inset: 12% 8% 0;
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgba(116, 208, 194, 0.28) 48% 49%, transparent 49% 100%),
+    repeating-linear-gradient(90deg, transparent 0 58px, rgba(255, 255, 255, 0.06) 59px 60px);
+  clip-path: polygon(16% 100%, 39% 0, 61% 0, 84% 100%);
+  opacity: 0.46;
+}
+
+.characterNameplate {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.characterNameplate span {
+  color: #b8c2bd;
+  font-size: 13px;
   font-weight: 800;
 }
 
-.stage {
-  position: relative;
-  min-height: 100vh;
-  background: #121819;
+.characterNameplate strong {
+  color: #f5b544;
+  font-size: 24px;
 }
 
-.stage canvas {
+.characterPedestal {
+  position: relative;
+  z-index: 1;
+  width: min(360px, 72vw);
+  height: min(500px, 64vh);
+  display: grid;
+  place-items: end center;
+}
+
+.lobbyCharacterCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: grab;
+  touch-action: none;
+}
+
+.lobbyCharacterCanvas:active {
+  cursor: grabbing;
+}
+
+.lobbyCharacterCanvas canvas,
+.lobbyCharacterCanvasElement {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.hud {
+.characterPedestal::after {
+  content: "";
+  width: 78%;
+  height: 42px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 181, 68, 0.44), rgba(11, 13, 13, 0.92) 68%);
+}
+
+.lobbyCharacter {
   position: absolute;
+  bottom: 54px;
+  width: 150px;
+  height: 330px;
+}
+
+.lobbyCharacter span {
+  position: absolute;
+  display: block;
+}
+
+.lobbyCharacter .hat {
+  left: 34px;
+  top: 10px;
+  width: 82px;
+  height: 28px;
+  background: #b8873d;
+  clip-path: polygon(14% 55%, 40% 30%, 48% 0, 62% 30%, 88% 55%, 100% 72%, 0 72%);
+}
+
+.lobbyCharacter .head {
+  left: 52px;
+  top: 42px;
+  width: 46px;
+  height: 56px;
+  border-radius: 45% 45% 38% 38%;
+  background: #e1d0a8;
+}
+
+.lobbyCharacter .torso {
+  left: 34px;
+  top: 105px;
+  width: 82px;
+  height: 112px;
+  background: #263a36;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+}
+
+.rib {
+  left: 54px;
+  width: 42px;
+  height: 8px;
+  background: #e1d0a8;
+}
+
+.ribOne {
+  top: 138px;
+}
+
+.ribTwo {
+  top: 162px;
+}
+
+.arm {
+  top: 116px;
+  width: 13px;
+  height: 118px;
+  background: #e1d0a8;
+}
+
+.leftArm {
   left: 18px;
+  transform: rotate(7deg);
+}
+
+.rightArm {
   right: 18px;
-  bottom: 18px;
+  transform: rotate(-7deg);
+}
+
+.leg {
+  top: 218px;
+  width: 18px;
+  height: 94px;
+  background: #e1d0a8;
+}
+
+.leftLeg {
+  left: 48px;
+}
+
+.rightLeg {
+  right: 48px;
+}
+
+.selectField,
+.modeReadout,
+.partyRoomPanel {
+  padding: 14px;
   display: grid;
   gap: 8px;
-  max-width: 680px;
 }
 
-.hudLine {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+select,
+input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 12px;
 }
 
-.pill {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  padding: 8px 11px;
+select {
+  color: #17120a;
+  background: #f5b544;
+  font-weight: 900;
+}
+
+input {
   color: #f6efe3;
-  background: rgba(10, 13, 14, 0.76);
-  backdrop-filter: blur(8px);
+  background: rgba(8, 12, 14, 0.9);
+  cursor: text;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
-@media (max-width: 780px) {
-  body {
-    overflow: auto;
+.partyRoomPanel {
+  border: 1px solid rgba(116, 208, 194, 0.24);
+  border-radius: 8px;
+  background: rgba(9, 14, 16, 0.72);
+}
+
+.roomCodeLine,
+.codeField {
+  display: grid;
+  gap: 6px;
+}
+
+.roomCodeLine span,
+.codeField span,
+.partyRoomPanel small {
+  color: #b8c2bd;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.roomCodeLine strong {
+  color: #74d0c2;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.lobbyActions {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px);
+  justify-content: center;
+}
+
+.gameStage {
+  position: relative;
+  background: #101416;
+}
+
+.gameStage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.loadingStage {
+  background: #8eb4bd;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .screen {
+    padding: 18px;
   }
 
-  .shell {
+  .squadLobby {
+    padding: 16px;
+  }
+
+  .lobbyTopbar {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .statusBadge {
+    grid-column: 1 / -1;
+    width: max-content;
+  }
+
+  .squadStage {
     grid-template-columns: 1fr;
   }
 
-  .panel {
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  .squadPanel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-bottom: 0;
   }
 
-  .stage {
-    min-height: 62vh;
+  .characterStage {
+    min-height: 360px;
+  }
+
+  .matchPanel {
+    padding-bottom: 0;
   }
 }

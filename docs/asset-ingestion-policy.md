@@ -50,3 +50,18 @@ Local validation for this bridge is:
 ```txt
 node tools/validation/validate-legacy-source-intake.mjs
 ```
+
+## Destination Repo Classifier
+
+After a private/cloud worker copies approved candidates into `raw/imported/<jobId>/`, classify the candidate set inside this repo before conversion or promotion:
+
+```txt
+node tools/import-sanitize/classify-goldrush-import.mjs --job goldrush-dual-source-001
+node tools/validation/validate-asset-intake-classifier.mjs
+```
+
+The classifier maps likely legacy files to Gold Rush slot IDs, blocks package/settings/plugin/secret-like files, and reports unmapped files without promoting anything. The job manifest is:
+
+```txt
+manifests/import-jobs/goldrush-asset-intake-classifier.json
+```

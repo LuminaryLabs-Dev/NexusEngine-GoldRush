@@ -6,7 +6,7 @@ The repo is intentionally structured as a thin game host:
 
 - NexusRealtime owns the runtime contract.
 - NexusRealtime-Kits and ProtoKits provide reusable domain behavior.
-- Gold Rush custom kits compose the game loop, room orchestration, and asset registry.
+- Gold Rush custom kits compose the game loop, network contract, and asset registry.
 - Legacy assets arrive through cloud-side import and sanitation gates.
 - Legacy source intake is represented by a browser-safe `engine.n.goldrushLegacySources` API and a concrete cloud-worker manifest.
 
@@ -17,9 +17,9 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 ## First Playable Shape
 
 - 2-100 player target.
-- Room shards hold up to 50 players.
-- Multi-room orchestration generates shard data incrementally.
-- Exploration/extraction view switches to combat view when combat state is active.
+- `engine.n.goldrushNetwork` owns multiplayer topology; 50-player partitions are internal infrastructure.
+- Player joining UI is deferred from the first-screen workflow; multi-browser testing can exercise that externally.
+- Exploration/extraction and combat use over-the-shoulder third-person camera descriptors.
 - Asset registry reads promoted runtime assets only from `public/assets`.
 - The current playable loop lets the player mine gold, survive an ambush, and cash out through NexusRealtime kit APIs.
 - Placeholder asset slots are stable IDs that future sanitized legacy assets can fill.
@@ -40,7 +40,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, match lifecycle/receipt/scoring behavior, legacy source intake readiness, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
+`npm run check` validates the network kit, room compatibility boundaries, NexusRealtime `engine.n.*` kit wiring, match lifecycle/receipt/scoring behavior, legacy source intake readiness, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
 
 ## Deploy
 

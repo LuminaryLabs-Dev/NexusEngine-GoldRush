@@ -21,6 +21,9 @@ assert(world.mountainRanges.every((range) => range.height >= 250), "mountain ran
 assert(world.goldZones.every((zone) => zone.radius >= 140), "gold zones must be broad enough for multiplayer contention");
 assert(world.paths.every((path) => path.points.length >= 4), "paths must have enough points for route readability");
 assert(world.loadingGates.length >= 2, "loading and room handoff gates must be defined");
+assert(world.environmentSpaces.length >= 6, "world must expose environment spaces, not only prop/reference-image lists");
+assert(world.environmentSpaces.some((space) => space.id === "space.world.canyon-basin"), "world must define the canyon basin as a playable volume");
+assert(world.environmentSpaces.some((space) => space.id === "space.world.mine-shelf" && space.spatialRule.includes("one shelf")), "mine props must be organized by shelf/world understanding");
 assert(world.activeRoomWindows.reduce((sum, window) => sum + ((window.patchRadius * 2 + 1) ** 2), 0) >= 100, "active terrain windows need enough patch coverage");
 
 const towns = createTownLayoutDescriptors(world);

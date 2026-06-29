@@ -1,0 +1,64 @@
+- main [ref=e3]:
+  - region "Gold Rush controls" [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Gold Rush" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Over-the-shoulder NexusRealtime extraction combat across a massive gold field.
+    - generic [ref=e8]:
+      - button "Start Gold Run" [ref=e9] [cursor=pointer]
+      - generic [ref=e10]:
+        - button "Mine Gold" [ref=e11] [cursor=pointer]
+        - button "Cash Out" [ref=e12] [cursor=pointer]
+      - button "Ambush" [ref=e13] [cursor=pointer]
+      - generic [ref=e14]:
+        - button "Travel" [ref=e15] [cursor=pointer]
+        - button "Aim" [ref=e16] [cursor=pointer]
+    - group [ref=e17]:
+      - generic "Advanced controls" [ref=e18] [cursor=pointer]
+      - option "lobby" [selected]
+      - option "drop"
+      - option "prospect"
+      - option "combat"
+      - option "finalRush"
+      - option "collapse"
+      - option "extract"
+      - option "results"
+    - region "Match state" [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: Players
+          - generic [ref=e23]: "72"
+        - generic [ref=e24]:
+          - generic [ref=e25]: Network
+          - generic [ref=e26]: ready
+        - generic [ref=e27]:
+          - generic [ref=e28]: Carried
+          - generic [ref=e29]: "0"
+        - generic [ref=e30]:
+          - generic [ref=e31]: Banked
+          - generic [ref=e32]: "0"
+  - region "Gold Rush terrain preview" [ref=e33]:
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - generic [ref=e38]: "network: network-ready"
+        - generic [ref=e39]: "partitioning: resolved"
+        - generic [ref=e40]: "legacy sources: 2"
+        - generic [ref=e41]: "asset readiness: 0/19"
+        - generic [ref=e42]: "version: Modern Extraction"
+      - generic [ref=e43]:
+        - generic [ref=e44]: "lobby: active"
+        - generic [ref=e45]: "match: lobby / running"
+        - generic [ref=e46]: "pressure: 0%"
+        - generic [ref=e47]: "extracted: 0"
+        - generic [ref=e48]: "leader: none / 0"
+        - generic [ref=e49]: "receipts: 0 extraction / 0 handoff"
+        - generic [ref=e50]: "result: pending"
+        - generic [ref=e51]: "replay: 1 moments"
+      - generic [ref=e52]:
+        - generic [ref=e53]: "world: 5.2km x 3.4km"
+        - generic [ref=e54]: "towns: 3"
+        - generic [ref=e55]: "paths: 4"
+        - generic [ref=e56]: "gold zones: 4"
+        - generic [ref=e57]: "patches: 242"
+        - generic [ref=e58]: "camera: exploration"
+        - generic [ref=e59]: "kits: 28"
+        - generic [ref=e60]: "gold nodes: 12"

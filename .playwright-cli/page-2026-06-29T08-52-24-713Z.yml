@@ -1,0 +1,57 @@
+- main [ref=e3]:
+  - region "Gold Rush lobby" [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - button "Back to title" [ref=e13] [cursor=pointer]: ‹
+        - generic [ref=e14]:
+          - paragraph [ref=e15]: Lobby
+          - heading "Gold Rush" [level=2] [ref=e16]
+        - generic [ref=e17]: joined / 2/4
+      - region "Squad lobby" [ref=e18]:
+        - complementary "Party slots" [ref=e19]:
+          - generic [ref=e73]:
+            - generic [ref=e74]: "01"
+            - strong [ref=e75]: Prospector
+            - generic [ref=e76]: Leader / Ready
+          - generic [ref=e77]:
+            - generic [ref=e78]: "02"
+            - strong [ref=e79]: Prospector
+            - generic [ref=e80]: Member / Connected
+          - generic [ref=e81]:
+            - generic [ref=e82]: "03"
+            - strong [ref=e83]: Open Slot
+            - generic [ref=e84]: Waiting
+          - generic [ref=e85]:
+            - generic [ref=e86]: "04"
+            - strong [ref=e87]: Open Slot
+            - generic [ref=e88]: Waiting
+        - generic "Selected character" [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]: Skeleton Prospector
+            - strong [ref=e39]: Outfit
+        - complementary "Match setup" [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Group Type
+            - combobox "Group Type" [ref=e54] [cursor=pointer]:
+              - option "Crew"
+              - option "Posse"
+              - option "Outfit" [selected]
+          - generic [ref=e55]:
+            - generic [ref=e56]: Outfit
+            - generic [ref=e57]: full expedition
+          - generic [ref=e58]:
+            - generic [ref=e59]: 20 player match
+            - generic [ref=e60]: leader launches mass room
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - generic [ref=e63]: Party Code
+              - strong [ref=e64]: RKHWY
+            - button "Create Code" [ref=e65] [cursor=pointer]
+            - generic [ref=e66]:
+              - generic [ref=e67]: Join Code
+              - textbox "Join Code" [ref=e68]:
+                - /placeholder: ABCDE
+                - text: RKHWY
+            - button "Join Party" [active] [ref=e69] [cursor=pointer]
+            - generic [ref=e70]: Joined party. Waiting for the leader to launch.
+      - button "Waiting For Leader" [disabled] [ref=e89]

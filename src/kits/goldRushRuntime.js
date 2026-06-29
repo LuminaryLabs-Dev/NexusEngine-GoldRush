@@ -82,6 +82,18 @@ export function createGoldRushRuntime({ orchestrator }) {
     return receipt;
   }
 
+  function setLegacyMode({ modeId }) {
+    const receipt = engine.n.goldrushLegacyModes.set({ modeId, reason: "runtime-control" });
+    engine.n.goldrushReplaySummary.appendEvent({
+      type: "legacyModeChanged",
+      tick: engine.clock.frame,
+      payload: { modeId },
+    });
+    engine.n.goldrushMatch.tick({ dt: 1 });
+    engine.tick();
+    return receipt;
+  }
+
   function startFinalRush() {
     const snapshot = engine.n.goldrushScenario.triggerFinalRush();
     engine.n.goldrushFinalRush.tick({ dt: 35, phase: "finalRush" });
@@ -124,6 +136,7 @@ export function createGoldRushRuntime({ orchestrator }) {
     cashOut,
     takeDamage,
     transitionScene,
+    setLegacyMode,
     startFinalRush,
     advanceCollapse,
     requestHandoff,
