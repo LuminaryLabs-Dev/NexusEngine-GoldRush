@@ -37,6 +37,26 @@ Every promoted asset needs:
 - human approval id.
 - browser runtime path.
 
+Approved runtime metadata lands in:
+
+```txt
+src/content/goldrushApprovedAssets.js
+```
+
+Approved bytes land in:
+
+```txt
+public/assets/
+```
+
+The browser consumes only `assets/...` runtime paths after the approved overlay replaces matching placeholder slots. Runtime code must never import from `raw/`, `sanitized/`, or `quarantine/`.
+
+Local validation:
+
+```txt
+node tools/validation/validate-approved-asset-registry.mjs
+```
+
 ## Current Intake Bridge
 
 `engine.n.goldrushLegacySources` exposes a browser-safe summary of the two legacy Unity source projects and the required playable asset families. The concrete cloud-worker request is:

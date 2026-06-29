@@ -68,3 +68,13 @@ asset readiness: 0/19
 ```
 
 The readiness count should remain incomplete until approved runtime assets replace placeholder slots.
+
+## Approved Runtime Overlay
+
+Cloud-approved legacy assets are not read directly from `raw/` or `sanitized/` by the browser. A worker must promote reviewed files into `public/assets/` and add matching records to:
+
+```txt
+src/content/goldrushApprovedAssets.js
+```
+
+Each approved record must target an existing slot ID and include `sourceJobId`, `sourcePath`, `sourceHash`, `outputHash`, `provenance`, `approvalId`, and an `assets/...` runtime path. `tools/validation/validate-approved-asset-registry.mjs` keeps the empty pending state valid today and fails unsafe or partial approved records later.

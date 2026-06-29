@@ -11,6 +11,7 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - Raw files land in `raw/imported/<jobId>/` only.
 - Sanitation outputs land in `sanitized/`.
 - Browser runtime assets land in `public/assets/` only after approval.
+- Approved runtime asset metadata lands in `src/content/goldrushApprovedAssets.js` and overlays placeholder slots only after provenance, hashes, approval, and safe `assets/...` paths validate.
 - The app deploys from the `Build` branch.
 - The public Pages URL must be smoke-tested after deployment with `npm run proof:public`.
 - The game uses NexusRealtime as the runtime contract and custom Gold Rush kits for orchestration.
@@ -93,3 +94,12 @@ node tools/validation/validate-cloud-transfer-handoff.mjs
 ```
 
 This packet is ready for GPT/cloud workers to execute. It keeps local Codex out of legacy repo clones, requires both Unity roots and scene evidence, blocks Unity/project/plugin/config folders, maps copy domains to runtime slots, and requires scan/provenance/conversion/human-review reports before promotion.
+
+## Current Approved Runtime Asset Gate
+
+```txt
+src/content/goldrushApprovedAssets.js
+tools/validation/validate-approved-asset-registry.mjs
+```
+
+The approved registry is intentionally empty while cloud import is pending. Empty state passes validation and keeps runtime placeholders active. Future approved records must target existing slots, use `sourceJobId: goldrush-dual-source-001`, include source/output hashes and approval metadata, point to committed files under `public/assets/` through browser-relative `assets/...` paths, and match the runtime file hash.
