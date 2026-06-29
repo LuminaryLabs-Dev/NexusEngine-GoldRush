@@ -1279,6 +1279,7 @@ function createScenarioKit() {
           const network = engine.n.goldrushNetwork.snapshot();
           const realityStatus = engine.n.goldrushReality.snapshot();
           const kitContracts = engine.n.goldrushKitContracts.snapshot();
+          const protoKitBridge = engine.n.goldrushProtoKitBridge.snapshot();
           return {
             ...structuredClone(state),
             network,
@@ -1291,6 +1292,7 @@ function createScenarioKit() {
             results,
             replaySummary,
             kitContracts,
+            protoKitBridge,
             cameraMode: perspective.mode,
             cameraDescriptor: perspective.descriptor,
             assets,

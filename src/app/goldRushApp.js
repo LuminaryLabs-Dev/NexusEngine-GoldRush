@@ -274,6 +274,7 @@ export function createGoldRushApp(root) {
         animation: scenario.animationState,
         camera: scenario.cameraState,
         match: scenario.match,
+        protoKitBridge: scenario.protoKitBridge,
         extractionLoop: scenario.extractionLoop,
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,

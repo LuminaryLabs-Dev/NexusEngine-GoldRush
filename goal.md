@@ -127,3 +127,5 @@ tools/validation/validate-goldrush-protokit-bridge.mjs
 ```
 
 The bridge loads `generic-route-progress-kit`, `generic-resource-loop-kit`, `generic-pressure-loop-kit`, and `generic-route-cargo-extraction-kit` from `@luminarylabs/nexusrealtime-protokits`. It maps them to GoldRush checkpoints `mine-seam -> carry-gold -> cashout-site`, `gold` cargo, and `ambush-pressure`. The imported stack is hosted in an isolated NexusRealtime runtime because direct main-engine ticking currently overflows inside the imported composite stack; the bridge still proves the main GoldRush runtime can tick with the bridge installed.
+
+Live runtime actions now mirror into the bridge: mining completes `mine-seam` and adds gold, combat damage increases `ambush-pressure` and spends lost cargo, successful cashout completes `carry-gold` and `cashout-site`, and `goldrushScenario.snapshot().protoKitBridge` exposes the bridge state for browser proof. GoldRush-specific scoring and receipts remain owned by `engine.n.goldrushExtractionLoop`, `engine.n.goldrushExtractionReceipts`, and `engine.n.goldrushScoring`.

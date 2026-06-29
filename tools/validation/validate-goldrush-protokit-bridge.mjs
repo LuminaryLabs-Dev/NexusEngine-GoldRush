@@ -46,6 +46,35 @@ expect(runtime.engine.clock.frame > 0, "runtime-tick-did-not-advance-with-protok
 expect(runtime.engine.n.goldrushExtractionLoop.snapshot().runId, "goldrush-custom-extraction-loop-missing-after-protokit-bridge");
 expect(runtime.engine.n.goldrushProtoKitBridge.snapshot().customOwner === "engine.n.goldrushExtractionLoop", "bridge-custom-owner-mismatch");
 
+const loop = runtime.engine.n.goldrushExtractionLoop.snapshot();
+const mineSite = loop.mining.sites["mine-seam-01"];
+runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+  position: { x: mineSite.worldPosition.x, y: 0, z: mineSite.worldPosition.z },
+});
+let liveMine = null;
+for (let index = 0; index < 8; index += 1) {
+  liveMine = runtime.holdExtractionLoopMine({ dt: 0.3 });
+  if (liveMine.complete) break;
+}
+expect(liveMine?.accepted && liveMine.complete, "live-runtime-mine-did-not-complete");
+const afterLiveMine = runtime.snapshot().protoKitBridge.protoSnapshot;
+expect(afterLiveMine.cargo.resourcesById.gold.value === liveMine.payout, "live-runtime-mine-not-reflected-in-protokit-cargo");
+expect(afterLiveMine.route.completedIds.includes("mine-seam"), "live-runtime-mine-not-reflected-in-protokit-route");
+
+const extractionSite = runtime.engine.n.goldrushExtractionLoop.snapshot().extraction.sites["rail-depot-extract-01"];
+runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+  position: { x: extractionSite.worldPosition.x, y: 0, z: extractionSite.worldPosition.z },
+});
+let liveCashout = null;
+for (let index = 0; index < 12; index += 1) {
+  liveCashout = runtime.holdExtractionLoopCashout({ dt: 0.3 });
+  if (liveCashout.complete) break;
+}
+expect(liveCashout?.accepted && liveCashout.complete, "live-runtime-cashout-did-not-complete");
+const afterLiveCashout = runtime.snapshot().protoKitBridge.protoSnapshot;
+expect(afterLiveCashout.route.status === "completed", "live-runtime-cashout-not-reflected-in-protokit-route");
+expect(afterLiveCashout.cargo.resourcesById.gold.value === 0, "live-runtime-cashout-not-reflected-in-protokit-cargo");
+
 assert(failures.length === 0, `goldrush protokit bridge invalid: ${failures.join(", ")}`);
 
 console.log(JSON.stringify({
@@ -57,6 +86,7 @@ console.log(JSON.stringify({
   pressure: pressure.snapshot.pressure.channelsById["ambush-pressure"].value,
   remainingCargo: deliver.snapshot.cargo.resourcesById.gold.value,
   runtimeFrame: runtime.engine.clock.frame,
+  liveRuntimeRouteStatus: afterLiveCashout.route.status,
 }, null, 2));
 
 function expect(condition, message) {

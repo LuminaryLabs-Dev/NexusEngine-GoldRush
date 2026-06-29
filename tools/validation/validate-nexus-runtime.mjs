@@ -130,6 +130,8 @@ const mined = runtime.mineGold();
 assert(mined.accepted === true, "mine action should yield gold");
 const afterMining = runtime.snapshot();
 assert(afterMining.cargo["player-1"] > 0, "mined gold should enter player cargo");
+assert(afterMining.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value === afterMining.cargo["player-1"], "ProtoKit bridge cargo should mirror live mined cargo");
+assert(afterMining.protoKitBridge.protoSnapshot.route.completedIds.includes("mine-seam"), "ProtoKit bridge should mark mine checkpoint complete after live mining");
 
 runtime.takeDamage();
 const afterDamage = runtime.snapshot();
@@ -142,6 +144,8 @@ assert(afterDamage.animationState.params.isAiming === true, "combat should switc
 assert(afterDamage.cameraState.mode === "combat", "damage should switch camera descriptor to combat");
 assert(afterDamage.cameraState.selectedPerspective.mode === "combat", "combat camera should select a combat perspective packet");
 assert(afterDamage.cargo["player-1"] < afterMining.cargo["player-1"], "damage should put carried gold at risk");
+assert(afterDamage.protoKitBridge.protoSnapshot.pressure.channelsById["ambush-pressure"].value > 0, "ProtoKit bridge should mirror live combat pressure");
+assert(afterDamage.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value === afterDamage.cargo["player-1"], "ProtoKit bridge cargo should mirror damage cargo loss");
 
 runtime.startFinalRush();
 const afterFinalRush = runtime.snapshot();
@@ -153,6 +157,9 @@ runtime.cashOut();
 const afterCashout = runtime.snapshot();
 assert(afterCashout.cashout["player-1"] > 0, "cashout should bank remaining carried gold");
 assert(afterCashout.cargo["player-1"] === 0, "cashout should clear carried gold");
+assert(afterCashout.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value === 0, "ProtoKit bridge cargo should clear after live cashout");
+assert(afterCashout.protoKitBridge.protoSnapshot.route.status === "completed", "ProtoKit bridge route should complete after live cashout");
+assert(afterCashout.protoKitBridge.protoSnapshot.route.completedIds.includes("cashout-site"), "ProtoKit bridge should mark cashout checkpoint complete");
 assert(afterCashout.extractionReceipts.totals.acceptedCount === 1, "cashout should create one accepted extraction receipt");
 assert(afterCashout.scoring.leaders.teamId === "team-01", "cashout should update scoring leader");
 assert(afterCashout.scoring.teams["team-01"].totalScore > 0, "cashout should produce a positive team score");
