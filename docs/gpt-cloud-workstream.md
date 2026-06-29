@@ -62,3 +62,48 @@ Allowed first-pass candidates should focus on Gold Rush identity:
 - Every promoted asset needs source hash, output hash, provenance, approval id, and runtime path.
 - Build output must not contain raw Unity files or secrets.
 - Room orchestration must prove 2-50 players as one shard and 51-100 as two shards.
+
+## Raw Import Status
+
+GPT-it could not safely create the raw-candidate import PR from the ChatGPT/GitHub connector alone.
+
+Reason:
+
+- the destination repo is public.
+- the raw import requires a private source-side scan before any file is copied.
+- the connector cannot guarantee full deny-path and secret scanning over all private legacy source files and binary Unity assets.
+
+The next raw import branch must be created by a private cloud worker that can clone `thecrimsondeveloper/Gold_Rush`, run pre-public scans, and copy only approved candidate files into:
+
+```txt
+raw/imported/goldrush-dual-source-001/source/
+```
+
+Expected next branch:
+
+```txt
+import/goldrush-dual-source-001-raw-candidates
+```
+
+Expected next PR title:
+
+```txt
+Import pre-scanned Gold Rush raw candidates
+```
+
+The next PR must not include `public/assets/`, `sanitized/`, `src/`, Unity package manifests, Photon/Fusion folders, plugin folders, generated Unity folders, or secret-bearing configs.
+
+## Runtime Integration Status
+
+The local Build branch now installs Gold Rush custom Domain Service Kits through NexusRealtime:
+
+- `engine.n.goldrushRooms`
+- `engine.n.goldrushScenario`
+- `engine.n.goldrushMining`
+- `engine.n.goldrushCargo`
+- `engine.n.goldrushCashout`
+- `engine.n.goldrushCombat`
+- `engine.n.goldrushPerspective`
+- `engine.n.goldrushAssets`
+
+The browser renderer consumes scenario snapshots and does not own match, room, mining, combat, cashout, or asset provenance state.

@@ -43,7 +43,7 @@ export function createGoldRushApp(root) {
             <div class="stat"><span class="statLabel">Players</span><span class="statValue" data-stat="players"></span></div>
             <div class="stat"><span class="statLabel">Shards</span><span class="statValue" data-stat="shards"></span></div>
             <div class="stat"><span class="statLabel">Camera</span><span class="statValue" data-stat="camera"></span></div>
-            <div class="stat"><span class="statLabel">Gold</span><span class="statValue" data-stat="gold"></span></div>
+            <div class="stat"><span class="statLabel">Kits</span><span class="statValue" data-stat="kits"></span></div>
           </div>
         </section>
       </section>
@@ -71,7 +71,7 @@ export function createGoldRushApp(root) {
     root.querySelector('[data-stat="players"]').textContent = state.players;
     root.querySelector('[data-stat="shards"]').textContent = state.rooms.shards.length;
     root.querySelector('[data-stat="camera"]').textContent = state.cameraMode;
-    root.querySelector('[data-stat="gold"]').textContent = state.ledger.goldInWorld;
+    root.querySelector('[data-stat="kits"]').textContent = state.installOrder.length;
     root.querySelector('[data-hud="rooms"]').innerHTML = state.rooms.shards
       .map((room) => `<span class="pill">${room.id}: ${room.playerCount}/50</span>`)
       .join("");

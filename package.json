@@ -8,11 +8,12 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "check": "npm run validate && npm run build",
-    "validate": "node tools/validation/validate-room-orchestration.mjs && node tools/validation/validate-runtime-boundaries.mjs && node tools/validation/validate-import-boundaries.mjs && node tools/validation/validate-report-secrets.mjs && node tools/import-sanitize/validate-asset-gates.mjs"
+    "validate": "node tools/validation/validate-room-orchestration.mjs && node tools/validation/validate-nexus-runtime.mjs && node tools/validation/validate-runtime-boundaries.mjs && node tools/validation/validate-import-boundaries.mjs && node tools/validation/validate-report-secrets.mjs && node tools/import-sanitize/validate-asset-gates.mjs"
   },
   "dependencies": {
+    "@luminarylabs/nexusrealtime-protokits": "github:LuminaryLabs-Agents/NexusRealtime-ProtoKits#main",
+    "nexusrealtime": "github:LuminaryLabs-Dev/NexusRealtime#main",
     "three": "^0.168.0",
     "vite": "^5.4.11"
-  },
-  "devDependencies": {}
+  }
 }

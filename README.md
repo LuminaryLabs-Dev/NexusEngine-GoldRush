@@ -29,7 +29,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` validates room-shard boundaries, runtime asset boundaries, asset registry promotion fields, and the production build.
+`npm run check` validates room-shard boundaries, NexusRealtime `engine.n.*` kit wiring, runtime asset boundaries, asset registry promotion fields, and the production build.
 
 ## Deploy
 
