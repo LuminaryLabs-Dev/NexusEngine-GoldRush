@@ -64,6 +64,17 @@ Suggested policy:
 public/assets/** requires a matching assetId and approval record before merge.
 ```
 
+## Gate 4A: cloud asset receipts must agree
+
+Fail if raw candidates exist without the full receipt set, if receipt JSON has the wrong schema, if denied paths were copied, if source discovery does not prove both Unity roots, or if secret scans expose secret values:
+
+```bash
+node tools/validation/validate-cloud-asset-receipts.mjs
+```
+
+Expected result before import: `waiting-for-cloud-asset-receipts`.
+Expected result after cloud raw copy: `cloud-asset-receipts-ready`.
+
 ## Gate 5: static build must not include raw import folders
 
 After build, fail if `dist/` includes import working folders:

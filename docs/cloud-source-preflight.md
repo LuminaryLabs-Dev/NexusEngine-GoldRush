@@ -64,6 +64,20 @@ GoldRush_Old/
 8. Open a separate raw-import PR.
 ```
 
+## Required receipt gate
+
+Raw-copy PRs must include the receipt set documented in:
+
+```txt
+docs/cloud-asset-receipts.md
+```
+
+The destination repo validates those receipts with:
+
+```bash
+node tools/validation/validate-cloud-asset-receipts.mjs
+```
+
 ## Local Codex boundary
 
 Local Codex may clone and edit only:
@@ -99,6 +113,7 @@ node tools/validate-no-raw-runtime-references.mjs
 node tools/validate-import-reports.mjs
 node tools/validate-public-assets-approved.mjs
 node tools/validate-build-dist-clean.mjs
+node tools/validation/validate-cloud-asset-receipts.mjs
 ```
 
 These validators should inspect only the destination repo. They should fail if runtime code references `raw/`, `quarantine/`, blocked manifests, Photon/Fusion paths, plugin paths, or unapproved assets.

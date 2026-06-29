@@ -133,3 +133,7 @@ Live runtime actions now mirror into the bridge: mining completes `mine-seam` an
 ## Current Legacy Version Selection
 
 The lobby exposes a secondary `Version Source` foldout backed by `engine.n.goldrushLegacyModes`. Players can launch `modernExtraction`, `classicCombat`, or `classicSolo` through the same app flow. Local browser proof selected `classicCombat`, boarded the train, entered `site.gold-field`, and ended with `legacyMode.activeModeId: classicCombat`, `sceneState.currentSceneId: goldrush.scene.legacyGame`, `cameraMode: combat`, and `legacyMode.unifiedRuntime.oneGame: true`.
+
+## Current Cloud Asset Receipt Gate
+
+The remaining asset/audio blocker now has a strict local acceptance gate before promotion. Cloud-side raw copy work must provide `reports/provenance/goldrush-dual-source-001-source-discovery.json`, `quarantine/reports/goldrush-dual-source-001-deny-path-scan.json`, `reports/secret-scans/goldrush-dual-source-001.json`, `reports/provenance/goldrush-dual-source-001-copy-ledger.json`, `reports/provenance/goldrush-dual-source-001-hashes.json`, and `reports/asset-classification/goldrush-dual-source-001-classification.json`. `tools/validation/validate-cloud-asset-receipts.mjs` passes in the pre-import state as `waiting-for-cloud-asset-receipts` and becomes strict as soon as raw candidates or any receipt appears.
