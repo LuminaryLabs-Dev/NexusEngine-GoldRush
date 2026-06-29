@@ -78,6 +78,12 @@ The destination repo validates those receipts with:
 node tools/validation/validate-cloud-asset-receipts.mjs
 ```
 
+Cloud import branches are additionally checked by `.github/workflows/validate-cloud-import.yml`, which runs strict receipt mode:
+
+```bash
+node tools/validation/validate-cloud-asset-receipts.mjs --require-receipts
+```
+
 ## Local Codex boundary
 
 Local Codex may clone and edit only:

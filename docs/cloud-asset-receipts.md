@@ -130,3 +130,13 @@ npm run check
 ```
 
 Passing this gate does not approve runtime assets. It only proves the raw copy is scan-backed, receipt-backed, and ready for conversion/review.
+
+## Strict Import Branch Mode
+
+Import branches and PRs must require receipts even when no raw files exist yet:
+
+```bash
+node tools/validation/validate-cloud-asset-receipts.mjs --require-receipts
+```
+
+The GitHub workflow `.github/workflows/validate-cloud-import.yml` runs this mode on `import/goldrush-dual-source-001-*` branches and import-related pull requests.

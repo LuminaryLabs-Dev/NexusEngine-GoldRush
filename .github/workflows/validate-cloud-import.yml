@@ -1,0 +1,68 @@
+name: Validate Cloud Import
+
+on:
+  push:
+    branches:
+      - "import/goldrush-dual-source-001-*"
+  pull_request:
+    branches:
+      - development
+      - Build
+    paths:
+      - "raw/imported/**"
+      - "sanitized/**"
+      - "public/assets/**"
+      - "reports/provenance/**"
+      - "reports/secret-scans/**"
+      - "reports/asset-classification/**"
+      - "reports/conversion/**"
+      - "reports/human-review/**"
+      - "reports/license-provenance/**"
+      - "quarantine/reports/**"
+      - "src/content/goldrushApprovedAssets.js"
+      - "manifests/import-jobs/**"
+      - "tools/import-sanitize/**"
+      - "tools/validation/validate-cloud-asset-receipts.mjs"
+      - "tools/validation/validate-approved-asset-registry.mjs"
+      - "tools/validation/validate-import-boundaries.mjs"
+      - "tools/validation/validate-report-secrets.mjs"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Validate transfer handoff
+        run: node tools/validation/validate-cloud-transfer-handoff.mjs
+
+      - name: Require cloud asset receipts
+        env:
+          GOLDRUSH_REQUIRE_CLOUD_RECEIPTS: "1"
+        run: node tools/validation/validate-cloud-asset-receipts.mjs
+
+      - name: Validate approval and import boundaries
+        run: |
+          node tools/validation/validate-approved-asset-registry.mjs
+          node tools/validation/validate-import-boundaries.mjs
+          node tools/validation/validate-report-secrets.mjs
+          node tools/import-sanitize/validate-asset-gates.mjs
+
+      - name: Full repo check
+        run: npm run check

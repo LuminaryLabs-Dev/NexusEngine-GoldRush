@@ -75,6 +75,12 @@ node tools/validation/validate-cloud-asset-receipts.mjs
 Expected result before import: `waiting-for-cloud-asset-receipts`.
 Expected result after cloud raw copy: `cloud-asset-receipts-ready`.
 
+Import branches use strict mode so empty or receipt-free cloud branches fail:
+
+```bash
+node tools/validation/validate-cloud-asset-receipts.mjs --require-receipts
+```
+
 ## Gate 5: static build must not include raw import folders
 
 After build, fail if `dist/` includes import working folders:

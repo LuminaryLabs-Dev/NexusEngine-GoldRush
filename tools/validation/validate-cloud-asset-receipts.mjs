@@ -22,6 +22,8 @@ const requiredReceiptKeys = [
 const receiptPaths = Object.fromEntries(
   requiredReceiptKeys.map((key) => [key, destinationFolders[key]])
 );
+const requireReceipts = process.argv.includes("--require-receipts")
+  || process.env.GOLDRUSH_REQUIRE_CLOUD_RECEIPTS === "1";
 
 const existingReceipts = requiredReceiptKeys.filter((key) => existsRepoFile(receiptPaths[key]));
 const rawCandidateFiles = listRawCandidateFiles(destinationFolders.rawCandidates);
@@ -32,6 +34,16 @@ for (const [key, relPath] of Object.entries(receiptPaths)) {
 }
 
 if (!hasCloudEvidence) {
+  if (requireReceipts) {
+    console.error(JSON.stringify({
+      status: "cloud-asset-receipts-required",
+      importJobId: handoff.importJobId,
+      requiredReceipts: receiptPaths,
+      rawCandidateFiles: 0,
+      failures: ["cloud-asset-receipts-required"],
+    }, null, 2));
+    process.exit(1);
+  }
   console.log(JSON.stringify({
     status: "waiting-for-cloud-asset-receipts",
     importJobId: handoff.importJobId,
