@@ -8,6 +8,10 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function generateMatch({ players, phase }) {
     engine.n.goldrushScenario.generateMatch({ players, phase });
+    engine.n.goldrushExtractionLoop.startRun({
+      runId: `goldrush-run-${engine.clock.frame + 1}`,
+      playerId: "player-1",
+    });
     engine.n.goldrushMatch.tick({ dt: 1 });
     engine.tick();
   }
@@ -75,6 +79,36 @@ export function createGoldRushRuntime({ orchestrator }) {
     return receipt;
   }
 
+  function tickExtractionLoop({ localPlayer = null, input = {}, dt = 0.1 } = {}) {
+    const snapshot = engine.n.goldrushExtractionLoop.tick({ localPlayer, input, dt });
+    engine.n.goldrushPerspective.set(snapshot.player.aimMode || snapshot.phase === "combat" ? "combat" : "exploration");
+    engine.n.goldrushMatch.tick({ dt });
+    engine.tick();
+    return snapshot;
+  }
+
+  function holdExtractionLoopMine({ dt = 0.3 } = {}) {
+    const receipt = engine.n.goldrushExtractionLoop.holdMine({ dt });
+    engine.n.goldrushMatch.tick({ dt });
+    engine.tick();
+    return receipt;
+  }
+
+  function holdExtractionLoopCashout({ dt = 0.3 } = {}) {
+    const receipt = engine.n.goldrushExtractionLoop.holdExtraction({ dt });
+    engine.n.goldrushMatch.tick({ dt });
+    engine.tick();
+    return receipt;
+  }
+
+  function fireExtractionLoop() {
+    const receipt = engine.n.goldrushExtractionLoop.fire();
+    engine.n.goldrushPerspective.set("combat");
+    engine.n.goldrushMatch.tick({ dt: 0.1 });
+    engine.tick();
+    return receipt;
+  }
+
   function transitionScene({ phase }) {
     const receipt = engine.n.goldrushScenario.advancePhase(phase);
     engine.n.goldrushMatch.tick({ dt: 1 });
@@ -135,6 +169,10 @@ export function createGoldRushRuntime({ orchestrator }) {
     mineGold,
     cashOut,
     takeDamage,
+    tickExtractionLoop,
+    holdExtractionLoopMine,
+    holdExtractionLoopCashout,
+    fireExtractionLoop,
     transitionScene,
     setLegacyMode,
     startFinalRush,

@@ -1,0 +1,170 @@
+{
+  "url": "http://localhost:5178/NexusEngine-GoldRush/",
+  "screen": "run",
+  "mineMove": {
+    "reached": true,
+    "position": {
+      "x": -14.182555790810406,
+      "y": -0.8352931896638339,
+      "z": -17.81744420918961
+    },
+    "steps": 4
+  },
+  "extractionMove": {
+    "reached": true,
+    "position": {
+      "x": -29.530147959944635,
+      "y": -0.7156320459435527,
+      "z": -22.019836378323753
+    },
+    "steps": 23
+  },
+  "localPlayer": {
+    "id": "player-1",
+    "position": {
+      "x": -29.530147959944635,
+      "y": -0.7156320459435527,
+      "z": -22.019836378323753
+    },
+    "heading": -1.5707963267948966,
+    "look": {
+      "yaw": 0,
+      "pitch": -0.04,
+      "mouseLookEnabled": false,
+      "movementRelativeToCamera": true
+    },
+    "isMoving": false,
+    "speed": 0,
+    "ground": {
+      "height": -0.7156320459435527,
+      "slopeGrade": 0.03855283138644657,
+      "normal": {
+        "x": 0.036,
+        "y": 0.9993,
+        "z": -0.0137
+      },
+      "walkable": true,
+      "blockingFeatureId": null,
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "placement": "downward-triangle-raycast",
+      "hit": {
+        "kind": "downward-triangle-raycast",
+        "bandId": "near-play-band",
+        "triangleIndex": 0,
+        "point": {
+          "x": -29.530147959944635,
+          "y": -0.7156320459435527,
+          "z": -22.019836378323753
+        },
+        "barycentric": {
+          "a": 0.5702107045605393,
+          "b": 0.04049546750574582,
+          "c": 0.3892938279337148
+        }
+      }
+    },
+    "terrainCollider": {
+      "grounded": true,
+      "blocked": false,
+      "maxStepUp": 0.95,
+      "maxSlopeGrade": 1.85
+    },
+    "controls": {
+      "forward": false,
+      "back": false,
+      "left": false,
+      "right": false,
+      "sprint": false
+    }
+  },
+  "extractionLoop": {
+    "phase": "extracted",
+    "cargo": {
+      "goldDust": 0,
+      "nuggets": 0,
+      "totalValue": 0
+    },
+    "receipt": {
+      "runId": "goldrush-run-1",
+      "receiptId": "extraction-loop-01.goldrush-run-1.receipt",
+      "extracted": true,
+      "cargoValue": 840,
+      "depositedGold": 84,
+      "threatsDefeated": 0,
+      "miningSitesTouched": [
+        "mine-seam-01"
+      ],
+      "durationTicks": 936,
+      "nextSceneId": "goldrush.scene.results",
+      "roomHandoffId": "handoff.rail-depot-extract-01",
+      "extractionReceiptStatus": "accepted"
+    },
+    "markers": [
+      {
+        "id": "marker.mine-seam-01",
+        "type": "mining-site",
+        "status": "depleted",
+        "inRange": false,
+        "progress": 0
+      },
+      {
+        "id": "marker.placer-wash-01",
+        "type": "mining-site",
+        "status": "distant",
+        "inRange": false,
+        "progress": 0
+      },
+      {
+        "id": "marker.rail-depot-extract-01",
+        "type": "extraction-site",
+        "status": "complete",
+        "inRange": true,
+        "progress": 1
+      },
+      {
+        "id": "marker.claim-jumper-01",
+        "type": "threat",
+        "status": "active",
+        "inRange": false,
+        "progress": 0
+      }
+    ]
+  },
+  "scoring": {
+    "version": "0.1.0",
+    "ruleSetId": "goldrush.rules.default",
+    "appliedReceiptIds": [
+      "extraction-loop-01.goldrush-run-1.receipt"
+    ],
+    "players": {
+      "player-1": {
+        "playerId": "player-1",
+        "teamId": "team-01",
+        "extractedGold": 84,
+        "cargoValue": 840,
+        "combatScore": 0,
+        "survivalBonus": 0,
+        "penalties": 0,
+        "totalScore": 924,
+        "placement": 1
+      }
+    },
+    "teams": {
+      "team-01": {
+        "teamId": "team-01",
+        "extractedGold": 84,
+        "cargoValue": 840,
+        "combatScore": 0,
+        "survivalBonus": 0,
+        "penalties": 0,
+        "totalScore": 924,
+        "placement": 1
+      }
+    },
+    "leaders": {
+      "playerId": "player-1",
+      "teamId": "team-01"
+    }
+  },
+  "screenshot": "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/goldrush-extraction-loop-01.png"
+}

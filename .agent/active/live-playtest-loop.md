@@ -24,15 +24,20 @@ Use the player as the strongest validation signal. Codex launches or verifies th
 http://localhost:5177/NexusEngine-GoldRush/
 ```
 
+If `5177` is occupied, use the next Vite port shown in terminal, for example `http://localhost:5178/NexusEngine-GoldRush/`.
+
 ## Current Controls
 
 - Start: `Play`
 - Lobby: drag the 3D skeleton prospector to rotate it; use the `Group Type` dropdown for `Crew`, `Posse`, or `Outfit`; optionally press `Create Code` and share the party code; followers enter the code and press `Join Party`; the leader presses `Start`
 - Loading yard: use `WASD` to walk to the train; reaching the train starts departure and hands off to the gold field
 - In game:
-  - `M`: mine gold
-  - `C`: cash out
-  - `F`: ambush/combat pressure
+  - `WASD`: walk relative to camera direction
+  - hold `E` near a gold seam: mine gold
+  - hold `E` near extraction: cash out and create receipt
+  - right mouse: closer aim/combat posture
+  - left mouse: fire at active local threat pressure
+  - `M`, `C`, `F`: legacy debug shortcuts for mine, cashout, and ambush
   - `Escape`: return to lobby
 
 ## One-Change Rule
@@ -61,3 +66,6 @@ Avoid batching five changes in one playtest turn. The goal is fast visible corre
 - Latest network proof: `npm run check` and `npm run playtest:doctor` passed after adding the incremental room session allocator; validators prove player 51 creates partition 2, duplicate joins reject, player 101 rejects, leave compacts active players into partition 1, and partition 2 remains retained below 51 players.
 - Latest reality-status proof: `npm run check`, `npm run playtest:doctor`, and Playwright browser proof passed after adding `engine.n.goldrushReality`; browser screenshot `.playwright-cli/page-2026-06-29T11-37-54-591Z.png` shows the live app and `window.GoldRushHost.getState().realityStatus.summary` reported 14 domains, 44 placeholder slots, 0 promoted assets, and 0 promoted audio. The validator marks legacy assets and actual audio/music as cloud-blocked, character rig/animation/combat/mining/train polish as prototype, and network/PeerJS/scene-loader/terrain/runtime-kit domains as real-local when their receipts are present.
 - Latest GPT-it attempt: isolated runner wrote `/Users/crimsonwheeler/Documents/GitHub/Crimson/Apps/CopilotResearch/chatgpt_runs/chatgpt_run_20260629_072550_1prompts.md` but failed with `composer missing`; no ChatGPT output was captured for this pass.
+- Latest GPT-it success: Chrome DevTools Protocol prompt captured a domain-scoped recommendation for `extraction-loop-playability-01`, focused on a local-only playable loop with runtime-owned mining, combat pressure, extraction, receipts, renderer markers, and validation.
+- Latest extraction-loop proof: `node tools/validation/validate-goldrush-extraction-loop.mjs` and `npm run check` passed. Browser smoke on `http://localhost:5178/NexusEngine-GoldRush/` walked title -> lobby -> loading train -> gold field -> mine seam -> extraction, producing accepted receipt `extraction-loop-01.goldrush-run-1.receipt`, `cargoValue: 840`, and proof files `reports/goldrush-extraction-loop-01.json`, `reports/goldrush-extraction-loop-01.md`, and `screenshots/goldrush-extraction-loop-01.png`.
+- Human-view note: the extraction-loop proof is valid, but the screenshot still shows remaining terrain visual debt with blue/debug-looking gaps. Treat that as the next visual pass, not as final environment parity.

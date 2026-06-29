@@ -36,6 +36,7 @@ import {
   createRoomHandoffReceiptKit,
   createScoringKit,
 } from "./goldRushMatchLifecycleKits.js";
+import { createGoldRushExtractionLoopKit } from "./goldRushExtractionLoopKit.js";
 
 const version = "0.1.0";
 const stability = "prototype";
@@ -57,6 +58,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createCargoKit(),
     createCashoutKit(),
     createCombatKit(),
+    createGoldRushExtractionLoopKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1099,6 +1101,7 @@ function createScenarioKit() {
       "n:goldrush-cargo",
       "n:goldrush-cashout",
       "n:goldrush-combat",
+      "n:goldrush-extraction-loop",
       "n:goldrush-camera-descriptor",
       "n:goldrush-perspective",
       "n:goldrush-world-elements",
@@ -1248,6 +1251,7 @@ function createScenarioKit() {
           const cargo = engine.n.goldrushCargo.snapshot();
           const cashout = engine.n.goldrushCashout.snapshot();
           const combat = engine.n.goldrushCombat.snapshot();
+          const extractionLoop = engine.n.goldrushExtractionLoop.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1289,6 +1293,7 @@ function createScenarioKit() {
             cargo,
             cashout,
             combat,
+            extractionLoop,
             sceneState,
             world,
             terrainState,

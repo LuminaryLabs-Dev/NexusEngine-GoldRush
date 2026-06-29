@@ -16,6 +16,7 @@ const requiredApis = [
   "goldrushCargo",
   "goldrushCashout",
   "goldrushCombat",
+  "goldrushExtractionLoop",
   "goldrushCamera",
   "goldrushPerspective",
   "goldrushScenes",

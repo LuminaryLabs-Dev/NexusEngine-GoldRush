@@ -182,6 +182,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
   mountEnvironmentSpaceKit(scene, descriptors.environmentSpace);
   const networkPresenceKit = mountNetworkPresenceKit(scene, descriptors.networkPresence);
   const thirdPersonKit = mountThirdPersonPlayerKit(scene, descriptors.playerRig);
+  const extractionLoopMarkerKit = mountExtractionLoopMarkerKit(scene);
   const lightingKit = mountLightingCameraKit(scene, descriptors.lighting, root);
 
   return {
@@ -196,6 +197,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       worldElementKit.update(state);
       networkPresenceKit.update(state);
       thirdPersonKit.update(state, elapsedSeconds);
+      extractionLoopMarkerKit.update(state, elapsedSeconds);
       goldGroup.rotation.y += state.cameraMode === "combat" ? 0.004 : 0.0015;
       routeGroup.children.forEach((child, index) => {
         const opacity = state.cameraMode === "combat" && index === 1 ? 0.92 : child.userData.baseOpacity;
@@ -1033,6 +1035,92 @@ function mountNetworkPresenceKit(scene, descriptor) {
       });
     },
   };
+}
+
+function mountExtractionLoopMarkerKit(scene) {
+  const group = new THREE.Group();
+  group.name = "goldrush.procGameplay.extractionLoopMarkers";
+  const ringGeometry = new THREE.TorusGeometry(1, 0.025, 6, 32);
+  const beaconGeometry = createPrismGeometry(0.1, 1.2, 6);
+  const promptGeometry = createCuboidGeometry(0.66, 0.06, 0.1);
+  const markerMeshes = new Map();
+  scene.add(group);
+
+  function createMarker(marker) {
+    const root = new THREE.Group();
+    root.name = marker.id;
+    const material = markerMaterial(marker);
+    const ring = new THREE.Mesh(ringGeometry, material);
+    ring.rotation.x = Math.PI / 2;
+    ring.scale.setScalar(Math.max(0.55, marker.radius * 0.18));
+    ring.name = `${marker.id}.range`;
+    const beacon = new THREE.Mesh(beaconGeometry, material.clone());
+    beacon.position.y = 0.76;
+    beacon.name = `${marker.id}.beacon`;
+    const prompt = new THREE.Mesh(promptGeometry, material.clone());
+    prompt.position.y = 1.48;
+    prompt.name = `${marker.id}.prompt`;
+    root.add(ring, beacon, prompt);
+    root.userData.markerType = marker.type;
+    group.add(root);
+    return root;
+  }
+
+  return {
+    update(state, elapsedSeconds = 0) {
+      const markers = state.extractionLoop?.worldSpaceMarkers ?? [];
+      const activeIds = new Set(markers.map((marker) => marker.id));
+      for (const marker of markers) {
+        const mesh = markerMeshes.get(marker.id) ?? createMarker(marker);
+        markerMeshes.set(marker.id, mesh);
+        const y = terrainFieldHeight(marker.worldPosition.x, marker.worldPosition.z);
+        mesh.position.set(marker.worldPosition.x, y + 0.08, marker.worldPosition.z);
+        mesh.visible = marker.status !== "latent" || marker.inRange || marker.active;
+        mesh.rotation.y = elapsedSeconds * (marker.active ? 1.4 : 0.35);
+        const pulse = 1 + Math.sin(elapsedSeconds * 4 + marker.worldPosition.x) * 0.04;
+        const progress = Math.max(0, Math.min(1, marker.progress ?? 0));
+        mesh.scale.setScalar(pulse + progress * 0.35);
+        mesh.children.forEach((child) => {
+          child.material.opacity = marker.status === "complete" ? 0.32 : marker.inRange || marker.active ? 0.92 : 0.48;
+          child.material.color.set(markerColor(marker));
+          if (child.material.emissive) child.material.emissive.set(marker.active || marker.inRange ? markerEmissive(marker) : 0x181008);
+        });
+      }
+      for (const [id, mesh] of markerMeshes) {
+        if (!activeIds.has(id)) mesh.visible = false;
+      }
+    },
+    snapshot() {
+      return {
+        markerCount: markerMeshes.size,
+        markerIds: Array.from(markerMeshes.keys()),
+      };
+    },
+  };
+}
+
+function markerMaterial(marker) {
+  return new THREE.MeshStandardMaterial({
+    color: markerColor(marker),
+    emissive: markerEmissive(marker),
+    roughness: 0.62,
+    transparent: true,
+    opacity: 0.72,
+    depthWrite: false,
+    flatShading: true,
+  });
+}
+
+function markerColor(marker) {
+  if (marker.type === "extraction-site") return marker.status === "complete" ? 0x74d0c2 : 0xf2d27b;
+  if (marker.type === "threat") return marker.status === "defeated" ? 0x63735a : marker.active ? 0xe36b38 : 0x8d5a3a;
+  return marker.status === "depleted" ? 0x6d6043 : 0xf5c85a;
+}
+
+function markerEmissive(marker) {
+  if (marker.type === "extraction-site") return 0x3b2f05;
+  if (marker.type === "threat") return marker.active ? 0x3b0805 : 0x1c0e05;
+  return 0x4f3300;
 }
 
 function mountThirdPersonPlayerKit(scene, descriptor) {

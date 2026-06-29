@@ -64,6 +64,11 @@ export function createGoldRushApp(root) {
   let pendingMatchPayload = null;
   let trainDeparting = false;
   let trainDepartureStartedAt = 0;
+  const loopInput = {
+    interact: false,
+    aim: false,
+    fire: false,
+  };
 
   root.innerHTML = `
     <main class="appShell" data-screen="start">
@@ -200,6 +205,21 @@ export function createGoldRushApp(root) {
         renderRun();
         return receipt;
       },
+      interact: () => {
+        const receipt = runtime.holdExtractionLoopMine();
+        renderRun();
+        return receipt;
+      },
+      extract: () => {
+        const receipt = runtime.holdExtractionLoopCashout();
+        renderRun();
+        return receipt;
+      },
+      fire: () => {
+        const receipt = runtime.fireExtractionLoop();
+        renderRun();
+        return receipt;
+      },
       lobby: () => {
         void showScreen("lobby");
       },
@@ -229,6 +249,7 @@ export function createGoldRushApp(root) {
         animation: scenario.animationState,
         camera: scenario.cameraState,
         match: scenario.match,
+        extractionLoop: scenario.extractionLoop,
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -282,6 +303,11 @@ export function createGoldRushApp(root) {
     if (screen === "loading" && loadingMovement.setKey(event, true)) return;
     if (screen === "run" && movement.setKey(event, true)) return;
     if (screen !== "run") return;
+    if (event.key === "e" || event.key === "E") {
+      event.preventDefault();
+      loopInput.interact = true;
+      return;
+    }
     if (event.key === "m" || event.key === "M") window.GoldRushHost.actions.mine();
     if (event.key === "c" || event.key === "C") window.GoldRushHost.actions.cashOut();
     if (event.key === "f" || event.key === "F") window.GoldRushHost.actions.ambush();
@@ -291,6 +317,33 @@ export function createGoldRushApp(root) {
   window.addEventListener("keyup", (event) => {
     if (screen === "loading" && loadingMovement.setKey(event, false)) return;
     if (movement.setKey(event, false)) return;
+    if (event.key === "e" || event.key === "E") {
+      event.preventDefault();
+      loopInput.interact = false;
+    }
+  });
+
+  window.addEventListener("pointerdown", (event) => {
+    if (screen !== "run") return;
+    if (event.button === 2) {
+      event.preventDefault();
+      loopInput.aim = true;
+      return;
+    }
+    if (event.button === 0) {
+      loopInput.fire = true;
+    }
+  });
+
+  window.addEventListener("pointerup", (event) => {
+    if (event.button === 2) {
+      event.preventDefault();
+      loopInput.aim = false;
+    }
+  });
+
+  window.addEventListener("contextmenu", (event) => {
+    if (screen === "run") event.preventDefault();
   });
 
   runStage.addEventListener("click", () => {
@@ -350,11 +403,13 @@ export function createGoldRushApp(root) {
     const runModule = sceneKitLoader.getModule("procedural-terrain");
     if (!runModule) return;
     if (!renderer) renderer = runModule.createGoldRushRenderer(canvasRoot);
-    const state = runtime.snapshot();
     const localPlayer = movement.snapshot();
+    const extractionLoop = runtime.tickExtractionLoop({ localPlayer, input: loopInput, dt: 0.05 });
+    loopInput.fire = false;
+    const state = runtime.snapshot();
     const carried = state.cargo["player-1"] ?? 0;
     const banked = state.cashout["player-1"] ?? 0;
-    status.textContent = `${state.match.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${localPlayer.ground.height.toFixed(1)}; ${localPlayer.isMoving ? "walking" : "idle"}`;
+    status.textContent = `${state.match.phase}/${extractionLoop.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${localPlayer.ground.height.toFixed(1)}; ${localPlayer.isMoving ? "walking" : "idle"}`;
     renderer.render({ ...state, localPlayer });
   }
 
