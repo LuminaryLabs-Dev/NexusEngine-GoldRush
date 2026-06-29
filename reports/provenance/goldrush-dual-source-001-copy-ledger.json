@@ -1,0 +1,17 @@
+{
+  "schema": "nexusengine.goldrush.copy-ledger.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "sourceCommitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+  "copiedFiles": [
+    {
+      "sourcePath": "GoldRush/Assets/Scenes/Arena.unity",
+      "destinationPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Scenes/Arena.unity",
+      "sourceHash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0,
+      "domain": "scene-layouts",
+      "slotId": "goldrush.scene.arena",
+      "mediaKind": "scene-reference",
+      "handling": "extract-layout-json"
+    }
+  ]
+}
