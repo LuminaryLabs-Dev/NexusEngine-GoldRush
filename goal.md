@@ -137,3 +137,14 @@ The lobby exposes a secondary `Version Source` foldout backed by `engine.n.goldr
 ## Current Cloud Asset Receipt Gate
 
 The remaining asset/audio blocker now has a strict local acceptance gate before promotion. Cloud-side raw copy work must provide `reports/provenance/goldrush-dual-source-001-source-discovery.json`, `quarantine/reports/goldrush-dual-source-001-deny-path-scan.json`, `reports/secret-scans/goldrush-dual-source-001.json`, `reports/provenance/goldrush-dual-source-001-copy-ledger.json`, `reports/provenance/goldrush-dual-source-001-hashes.json`, and `reports/asset-classification/goldrush-dual-source-001-classification.json`. `tools/validation/validate-cloud-asset-receipts.mjs` passes in the pre-import state as `waiting-for-cloud-asset-receipts` and becomes strict as soon as raw candidates or any receipt appears. `.github/workflows/validate-cloud-import.yml` requires receipts on cloud import branches so an empty import branch cannot pass.
+
+## Current Cloud Source Access Proof
+
+```txt
+reports/provenance/goldrush-source-access-2026-06-29.json
+tools/validation/validate-source-access-proof.mjs
+```
+
+This proof verifies cloud/GitHub-side access to `thecrimsondeveloper/Gold_Rush` branch `development` at `144230e32b537336c83407b4ddae83cdc95c1c9e` without cloning a legacy repo locally. It proves both source roots, product names, Unity versions, and required scene blobs for `GoldRush/` and `GoldRush_Old/`.
+
+This is not the raw-copy receipt. It does not satisfy the final asset/audio import requirement, but it gives the next GPT/cloud worker exact source evidence to use before producing the mandatory receipt set.
