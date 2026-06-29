@@ -4,6 +4,24 @@
 
 NexusRealtime is the runtime substrate. ProtoKits and NexusRealtime-Kits are reusable domain sources. Gold Rush owns only game-specific composition, presets, bridges, content, and presentation.
 
+## Two-Layer Kit System
+
+Gold Rush now installs neutral generic incubator kits first, then GoldRush custom kits.
+
+```txt
+generic incubator kits
+-> engine.n.runtimeDomainRegistry / sceneSiteLoader / worldTerrainHeightfield / etc.
+-> n:goldrush:kit-contracts registry
+-> engine.n.goldrush* game-specific facades
+```
+
+The generic incubator contracts are local only and must not contain GoldRush naming or rules. The custom GoldRush contracts explain how each neutral domain is used by the game. Runtime inspection is available through:
+
+```txt
+engine.n.goldrushKitContracts.snapshot()
+engine.n.goldrushKitContracts.validate()
+```
+
 ## Initial Custom Kits
 
 - `goldrush-network-kit`: public multiplayer topology, readiness, internal 50-player partitions, shared ledger, and handoff data.

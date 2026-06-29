@@ -44,6 +44,9 @@ assert(appSource.includes("raycastTerrainDown"), "app movement should place the 
 assert(appSource.includes("addLookDelta"), "app movement should expose mouse-look deltas");
 assert(appSource.includes("requestPointerLock"), "run stage should request pointer lock for mouse look");
 assert(appSource.includes("movementRelativeToCamera"), "WASD movement should be relative to camera look yaw");
+assert(appSource.includes("loadingMovement.addLookDelta") || appSource.includes("activeMovement.addLookDelta"), "loading yard must use the same mouse-look movement path");
+assert(appSource.includes("playerLockedToTrain"), "loading yard should lock the player to the train before handoff");
+assert(appSource.includes("physicsBackend"), "app debug state should expose the physics backend decision kit");
 assert(appSource.includes("terrainColliderDescriptor"), "app debug state should expose the shared terrain collider descriptor");
 assert(appSource.includes("terrainPhysics"), "app debug state should expose the cannon-es terrain physics descriptor");
 assert(appSource.includes("realityStatus"), "app debug state should expose the reality-status ledger");

@@ -448,7 +448,16 @@ function createCanyonCompositionDescriptor(terrain) {
 }
 
 function createCentralMountainDescriptor() {
-  return CENTRAL_MOUNTAIN_FORMS.map((form) => ({ ...form }));
+  return CENTRAL_MOUNTAIN_FORMS.map((form, index) => ({
+    ...form,
+    composition: "midground-walkaround-terraced-shoulders",
+    screenRole: "midground-landmark",
+    terraceCount: 4,
+    skyClearance: true,
+    visualHeight: Number(Math.min(5.4, form.height * 0.56).toFixed(2)),
+    visualWidth: Number((form.width * (index === 2 ? 0.72 : 0.78)).toFixed(2)),
+    visualDepth: Number((form.depth * (index === 2 ? 0.72 : 0.8)).toFixed(2)),
+  }));
 }
 
 function createDesertItemDescriptor(terrain) {
@@ -628,16 +637,15 @@ function mountCanyonCompositionKit(scene, descriptor) {
   descriptor.centralMountains.forEach((mountain, index) => {
     const material = new THREE.MeshStandardMaterial({
       color: mountain.color,
-      roughness: 0.98,
+      roughness: 0.94,
       flatShading: true,
-      emissive: 0x1d0b05,
-      emissiveIntensity: 0.1,
+      emissive: 0x2a1208,
+      emissiveIntensity: 0.045,
     });
-    const mesh = new THREE.Mesh(createCanyonWallGeometry(mountain), material);
+    const mesh = new THREE.Mesh(createWalkaroundMountainGeometry(mountain), material);
     mesh.name = mountain.id;
-    mesh.position.set(mountain.x, terrainFieldHeight(mountain.x, mountain.z) + mountain.height * 0.28 - 0.9, mountain.z);
-    mesh.rotation.y = -0.34 + index * 0.27;
-    mesh.scale.set(1.18, 1, 1.18);
+    mesh.position.set(mountain.x, terrainFieldHeight(mountain.x, mountain.z) + 0.03, mountain.z);
+    mesh.rotation.y = -0.18 + index * 0.2;
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     group.add(mesh);
@@ -739,12 +747,18 @@ function mountTerrainKit(scene, descriptor) {
       metalness: 0.01,
       flatShading: true,
       vertexColors: true,
+      side: THREE.FrontSide,
       polygonOffset: true,
       polygonOffsetFactor: 0.2,
       polygonOffsetUnits: 0.2,
     })
   );
   mesh.name = `${descriptor.id}.continuousField`;
+  mesh.userData.meshReliability = {
+    winding: "front-side-upward",
+    overlapPolicy: "finer-terrain-bands-carve-coarse-band-top-faces",
+    physicsSource: "terrainCollider-heightfield",
+  };
   group.add(mesh);
   scene.add(group);
   return group;
@@ -934,11 +948,13 @@ function mountWorldElementKit(scene, descriptor) {
   group.name = "goldrush.procWorld.elements";
   const scale = descriptor.scale.visualScale;
 
-  const mountainMaterial = new THREE.MeshStandardMaterial({ color: 0x5d5640, roughness: 0.98, flatShading: true });
+  const mountainMaterial = new THREE.MeshStandardMaterial({ color: 0x9a5b38, roughness: 0.98, flatShading: true, emissive: 0x160905, emissiveIntensity: 0.025 });
   descriptor.mountainRanges.forEach((mountain) => {
-    const mesh = new THREE.Mesh(createRidgeGeometry(mountain, scale), mountainMaterial);
-    mesh.position.set(mountain.position.x * scale, 0.5, mountain.position.z * scale);
+    const visual = resolveMountainRangeVisual(mountain, descriptor, scale);
+    const mesh = new THREE.Mesh(createRidgeGeometry(visual, scale), mountainMaterial);
+    mesh.position.set(visual.position.x, visual.position.y, visual.position.z);
     mesh.userData.elementId = mountain.id;
+    mesh.userData.visualRole = visual.visualRole;
     group.add(mesh);
   });
 
@@ -1412,6 +1428,36 @@ function createRouteLine(points, color, opacity, pointSize) {
   return group;
 }
 
+function resolveMountainRangeVisual(mountain, descriptor, scale) {
+  const terrainDepth = descriptor.scale.depthMeters * scale;
+  const terrainWidth = descriptor.scale.widthMeters * scale;
+  if (mountain.role === "horizon-blocker") {
+    return {
+      ...mountain,
+      visualRole: "far-horizon-silhouette",
+      position: {
+        x: mountain.position.x * scale * 0.42,
+        y: 0.16,
+        z: terrainDepth * 0.5 + 12,
+      },
+      footprint: {
+        width: Math.min(mountain.footprint.width * 0.72, terrainWidth * 0.54) / scale,
+        depth: Math.min(mountain.footprint.depth * 0.52, terrainDepth * 0.16) / scale,
+      },
+      height: mountain.height * 0.55,
+    };
+  }
+  return {
+    ...mountain,
+    visualRole: "side-boundary",
+    position: {
+      x: mountain.position.x * scale,
+      y: 0.35,
+      z: mountain.position.z * scale,
+    },
+  };
+}
+
 function createCrystalGeometry(height = 0.28) {
   const width = height * 0.55;
   const vertices = [
@@ -1587,6 +1633,9 @@ export function createBandedTriangleTerrainGeometry(descriptor) {
       for (let x = band.bounds.minX; x < band.bounds.maxX; x += band.step) {
         const x1 = Math.min(x + band.step, band.bounds.maxX);
         const z1 = Math.min(z + band.step, band.bounds.maxZ);
+        const centerX = (x + x1) / 2;
+        const centerZ = (z + z1) / 2;
+        if (isCoveredByFinerTerrainBand(band, sortedBands, centerX, centerZ)) continue;
         pushTerrainCell(vertices, colors, indices, color, descriptor, band, x, z, x1, z1, bandIndex);
       }
     }
@@ -1686,6 +1735,16 @@ function pushTerrainSkirtSegment(vertices, colors, indices, color, descriptor, b
 
 function terrainBandYOffset(bandIndex) {
   return bandIndex * 0.004;
+}
+
+function isCoveredByFinerTerrainBand(currentBand, bands, x, z) {
+  return bands.some((band) => (
+    band.step < currentBand.step
+    && x > band.bounds.minX
+    && x < band.bounds.maxX
+    && z > band.bounds.minZ
+    && z < band.bounds.maxZ
+  ));
 }
 
 function sampleTerrainRenderColor(x, z, descriptor, band) {
@@ -1789,6 +1848,60 @@ function createCanyonWallGeometry(wall) {
     6, 7, 9, 6, 9, 8,
     0, 3, 2, 0, 2, 1,
   ];
+  return createIndexedGeometry(vertices, indices);
+}
+
+function createWalkaroundMountainGeometry(mountain) {
+  const width = mountain.visualWidth ?? mountain.width * 0.78;
+  const depth = mountain.visualDepth ?? mountain.depth * 0.78;
+  const height = mountain.visualHeight ?? mountain.height * 0.56;
+  const rings = [
+    { y: 0, sx: 0.5, sz: 0.5, notch: 0 },
+    { y: height * 0.22, sx: 0.42, sz: 0.43, notch: 0.1 },
+    { y: height * 0.48, sx: 0.3, sz: 0.29, notch: 0.18 },
+    { y: height * 0.72, sx: 0.18, sz: 0.16, notch: 0.28 },
+  ];
+  const vertices = [];
+  rings.forEach((ring, ringIndex) => {
+    const y = ring.y;
+    const leftShoulder = ringIndex % 2 ? -0.08 : 0.04;
+    vertices.push(
+      -width * ring.sx, y, -depth * ring.sz + depth * ring.notch,
+      width * ring.sx, y + height * 0.03, -depth * ring.sz + depth * ring.notch * 0.7,
+      width * (ring.sx * 0.78), y + height * 0.01, depth * ring.sz,
+      leftShoulder * width, y - height * 0.02, depth * (ring.sz * 0.78),
+      -width * (ring.sx * 0.86), y + height * 0.02, depth * (ring.sz * 0.76)
+    );
+  });
+  const peakBase = vertices.length / 3;
+  vertices.push(
+    -width * 0.08, height * 0.95, -depth * 0.02,
+    width * 0.16, height * 0.86, depth * 0.04,
+    width * 0.02, height * 0.7, depth * 0.22
+  );
+
+  const indices = [];
+  const ringSize = 5;
+  for (let ring = 0; ring < rings.length - 1; ring += 1) {
+    const lower = ring * ringSize;
+    const upper = (ring + 1) * ringSize;
+    for (let index = 0; index < ringSize; index += 1) {
+      const next = (index + 1) % ringSize;
+      indices.push(
+        lower + index, lower + next, upper + index,
+        lower + next, upper + next, upper + index
+      );
+    }
+  }
+  const topRing = (rings.length - 1) * ringSize;
+  for (let index = 0; index < ringSize; index += 1) {
+    const next = (index + 1) % ringSize;
+    indices.push(topRing + index, topRing + next, peakBase + (index % 3));
+  }
+  indices.push(peakBase, peakBase + 1, peakBase + 2);
+  for (let index = 1; index < ringSize - 1; index += 1) {
+    indices.push(0, index, index + 1);
+  }
   return createIndexedGeometry(vertices, indices);
 }
 
@@ -2573,8 +2686,12 @@ function validateCanyonCompositionDescriptor(descriptor) {
     && descriptor.walls.every((wall) => wall.height >= 2.5 && Math.abs(wall.x) > 45 && wall.baseInset <= 0)
     && descriptor.centralMountains?.length >= 3
     && descriptor.centralMountains.every((mountain) => (
-      mountain.height >= 10
-      && mountain.blockerRadius >= 8
+      mountain.height >= 6
+      && mountain.blockerRadius >= 6
+      && mountain.visualHeight <= 5.5
+      && mountain.visualHeight < mountain.height
+      && mountain.composition === "midground-walkaround-terraced-shoulders"
+      && mountain.skyClearance === true
       && ["walkaround", "split", "detour"].some((term) => mountain.routeRole?.includes(term))
     ))
     && descriptor.farRidge?.length >= 18

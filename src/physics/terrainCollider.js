@@ -7,9 +7,15 @@ export const TERRAIN_RAYCAST_FROM_Y = 80;
 export const TERRAIN_RAYCAST_TO_Y = -30;
 
 export const CENTRAL_MOUNTAIN_FORMS = [
-  { id: "central-mountain.north-spur", x: -5.5, z: 16, width: 14, depth: 18, height: 12.4, blockerRadius: 8.6, routeRole: "force-west-or-east-walkaround", color: 0x9b4f2f },
-  { id: "central-mountain.gold-spine", x: 8.4, z: 8.6, width: 18, depth: 13, height: 15.8, blockerRadius: 9.4, routeRole: "split-main-route", color: 0xb76135 },
-  { id: "central-mountain.south-shoulder", x: -1.8, z: -7.8, width: 16, depth: 16, height: 10.6, blockerRadius: 8.2, routeRole: "force-canyon-detour", color: 0x7f3c25 },
+  { id: "central-mountain.north-spur", x: -7.5, z: 24, width: 18, depth: 20, height: 8.8, blockerRadius: 7.2, routeRole: "force-west-or-east-walkaround", color: 0xb8623d },
+  { id: "central-mountain.gold-spine", x: 9.2, z: 13.4, width: 18, depth: 16, height: 9.8, blockerRadius: 7.8, routeRole: "split-main-route", color: 0xc16c40 },
+  { id: "central-mountain.south-shoulder", x: -15.5, z: -0.4, width: 14, depth: 14, height: 6.8, blockerRadius: 6.6, routeRole: "force-canyon-detour", color: 0x9f5132 },
+];
+
+const MOUNTAIN_CLEARANCE_CORRIDORS = [
+  { id: "spawn-sightline-clearance", x: -4, z: -8.5, width: 26, depth: 21, strength: 0.64 },
+  { id: "west-walkaround-clearance", x: -26, z: 8, width: 13, depth: 44, strength: 0.82 },
+  { id: "east-walkaround-clearance", x: 25, z: 8, width: 14, depth: 42, strength: 0.78 },
 ];
 
 export function terrainFieldHeight(x, z) {
@@ -25,8 +31,7 @@ export function terrainFieldHeight(x, z) {
   const townShelf = Math.max(0, 1 - Math.hypot((x - 8.3) / 9.2, (z - 8.6) / 4.8)) * 0.34;
   const goldFaceLift = Math.max(0, 1 - Math.hypot((x + 10.2) / 7.6, (z - 9.3) / 1.8)) * 0.7;
   const centralMountainLift = CENTRAL_MOUNTAIN_FORMS.reduce((total, mountain) => {
-    const radius = Math.hypot((x - mountain.x) / (mountain.width * 0.56), (z - mountain.z) / (mountain.depth * 0.56));
-    return total + Math.pow(Math.max(0, 1 - radius), 1.72) * mountain.height;
+    return total + sampleCentralMountainHeight(x, z, mountain);
   }, 0);
   return rolling + wash + canyonLift + trailCut + trailBanks + basinBowl + mineShelf + townShelf + goldFaceLift + centralMountainLift;
 }
@@ -35,7 +40,9 @@ export function terrainFieldColor(x, z) {
   const wash = Math.sin((x + z) * 0.09);
   const scrub = Math.cos(x * 0.21) + Math.sin(z * 0.17);
   const slope = Math.max(0, Math.abs(x) - TERRAIN_WIDTH * 0.38) / 26;
-  if (CENTRAL_MOUNTAIN_FORMS.some((mountain) => Math.hypot((x - mountain.x) / mountain.width, (z - mountain.z) / mountain.depth) < 0.8)) return 0x8e4228;
+  const mountainInfluence = sampleCentralMountainInfluence(x, z);
+  if (mountainInfluence > 0.46) return 0xb85f38;
+  if (mountainInfluence > 0.2) return 0xc9804d;
   if (Math.hypot((x + 8.8) / 7.8, (z - 7.2) / 4.7) < 1) return 0x74523a;
   if (Math.hypot((x - 8.3) / 9.2, (z - 8.6) / 4.8) < 1) return 0xa77b45;
   if (Math.hypot((x + 10.2) / 7.6, (z - 9.3) / 1.8) < 1) return 0x9f5030;
@@ -52,9 +59,7 @@ export function sampleTerrainCollider({ x, z, sampleStep = 0.75, maxWalkableSlop
   const dx = (raycastTerrainHeight(x + sampleStep, z) - raycastTerrainHeight(x - sampleStep, z)) / (sampleStep * 2);
   const dz = (raycastTerrainHeight(x, z + sampleStep) - raycastTerrainHeight(x, z - sampleStep)) / (sampleStep * 2);
   const slopeGrade = Math.hypot(dx, dz);
-  const mountain = CENTRAL_MOUNTAIN_FORMS.find((form) => {
-    return Math.hypot((x - form.x) / (form.width * 0.56), (z - form.z) / (form.depth * 0.56)) < 1;
-  }) ?? null;
+  const mountain = sampleCentralMountainBlocker(x, z);
 
   return {
     kind: "sampled-heightfield",
@@ -71,6 +76,55 @@ export function sampleTerrainCollider({ x, z, sampleStep = 0.75, maxWalkableSlop
     sampleStep,
     hit,
   };
+}
+
+export function sampleCentralMountainHeight(x, z, mountain) {
+  const radius = Math.hypot((x - mountain.x) / (mountain.width * 0.56), (z - mountain.z) / (mountain.depth * 0.56));
+  const core = Math.pow(smoothStep(1, 0, radius), 1.28) * mountain.height;
+  const walkaroundClearance = sampleMountainWalkaroundClearance(x, z);
+  const viewClearance = sampleMountainViewClearanceMask(x, z);
+  const clearance = Math.max(walkaroundClearance, viewClearance);
+  return core * (1 - clearance);
+}
+
+export function sampleMountainWalkaroundClearance(x, z) {
+  return Math.max(
+    sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[1], x, z),
+    sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[2], x, z)
+  );
+}
+
+export function sampleMountainViewClearanceMask(x, z) {
+  return sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[0], x, z);
+}
+
+export function sampleCentralMountainInfluence(x, z) {
+  return CENTRAL_MOUNTAIN_FORMS.reduce((maximum, mountain) => {
+    const radius = Math.hypot((x - mountain.x) / (mountain.width * 0.62), (z - mountain.z) / (mountain.depth * 0.62));
+    return Math.max(maximum, smoothStep(1, 0, radius));
+  }, 0);
+}
+
+function sampleCentralMountainBlocker(x, z) {
+  const clearance = Math.max(sampleMountainWalkaroundClearance(x, z), sampleMountainViewClearanceMask(x, z));
+  if (clearance > 0.5) return null;
+  return CENTRAL_MOUNTAIN_FORMS.find((form) => {
+    return Math.hypot((x - form.x) / form.blockerRadius, (z - form.z) / form.blockerRadius) < 1;
+  }) ?? null;
+}
+
+function sampleClearanceCorridor(corridor, x, z) {
+  const radius = Math.hypot((x - corridor.x) / (corridor.width * 0.5), (z - corridor.z) / (corridor.depth * 0.5));
+  return smoothStep(1, 0, radius) * corridor.strength;
+}
+
+function smoothStep(edge0, edge1, value) {
+  const t = clamp01((value - edge0) / (edge1 - edge0));
+  return t * t * (3 - 2 * t);
+}
+
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
 }
 
 export function raycastTerrainDown({

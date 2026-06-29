@@ -59,6 +59,7 @@ assert(Number.isInteger(terrainFieldColor(-17.5, -16.5)), "terrain color sampler
 const source = await import("node:fs").then((fs) => fs.readFileSync("src/renderer/proceduralKits.js", "utf8"));
 assert(source.includes("pushTerrainBandSkirts"), "renderer should generate terrain band skirts");
 assert(source.includes("sampleTerrainRenderColor"), "renderer should use terrain render color sampler");
+assert(source.includes("isCoveredByFinerTerrainBand"), "renderer should carve coarse terrain bands under finer bands to avoid stacked surface flicker");
 assert(!source.includes("0x6f9eaa, roughness"), "terrain material must not use sky-blue debug color");
 
 console.log(JSON.stringify({

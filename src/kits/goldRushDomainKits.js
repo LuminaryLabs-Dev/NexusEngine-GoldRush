@@ -37,12 +37,16 @@ import {
   createScoringKit,
 } from "./goldRushMatchLifecycleKits.js";
 import { createGoldRushExtractionLoopKit } from "./goldRushExtractionLoopKit.js";
+import { createGenericIncubatorDomainKits } from "./generic-incubator/genericDomainServiceKits.js";
+import { createGoldRushKitContractRegistryKit } from "./goldrush/goldRushKitContractRegistry.js";
 
 const version = "0.1.0";
 const stability = "prototype";
 
 export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
   return [
+    ...createGenericIncubatorDomainKits(),
+    createGoldRushKitContractRegistryKit(),
     createNetworkKit({ orchestrator }),
     createRoomOrchestratorKit({ orchestrator }),
     createAssetRegistryKit({ assetRegistry }),
@@ -1117,6 +1121,7 @@ function createScenarioKit() {
       "n:goldrush-scoring",
       "n:goldrush-match-results",
       "n:goldrush-replay-summary",
+      "n:goldrush-kit-contracts",
     ],
     services: ["generate-match", "advance-phase", "start-match", "trigger-final-rush", "simulate-extraction", "request-handoff", "end-match", "snapshot"],
     metadata: {
@@ -1271,6 +1276,7 @@ function createScenarioKit() {
           const replaySummary = engine.n.goldrushReplaySummary.snapshot();
           const network = engine.n.goldrushNetwork.snapshot();
           const realityStatus = engine.n.goldrushReality.snapshot();
+          const kitContracts = engine.n.goldrushKitContracts.snapshot();
           return {
             ...structuredClone(state),
             network,
@@ -1282,6 +1288,7 @@ function createScenarioKit() {
             scoring,
             results,
             replaySummary,
+            kitContracts,
             cameraMode: perspective.mode,
             cameraDescriptor: perspective.descriptor,
             assets,

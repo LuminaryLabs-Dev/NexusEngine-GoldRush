@@ -1,0 +1,107 @@
+{
+  "errors": [],
+  "state": {
+    "screen": "run",
+    "players": 20,
+    "phase": "prospect",
+    "localPlayer": {
+      "id": "player-1",
+      "position": {
+        "x": -12,
+        "y": -0.8682768377371267,
+        "z": -20
+      },
+      "heading": 0,
+      "look": {
+        "yaw": 0,
+        "pitch": -0.04,
+        "mouseLookEnabled": false,
+        "movementRelativeToCamera": true
+      },
+      "isMoving": false,
+      "speed": 0,
+      "ground": {
+        "height": -0.8682768377371267,
+        "slopeGrade": 0.031830748034371636,
+        "normal": {
+          "x": -0.0168,
+          "y": 0.9995,
+          "z": -0.027
+        },
+        "walkable": true,
+        "blockingFeatureId": null,
+        "algorithm": "single-banded-triangle-terrain-v1",
+        "placement": "downward-triangle-raycast",
+        "hit": {
+          "kind": "downward-triangle-raycast",
+          "bandId": "near-play-band",
+          "triangleIndex": 0,
+          "point": {
+            "x": -12,
+            "y": -0.8682768377371267,
+            "z": -20
+          },
+          "barycentric": {
+            "a": 0.2911627906976808,
+            "b": 0.6827906976744202,
+            "c": 0.026046511627898946
+          }
+        }
+      },
+      "renderGround": {
+        "height": -0.8682768377371267,
+        "source": "cached-movement-ground",
+        "sampleSequence": 11,
+        "stableForFrame": true
+      },
+      "terrainCollider": {
+        "grounded": true,
+        "blocked": false,
+        "maxStepUp": 0.95,
+        "maxSlopeGrade": 1.85
+      },
+      "controls": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "sprint": false
+      }
+    },
+    "terrainCollider": {
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "blockerCount": 3,
+      "blockers": [
+        {
+          "id": "central-mountain.north-spur",
+          "x": -7.5,
+          "z": 24,
+          "radius": 7.2,
+          "height": 8.8
+        },
+        {
+          "id": "central-mountain.gold-spine",
+          "x": 9.2,
+          "z": 13.4,
+          "radius": 7.8,
+          "height": 9.8
+        },
+        {
+          "id": "central-mountain.south-shoulder",
+          "x": -15.5,
+          "z": -0.4,
+          "radius": 6.6,
+          "height": 6.8
+        }
+      ]
+    },
+    "loadedKitGroups": [
+      "goldrush-runtime",
+      "procedural-terrain",
+      "object-micro-kits",
+      "network-orchestration"
+    ],
+    "rendererMounted": true,
+    "statusText": null
+  }
+}

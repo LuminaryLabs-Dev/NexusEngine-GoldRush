@@ -2,6 +2,7 @@ import { createNetworkOrchestrator } from "../network/networkOrchestrator.js";
 import { createPeerPartyRoom } from "../network/peerPartyRoom.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
+import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
 import { createTerrainColliderDescriptor, raycastTerrainDown, sampleTerrainCollider } from "../physics/terrainCollider.js";
 import { createGoldRushSceneKitLoader, validateGoldRushSceneKitLoaderSnapshot } from "../scenes/goldRushSceneKitLoader.js";
 import { getGoldRushSceneSite, validateGoldRushSceneSites } from "../scenes/goldRushSceneSites.js";
@@ -34,6 +35,11 @@ const roomTypes = [
 const partyCapacity = 4;
 const massMatchPlayers = 20;
 const loadingYardBounds = { minX: -15, maxX: 15, minZ: -12, maxZ: 13 };
+const loadingTrainTiming = {
+  approachMs: 2800,
+  doorMs: 900,
+  departMs: 3300,
+};
 
 export function createGoldRushApp(root) {
   const orchestrator = createNetworkOrchestrator();
@@ -47,6 +53,10 @@ export function createGoldRushApp(root) {
   const sceneKitLoader = createGoldRushSceneKitLoader();
   const terrainColliderDescriptor = createTerrainColliderDescriptor();
   const terrainPhysicsDescriptor = createCannonTerrainPhysicsDescriptor(terrainColliderDescriptor);
+  const physicsBackendDescriptor = createPhysicsBackendDecision({
+    terrainColliderDescriptor,
+    terrainPhysicsDescriptor,
+  });
   const movement = createMovementController({
     terrainSampler: sampleTerrainCollider,
     terrainRaycaster: raycastTerrainDown,
@@ -56,14 +66,17 @@ export function createGoldRushApp(root) {
   const loadingMovement = createMovementController({
     bounds: loadingYardBounds,
     initialPosition: { x: 0, z: 10.2 },
+    initialLookYaw: Math.PI,
+    initialLookPitch: -0.08,
     blockers: [],
-    forwardSign: -1,
   });
   let runLoopId = null;
   let loadingLoopId = null;
   let pendingMatchPayload = null;
+  let trainSequenceStartedAt = 0;
   let trainDeparting = false;
   let trainDepartureStartedAt = 0;
+  let playerLockedToTrain = false;
   const loopInput = {
     interact: false,
     aim: false,
@@ -169,6 +182,7 @@ export function createGoldRushApp(root) {
   const lobbyCharacterRoot = root.querySelector("[data-lobby-character-canvas]");
   const loadingCanvasRoot = root.querySelector("#goldrush-loading-canvas");
   const runStage = root.querySelector('[data-screen-panel="run"]');
+  const loadingStage = root.querySelector('[data-screen-panel="loading"]');
   const status = root.querySelector("[data-status]");
   const loadingStatus = root.querySelector("[data-loading-status]");
   const roomSelect = root.querySelector("[data-room-select]");
@@ -263,6 +277,7 @@ export function createGoldRushApp(root) {
         party: party.snapshot(),
         terrainCollider: terrainColliderDescriptor,
         terrainPhysics: terrainPhysicsDescriptor,
+        physicsBackend: physicsBackendDescriptor,
         lobbyCharacter: lobbyCharacterRenderer?.snapshot() ?? null,
         loadingScene: loadingRenderer?.snapshot() ?? null,
         loadingPlayer: loadingMovement.snapshot(),
@@ -324,6 +339,10 @@ export function createGoldRushApp(root) {
   });
 
   window.addEventListener("pointerdown", (event) => {
+    if (screen === "loading") {
+      if (event.button === 0) loadingMovement.enableMouseLook();
+      return;
+    }
     if (screen !== "run") return;
     if (event.button === 2) {
       event.preventDefault();
@@ -343,7 +362,7 @@ export function createGoldRushApp(root) {
   });
 
   window.addEventListener("contextmenu", (event) => {
-    if (screen === "run") event.preventDefault();
+    if (screen === "run" || screen === "loading") event.preventDefault();
   });
 
   runStage.addEventListener("click", () => {
@@ -356,11 +375,23 @@ export function createGoldRushApp(root) {
     }
   });
 
+  loadingStage.addEventListener("click", () => {
+    loadingMovement.enableMouseLook();
+    try {
+      const lockRequest = loadingStage.requestPointerLock?.();
+      lockRequest?.catch?.(() => {});
+    } catch {
+      // Drag-look still works when pointer lock is unavailable in embedded browsers.
+    }
+  });
+
   window.addEventListener("pointermove", (event) => {
-    if (screen !== "run") return;
-    const pointerLocked = document.pointerLockElement === runStage;
+    const activeLookStage = screen === "run" ? runStage : screen === "loading" ? loadingStage : null;
+    const activeMovement = screen === "run" ? movement : screen === "loading" ? loadingMovement : null;
+    if (!activeLookStage || !activeMovement) return;
+    const pointerLocked = document.pointerLockElement === activeLookStage;
     if (!pointerLocked && event.buttons !== 1) return;
-    movement.addLookDelta(event.movementX, event.movementY);
+    activeMovement.addLookDelta(event.movementX, event.movementY);
   });
 
   async function showScreen(nextScreen) {
@@ -415,8 +446,10 @@ export function createGoldRushApp(root) {
 
   function startLoadingYard(payload = {}) {
     pendingMatchPayload = payload;
+    trainSequenceStartedAt = 0;
     trainDeparting = false;
     trainDepartureStartedAt = 0;
+    playerLockedToTrain = false;
     loadingMovement.reset({ x: 0, z: 10.2 });
     void showScreen("loading").then(() => {
       if (screen === "loading") startLoadingLoop();
@@ -449,20 +482,38 @@ export function createGoldRushApp(root) {
     const loadingModule = sceneKitLoader.getModule("loading-yard-terrain") ?? sceneKitLoader.getModule("train-departure");
     if (!loadingModule) return;
     if (!loadingRenderer) loadingRenderer = loadingModule.createLoadingTrainSceneRenderer(loadingCanvasRoot);
+    if (!trainSequenceStartedAt) trainSequenceStartedAt = now;
     const localPlayer = loadingMovement.snapshot();
-    if (!trainDeparting && loadingModule.isNearTrainBoardingZone(localPlayer.position)) {
+    const sequenceElapsed = Math.max(0, now - trainSequenceStartedAt);
+    const approachProgress = Math.min(1, sequenceElapsed / loadingTrainTiming.approachMs);
+    const doorProgress = approachProgress >= 1
+      ? Math.min(1, (sequenceElapsed - loadingTrainTiming.approachMs) / loadingTrainTiming.doorMs)
+      : 0;
+    const canBoardTrain = doorProgress >= 1 && loadingModule.isNearTrainBoardingZone(localPlayer.position);
+    if (!trainDeparting && canBoardTrain) {
       trainDeparting = true;
       trainDepartureStartedAt = now;
+      playerLockedToTrain = true;
+      loadingMovement.clearKeys();
     }
-    const departureProgress = trainDeparting ? Math.min(1, (now - trainDepartureStartedAt) / 2600) : 0;
-    loadingStatus.textContent = trainDeparting
-      ? "train departing"
-      : "train waiting";
+    const departureProgress = trainDeparting
+      ? Math.min(1, (now - trainDepartureStartedAt) / loadingTrainTiming.departMs)
+      : 0;
+    const loadingPhase = trainDeparting
+      ? departureProgress >= 1 ? "handoff" : "departing"
+      : approachProgress < 1 ? "approaching"
+        : doorProgress < 1 ? "door-opening"
+          : "boarding";
+    loadingStatus.textContent = `${loadingPhase}; ${playerLockedToTrain ? "riding train" : "walk to open door"}`;
     loadingRenderer.render({
       localPlayer,
       party: party.snapshot(),
       trainDeparting,
+      loadingPhase,
+      approachProgress,
+      doorProgress,
       departureProgress,
+      playerLockedToTrain,
     });
     if (departureProgress >= 1) startMassMatch(pendingMatchPayload ?? {});
   }
@@ -507,6 +558,8 @@ export function createGoldRushApp(root) {
 function createMovementController({
   bounds = walkBounds,
   initialPosition = { x: -12, z: -20 },
+  initialLookYaw = 0,
+  initialLookPitch = -0.04,
   blockers = centralMountainBlockers,
   forwardSign = 1,
   terrainSampler = null,
@@ -520,8 +573,8 @@ function createMovementController({
   let ground = sampleGround(position.x, position.z);
   position.y = ground.height;
   let heading = 0;
-  let lookYaw = 0;
-  let lookPitch = -0.04;
+  let lookYaw = initialLookYaw;
+  let lookPitch = initialLookPitch;
   let mouseLookEnabled = false;
   let lastTime = 0;
   let moving = false;
@@ -639,6 +692,16 @@ function createMovementController({
         right: keys.has("right"),
         sprint: keys.has("sprint"),
       },
+      inputModel: {
+        id: "camera-relative-wasd",
+        mouseLookDrivesCamera: true,
+        wasdFollowsCameraYaw: true,
+        forwardSign,
+        forwardOnGround: {
+          x: Number((Math.sin(lookYaw) * forwardSign).toFixed(4)),
+          z: Number((Math.cos(lookYaw) * forwardSign).toFixed(4)),
+        },
+      },
     };
   }
 
@@ -659,8 +722,8 @@ function createMovementController({
       ground = sampleGround(position.x, position.z);
       position.y = ground.height;
       heading = 0;
-      lookYaw = 0;
-      lookPitch = -0.04;
+      lookYaw = initialLookYaw;
+      lookPitch = initialLookPitch;
       lastTime = 0;
       moving = false;
       currentSpeed = 0;

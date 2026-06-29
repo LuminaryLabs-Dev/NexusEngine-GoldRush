@@ -68,3 +68,10 @@ The player/near-ground crop had local frame differences up to about `YDIF=5.154`
 ## Remaining Watch Item
 
 The proof still has isolated frame deltas and severe central-mountain framing debt. Re-check the pulse after BUG-002 changes because large terrain silhouette edits can reintroduce local flicker.
+
+## 2026-06-29 Re-Review
+
+- New source recording reviewed: `/Users/crimsonwheeler/Documents/Me/recordings/Screen Recording 2026-06-29 at 10.05.50 AM.mov`.
+- Dense native-frame review did not show a clean every-other-frame global flicker.
+- The visible pulse reads as large flat terrain/lighting bands moving across the player view while the camera moves.
+- Current local fix direction is to simplify stacked terrain surfaces by carving coarse band top faces beneath finer terrain bands.

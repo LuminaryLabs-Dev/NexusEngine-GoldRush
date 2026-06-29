@@ -52,6 +52,11 @@ assert(!appSource.includes("../renderer/loadingTrainSceneRenderer.js"), "app sho
 assert(lobbyRendererSource.includes("pointermove"), "lobby character must support drag/spin pointer movement");
 assert(lobbyRendererSource.includes("WebGLRenderer"), "lobby character must be rendered with Three.js");
 assert(loadingRendererSource.includes("createTrain"), "loading-yard scene must include a train kit");
+assert(loadingRendererSource.includes("createTrainPathKit"), "loading-yard train must follow a path kit");
+assert(loadingRendererSource.includes("sampleCubicBezier"), "loading-yard train path must use Bezier sampling");
+assert(loadingRendererSource.includes("animateTrainDoor"), "loading-yard train must animate a visible door");
+assert(loadingRendererSource.includes("playerLockedToTrain"), "loading-yard scene must support locking the player to the train");
+assert(!loadingRendererSource.includes("train.position.x = departureProgress * 30"), "train must not depart with sideways linear drift");
 assert(loadingRendererSource.includes("isNearTrainBoardingZone"), "loading-yard scene must expose a train boarding trigger");
 
 console.log(JSON.stringify({

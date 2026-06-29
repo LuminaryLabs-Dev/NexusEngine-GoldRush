@@ -12,6 +12,8 @@ Build Gold Rush as a NexusRealtime-driven multiplayer extraction battle royale t
 - Browser runtime assets land in `public/assets/` only after approval.
 - The app deploys from the `Build` branch.
 - The game uses NexusRealtime as the runtime contract and custom Gold Rush kits for orchestration.
+- Generic NexusRealtime-style kits incubate locally inside `src/kits/generic-incubator/` before any later graduation to NexusRealtime.
+- `engine.n.goldrushKitContracts` must expose the two-layer kit pairings and validate that generic kits stay neutral while GoldRush kits own game-specific rules.
 - 2-100 players are supported by `engine.n.goldrushNetwork`; 50-player room partitions are internal implementation detail.
 
 ## Room Model
@@ -57,4 +59,6 @@ The visual target is the space of a playable gold-rush canyon environment, not a
 - Feedback bugs are tracked in `.agent/feedback/`.
 - `BUG-003-character-legs-need-knees.md` is resolved locally by the two-part knee rig pass.
 - `BUG-004-frame-to-frame-terrain-player-pulsing.md` is mitigated locally by cached movement-owned render grounding and native-frame crop evidence.
+- `BUG-005-loading-train-sideways-and-no-boarding-sequence.md` is in active fix: train motion must follow a path, open a door, lock the player to the train, and hand off after departure.
+- `BUG-006-physics-backend-and-terrain-mesh-reliability.md` is in active fix: use the current Cannon heightfield reliably, keep Rapier as a future adapter, and remove stacked terrain surfaces that cause flicker.
 - `BUG-002-central-mountain-scale-and-camera-framing.md` remains open and is the next visible terrain composition issue.

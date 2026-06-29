@@ -1,8 +1,11 @@
 import { createGoldRushRuntime } from "../../src/kits/goldRushRuntime.js";
 import { createNetworkOrchestrator } from "../../src/network/networkOrchestrator.js";
+import { genericIncubatorKitContracts } from "../../src/kits/generic-incubator/domainServiceKitCatalog.js";
 
 const runtime = createGoldRushRuntime({ orchestrator: createNetworkOrchestrator() });
 const requiredApis = [
+  ...genericIncubatorKitContracts.map((contract) => contract.apiName),
+  "goldrushKitContracts",
   "goldrushNetwork",
   "goldrushRooms",
   "goldrushScenario",
@@ -82,6 +85,11 @@ assert(prospect.legacyReadiness.totals.totalRequiredSlots >= 18, "legacy source 
 assert(prospect.legacyReadiness.status === "waiting-for-cloud-import", "legacy source readiness should remain blocked until assets are approved");
 assert(prospect.legacyMode.modes.length === 3, "legacy mode kit should expose three playable version intents");
 assert(prospect.legacyMode.activeMode.modeId === "modernExtraction", "modern extraction should be the default unified mode");
+assert(prospect.kitContracts.generic.count === genericIncubatorKitContracts.length, "runtime snapshot should expose the generic incubator kit catalog");
+assert(prospect.kitContracts.goldRush.count >= 30, "runtime snapshot should expose the GoldRush custom kit catalog");
+assert(prospect.kitContracts.pairings.length === genericIncubatorKitContracts.length, "each generic incubator kit should have one GoldRush pairing");
+assert(runtime.engine.n.goldrushKitContracts.validate().passed, "GoldRush kit contract registry should validate");
+assert(runtime.engine.n.runtimeDomainRegistry.snapshot().domainPath === "n:runtime:domain-registry", "generic runtime domain registry should be installed");
 
 runtime.engine.n.goldrushNetwork.generate({ players: 50, phase: "lobby" });
 const runtimeJoin51 = runtime.engine.n.goldrushNetwork.joinPlayer({ playerId: "runtime-player-051", source: "validator" });

@@ -5,12 +5,19 @@ export function createLoadingTrainSceneRenderer(root) {
   const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 180);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const train = createTrain();
+  const trainPathKit = createTrainPathKit();
   const player = createSmallProspector(0x253b36);
   const partyGhosts = new THREE.Group();
+  const trainBoardingTarget = new THREE.Vector3();
   const state = {
     kitGroup: "loading-yard-train",
+    domainPath: "n:goldrush:train-loading",
+    loadingPhase: "approaching",
     trainDeparting: false,
-    trainPosition: { x: 0, z: -10 },
+    trainPosition: { x: 0, z: -50 },
+    trainPath: trainPathKit.snapshot(),
+    doorOpen: false,
+    playerLockedToTrain: false,
     boardingRadius: 3.2,
   };
 
@@ -42,22 +49,63 @@ export function createLoadingTrainSceneRenderer(root) {
     renderer.setSize(width, height, false);
   }
 
-  function render({ localPlayer, party, trainDeparting, departureProgress = 0 }) {
+  function render({
+    localPlayer,
+    party,
+    trainDeparting = false,
+    loadingPhase = "approaching",
+    approachProgress = 0,
+    doorProgress = 0,
+    departureProgress = 0,
+    playerLockedToTrain = false,
+  }) {
     resize();
+    const pathSample = trainPathKit.sample(trainDeparting ? "departure" : "approach", trainDeparting ? departureProgress : approachProgress);
+    train.position.set(pathSample.position.x, 0, pathSample.position.z);
+    train.rotation.y = pathSample.yaw;
+    animateTrainDoor(train, doorProgress);
+    train.updateMatrixWorld(true);
+
     state.trainDeparting = trainDeparting;
-    const position = localPlayer.position;
+    state.loadingPhase = loadingPhase;
+    state.trainPosition = { x: Number(train.position.x.toFixed(2)), z: Number(train.position.z.toFixed(2)) };
+    state.doorOpen = doorProgress >= 0.92;
+    state.playerLockedToTrain = playerLockedToTrain;
+    state.approachProgress = Number(approachProgress.toFixed(3));
+    state.doorProgress = Number(doorProgress.toFixed(3));
+    state.departureProgress = Number(departureProgress.toFixed(3));
+
+    const position = playerLockedToTrain
+      ? train.userData.boardingAnchor.getWorldPosition(trainBoardingTarget)
+      : localPlayer.position;
     player.position.set(position.x, 0.68, position.z);
-    player.rotation.y = localPlayer.heading;
+    player.rotation.y = playerLockedToTrain ? train.rotation.y : localPlayer.heading;
     player.userData.leftLeg.rotation.x = localPlayer.isMoving ? Math.sin(performance.now() / 120) * 0.25 : 0;
     player.userData.rightLeg.rotation.x = localPlayer.isMoving ? -Math.sin(performance.now() / 120) * 0.25 : 0;
 
-    train.position.x = departureProgress * 30;
-    train.position.z = -10 - departureProgress * 7;
-    state.trainPosition = { x: train.position.x, z: train.position.z };
     syncPartyGhosts(party, position);
 
-    camera.position.set(position.x + 4.4, 4.1, position.z + 8.2);
-    camera.lookAt(position.x, 1.2, position.z - 3.8);
+    if (playerLockedToTrain || trainDeparting) {
+      const tangent = pathSample.tangent;
+      const side = { x: tangent.z, z: -tangent.x };
+      camera.position.set(
+        position.x - tangent.x * 9 + side.x * 3.4,
+        4.2,
+        position.z - tangent.z * 9 + side.z * 3.4
+      );
+      camera.lookAt(position.x + tangent.x * 5, 1.45, position.z + tangent.z * 5);
+    } else {
+      const yaw = localPlayer.look?.yaw ?? Math.PI;
+      const pitch = localPlayer.look?.pitch ?? -0.08;
+      const forward = { x: Math.sin(yaw), z: Math.cos(yaw) };
+      const side = { x: Math.cos(yaw), z: -Math.sin(yaw) };
+      camera.position.set(
+        position.x - forward.x * 6.4 + side.x * 2.2,
+        3.45,
+        position.z - forward.z * 6.4 + side.z * 2.2
+      );
+      camera.lookAt(position.x + forward.x * 5, 1.35 + pitch * 3.2, position.z + forward.z * 5);
+    }
     renderer.render(scene, camera);
   }
 
@@ -97,14 +145,14 @@ function createYard() {
   group.add(ground);
 
   [-0.48, 0.48].forEach((x) => {
-    const line = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 38), metal);
-    line.position.set(x, 0.06, -11);
+    const line = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 96), metal);
+    line.position.set(x, 0.06, -8);
     line.castShadow = true;
     group.add(line);
   });
-  Array.from({ length: 18 }, (_, index) => {
+  Array.from({ length: 44 }, (_, index) => {
     const tie = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.1, 0.26), rail);
-    tie.position.set(0, 0.03, 7 - index * 2.1);
+    tie.position.set(0, 0.03, 34 - index * 2.1);
     tie.castShadow = true;
     group.add(tie);
   });
@@ -167,7 +215,102 @@ function createTrain() {
   car.position.set(0, 0.92, -3.7);
   car.castShadow = true;
   group.add(car);
+
+  const door = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.82, 0.7), new THREE.MeshStandardMaterial({ color: 0x2f2118, roughness: 0.82 }));
+  door.position.set(-1.14, 0.98, -3.72);
+  door.castShadow = true;
+  group.add(door);
+
+  const boardingAnchor = new THREE.Object3D();
+  boardingAnchor.name = "goldrush.train.boardingAnchor";
+  boardingAnchor.position.set(-1.68, 0.68, -3.72);
+  group.add(boardingAnchor);
+
+  group.userData.door = door;
+  group.userData.doorClosed = door.position.clone();
+  group.userData.boardingAnchor = boardingAnchor;
   return group;
+}
+
+function animateTrainDoor(train, progress = 0) {
+  const door = train.userData.door;
+  const closed = train.userData.doorClosed;
+  if (!door || !closed) return;
+  const t = smoothstep(clamp01(progress));
+  door.position.set(closed.x, closed.y, closed.z + t * 0.86);
+  door.rotation.y = -t * 0.72;
+}
+
+function createTrainPathKit() {
+  const approach = [
+    { x: 0, z: -50 },
+    { x: 0, z: -38 },
+    { x: 0, z: -22 },
+    { x: 0, z: -9.1 },
+  ];
+  const departure = [
+    { x: 0, z: -9.1 },
+    { x: 0, z: 3 },
+    { x: 0, z: 22 },
+    { x: 0, z: 45 },
+  ];
+
+  function sample(phase, progress) {
+    const points = phase === "departure" ? departure : approach;
+    const t = smoothstep(clamp01(progress));
+    const position = sampleCubicBezier(points, t);
+    const tangent = sampleCubicBezierTangent(points, t);
+    return {
+      position,
+      tangent,
+      yaw: Math.atan2(tangent.x, tangent.z) + Math.PI,
+    };
+  }
+
+  return {
+    sample,
+    snapshot() {
+      return {
+        id: "n:scene:bezier-train-path",
+        approach,
+        departure,
+        orientation: "tangent-following",
+      };
+    },
+  };
+}
+
+function sampleCubicBezier(points, t) {
+  const a = (1 - t) ** 3;
+  const b = 3 * (1 - t) ** 2 * t;
+  const c = 3 * (1 - t) * t ** 2;
+  const d = t ** 3;
+  return {
+    x: points[0].x * a + points[1].x * b + points[2].x * c + points[3].x * d,
+    z: points[0].z * a + points[1].z * b + points[2].z * c + points[3].z * d,
+  };
+}
+
+function sampleCubicBezierTangent(points, t) {
+  const a = 3 * (1 - t) ** 2;
+  const b = 6 * (1 - t) * t;
+  const c = 3 * t ** 2;
+  const x = (points[1].x - points[0].x) * a
+    + (points[2].x - points[1].x) * b
+    + (points[3].x - points[2].x) * c;
+  const z = (points[1].z - points[0].z) * a
+    + (points[2].z - points[1].z) * b
+    + (points[3].z - points[2].z) * c;
+  const length = Math.hypot(x, z) || 1;
+  return { x: x / length, z: z / length };
+}
+
+function smoothstep(value) {
+  return value * value * (3 - 2 * value);
+}
+
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
 }
 
 function createSmallProspector(color) {
