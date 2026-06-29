@@ -39,7 +39,14 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function takeDamage({ playerId = "player-1" } = {}) {
     engine.n.goldrushPerspective.set("combat");
+    engine.n.goldrushScenes.phase("combat");
     const receipt = engine.n.goldrushCombat.damage({ playerId, percent: 0.3 });
+    engine.tick();
+    return receipt;
+  }
+
+  function transitionScene({ phase }) {
+    const receipt = engine.n.goldrushScenario.advancePhase(phase);
     engine.tick();
     return receipt;
   }
@@ -55,6 +62,7 @@ export function createGoldRushRuntime({ orchestrator }) {
     mineGold,
     cashOut,
     takeDamage,
+    transitionScene,
     snapshot,
   };
 }

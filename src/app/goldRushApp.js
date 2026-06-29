@@ -53,7 +53,7 @@ export function createGoldRushApp(root) {
         </section>
       </section>
 
-      <section class="stage" aria-label="Gold Rush arena preview">
+      <section class="stage" aria-label="Gold Rush terrain preview">
         <div id="goldrush-canvas"></div>
         <div class="hud">
           <div class="hudLine" data-hud="rooms"></div>
@@ -65,6 +65,26 @@ export function createGoldRushApp(root) {
 
   const canvasRoot = root.querySelector("#goldrush-canvas");
   const renderer = createGoldRushRenderer(canvasRoot);
+
+  window.GoldRushHost = {
+    engine: runtime.engine,
+    runtime,
+    getState: () => {
+      const scenario = runtime.snapshot();
+      return {
+        scenario,
+        world: scenario.world,
+        terrain: scenario.terrainState,
+        towns: scenario.towns,
+        paths: scenario.paths,
+        goldZones: scenario.goldZones,
+        loadingGates: scenario.loadingGates,
+        audio: scenario.audioState,
+        animation: scenario.animationState,
+        camera: scenario.cameraState,
+      };
+    },
+  };
 
   const playerInput = root.querySelector("#player-count");
   const phaseInput = root.querySelector("#phase");
@@ -88,7 +108,21 @@ export function createGoldRushApp(root) {
     root.querySelector('[data-hud="loop"]').innerHTML = state.loop
       .map((step) => `<span class="pill">${step}</span>`)
       .concat([
+        `<span class="pill">scene: ${state.sceneState.currentSceneId.replace("goldrush.scene.", "")}</span>`,
         `<span class="pill">camera: ${state.cameraMode}</span>`,
+        `<span class="pill">audio: ${state.sceneState.activeAudioCueId.replace("goldrush.audio.", "")}</span>`,
+        `<span class="pill">anim: ${state.sceneState.activeAnimationCueId.replace("goldrush.anim.", "")}</span>`,
+        `<span class="pill">world: ${(state.world.scale.widthMeters / 1000).toFixed(1)}km x ${(state.world.scale.depthMeters / 1000).toFixed(1)}km</span>`,
+        `<span class="pill">towns: ${state.world.towns.length}</span>`,
+        `<span class="pill">town layouts: ${state.towns.length}</span>`,
+        `<span class="pill">paths: ${state.paths.length}</span>`,
+        `<span class="pill">gold zones: ${state.goldZones.length}</span>`,
+        `<span class="pill">patch windows: ${state.world.activeRoomWindows.length}</span>`,
+        `<span class="pill">patches: ${state.terrainState.patchGrid.activePatchIds.length}</span>`,
+        `<span class="pill">loading gates: ${state.loadingGates.gates.length}</span>`,
+        `<span class="pill">music: ${state.audioState.musicCueId.replace("goldrush.audio.music.", "")}</span>`,
+        `<span class="pill">pose: ${state.animationState.baseState}/${state.animationState.aimState}</span>`,
+        `<span class="pill">camera kit: ${state.cameraState.mode}</span>`,
         `<span class="pill">kits: ${state.installOrder.length}</span>`,
         `<span class="pill">gold nodes: ${state.mining.filter((node) => !node.depleted).length}</span>`,
       ])
@@ -126,7 +160,7 @@ export function createGoldRushApp(root) {
   });
 
   phaseInput.addEventListener("change", () => {
-    runtime.generateMatch({ players: Number(playerInput.value), phase: phaseInput.value });
+    runtime.transitionScene({ phase: phaseInput.value });
     render();
   });
 
