@@ -197,3 +197,25 @@ total: 796 candidates, 631,521,909 listed source bytes
 ```
 
 This moves the cloud worker closer to raw copy by identifying exact candidate paths/blob SHAs, but it is still not a raw copy, deny scan, secret scan, copy ledger, hash manifest, classification receipt, conversion, review, or runtime promotion.
+
+## Current Cloud Raw Copy Plan
+
+```txt
+reports/provenance/goldrush-dual-source-001-raw-copy-plan.json
+tools/import-sanitize/generate-cloud-raw-copy-plan.mjs
+tools/validation/validate-cloud-raw-copy-plan.mjs
+```
+
+This metadata-only plan chooses the first raw files the cloud worker should copy into `raw/imported/goldrush-dual-source-001/` on `import/goldrush-dual-source-001-raw`. Current plan:
+
+```txt
+selected files: 31
+selected source bytes: 42,215,234
+explicit deferred slots: 8
+```
+
+Selected slots include wandering music, combat music, revolver shot, all six legacy/modern scene layout files, player/prospector candidates, revolver candidates, idle/run/shooting animation candidates, train/train-car candidates, gold pile, coin, cactus, and fence candidates.
+
+Deferred slots are explicit: boss music, gold pickup SFX, cashout SFX, ambush SFX, player-down SFX, aim-idle animation, aim-run animation, and dead animation still need better source evidence or review.
+
+This plan still does not copy assets and does not satisfy the final asset/audio requirement. It is the cloud worker's next concrete raw-copy target.
