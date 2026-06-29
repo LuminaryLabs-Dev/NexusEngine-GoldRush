@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+.DS_Store
+coverage/
+playwright-report/
+test-results/
+
+# Raw imported assets are allowed only when deliberately committed by the cloud
+# import workflow. Keep local scratch/output folders ignored.
+*.log
+*.tmp
