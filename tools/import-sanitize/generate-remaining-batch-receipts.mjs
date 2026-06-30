@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -8,6 +8,7 @@ const importJobId = "goldrush-dual-source-001";
 const defaultBatchId = `${importJobId}.next.001.audio-music-and-sfx`;
 const coveragePath = `reports/provenance/${importJobId}-remaining-coverage.json`;
 const fetchProofPath = `reports/provenance/${importJobId}-next-001-fetch-proof.json`;
+const rawWriteProofPath = `reports/provenance/${importJobId}-next-001-raw-write-proof.json`;
 const firstRawCopyPlanPath = `reports/provenance/${importJobId}-raw-copy-plan.json`;
 const receiptRoot = "reports/provenance/remaining-batches";
 const activeAudioExtensions = new Set([".ogg", ".mp3", ".wav"]);
@@ -18,7 +19,8 @@ export function generateRemainingBatchReceipts({
   write = false,
 } = {}) {
   const coverage = readJson(coveragePath);
-  const fetchProof = readJson(fetchProofPath);
+  const proofPath = existsRepoFile(rawWriteProofPath) ? rawWriteProofPath : fetchProofPath;
+  const batchProof = readJson(proofPath);
   const firstRawCopyPlan = readJson(firstRawCopyPlanPath);
   const batch = (coverage.nextCopyBatches ?? []).find((candidate) => candidate.batchId === batchId);
   assert(batch, `batch not found: ${batchId}`);
@@ -28,7 +30,7 @@ export function generateRemainingBatchReceipts({
       .flatMap((domain) => domain.selected ?? [])
       .map((entry) => entry.targetRawPath)
   );
-  const fetchedByTarget = new Map((fetchProof.copiedFiles ?? []).map((entry) => [entry.targetRawPath, entry]));
+  const fetchedByTarget = new Map((batchProof.copiedFiles ?? []).map((entry) => [entry.targetRawPath, entry]));
   const targetPaths = batch.items.map((item) => item.targetRawPath);
   const caseFoldTargets = new Map();
   const targetPathCollisions = [];
@@ -64,8 +66,9 @@ export function generateRemainingBatchReceipts({
     batchId,
     generatedAt,
     doesNotModifyFirst31Gate: true,
-    mode: "fetch-proof-only",
-    rawFilesWritten: false,
+    mode: batchProof.write ? "raw-files-written" : "fetch-proof-only",
+    rawFilesWritten: batchProof.write === true,
+    proofPath,
     targetRawRoot: batch.targetRawRoot,
     fetchedFiles: batch.items.map((item) => {
       const fetched = fetchedByTarget.get(item.targetRawPath);
@@ -105,9 +108,9 @@ export function generateRemainingBatchReceipts({
     doesNotModifyFirst31Gate: true,
     scanner: "copy-remaining-batch-from-github",
     scannerVersion: "1",
-    filesScanned: fetchProof.receiptCounts?.copiedFiles ?? rawCopyReceipt.fetchedFiles.length,
-    bytesScanned: fetchProof.totalBytes,
-    findingCount: fetchProof.receiptCounts?.secretFindings ?? 0,
+    filesScanned: batchProof.receiptCounts?.copiedFiles ?? rawCopyReceipt.fetchedFiles.length,
+    bytesScanned: batchProof.totalBytes,
+    findingCount: batchProof.receiptCounts?.secretFindings ?? 0,
     findings: [],
     result: "pass",
   };
@@ -171,7 +174,7 @@ export function generateRemainingBatchReceipts({
       {
         batchId,
         domainId: batch.domainId,
-        status: "fetch-proof-receipts-ready",
+        status: batchProof.write ? "raw-files-written-receipts-ready" : "fetch-proof-receipts-ready",
         itemCount: batch.itemCount,
         totalBytes: batch.totalBytes,
         receiptRoot: batchDir,
@@ -225,6 +228,10 @@ function parseArgs(argv) {
 
 function readJson(relativePath) {
   return JSON.parse(readFileSync(join(repoRoot, normalizeRepoPath(relativePath)), "utf8"));
+}
+
+function existsRepoFile(relativePath) {
+  return existsSync(join(repoRoot, normalizeRepoPath(relativePath)));
 }
 
 function writeJson(relativePath, value) {

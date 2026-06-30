@@ -169,7 +169,7 @@ assert(afterCashout.audioState.oneShots.some((shot) => shot.cueId === "goldrush.
 assert(afterCashout.animationState.actionState === "cashout", "cashout should emit cashout animation state");
 assert(afterCashout.assets.assets.length === 10, "placeholder asset slots should be installed");
 assert(afterCashout.assets.presentation.scenes.length === 8, "scene slots should be installed");
-assert(afterCashout.assets.presentation.audio.length === 12, "audio slots should be installed");
+assert(afterCashout.assets.presentation.audio.length === 14, "audio slots should be installed");
 assert(afterCashout.assets.presentation.animations.length === 14, "animation slots should be installed");
 assert(
   afterCashout.assets.assets.every((asset) => asset.status === "placeholder" && asset.runtimePath === null),

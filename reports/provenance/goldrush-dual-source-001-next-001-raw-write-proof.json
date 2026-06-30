@@ -1,15 +1,38 @@
 {
-  "schema": "nexusengine.goldrush.remaining-batch-raw-copy-receipt.v1",
-  "receiptKind": "remaining-batch",
+  "schema": "nexusengine.goldrush.remaining-batch-fetch-proof.v1",
   "importJobId": "goldrush-dual-source-001",
+  "generatedAt": "2026-06-30T01:49:31.714Z",
+  "status": "remaining-batch-worker-wrote-raw-files",
+  "fetch": true,
+  "write": true,
   "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
-  "generatedAt": "2026-06-30T01:53:23.907Z",
-  "doesNotModifyFirst31Gate": true,
-  "mode": "raw-files-written",
-  "rawFilesWritten": true,
-  "proofPath": "reports/provenance/goldrush-dual-source-001-next-001-raw-write-proof.json",
+  "domainId": "audio-music-and-sfx",
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "treeTruncated": false
+  },
   "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
-  "fetchedFiles": [
+  "itemCount": 15,
+  "totalBytes": 90145108,
+  "receiptRequirements": [
+    "source-discovery",
+    "deny-path-scan",
+    "secret-scan",
+    "copy-ledger",
+    "hash-manifest",
+    "classification"
+  ],
+  "promotionBlockedBy": [
+    "conversion-report",
+    "license-provenance",
+    "human-review",
+    "approved-runtime-record"
+  ],
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "copiedFiles": [
     {
       "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroFull.ogg",
       "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroFull.ogg",
@@ -175,5 +198,10 @@
         "audio-music-and-sfx"
       ]
     }
-  ]
+  ],
+  "receiptCounts": {
+    "copiedFiles": 15,
+    "hashFiles": 15,
+    "secretFindings": 0
+  }
 }

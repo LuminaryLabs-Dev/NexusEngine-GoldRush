@@ -142,6 +142,18 @@ The remaining asset/audio blocker now has a strict local acceptance gate before 
 
 The receipt gate now also validates against the raw-copy plan. After cloud evidence appears, the copy ledger, hash manifest, raw candidate files, and classification report must exactly cover the 31 selected raw-copy plan files with matching source paths, target raw paths, sizes, and domain ids. The eight deferred slots remain explicitly unresolved and must not be copied by the first raw-copy pass.
 
+Current audio placement implementation:
+
+```txt
+MainMenu play-on-awake AudioSource -> goldrush.audio.music.titleIntro
+Game/Game_SinglePlayer MusicManager.Wandering -> goldrush.audio.music.wandering
+Game/Game_SinglePlayer MusicManager.Combat -> goldrush.audio.music.combat
+Game/Game_SinglePlayer MusicManager.Boss -> goldrush.audio.music.boss
+Player.prefab shootAudioSource -> goldrush.audio.sfx.revolverShot
+```
+
+`src/audio/goldRushAudioManager.js` is the browser host adapter. It uses approved `assets/...` runtime paths when available and otherwise emits short procedural fallback cues while keeping public/runtime promotion blocked. Exact menu intro GUID-to-filename mapping still needs `.meta` evidence or approval-side confirmation before `GoldRushIntroFull.ogg` or `GoldRushIntroVoice.ogg` can be treated as the real title cue.
+
 The repo now has a guarded executable worker for the raw-copy pass:
 
 ```txt
@@ -226,13 +238,13 @@ validator: tools/validation/validate-remaining-batch-receipts.mjs
 index: reports/provenance/remaining-batches/batch-index.json
 receipt root: reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/
 receipt files: 6
-mode: fetch-proof-only
-raw files written: false
+mode: raw-files-written
+raw files written: true
 overlaps first 31-file plan: 0
 public/runtime promotion: false
 ```
 
-GPT-IT review recommended batch-scoped receipt gates before raw writes so the original 31-file receipt gate remains exact and unchanged. The current receipt packet proves source, raw-copy intent, hashes, secret scan, collision/overlap, validator status, and append-only index digests for the 15-file audio batch. This still does not copy the raw audio files into the repo and does not promote runtime audio.
+GPT-IT review recommended batch-scoped receipt gates before raw writes so the original 31-file receipt gate remains exact and unchanged. The current receipt packet proves source, raw-copy, hashes, secret scan, collision/overlap, validator status, and append-only index digests for the 15-file audio batch. The raw audio files are now copied into `raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/`, but runtime audio promotion remains blocked until conversion, license provenance, human review, and approved runtime records are complete.
 
 ## Current Review And Provenance Gate
 

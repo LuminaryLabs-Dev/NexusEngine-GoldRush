@@ -3,7 +3,7 @@
   "receiptKind": "remaining-batch",
   "importJobId": "goldrush-dual-source-001",
   "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
-  "generatedAt": "2026-06-30T00:06:36.376Z",
+  "generatedAt": "2026-06-30T01:53:23.907Z",
   "doesNotModifyFirst31Gate": true,
   "validatorVersion": "1",
   "validatedAgainstFirst31ReceiptSet": true,

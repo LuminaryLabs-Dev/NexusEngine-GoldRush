@@ -1,6 +1,7 @@
 import { createNetworkOrchestrator } from "../network/networkOrchestrator.js";
 import { createPeerPartyRoom } from "../network/peerPartyRoom.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
+import { createGoldRushAudioManager } from "../audio/goldRushAudioManager.js";
 import { goldRushLegacyModes, resolveLegacyMode } from "../content/goldrushLegacyModes.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
@@ -48,7 +49,9 @@ export function createGoldRushApp(root) {
   let renderer = null;
   let lobbyCharacterRenderer = null;
   let loadingRenderer = null;
-  let audio = null;
+  const audio = createGoldRushAudioManager({
+    getAssetRegistry: () => runtime.engine.n.goldrushAssets.snapshot(),
+  });
   let screen = "start";
   let selectedRoom = roomTypes[2];
   let selectedLegacyMode = resolveLegacyMode("modernExtraction");
@@ -315,13 +318,14 @@ export function createGoldRushApp(root) {
         loadingScene: loadingRenderer?.snapshot() ?? null,
         loadingPlayer: loadingMovement.snapshot(),
         localPlayer: movement.snapshot(),
+        audioManager: audio.snapshot(),
       };
     },
   };
 
   root.querySelector('[data-action="play-title"]').addEventListener("click", () => {
-    audio = audio ?? createGoldRushAudio();
     audio.start();
+    audio.sync({ screen: "start", scenario: runtime.snapshot() });
     void showScreen("lobby");
   });
 
@@ -450,6 +454,8 @@ export function createGoldRushApp(root) {
     const receipt = await sceneKitLoader.activate(nextScreen);
     if (screen !== nextScreen) return receipt;
     if (nextScreen === "lobby") await startLobbyCharacter();
+    runtime.setSceneForScreen({ screen: nextScreen });
+    audio.sync({ screen: nextScreen, scenario: runtime.snapshot() });
     return receipt;
   }
 
@@ -481,8 +487,10 @@ export function createGoldRushApp(root) {
     if (!renderer) renderer = runModule.createGoldRushRenderer(canvasRoot);
     const localPlayer = movement.snapshot();
     const extractionLoop = runtime.tickExtractionLoop({ localPlayer, input: loopInput, dt: 0.05 });
+    const fired = loopInput.fire;
     loopInput.fire = false;
     const state = runtime.snapshot();
+    audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
     const banked = state.cashout["player-1"] ?? 0;
     status.textContent = `${state.match.phase}/${extractionLoop.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${localPlayer.ground.height.toFixed(1)}; ${localPlayer.isMoving ? "walking" : "idle"}`;
@@ -560,6 +568,7 @@ export function createGoldRushApp(root) {
       departureProgress,
       playerLockedToTrain,
     });
+    audio.sync({ screen: "loading", scenario: runtime.snapshot(), loadingPhase });
     if (departureProgress >= 1) startMassMatch(pendingMatchPayload ?? {});
   }
 
@@ -836,86 +845,6 @@ function pushOutOfMountainBlockers(position, blockers = centralMountainBlockers,
   });
   position.x = clamp(position.x, bounds.minX, bounds.maxX);
   position.z = clamp(position.z, bounds.minZ, bounds.maxZ);
-}
-
-function createGoldRushAudio() {
-  let context = null;
-  let master = null;
-  let timer = null;
-  let step = 0;
-  const pattern = [
-    { frequency: 196, gain: 0.11 },
-    { frequency: 246.94, gain: 0.08 },
-    { frequency: 293.66, gain: 0.1 },
-    { rest: true },
-    { frequency: 329.63, gain: 0.08 },
-    { frequency: 246.94, gain: 0.07 },
-    { rest: true },
-    { frequency: 220, gain: 0.09 },
-  ];
-
-  function start() {
-    if (!context) {
-      context = new AudioContext();
-      master = context.createGain();
-      master.gain.value = 0.16;
-      master.connect(context.destination);
-    }
-    if (context.state === "suspended") context.resume();
-    if (!timer) {
-      playStep();
-      timer = window.setInterval(playStep, 520);
-    }
-  }
-
-  function playStep() {
-    const note = pattern[step % pattern.length];
-    if (!note.rest) playPluck({ context, master, ...note });
-    if (step % 4 === 0) playBootTap({ context, master });
-    step += 1;
-  }
-
-  return { start };
-}
-
-function playPluck({ context, master, frequency, gain }) {
-  const now = context.currentTime;
-  const oscillator = context.createOscillator();
-  const toneGain = context.createGain();
-  const filter = context.createBiquadFilter();
-  oscillator.type = "square";
-  oscillator.frequency.setValueAtTime(frequency, now);
-  filter.type = "lowpass";
-  filter.frequency.setValueAtTime(1050, now);
-  toneGain.gain.setValueAtTime(0.0001, now);
-  toneGain.gain.exponentialRampToValueAtTime(gain, now + 0.012);
-  toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-  oscillator.connect(filter);
-  filter.connect(toneGain);
-  toneGain.connect(master);
-  oscillator.start(now);
-  oscillator.stop(now + 0.2);
-}
-
-function playBootTap({ context, master }) {
-  const now = context.currentTime;
-  const buffer = context.createBuffer(1, context.sampleRate * 0.045, context.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let index = 0; index < data.length; index += 1) {
-    data[index] = (Math.random() * 2 - 1) * (1 - index / data.length);
-  }
-  const source = context.createBufferSource();
-  const noiseGain = context.createGain();
-  const filter = context.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.frequency.setValueAtTime(420, now);
-  noiseGain.gain.setValueAtTime(0.05, now);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
-  source.buffer = buffer;
-  source.connect(filter);
-  filter.connect(noiseGain);
-  noiseGain.connect(master);
-  source.start(now);
 }
 
 function escapeMarkup(value) {

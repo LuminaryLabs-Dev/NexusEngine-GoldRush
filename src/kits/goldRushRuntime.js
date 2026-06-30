@@ -141,6 +141,18 @@ export function createGoldRushRuntime({ orchestrator }) {
     return receipt;
   }
 
+  function setSceneForScreen({ screen }) {
+    const transition = screenTransition(screen);
+    if (!transition) return snapshot();
+    engine.n.goldrushScenes.transition({
+      ...transition,
+      reason: `screen:${screen}`,
+    });
+    engine.n.goldrushMatch.tick({ dt: 0 });
+    engine.tick();
+    return snapshot();
+  }
+
   function setLegacyMode({ modeId }) {
     const receipt = engine.n.goldrushLegacyModes.set({ modeId, reason: "runtime-control" });
     engine.n.goldrushReplaySummary.appendEvent({
@@ -233,6 +245,7 @@ export function createGoldRushRuntime({ orchestrator }) {
     holdExtractionLoopCashout,
     fireExtractionLoop,
     transitionScene,
+    setSceneForScreen,
     setLegacyMode,
     startFinalRush,
     advanceCollapse,
@@ -240,4 +253,32 @@ export function createGoldRushRuntime({ orchestrator }) {
     endMatch,
     snapshot,
   };
+}
+
+function screenTransition(screen) {
+  if (screen === "start") {
+    return {
+      toSceneId: "goldrush.scene.mainMenu",
+      transitionId: "goldrush.transition.bootToMainMenu",
+    };
+  }
+  if (screen === "lobby") {
+    return {
+      toSceneId: "goldrush.scene.lobby",
+      transitionId: "goldrush.transition.mainMenuToLobby",
+    };
+  }
+  if (screen === "loading") {
+    return {
+      toSceneId: "goldrush.scene.loading",
+      transitionId: "goldrush.transition.roomHandoffStart",
+    };
+  }
+  if (screen === "run") {
+    return {
+      toSceneId: "goldrush.scene.arena",
+      transitionId: "goldrush.transition.lobbyToArena",
+    };
+  }
+  return null;
 }

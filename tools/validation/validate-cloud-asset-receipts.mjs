@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import {
@@ -217,14 +218,17 @@ function validateReceiptsAgainstRawCopyPlan({
   const classificationPaths = new Set(
     classificationRecords.map((record) => toRawDestinationPath(record.path, rawRoot))
   );
+  const firstPlanRawCandidateFiles = rawCandidateFiles.filter((file) => selectedByTarget.has(file));
+  const remainingBatchRawCandidateFiles = rawCandidateFiles.filter((file) => !selectedByTarget.has(file));
 
   expect(denyScan?.status === "passed", "deny-scan-must-pass-before-raw-plan-copy");
   expect(secretScan?.status === "passed", "secret-scan-must-pass-before-raw-plan-copy");
   expect(copiedFiles.length === planEntries.length, "copy-ledger-must-cover-exact-raw-copy-plan");
   expect(hashFiles.length === planEntries.length, "hash-manifest-must-cover-exact-raw-copy-plan");
-  expect(rawCandidateFiles.length === planEntries.length, "raw-candidates-must-cover-exact-raw-copy-plan");
+  expect(firstPlanRawCandidateFiles.length === planEntries.length, "raw-candidates-must-cover-exact-raw-copy-plan");
   expect(classificationRecords.length === planEntries.length, "classification-must-cover-exact-raw-copy-plan");
   expect((classification.blocked ?? []).length === 0, "classification-must-not-have-blocked-records-after-copy");
+  validateRemainingBatchRawCandidates(remainingBatchRawCandidateFiles);
 
   for (const entry of planEntries) {
     const copied = copiedFiles.find((file) => file.sourcePath === entry.sourcePath);
@@ -247,11 +251,56 @@ function validateReceiptsAgainstRawCopyPlan({
   for (const file of hashFiles) {
     expect(selectedByTarget.has(file.path), `hash-manifest-path-not-in-raw-copy-plan:${file.path}`);
   }
-  for (const file of rawCandidateFiles) {
-    expect(selectedByTarget.has(file), `raw-candidate-not-in-raw-copy-plan:${file}`);
-  }
   for (const recordPath of classificationPaths) {
     expect(selectedByTarget.has(recordPath), `classification-path-not-in-raw-copy-plan:${recordPath}`);
+  }
+}
+
+function validateRemainingBatchRawCandidates(extraRawCandidateFiles) {
+  if (extraRawCandidateFiles.length === 0) return;
+  const indexPath = "reports/provenance/remaining-batches/batch-index.json";
+  expect(existsRepoFile(indexPath), "remaining-batch-index-required-for-extra-raw-files");
+  if (!existsRepoFile(indexPath)) return;
+  const index = JSON.parse(readFileSync(path.join(repoRoot, indexPath), "utf8"));
+  expect(index.schema === "nexusengine.goldrush.remaining-batch-index.v1", "remaining-batch-index-invalid-schema");
+  expect(index.importJobId === handoff.importJobId, "remaining-batch-index-wrong-job");
+  expect(index.appendOnly === true, "remaining-batch-index-must-be-append-only");
+  expect(index.doesNotModifyFirst31Gate === true, "remaining-batch-index-must-not-modify-first31");
+
+  const covered = new Set();
+  for (const batch of normalizeArray(index.batches)) {
+    const receiptRoot = batch.receiptRoot;
+    expect(isSafeRepoRelativePath(receiptRoot), `remaining-batch-unsafe-root:${receiptRoot}`);
+    const rawCopyPath = `${receiptRoot}/raw-copy.receipt.json`;
+    const hashesPath = `${receiptRoot}/hashes.receipt.json`;
+    expect(existsRepoFile(rawCopyPath), `remaining-batch-missing-raw-copy:${batch.batchId}`);
+    expect(existsRepoFile(hashesPath), `remaining-batch-missing-hashes:${batch.batchId}`);
+    if (!existsRepoFile(rawCopyPath) || !existsRepoFile(hashesPath)) continue;
+    const rawCopy = JSON.parse(readFileSync(path.join(repoRoot, rawCopyPath), "utf8"));
+    const hashes = JSON.parse(readFileSync(path.join(repoRoot, hashesPath), "utf8"));
+    expect(rawCopy.receiptKind === "remaining-batch", `remaining-batch-raw-copy-kind:${batch.batchId}`);
+    expect(rawCopy.rawFilesWritten === true, `remaining-batch-raw-files-not-written:${batch.batchId}`);
+    expect(rawCopy.mode === "raw-files-written", `remaining-batch-raw-copy-mode:${batch.batchId}`);
+    expect(rawCopy.doesNotModifyFirst31Gate === true, `remaining-batch-raw-copy-first31:${batch.batchId}`);
+    expect(hashes.receiptKind === "remaining-batch", `remaining-batch-hashes-kind:${batch.batchId}`);
+    const hashesByPath = new Map(normalizeArray(hashes.files).map((file) => [file.path, file]));
+    for (const file of normalizeArray(rawCopy.fetchedFiles)) {
+      covered.add(file.targetRawPath);
+      const hashRecord = hashesByPath.get(file.targetRawPath);
+      expect(Boolean(hashRecord), `remaining-batch-hash-missing:${file.targetRawPath}`);
+      expect(hashRecord?.sha256 === file.sourceHash, `remaining-batch-hash-mismatch:${file.targetRawPath}`);
+      const absolute = path.join(repoRoot, file.targetRawPath);
+      expect(existsSync(absolute), `remaining-batch-raw-file-missing:${file.targetRawPath}`);
+      if (existsSync(absolute)) {
+        const bytes = readFileSync(absolute);
+        expect(bytes.length === file.sizeBytes, `remaining-batch-raw-file-size:${file.targetRawPath}`);
+        expect(`sha256:${createHash("sha256").update(bytes).digest("hex")}` === file.sourceHash, `remaining-batch-raw-file-hash:${file.targetRawPath}`);
+      }
+    }
+  }
+
+  for (const file of extraRawCandidateFiles) {
+    expect(covered.has(file), `raw-candidate-not-in-raw-copy-plan-or-remaining-batch:${file}`);
   }
 }
 

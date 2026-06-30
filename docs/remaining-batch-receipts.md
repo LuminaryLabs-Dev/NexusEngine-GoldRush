@@ -1,6 +1,6 @@
 # Remaining Batch Receipt Contract
 
-Status: pre-write gate
+Status: raw-write gate
 Validator: `node tools/validation/validate-remaining-batch-receipts.mjs`
 Generator: `node tools/import-sanitize/generate-remaining-batch-receipts.mjs --write`
 
@@ -15,8 +15,8 @@ batch: goldrush-dual-source-001.next.001.audio-music-and-sfx
 domain: audio-music-and-sfx
 items: 15
 bytes: 90,145,108
-mode: fetch-proof-only
-raw files written: false
+mode: raw-files-written
+raw files written: true
 public promotion: false
 runtime promotion: false
 ```
@@ -57,11 +57,11 @@ doesNotModifyFirst31Gate: true
 - The batch is audio-only: `.ogg`, `.mp3`, `.wav`.
 - Secret scan reports 0 findings.
 - Receipts contain no runtime paths and no approval claims.
-- No raw files are written in this pre-write gate.
+- Written raw files must match the receipt byte counts and SHA-256 hashes.
 
 ## Promotion Rules
 
-Passing this gate does not copy raw files and does not approve runtime assets. Public/runtime promotion still requires:
+Passing this gate proves the raw audio files are copied and hash-backed. It does not approve runtime assets. Public/runtime promotion still requires:
 
 ```txt
 raw copy receipts

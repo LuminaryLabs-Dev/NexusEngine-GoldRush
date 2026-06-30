@@ -1,24 +1,24 @@
 {
   "schema": "nexusengine.goldrush.remaining-batch-index.v1",
   "importJobId": "goldrush-dual-source-001",
-  "generatedAt": "2026-06-30T00:06:36.376Z",
+  "generatedAt": "2026-06-30T01:53:23.907Z",
   "appendOnly": true,
   "doesNotModifyFirst31Gate": true,
   "batches": [
     {
       "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
       "domainId": "audio-music-and-sfx",
-      "status": "fetch-proof-receipts-ready",
+      "status": "raw-files-written-receipts-ready",
       "itemCount": 15,
       "totalBytes": 90145108,
       "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx",
       "receiptDigests": {
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/source.receipt.json": "sha256:da98cf19ad8937d83166797d8ac000e388369f091c5e70dcac5128b01f6480ac",
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/raw-copy.receipt.json": "sha256:a8ac6b11a17eb1656773f79cf449c6045121fbc96f7736b66fe7b5552549e557",
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/hashes.receipt.json": "sha256:82b6d154c012075156b3c69e798ca11e4da694a959a52a2bafc98e8fdeccc42e",
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/secret-scan.receipt.json": "sha256:8ea3e59ef46a87cec892c24191cf07cd38b9dd7cdf49fe612ff1a9f49fcdb4b9",
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/collision-and-overlap.receipt.json": "sha256:1b1f539ec5670bbac0878d25f70cbcfb1534b9581ad199f74bd3f3b47363f79f",
-        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/validator.receipt.json": "sha256:8abd46d5be7324330b9bd0d241d866844a1588982d9a516a6dd3c8b351d5d051"
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/source.receipt.json": "sha256:a799c42fca91c6800888e1b8c7358dc22dacfa725d041a90c9e5ef4fff483133",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/raw-copy.receipt.json": "sha256:4f6d3a9dc0f0c1df761751897f67144709579dd582a086ae9d8228bf3d582798",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/hashes.receipt.json": "sha256:b9ae41bb30266e27e06e1c9e399acb749beb586134088b0f7b4c190835fe4997",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/secret-scan.receipt.json": "sha256:dc000c902ae4b28ebd9ddbe4c687dae51bf10eefed7ae7e7205b0cb5ed5ea215",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/collision-and-overlap.receipt.json": "sha256:f369e200c963bb9cab128b09c1e2f63a58efca854bc1b22ca200e96845302f52",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/validator.receipt.json": "sha256:9588db84bbbf661ddb3f88cf4e60f5a6c90604b09e05e8f50a8545683ff38b49"
       },
       "publicPromotion": false,
       "runtimePromotion": false

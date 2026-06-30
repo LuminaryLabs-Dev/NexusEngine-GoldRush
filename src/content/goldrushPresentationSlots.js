@@ -54,7 +54,7 @@ export const goldRushTransitionSlots = [
     id: "goldrush.transition.bootToMainMenu",
     from: "goldrush.scene.boot",
     to: "goldrush.scene.mainMenu",
-    audioCueId: "goldrush.audio.music.wandering",
+    audioCueId: "goldrush.audio.music.titleIntro",
     animationCueId: "goldrush.anim.player.idle",
   },
   {
@@ -137,6 +137,8 @@ export const goldRushTransitionSlots = [
 ];
 
 export const goldRushAudioSlots = [
+  { id: "goldrush.audio.music.titleIntro", legacyRole: "MainMenu AudioSource play-on-awake intro", type: "music" },
+  { id: "goldrush.audio.voice.titleIntro", legacyRole: "MainMenu voice/title callout", type: "voice" },
   { id: "goldrush.audio.music.wandering", legacyRole: "MusicManager.Wandering", type: "music" },
   { id: "goldrush.audio.music.combat", legacyRole: "MusicManager.Combat", type: "music" },
   { id: "goldrush.audio.music.boss", legacyRole: "MusicManager.Boss", type: "music" },

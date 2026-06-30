@@ -386,11 +386,15 @@ export function createGoldZoneDescriptors(world = createGoldRushWorldElements())
 }
 
 export function createAudioStateDescriptor({ phase = "lobby", combatActive = false, sceneState = null } = {}) {
+  const sceneId = sceneState?.currentSceneId ?? null;
+  const title = sceneId === "goldrush.scene.mainMenu" && phase === "lobby";
   const boss = phase === "results" && combatActive;
-  const audioState = boss ? "boss" : combatActive || phase === "combat" ? "combat" : "wandering";
+  const audioState = title ? "titleIntro" : boss ? "boss" : combatActive || phase === "combat" ? "combat" : "wandering";
   const musicCueId = audioState === "boss"
     ? "goldrush.audio.music.boss"
-    : audioState === "combat"
+    : audioState === "titleIntro"
+      ? "goldrush.audio.music.titleIntro"
+      : audioState === "combat"
       ? "goldrush.audio.music.combat"
       : "goldrush.audio.music.wandering";
   const oneShots = [];

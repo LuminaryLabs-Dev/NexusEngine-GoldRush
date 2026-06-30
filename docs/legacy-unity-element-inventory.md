@@ -226,11 +226,16 @@ Evidence:
 - It uses `AudioSource`, arrays for wandering/combat/boss songs, `fade duration 5f`, and `FadeToNewSong()`.
 - It switches to combat when the player facade reports `InCombat`.
 - `PlayerController` references `shootAudioSource` and plays gunshot audio when the network gunshot property changes.
+- Imported `MainMenu.unity` has a scene `AudioSource` object with `m_PlayOnAwake: 1`, `m_Volume: 1`, and `Loop: 0`; the browser equivalent is `goldrush.audio.music.titleIntro`.
+- Imported `Game.unity` and `Game_SinglePlayer.unity` instantiate the `MusicManager` prefab and rename it `MusicManager`; the browser equivalent is the `goldrushAudio` state kit plus the host audio manager.
+- Imported `Player.prefab` wires `shootAudioSource` to an `AudioSource` with `m_PlayOnAwake: 0`, mixer output, and one-shot gunfire behavior; the browser equivalent is `goldrush.audio.sfx.revolverShot`.
+- `.meta` files were not imported with this batch, so exact Unity GUID-to-filename mapping for the menu intro is not proven from YAML alone. The current slot mapping uses legacy role evidence and remains blocked from public/runtime promotion until approval records exist.
 
 GoldRush-local expansion:
 
 - `goldrush-audio-state-kit`
 - `goldrush-audio-cue-kit`
+- `src/audio/goldRushAudioManager.js`
 - Current local slot IDs live in `src/content/goldrushPresentationSlots.js`.
 
 ## Animation States

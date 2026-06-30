@@ -10,12 +10,16 @@ const batchDir = `${receiptRoot}/${batchId}`;
 const indexPath = `${receiptRoot}/batch-index.json`;
 const coveragePath = `reports/provenance/${importJobId}-remaining-coverage.json`;
 const fetchProofPath = `reports/provenance/${importJobId}-next-001-fetch-proof.json`;
+const rawWriteProofPath = `reports/provenance/${importJobId}-next-001-raw-write-proof.json`;
 const firstRawCopyPlanPath = `reports/provenance/${importJobId}-raw-copy-plan.json`;
 const expectedAudioExtensions = new Set([".ogg", ".mp3", ".wav"]);
 const failures = [];
 
 const coverage = readJson(coveragePath);
 const fetchProof = readJson(fetchProofPath);
+const rawWriteProof = existsSync(path.join(repoRoot, rawWriteProofPath))
+  ? readJson(rawWriteProofPath)
+  : null;
 const firstRawCopyPlan = readJson(firstRawCopyPlanPath);
 const index = readJson(indexPath);
 const batch = (coverage.nextCopyBatches ?? []).find((candidate) => candidate.batchId === batchId);
@@ -42,7 +46,7 @@ validateSecretScanReceipt(receipts["secret-scan.receipt.json"]);
 validateCollisionReceipt(receipts["collision-and-overlap.receipt.json"]);
 validateValidatorReceipt(receipts["validator.receipt.json"]);
 validateAgainstCoverageAndProof();
-validateNoRawWritesYet();
+validateRawWriteState();
 
 if (failures.length > 0) {
   throw new Error(`remaining batch receipts invalid: ${failures.join(", ")}`);
@@ -69,7 +73,7 @@ function validateIndex() {
   const record = index.batches?.[0];
   expect(record?.batchId === batchId, "index-wrong-batch");
   expect(record?.domainId === "audio-music-and-sfx", "index-wrong-domain");
-  expect(record?.status === "fetch-proof-receipts-ready", "index-wrong-status");
+  expect(["fetch-proof-receipts-ready", "raw-files-written-receipts-ready"].includes(record?.status), "index-wrong-status");
   expect(record?.itemCount === 15, "index-item-count-mismatch");
   expect(record?.totalBytes === 90145108, "index-byte-total-mismatch");
   expect(record?.receiptRoot === batchDir, "index-receipt-root-mismatch");
@@ -108,8 +112,11 @@ function validateSourceReceipt(receipt) {
 
 function validateRawCopyReceipt(receipt) {
   expect(receipt.schema === "nexusengine.goldrush.remaining-batch-raw-copy-receipt.v1", "raw-copy-receipt-invalid-schema");
-  expect(receipt.mode === "fetch-proof-only", "raw-copy-receipt-must-be-fetch-proof-only");
-  expect(receipt.rawFilesWritten === false, "raw-copy-receipt-must-not-write-raw");
+  expect(["fetch-proof-only", "raw-files-written"].includes(receipt.mode), "raw-copy-receipt-invalid-mode");
+  expect(receipt.rawFilesWritten === (receipt.mode === "raw-files-written"), "raw-copy-receipt-written-mode-mismatch");
+  if (receipt.mode === "raw-files-written") {
+    expect(receipt.proofPath === rawWriteProofPath, "raw-copy-receipt-wrong-write-proof-path");
+  }
   expect(receipt.targetRawRoot === `raw/imported/${importJobId}/`, "raw-copy-receipt-wrong-root");
   expect(Array.isArray(receipt.fetchedFiles) && receipt.fetchedFiles.length === 15, "raw-copy-receipt-file-count-mismatch");
   for (const file of receipt.fetchedFiles ?? []) {
@@ -171,6 +178,16 @@ function validateAgainstCoverageAndProof() {
   expect(fetchProof.write === false, "fetch-proof-must-not-write");
   expect(fetchProof.publicPromotion === false, "fetch-proof-must-not-promote-public");
   expect(fetchProof.runtimePromotion === false, "fetch-proof-must-not-promote-runtime");
+  if (rawWriteProof) {
+    expect(rawWriteProof.schema === "nexusengine.goldrush.remaining-batch-fetch-proof.v1", "raw-write-proof-invalid-schema");
+    expect(rawWriteProof.status === "remaining-batch-worker-wrote-raw-files", "raw-write-proof-wrong-status");
+    expect(rawWriteProof.write === true, "raw-write-proof-must-write");
+    expect(rawWriteProof.itemCount === 15, "raw-write-proof-item-count-mismatch");
+    expect(rawWriteProof.totalBytes === 90145108, "raw-write-proof-byte-total-mismatch");
+    expect(rawWriteProof.receiptCounts?.secretFindings === 0, "raw-write-proof-secret-findings");
+    expect(rawWriteProof.publicPromotion === false, "raw-write-proof-must-not-promote-public");
+    expect(rawWriteProof.runtimePromotion === false, "raw-write-proof-must-not-promote-runtime");
+  }
   expect(batch?.itemCount === 15, "coverage-batch-item-count-mismatch");
   expect(batch?.totalBytes === 90145108, "coverage-batch-byte-total-mismatch");
   expect((batch?.items ?? []).every((item) => expectedAudioExtensions.has(item.extension)), "coverage-batch-must-be-audio-only");
@@ -189,9 +206,23 @@ function validateAgainstCoverageAndProof() {
   }
 }
 
-function validateNoRawWritesYet() {
+function validateRawWriteState() {
+  const rawReceipt = receipts["raw-copy.receipt.json"];
+  if (rawReceipt.mode === "fetch-proof-only") {
+    for (const file of rawReceipt.fetchedFiles ?? []) {
+      expect(!existsSync(path.join(repoRoot, file.targetRawPath)), `remaining-batch-raw-file-written-before-gate:${file.targetRawPath}`);
+    }
+    return;
+  }
+  expect(Boolean(rawWriteProof), "raw-write-receipt-requires-write-proof");
   for (const file of receipts["raw-copy.receipt.json"].fetchedFiles ?? []) {
-    expect(!existsSync(path.join(repoRoot, file.targetRawPath)), `remaining-batch-raw-file-written-before-gate:${file.targetRawPath}`);
+    const absolute = path.join(repoRoot, file.targetRawPath);
+    expect(existsSync(absolute), `remaining-batch-raw-file-missing:${file.targetRawPath}`);
+    if (existsSync(absolute)) {
+      const bytes = readFileSync(absolute);
+      expect(bytes.length === file.sizeBytes, `remaining-batch-raw-file-size-mismatch:${file.targetRawPath}`);
+      expect(`sha256:${createHash("sha256").update(bytes).digest("hex")}` === file.sourceHash, `remaining-batch-raw-file-hash-mismatch:${file.targetRawPath}`);
+    }
   }
 }
 
