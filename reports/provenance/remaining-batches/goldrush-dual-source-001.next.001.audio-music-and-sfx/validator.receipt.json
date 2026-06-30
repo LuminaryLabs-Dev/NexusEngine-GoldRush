@@ -1,0 +1,21 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-validator-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
+  "generatedAt": "2026-06-30T00:06:36.376Z",
+  "doesNotModifyFirst31Gate": true,
+  "validatorVersion": "1",
+  "validatedAgainstFirst31ReceiptSet": true,
+  "validatedAgainstBatchIndex": true,
+  "expectedItemCount": 15,
+  "expectedTotalBytes": 90145108,
+  "expectedExtensions": [
+    ".mp3",
+    ".ogg",
+    ".wav"
+  ],
+  "result": "pass",
+  "errors": [],
+  "warnings": []
+}

@@ -217,6 +217,23 @@ write mode: blocked unless --write and --confirm-public-raw-import-risk are both
 
 The first remaining batch worker defaults to dry-run/fetch-only. The fetch proof downloads the 15 planned audio blobs by GitHub SHA, computes hashes, records 0 secret findings, and writes no raw files. GPT-IT review confirmed the no-go conditions: the batch must stay exactly audio-only, exactly 15 files, exactly 90,145,108 bytes, no broader remaining-path scope, no default raw writes, and no promotion without receipts, conversion, license provenance, human review, and approved runtime records.
 
+## Current Remaining Batch Receipt Gate
+
+```txt
+contract: docs/remaining-batch-receipts.md
+generator: tools/import-sanitize/generate-remaining-batch-receipts.mjs
+validator: tools/validation/validate-remaining-batch-receipts.mjs
+index: reports/provenance/remaining-batches/batch-index.json
+receipt root: reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/
+receipt files: 6
+mode: fetch-proof-only
+raw files written: false
+overlaps first 31-file plan: 0
+public/runtime promotion: false
+```
+
+GPT-IT review recommended batch-scoped receipt gates before raw writes so the original 31-file receipt gate remains exact and unchanged. The current receipt packet proves source, raw-copy intent, hashes, secret scan, collision/overlap, validator status, and append-only index digests for the 15-file audio batch. This still does not copy the raw audio files into the repo and does not promote runtime audio.
+
 ## Current Review And Provenance Gate
 
 ```txt
