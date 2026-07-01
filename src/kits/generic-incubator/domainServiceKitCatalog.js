@@ -677,6 +677,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-player-guidance-cue.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:player-loop-readiness",
+    purpose: "Expose a human-view loop matrix proving cue, hold, cargo, cashout, receipt, and results readiness.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["composeRouteState", "composeRendererEvidence", "countHelperDebt", "rankLoopGap"],
+    events: ["goldrush.playerLoopReadinessChanged"],
+    snapshot: ["stageOrder", "stages", "resolvedStages", "blockedStages", "proofPolicy", "helperDebt"],
+    dataExposed: ["stage id", "status", "domain path", "evidence", "gap", "proof policy", "helper debt"],
+    validator: "tools/validation/validate-player-loop-readiness.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],

@@ -44,6 +44,10 @@ import {
   validatePlayerGuidanceCue,
 } from "../content/goldrushPlayerGuidanceCue.js";
 import {
+  createPlayerLoopReadinessSnapshot,
+  validatePlayerLoopReadiness,
+} from "../content/goldrushPlayerLoopReadiness.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -91,6 +95,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createPlayerDrivenExtractionRouteKit(),
     createPlayerRouteGuidanceKit(),
     createPlayerGuidanceCueKit(),
+    createPlayerLoopReadinessKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1432,6 +1437,77 @@ function createPlayerGuidanceCueKit() {
   });
 }
 
+function createPlayerLoopReadinessKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-player-loop-readiness-kit",
+    domain: "goldrush-player-loop-readiness",
+    apiName: "goldrushPlayerLoopReadiness",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-player-driven-extraction-route",
+      "n:goldrush-player-route-guidance",
+      "n:goldrush-player-guidance-cue",
+      "n:goldrush-player-action-surface",
+      "n:goldrush-extraction-loop",
+      "n:goldrush-match-results",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose a player-loop readiness matrix so mine, carry, cashout, and results proof remains human-driven.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        renderer: null,
+        proofTelemetry: null,
+      };
+      let state = createPlayerLoopReadinessSnapshot({
+        playerDrivenExtractionRoute: null,
+        playerRouteGuidance: null,
+        playerGuidanceCue: null,
+        playerActionSurface: null,
+        extractionLoop: null,
+        renderer: externalFacts.renderer,
+        proofTelemetry: externalFacts.proofTelemetry,
+      });
+
+      function recompute() {
+        state = createPlayerLoopReadinessSnapshot({
+          playerDrivenExtractionRoute: engine.n.goldrushPlayerDrivenExtractionRoute?.snapshot?.() ?? null,
+          playerRouteGuidance: engine.n.goldrushPlayerRouteGuidance?.snapshot?.() ?? null,
+          playerGuidanceCue: engine.n.goldrushPlayerGuidanceCue?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          renderer: externalFacts.renderer,
+          match: engine.n.goldrushMatch?.snapshot?.() ?? null,
+          results: engine.n.goldrushResults?.snapshot?.() ?? null,
+          proofTelemetry: externalFacts.proofTelemetry,
+        });
+        return state;
+      }
+
+      return {
+        update({
+          renderer = externalFacts.renderer,
+          proofTelemetry = externalFacts.proofTelemetry,
+        } = {}) {
+          externalFacts = {
+            renderer: structuredClone(renderer),
+            proofTelemetry: structuredClone(proofTelemetry),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validatePlayerLoopReadiness(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1627,6 +1703,7 @@ function createScenarioKit() {
           const playerDrivenExtractionRoute = engine.n.goldrushPlayerDrivenExtractionRoute.snapshot();
           const playerRouteGuidance = engine.n.goldrushPlayerRouteGuidance.snapshot();
           const playerGuidanceCue = engine.n.goldrushPlayerGuidanceCue.snapshot();
+          const playerLoopReadiness = engine.n.goldrushPlayerLoopReadiness.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1679,6 +1756,7 @@ function createScenarioKit() {
             playerDrivenExtractionRoute,
             playerRouteGuidance,
             playerGuidanceCue,
+            playerLoopReadiness,
             sceneState,
             world,
             terrainState,

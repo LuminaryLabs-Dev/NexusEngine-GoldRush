@@ -10,6 +10,7 @@ import {
 } from "../content/goldrushObjectMicroKits.js";
 import { validatePlayerActionSurface } from "../content/goldrushPlayerActionSurface.js";
 import { validatePlayerGuidanceCue } from "../content/goldrushPlayerGuidanceCue.js";
+import { validatePlayerLoopReadiness } from "../content/goldrushPlayerLoopReadiness.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
 import {
@@ -441,6 +442,9 @@ export function createGoldRushApp(root) {
       const playerDrivenExtractionRoute = syncPlayerDrivenExtractionRoute({ localPlayer: movement.snapshot() });
       const playerRouteGuidance = syncPlayerRouteGuidance({ localPlayer: movement.snapshot() });
       const playerGuidanceCue = syncPlayerGuidanceCue({ localPlayer: movement.snapshot() });
+      const playerLoopReadiness = syncPlayerLoopReadiness({
+        renderer: renderer?.snapshot?.() ?? null,
+      });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -479,6 +483,8 @@ export function createGoldRushApp(root) {
         playerRouteGuidanceValidation: runtime.engine.n.goldrushPlayerRouteGuidance.validate(),
         playerGuidanceCue: scenario.playerGuidanceCue ?? playerGuidanceCue,
         playerGuidanceCueValidation: validatePlayerGuidanceCue(scenario.playerGuidanceCue ?? playerGuidanceCue),
+        playerLoopReadiness: scenario.playerLoopReadiness ?? playerLoopReadiness,
+        playerLoopReadinessValidation: validatePlayerLoopReadiness(scenario.playerLoopReadiness ?? playerLoopReadiness),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -728,6 +734,7 @@ export function createGoldRushApp(root) {
     syncPlayerDrivenExtractionRoute({ localPlayer: movementPlayer });
     syncPlayerRouteGuidance({ localPlayer: movementPlayer });
     syncPlayerGuidanceCue({ localPlayer: movementPlayer });
+    syncPlayerLoopReadiness({ renderer: renderer?.snapshot?.() ?? null });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
@@ -739,6 +746,7 @@ export function createGoldRushApp(root) {
     const affordanceRead = affordance ? `; ${affordance.prompt} ${affordance.distance.toFixed(1)}m` : "";
     status.textContent = `${state.match.phase}/${extractionLoop.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${movementPlayer.ground.height.toFixed(1)}; ${movementPlayer.isMoving ? "walking" : "idle"}${loadRead}${affordanceRead}`;
     renderer.render({ ...state, localPlayer: movementPlayer });
+    syncPlayerLoopReadiness({ renderer: renderer.snapshot?.() ?? null });
     if (extractionLoop.receipt?.extracted && state.match.phase !== "results") {
       void completeRunToResults("player-extracted");
     }
@@ -804,6 +812,16 @@ export function createGoldRushApp(root) {
   } = {}) {
     return runtime.engine.n.goldrushPlayerGuidanceCue.update({
       localPlayer,
+    });
+  }
+
+  function syncPlayerLoopReadiness({
+    renderer: rendererSnapshot = renderer?.snapshot?.() ?? null,
+    proofTelemetry = null,
+  } = {}) {
+    return runtime.engine.n.goldrushPlayerLoopReadiness.update({
+      renderer: rendererSnapshot,
+      proofTelemetry,
     });
   }
 

@@ -43,3 +43,9 @@ Replace direct result-completion helpers with a human-view path that proves:
 - move toward cashout using camera-relative input.
 - hold extraction at a visible set-piece.
 - produce score/results from receipts.
+
+## Current Readiness Matrix
+
+- `engine.n.goldrushPlayerLoopReadiness` now tracks resource cue, mine hold, cargo visual, cashout cue, cashout hold, and receipt-backed results.
+- `npm run proof:player-loop-readiness` proves the loop without run placement helpers or direct result-completion helpers.
+- The next playable-loop gap is higher-fidelity interaction feel and combat-pressure integration, not basic route completion.
