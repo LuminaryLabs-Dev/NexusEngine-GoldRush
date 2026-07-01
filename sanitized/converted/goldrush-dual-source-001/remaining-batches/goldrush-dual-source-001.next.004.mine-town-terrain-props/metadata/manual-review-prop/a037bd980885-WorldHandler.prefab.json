@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/Gameplay/WorldHandler/WorldHandler.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Gameplay/WorldHandler/WorldHandler.prefab",
+  "sourceHash": "sha256:a037bd980885f51aa12c31852b938698027dfdf9e5d6f2c990e11b7d397db98b",
+  "summary": {
+    "lineCount": 48,
+    "guidCount": 2,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "4e4693614256fb248b200489bbdb1cc7",
+      "6417d626e6f1fbc4aba47952d392fa6d"
+    ],
+    "names": [
+      "WorldHandler",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 1,
+      "114": 1
+    }
+  }
+}

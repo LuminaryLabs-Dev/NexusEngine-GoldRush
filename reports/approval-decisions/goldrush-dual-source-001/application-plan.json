@@ -1,0 +1,50 @@
+{
+  "schema": "nexusengine.goldrush.approval-decision-application-plan.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "generatedAt": "2026-06-30T18:44:17.703Z",
+  "status": "approval-decision-application-noop",
+  "write": true,
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "promotionReady": false,
+  "sources": [
+    {
+      "sourceId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
+      "sourceKind": "audio-music-and-sfx",
+      "humanReview": "reports/human-review/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx-request.json",
+      "licenseProvenance": "reports/license-provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx.json"
+    },
+    {
+      "sourceId": "goldrush-dual-source-001.remaining-non-audio",
+      "sourceKind": "non-audio-remaining-assets",
+      "humanReview": "reports/human-review/remaining-batches/goldrush-dual-source-001.remaining-non-audio-request.json",
+      "licenseProvenance": "reports/license-provenance/remaining-batches/goldrush-dual-source-001.remaining-non-audio.json"
+    }
+  ],
+  "totals": {
+    "decisionItems": 737,
+    "pending": 737,
+    "approvedReady": 0,
+    "rejectedReady": 0,
+    "blocked": 0,
+    "invalid": 0,
+    "publicPromoted": 0,
+    "runtimePromoted": 0
+  },
+  "rules": {
+    "writesPublicAssets": false,
+    "promotesRuntimeAssets": false,
+    "preflightOnly": true,
+    "mutatesReviewPackets": false,
+    "requiresHumanDecisionApproved": true,
+    "requiresLicenseDecisionApproved": true,
+    "requiresMatchingApprovalId": true,
+    "requiresSourceEvidenceUrl": true,
+    "requiresLicenseIdentifier": true,
+    "requiresAttributionWhenRequired": true,
+    "canonicalReviewPacketsRemainPendingUntilSeparateApprovedWrite": true
+  },
+  "readyUpdates": [],
+  "blockedItems": []
+}

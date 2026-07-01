@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertFlora",
+  "role": "desert-flora-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster.prefab",
+  "sourceHash": "sha256:144af2b31681d2c28ae14216f7397f68f84d1ca762207e6fa5ddf7dedff28b50",
+  "summary": {
+    "lineCount": 514,
+    "guidCount": 4,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "27e7ed4fa4c19a6498a38b37eec6e0ad",
+      "2d7bf058345e07f488af293ec7dec066",
+      "af199f7467eb2a246a98761dd2a5914d",
+      "dd36e323af2547342bb89a4c2051ebea"
+    ],
+    "names": [
+      "NaturalCluster"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 8,
+      "1001": 7
+    }
+  }
+}

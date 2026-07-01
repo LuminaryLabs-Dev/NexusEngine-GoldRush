@@ -17,6 +17,8 @@ export function createPeerPartyRoom({
   let status = "local";
   let message = "Local leader can launch or create a party code.";
   let members = [createMember({ id: localId, label: localLabel, leader: true })];
+  let boardingSync = createPeerPartyBoardingSync({ members, localId, roomCode });
+  let lastBoardingReportKey = "";
 
   function snapshot() {
     return {
@@ -28,6 +30,7 @@ export function createPeerPartyRoom({
       message,
       members: members.map((member) => ({ ...member })),
       isLeader: role === "leader",
+      boarding: snapshotPeerPartyBoardingSync(boardingSync),
     };
   }
 
@@ -42,6 +45,7 @@ export function createPeerPartyRoom({
     status = "creating";
     message = "Creating PeerJS party room.";
     members = [createMember({ id: localId, label: localLabel, leader: true })];
+    resetBoardingSync();
     notify();
 
     peer = new Peer(toPeerId(roomCode));
@@ -73,6 +77,7 @@ export function createPeerPartyRoom({
     status = "joining";
     message = "Joining PeerJS party room.";
     members = [createMember({ id: localId, label: localLabel, leader: false })];
+    resetBoardingSync();
     notify();
 
     peer = new Peer();
@@ -98,12 +103,44 @@ export function createPeerPartyRoom({
       type: "start-match",
       players: payload.players,
       groupType: payload.groupType,
+      legacyModeId: payload.legacyModeId,
       roomCode,
+      launchId: `goldrush-launch-${Date.now()}`,
+      partyLeaderId: members.find((member) => member.role === "Leader")?.id ?? localId,
+      partyMembers: members.map((member) => ({ ...member })),
       launchedAt: Date.now(),
     };
+    resetBoardingSync({ launchId: startPayload.launchId });
     broadcast(startPayload);
     onStartMatch(startPayload);
+    notify();
     return true;
+  }
+
+  function reportBoardingStatus({ phase = "unknown", boardingStatus = null } = {}) {
+    const report = createPeerPartyBoardingReport({
+      memberId: localId,
+      phase,
+      boardingStatus,
+      now: Date.now(),
+    });
+    const reportKey = JSON.stringify({
+      phase: report.phase,
+      status: report.status,
+      localBoarded: report.localBoarded,
+      boardedCount: report.boardedCount,
+      expectedCount: report.expectedCount,
+    });
+    if (reportKey === lastBoardingReportKey) return snapshot();
+    lastBoardingReportKey = reportKey;
+    boardingSync = applyPeerPartyBoardingReport(boardingSync, report);
+    if (role === "leader") {
+      broadcastBoardingState();
+    } else if (hostConnection?.open) {
+      hostConnection.send({ type: "boarding-status", report });
+    }
+    notify();
+    return snapshot();
   }
 
   function handleLeaderConnection(connection) {
@@ -116,6 +153,17 @@ export function createPeerPartyRoom({
     }
 
     connection.on("data", (data) => {
+      if (data?.type === "boarding-status") {
+        boardingSync = applyPeerPartyBoardingReport(boardingSync, data.report);
+        broadcastBoardingState();
+        notify();
+        return;
+      }
+      if (data?.type === "leave") {
+        removeConnection(connection.peer, data.reason ?? "member-left-party");
+        broadcastSnapshot();
+        return;
+      }
       if (data?.type !== "join") return;
       if (members.length >= capacity) {
         connection.send({ type: "reject", reason: "party-full" });
@@ -130,6 +178,7 @@ export function createPeerPartyRoom({
       });
       connections.set(connection.peer, { connection, memberId: member.id });
       members = [...members.filter((item) => item.id !== member.id), member];
+      resetBoardingSync();
       message = `${member.label} joined the party.`;
       bindLeaderConnectionClose(connection);
       broadcastSnapshot();
@@ -158,6 +207,7 @@ export function createPeerPartyRoom({
       if (data?.type === "party-snapshot") {
         members = data.members ?? members;
         roomCode = data.roomCode ?? roomCode;
+        boardingSync = hydratePeerPartyBoardingSync(data.boarding, { members, localId, roomCode });
         status = "joined";
         message = "Joined party. Waiting for the leader to launch.";
         notify();
@@ -168,7 +218,13 @@ export function createPeerPartyRoom({
         notify();
       }
       if (data?.type === "start-match") {
+        members = data.partyMembers ?? members;
+        resetBoardingSync({ launchId: data.launchId });
         onStartMatch(data);
+      }
+      if (data?.type === "boarding-state") {
+        boardingSync = hydratePeerPartyBoardingSync(data.boarding, { members, localId, roomCode });
+        notify();
       }
     });
     connection.on("close", () => {
@@ -191,6 +247,14 @@ export function createPeerPartyRoom({
       roomCode,
       leaderId: localId,
       members,
+      boarding: snapshotPeerPartyBoardingSync(boardingSync),
+    });
+  }
+
+  function broadcastBoardingState() {
+    broadcast({
+      type: "boarding-state",
+      boarding: snapshotPeerPartyBoardingSync(boardingSync),
     });
   }
 
@@ -200,13 +264,40 @@ export function createPeerPartyRoom({
     });
   }
 
-  function removeConnection(peerId) {
+  function removeConnection(peerId, reason = "peer-connection-closed") {
     const record = connections.get(peerId);
     if (!record) return;
     connections.delete(peerId);
     members = members.filter((member) => member.id !== record.memberId);
+    boardingSync = removePeerPartyBoardingMember(boardingSync, {
+      memberId: record.memberId,
+      reason,
+      now: Date.now(),
+    });
+    lastBoardingReportKey = "";
     message = "A party member disconnected.";
     notify();
+  }
+
+  function resetBoardingSync({ launchId = boardingSync?.launchId ?? null } = {}) {
+    boardingSync = createPeerPartyBoardingSync({ members, localId, roomCode, launchId });
+    lastBoardingReportKey = "";
+    return boardingSync;
+  }
+
+  function leaveRoom({ reason = "local-player-left-party" } = {}) {
+    if (role === "member" && hostConnection?.open) {
+      hostConnection.send({ type: "leave", memberId: localId, reason });
+    }
+    closePeer();
+    roomCode = null;
+    role = "leader";
+    status = "local";
+    members = [createMember({ id: localId, label: localLabel, leader: true })];
+    resetBoardingSync();
+    message = "Left party.";
+    notify();
+    return snapshot();
   }
 
   function closePeer() {
@@ -223,6 +314,166 @@ export function createPeerPartyRoom({
     createRoom,
     joinRoom,
     startMatch,
+    reportBoardingStatus,
+    resetBoardingSync,
+    leaveRoom,
+  };
+}
+
+export function createPeerPartyBoardingSync({
+  members = [],
+  localId = null,
+  roomCode = null,
+  launchId = null,
+  now = 0,
+} = {}) {
+  const reports = {};
+  const memberIds = [];
+  members.forEach((member, index) => {
+    const memberId = String(member.id ?? member.playerId ?? `party-member-${index + 1}`);
+    memberIds.push(memberId);
+    reports[memberId] = {
+      memberId,
+      label: String(member.label ?? member.displayName ?? `Prospector ${index + 1}`),
+      role: String(member.role ?? "Member"),
+      status: "waiting",
+      phase: "not-started",
+      localBoarded: false,
+      kitAllReady: false,
+      expectedCount: members.length,
+      boardedCount: 0,
+      readyAt: null,
+      updatedAt: now,
+    };
+  });
+  return {
+    contract: "goldrush-peer-party-boarding-sync-v1",
+    launchId,
+    roomCode,
+    localId,
+    memberIds,
+    reports,
+    sequence: 0,
+    policy: {
+      disconnect: "reduce-roster-require-remaining",
+    },
+    disconnects: [],
+  };
+}
+
+export function createPeerPartyBoardingReport({
+  memberId,
+  phase = "unknown",
+  boardingStatus = null,
+  now = Date.now(),
+} = {}) {
+  const localBoarded = Boolean(boardingStatus?.localBoarded);
+  const kitAllReady = Boolean(boardingStatus?.allReady);
+  return {
+    memberId: String(memberId ?? boardingStatus?.localPlayerId ?? "player-1"),
+    status: localBoarded ? "boarded" : "waiting",
+    phase,
+    localBoarded,
+    kitAllReady,
+    expectedCount: Number(boardingStatus?.expectedCount ?? 0),
+    boardedCount: Number(boardingStatus?.boardedCount ?? 0),
+    readyAt: localBoarded ? boardingStatus?.readyAt ?? now : null,
+    updatedAt: now,
+  };
+}
+
+export function applyPeerPartyBoardingReport(sync, report = {}) {
+  const next = structuredClone(sync ?? createPeerPartyBoardingSync());
+  const memberId = String(report.memberId ?? "");
+  if (!memberId) return next;
+  if (Array.isArray(next.memberIds) && next.memberIds.length > 0 && !next.memberIds.includes(memberId)) {
+    next.ignoredReports = [
+      ...(next.ignoredReports ?? []),
+      {
+        memberId,
+        reason: "not-in-current-roster",
+        phase: String(report.phase ?? "unknown"),
+        updatedAt: Number(report.updatedAt ?? Date.now()),
+      },
+    ].slice(-8);
+    next.sequence = Number(next.sequence ?? 0) + 1;
+    return next;
+  }
+  const previous = next.reports[memberId] ?? {
+    memberId,
+    label: memberId,
+    role: "Member",
+  };
+  next.reports[memberId] = {
+    ...previous,
+    memberId,
+    status: report.localBoarded ? "boarded" : String(report.status ?? "waiting"),
+    phase: String(report.phase ?? previous.phase ?? "unknown"),
+    localBoarded: Boolean(report.localBoarded),
+    kitAllReady: Boolean(report.kitAllReady),
+    expectedCount: Number(report.expectedCount ?? previous.expectedCount ?? 0),
+    boardedCount: Number(report.boardedCount ?? previous.boardedCount ?? 0),
+    readyAt: report.readyAt ?? previous.readyAt ?? null,
+    updatedAt: Number(report.updatedAt ?? Date.now()),
+  };
+  next.sequence = Number(next.sequence ?? 0) + 1;
+  return next;
+}
+
+export function removePeerPartyBoardingMember(sync, { memberId, reason = "disconnected", now = Date.now() } = {}) {
+  const id = String(memberId ?? "");
+  const next = structuredClone(sync ?? createPeerPartyBoardingSync());
+  if (!id) return next;
+  next.memberIds = (next.memberIds ?? Object.keys(next.reports ?? {})).filter((entry) => entry !== id);
+  delete next.reports[id];
+  next.disconnects = [
+    ...(next.disconnects ?? []),
+    {
+      memberId: id,
+      reason,
+      at: now,
+      policy: "reduce-roster-require-remaining",
+    },
+  ].slice(-8);
+  next.sequence = Number(next.sequence ?? 0) + 1;
+  return next;
+}
+
+export function hydratePeerPartyBoardingSync(snapshot, { members = [], localId = null, roomCode = null } = {}) {
+  if (!snapshot?.contract) return createPeerPartyBoardingSync({ members, localId, roomCode });
+  let sync = createPeerPartyBoardingSync({
+    members,
+    localId,
+    roomCode: snapshot.roomCode ?? roomCode,
+    launchId: snapshot.launchId ?? null,
+  });
+  const allowedIds = new Set(sync.memberIds);
+  (snapshot.reports ?? []).filter((report) => allowedIds.has(report.memberId)).forEach((report) => {
+    sync = applyPeerPartyBoardingReport(sync, report);
+  });
+  sync.disconnects = Array.isArray(snapshot.disconnects) ? structuredClone(snapshot.disconnects).slice(-8) : [];
+  sync.sequence = Number(snapshot.sequence ?? sync.sequence);
+  return sync;
+}
+
+export function snapshotPeerPartyBoardingSync(sync) {
+  const reports = Object.values(sync?.reports ?? {});
+  const expectedCount = reports.length;
+  const readyReports = reports.filter((report) => report.localBoarded);
+  return {
+    contract: sync?.contract ?? "goldrush-peer-party-boarding-sync-v1",
+    launchId: sync?.launchId ?? null,
+    roomCode: sync?.roomCode ?? null,
+    localId: sync?.localId ?? null,
+    sequence: Number(sync?.sequence ?? 0),
+    policy: structuredClone(sync?.policy ?? { disconnect: "reduce-roster-require-remaining" }),
+    expectedCount,
+    readyCount: readyReports.length,
+    allReady: expectedCount > 0 && readyReports.length === expectedCount,
+    missingMemberIds: reports.filter((report) => !report.localBoarded).map((report) => report.memberId),
+    disconnects: structuredClone(sync?.disconnects ?? []),
+    ignoredReports: structuredClone(sync?.ignoredReports ?? []),
+    reports: reports.map((report) => ({ ...report })),
   };
 }
 

@@ -51,6 +51,44 @@ const cuePolicy = {
   },
 };
 
+export const readableThreatAudioContract = "readable-threat-audio-cues-v1";
+export const trainTransitionAudioContract = "goldrush-train-transition-audio-cues-v1";
+
+const readableThreatCueMap = {
+  "threat-rustle": "goldrush.audio.sfx.ambush",
+  "threat-spur": "goldrush.audio.sfx.ambush",
+  "threat-whistle": "goldrush.audio.sfx.ambush",
+  "danger-line": "goldrush.audio.sfx.ambush",
+};
+
+const trainTransitionCueMap = {
+  "train-arrival": {
+    cueId: "goldrush.audio.voice.titleIntro",
+    cueName: "train-arrival-call",
+    fallbackPattern: "train-arrival",
+  },
+  "door-opening": {
+    cueId: "goldrush.audio.sfx.goldPickup",
+    cueName: "train-door-open",
+    fallbackPattern: "train-door",
+  },
+  "player-boarding": {
+    cueId: "goldrush.audio.sfx.goldPickup",
+    cueName: "board-now-marker",
+    fallbackPattern: "train-board",
+  },
+  "party-readiness-sync": {
+    cueId: "goldrush.audio.sfx.ambush",
+    cueName: "party-ready-wait",
+    fallbackPattern: "train-wait",
+  },
+  "train-departure": {
+    cueId: "goldrush.audio.voice.titleIntro",
+    cueName: "train-departure-call",
+    fallbackPattern: "train-depart",
+  },
+};
+
 const fallbackPatterns = {
   title: [
     { frequency: 196, gain: 0.12 },
@@ -87,6 +125,10 @@ export function createGoldRushAudioManager({ getAssetRegistry = () => null } = {
     currentMusicSource: "none",
     currentFallbackPattern: null,
     lastOneShots: [],
+    lastThreatCueShots: [],
+    lastTrainCueShots: [],
+    readableThreatAudioContract,
+    trainTransitionAudioContract,
     pendingApprovedRuntimeAssets: [],
     legacyPositions: structuredClone(cuePolicy),
   };
@@ -98,12 +140,14 @@ export function createGoldRushAudioManager({ getAssetRegistry = () => null } = {
     return snapshot();
   }
 
-  function sync({ screen = "start", scenario = null, loadingPhase = null, fired = false } = {}) {
+  function sync({ screen = "start", scenario = null, loadingPhase = null, trainReadout = null, fired = false } = {}) {
     const musicCueId = resolveMusicCueId({ screen, scenario, loadingPhase });
     playMusicCue(musicCueId);
-    const oneShots = collectOneShots({ scenario, fired, loadingPhase });
+    const oneShots = collectOneShots({ scenario, fired, loadingPhase, trainReadout });
     for (const shot of oneShots) playOneShot(shot);
     state.lastOneShots = oneShots.slice(-8);
+    state.lastThreatCueShots = oneShots.filter((shot) => shot.source === "readable-threat").slice(-8);
+    state.lastTrainCueShots = oneShots.filter((shot) => shot.source === "train-transition").slice(-8);
     return snapshot();
   }
 
@@ -139,7 +183,7 @@ export function createGoldRushAudioManager({ getAssetRegistry = () => null } = {
     startFallbackMusic(state.currentFallbackPattern);
   }
 
-  function playOneShot({ cueId, dedupeId }) {
+  function playOneShot({ cueId, dedupeId, fallbackPattern = null }) {
     if (!unlocked || !cueId || !dedupeId || playedOneShots.has(dedupeId)) return;
     playedOneShots.add(dedupeId);
     const record = resolveAudioRecord(cueId);
@@ -151,7 +195,7 @@ export function createGoldRushAudioManager({ getAssetRegistry = () => null } = {
       return;
     }
     rememberPending(cueId);
-    playFallbackOneShot(cuePolicy[cueId]?.fallbackPattern ?? "pickup");
+    playFallbackOneShot(fallbackPattern ?? cuePolicy[cueId]?.fallbackPattern ?? "pickup");
   }
 
   function resolveAudioRecord(cueId) {
@@ -226,6 +270,37 @@ export function createGoldRushAudioManager({ getAssetRegistry = () => null } = {
   function playFallbackOneShot(patternId) {
     ensureContext();
     if (!context || !master) return;
+    if (patternId === "train-arrival") {
+      playTap(0.06, 260);
+      [196, 246.94].forEach((frequency, index) => {
+        window.setTimeout(() => playPluck({ frequency, gain: 0.075, duration: 0.22 }), index * 95);
+      });
+      return;
+    }
+    if (patternId === "train-door") {
+      [0, 95].forEach((delay, index) => {
+        window.setTimeout(() => playTap(index === 0 ? 0.095 : 0.06, index === 0 ? 760 : 520), delay);
+      });
+      return;
+    }
+    if (patternId === "train-board") {
+      [523.25, 659.25].forEach((frequency, index) => {
+        window.setTimeout(() => playPluck({ frequency, gain: 0.07, duration: 0.1 }), index * 72);
+      });
+      return;
+    }
+    if (patternId === "train-wait") {
+      playTap(0.075, 310);
+      window.setTimeout(() => playPluck({ frequency: 146.83, gain: 0.07, duration: 0.18 }), 70);
+      return;
+    }
+    if (patternId === "train-depart") {
+      [246.94, 196, 146.83].forEach((frequency, index) => {
+        window.setTimeout(() => playPluck({ frequency, gain: 0.08, duration: 0.2 }), index * 90);
+      });
+      window.setTimeout(() => playTap(0.055, 260), 285);
+      return;
+    }
     if (patternId === "shot") {
       playTap(0.16, 820);
       playPluck({ frequency: 92.5, gain: 0.16, duration: 0.08 });
@@ -292,7 +367,7 @@ function resolveMusicCueId({ screen, scenario, loadingPhase }) {
   return scenario?.audioState?.musicCueId ?? "goldrush.audio.music.wandering";
 }
 
-function collectOneShots({ scenario, fired, loadingPhase }) {
+function collectOneShots({ scenario, fired, loadingPhase, trainReadout }) {
   const shots = [];
   for (const shot of scenario?.audioState?.oneShots ?? []) {
     shots.push({ cueId: shot.cueId, dedupeId: `scene.${shot.dedupeId}` });
@@ -304,10 +379,57 @@ function collectOneShots({ scenario, fired, loadingPhase }) {
     const cueId = cueForExtractionEvent(event.type);
     if (cueId) shots.push({ cueId, dedupeId: `loop.${event.id}` });
   }
+  shots.push(...collectReadableThreatCueShots(scenario?.extractionLoop));
+  shots.push(...collectTrainTransitionCueShots(trainReadout));
   if (loadingPhase === "departing") {
     shots.push({ cueId: "goldrush.audio.voice.titleIntro", dedupeId: "loading.train.departing.voice" });
   }
   return shots;
+}
+
+export function collectTrainTransitionCueShots(trainReadout) {
+  if (trainReadout?.contract !== "goldrush-train-sequence-readout-v1") return [];
+  const cue = trainTransitionCueMap[trainReadout.currentBeat];
+  if (!cue) return [];
+  const sequenceId = trainReadout.sequenceId ?? "train-sequence";
+  return [{
+    source: "train-transition",
+    contract: trainTransitionAudioContract,
+    cueId: cue.cueId,
+    cueName: cue.cueName,
+    fallbackPattern: cue.fallbackPattern,
+    trainBeat: trainReadout.currentBeat,
+    nextPlayerAction: trainReadout.nextPlayerAction,
+    dedupeId: `train-transition.${sequenceId}.${trainReadout.currentBeat}`,
+  }];
+}
+
+export function collectReadableThreatCueShots(extractionLoop) {
+  const readability = extractionLoop?.combat?.readability;
+  if (readability?.contract !== "readable-threat-lanes-v1") return [];
+  return Object.values(readability.threats ?? {})
+    .filter((threat) => threat.telegraph?.readableBeforeDamage === true)
+    .filter((threat) => threat.lane?.status === "danger" || threat.lane?.status === "warning")
+    .map((threat) => {
+      const audioCue = threat.telegraph?.multisensory?.audio ?? threat.cue?.audio ?? "threat-rustle";
+      const cueId = resolveReadableThreatCueId(audioCue);
+      return {
+        source: "readable-threat",
+        contract: readableThreatAudioContract,
+        cueId,
+        cueName: audioCue,
+        dedupeId: `readable-threat.${threat.telegraph.id}.${threat.lane.id}.${threat.lane.status}`,
+        threatId: threat.threatId,
+        telegraphId: threat.telegraph.id,
+        laneId: threat.lane.id,
+        laneStatus: threat.lane.status,
+      };
+    });
+}
+
+function resolveReadableThreatCueId(audioCue) {
+  if (typeof audioCue === "string" && audioCue.startsWith("goldrush.audio.")) return audioCue;
+  return readableThreatCueMap[audioCue] ?? "goldrush.audio.sfx.ambush";
 }
 
 function cueForExtractionEvent(type) {

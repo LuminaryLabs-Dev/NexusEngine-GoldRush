@@ -1,0 +1,48 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/HUD.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/HUD.prefab",
+  "sourceHash": "sha256:4b883b63939b0f962d83e376b2735917f0463a16be1c10ce180c2c995d713215",
+  "summary": {
+    "lineCount": 657,
+    "guidCount": 10,
+    "namedObjectCount": 9,
+    "yamlTagTypes": 5
+  },
+  "references": {
+    "guids": [
+      "0000000000000000f000000000000000",
+      "06ae4004bae67bb4bb70a7019aefee76",
+      "0cd44c1031e13a943bb63640046fad76",
+      "3971766c6e0a5eb4fb1382b5a9d10222",
+      "8408cebe20208df42ad43c124efb3c3f",
+      "8f586378b4e144a9851e7b34d9b748ee",
+      "ccb075cc20328ad428d079af1910979e",
+      "dc42784cf147c0c48a680349fa168899",
+      "f4688fdb7df04437aeb418b961361dc5",
+      "fe87c0e1cc204ed48ad3b37840f39efc"
+    ],
+    "names": [
+      "Panel",
+      "m_EditorClassIdentifier:",
+      "GoldBarHolder",
+      "GoldBar",
+      "GoldBarHolderImage",
+      "GoldIndicator",
+      "'GOLD:'",
+      "HUD",
+      "GoldBarPosOffset"
+    ],
+    "yamlTags": {
+      "1": 8,
+      "114": 8,
+      "222": 5,
+      "223": 1,
+      "224": 8
+    }
+  }
+}

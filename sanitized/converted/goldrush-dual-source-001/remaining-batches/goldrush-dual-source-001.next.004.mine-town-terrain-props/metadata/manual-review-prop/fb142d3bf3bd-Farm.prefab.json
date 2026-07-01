@@ -1,0 +1,37 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/World/Location/Farm.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Farm.prefab",
+  "sourceHash": "sha256:fb142d3bf3bd32ba14e4b153e5fa19f3957f9a3f62cb4511f82a3b530edd56e1",
+  "summary": {
+    "lineCount": 4185,
+    "guidCount": 5,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 6
+  },
+  "references": {
+    "guids": [
+      "0000000000000000e000000000000000",
+      "0ff33f3ebb24856418c92c36761e642d",
+      "73c176f402d2c2f4d929aa5da7585d17",
+      "a9d6b202d757579418bace637b38752b",
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [
+      "FenceGroup",
+      "Cylinder"
+    ],
+    "yamlTags": {
+      "1": 2,
+      "4": 64,
+      "23": 1,
+      "33": 1,
+      "136": 1,
+      "1001": 62
+    }
+  }
+}

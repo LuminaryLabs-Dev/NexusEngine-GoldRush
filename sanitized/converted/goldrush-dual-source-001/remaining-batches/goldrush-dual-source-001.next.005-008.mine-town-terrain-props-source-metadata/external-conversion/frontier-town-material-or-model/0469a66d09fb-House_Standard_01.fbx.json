@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.frontierTown",
+  "role": "frontier-town-material-or-model",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/House_Standard_01.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/House_Standard_01.fbx",
+  "sourceHash": "sha256:0469a66d09fb61cf25aef13ae39f1e31598e119965143821ac0ad64dbe69cc5b",
+  "sourceBytes": 175184,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires GLB/glTF conversion, scale/origin/collider metadata, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

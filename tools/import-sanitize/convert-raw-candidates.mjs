@@ -2,6 +2,10 @@ import { createHash } from "node:crypto";
 import { dirname, extname, join, resolve } from "node:path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const importJobId = "goldrush-dual-source-001";
@@ -98,13 +102,13 @@ export function createGoldRushConversionReport({
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = parseArgs(process.argv.slice(2));
   const report = createGoldRushConversionReport(args);
-  console.log(JSON.stringify({
+  console.log(sanitizedConsoleJson({
     status: report.status,
     importJobId: report.importJobId,
     totals: report.totals,
     conversionReport: args.write ? defaultConversionReportPath : null,
     sanitizedRegistry: args.write ? defaultSanitizedRegistryPath : null,
-  }, null, 2));
+  }, { repoRoot }));
 }
 
 function createDirectCopyOutput({ candidate, bytes, outRoot, extension, write }) {
@@ -317,6 +321,10 @@ function writeJson(relPath, value) {
 
 function writeBytes(relPath, bytes) {
   const absolute = join(repoRoot, normalizeRepoPath(relPath));
+  if (relPath.endsWith(".json")) {
+    writeSanitizedJsonArtifactSync(absolute, JSON.parse(bytes.toString("utf8")), { repoRoot });
+    return;
+  }
   mkdirSync(dirname(absolute), { recursive: true });
   writeFileSync(absolute, bytes);
 }

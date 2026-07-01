@@ -1,0 +1,376 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-hash-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "generatedAt": "2026-06-30T17:28:11.413Z",
+  "doesNotModifyFirst31Gate": true,
+  "files": [
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Barn_01.mat",
+      "sha256": "sha256:95a359a24ec65d2169efec84a634bd2c4801fbf5a85fbc14f5b6d37f29f09d2a",
+      "blobSha": "664ef1eb97b5760e3563193c595f94162bef817d",
+      "sizeBytes": 8752
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Barn_02.mat",
+      "sha256": "sha256:451b51678967fa68549c4099334fd90af63fbd6b4b24dd1fc104e1aedcfb1156",
+      "blobSha": "4d55a8a7ed8fc3059853dbcab58fb0dd9b8b7842",
+      "sizeBytes": 8751
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Barrel.mat",
+      "sha256": "sha256:fbdd682a3e1594442b484c927dfe64f04c6ab756e97e8c5a6bdaeb4de1e51d98",
+      "blobSha": "cdc8ad1ffe9906b37772023a9b3d21cb4e02c59c",
+      "sizeBytes": 8104
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Box_Simple.mat",
+      "sha256": "sha256:a7276c406518a1344c657c67106aea00f0db74a7ff4d26fb8c27f050198ca915",
+      "blobSha": "bb828bc11c73d351e5b26329c3a0db73fa8008f3",
+      "sizeBytes": 8108
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Bridge.mat",
+      "sha256": "sha256:58649eb03fd0da0c3f88186b0a116100deb6f152f80b17b15c1d57f9eea18b99",
+      "blobSha": "389a4ef2a46953b30a43346c1312b062bdae0e24",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Cactus.mat",
+      "sha256": "sha256:39d83e59611502600fdca029310c2c0ac60a52f51dc820be41af8202ea66b2ab",
+      "blobSha": "d3b425be4654125794ec9e364eeeebb23ec12e8b",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Chapel.mat",
+      "sha256": "sha256:3809c594bfc6b6137ccf15b16f90d55b8c586314b795693c2934d57239093f36",
+      "blobSha": "135e6de474df8d1d774eff7671d00eb654f0a342",
+      "sizeBytes": 8751
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Church.mat",
+      "sha256": "sha256:e0a31d792e73673b975ab10d8104d9b9325e95992483b8b722ad9ecbb37430af",
+      "blobSha": "95565839a909fbb249f5890bfc93215239f52ba2",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Coach.mat",
+      "sha256": "sha256:f32c9bbe1fa76546a7e7f0df5e48f0118adee43427185841dec3529a1015b9ba",
+      "blobSha": "7580d131e8f97d8ba93f13d0a0681e4192954c97",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Coin_01.mat",
+      "sha256": "sha256:b5ae28f22e06dc6bd87ef8aa8d3abd9c0a49a8fc2aef0b1dc7e5a1386d13bc52",
+      "blobSha": "ac7e8af36dcfbc82b714075572df8104e93f6dce",
+      "sizeBytes": 8105
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Coin_02.mat",
+      "sha256": "sha256:65682677ccee40529ed5173618ffd93c4d4038177f720ecef516a614c321e6a6",
+      "blobSha": "b20208f11afee4fabdf952d5d335196e1781653c",
+      "sizeBytes": 8104
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Coin_03.mat",
+      "sha256": "sha256:15d4514a347e59ed9744d1fef9f235483ed5c01aa12e4ee5767117d66fbb39d8",
+      "blobSha": "98851e3ad22ef652c63e183cc9f7f0ff500b1585",
+      "sizeBytes": 8105
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Diamond.mat",
+      "sha256": "sha256:ae0f20e5c0e315dacacb047d9d4d67805306a94714d964e3778e7be724fdd33f",
+      "blobSha": "ee2bc3542b54784dd87f9dc5c7544611c60f24ea",
+      "sizeBytes": 8105
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Fence_Cmentary.mat",
+      "sha256": "sha256:3f14f27ff450bf6f437219e6045e27308e1f6566c600b0810db9a28bdd0b5e28",
+      "blobSha": "00789f5fe012f8df8e35bcdd7032bb6e02f62590",
+      "sizeBytes": 8111
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Fence_Wooden.mat",
+      "sha256": "sha256:c6f45b2b472ce703bb7b098a28ae3d4971e5a6848358cb3d14c521b1a6debaa7",
+      "blobSha": "7847180c7057a36dfdb42fcf9b4596d57faf8a49",
+      "sizeBytes": 8110
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Gate.mat",
+      "sha256": "sha256:93f6850c4f78521bc32864e7f7398077796e29b28f4daee6d820aced4c3de526",
+      "blobSha": "99ec2a1e439368288be2c2bc1a5a03cb46a174b3",
+      "sizeBytes": 8102
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Grave.mat",
+      "sha256": "sha256:a2754f1a39bd8974adea7dd5176484088b93add9faa45a9c46f154620021b260",
+      "blobSha": "f9623519d94ad63a75b0e650efe94373b8f859ab",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Hay.mat",
+      "sha256": "sha256:c1d1deddf3622813e6d73e50696753685c0e922f2f15f3368e20049204896889",
+      "blobSha": "be89b313a2d51e9c286f2a2e1aa807d992e1bf2b",
+      "sizeBytes": 8100
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/House_Standard_01.mat",
+      "sha256": "sha256:906778f5a27c29d221190043f85422bb6665845171ad45a2d31c383cc7efa86a",
+      "blobSha": "07b31eb5d130a8785f4060fb1fd5a4b332db71f9",
+      "sizeBytes": 8756
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/House_Standard_02.mat",
+      "sha256": "sha256:a5a831614a83fb7cd279873bc9253c3ef977146ed69691995ee37da3525d59cd",
+      "blobSha": "3496dc715cedd0931745989dd4db2e59923ebe98",
+      "sizeBytes": 8756
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/House_Standard_03.mat",
+      "sha256": "sha256:4598f5a74a68a710a0669fcd97afd4d4b05505989a28b33328e17e56c5090e22",
+      "blobSha": "47a22b4002bc6cf023d928ad7106618566594bfd",
+      "sizeBytes": 8757
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/House_Standard_04.mat",
+      "sha256": "sha256:62f1dc7155f1e92bbc503915092804cfb177f458263769c0b9e5effa7b2834bc",
+      "blobSha": "714cc523dea8219d3bbee27f124a4fa361c47ca4",
+      "sizeBytes": 8759
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Mine.mat",
+      "sha256": "sha256:952a8ef1f34dfe6d37406126dd9b76c1c63388ace7bb89c94089e202571a768d",
+      "blobSha": "09126720f40a23dde8ef0e494f81bc5e4b5c13ef",
+      "sizeBytes": 8744
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Reservoir.mat",
+      "sha256": "sha256:cb03ee0b0a0bf6848199cb2abc2bed2be3224023a3e0399feb7acb80e952d72c",
+      "blobSha": "32f1b9be4a02f27f9823abb0f8b0e7b7130857c0",
+      "sizeBytes": 8106
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Safe.mat",
+      "sha256": "sha256:232f833103d53a74ed846df466345827a03c91369fec7535d427769308dae8d8",
+      "blobSha": "2ab7252dd9c555cfa31196c4670e6d0d2a3ffdbf",
+      "sizeBytes": 8102
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Saloon.mat",
+      "sha256": "sha256:e2516671239336810863eddbee1a88b6759ef96328d329661630a50388b81682",
+      "blobSha": "16e48045b5cf52d81b6e255164fc24df3b99730f",
+      "sizeBytes": 8751
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Star.mat",
+      "sha256": "sha256:c024ef212088ac7dbaaf4e0024b55339f20d2741f2b9f0b953051b9c9544b819",
+      "blobSha": "b44dbdb7836a84b4a694925b334af33f46c7763c",
+      "sizeBytes": 8102
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Tombstone.mat",
+      "sha256": "sha256:c470ff8e37a3e8f07c0c011a22ab1ef637c85c67f1e7528fd832e61e7a21fa58",
+      "blobSha": "861c7f4d9ec156295dd0d6bff509be92b9838e74",
+      "sizeBytes": 8106
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Tracks.mat",
+      "sha256": "sha256:71e68cfe1645c2328480d7d69d775e6571947e552f0ea1cbeba4b36aa155ada4",
+      "blobSha": "44755c26f8e3496a06993f05f20ffdcbc6cb579b",
+      "sizeBytes": 8103
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Tree.mat",
+      "sha256": "sha256:90f4ada07cfaa47abf176734fdd761bae211293d9dce01af9ae2827b22884cc9",
+      "blobSha": "bb4f6bf3ee50209fdacda9ffeecf71b8e28f0af1",
+      "sizeBytes": 8846
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Trolley.mat",
+      "sha256": "sha256:a7faa3732259d55a04263f78fc55be32e93998b8f5a4f60d2ed67f966e8d5139",
+      "blobSha": "8179dc5ab3974e9dff9aaa60d3f89d817878e994",
+      "sizeBytes": 8105
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Well.mat",
+      "sha256": "sha256:333c62d5c55488fcd2c82b1a452e3e42d1d4d0a46bf169db9ebb3ad101e59c28",
+      "blobSha": "ea615f5cef7304f9a4230a5898ed210d5f370db0",
+      "sizeBytes": 8101
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Western_Wagon.mat",
+      "sha256": "sha256:14116a4bac80d1bdc1af9eb3f626dd93b223f6e3f75b17cb1914e490210c9e7a",
+      "blobSha": "ddb8fe9c843dff7b200590b38c9fc936ed9de673",
+      "sizeBytes": 8110
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Building Materials/Windmill.mat",
+      "sha256": "sha256:8653dd62b42372818186e6cbd148a358fb32815332d09aef7512b723450312b7",
+      "blobSha": "eba9a64635c2e382c7b12fd83685c26afa484b5f",
+      "sizeBytes": 8105
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Ground.mat",
+      "sha256": "sha256:7d2370c9f607ec4f4076a242591d4d04a2dbd271b3ec9157ae350f60adaa9f85",
+      "blobSha": "495d86e039b369c0394b71cf82008e0b2e51b78f",
+      "sizeBytes": 8577
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Materials/Rocks.mat",
+      "sha256": "sha256:57ee5f1a33d5d97581f60312efa8a34925c5f9dd695ecc8a5d00da9f8a97e538",
+      "blobSha": "32009cd00dba285bb11096cf95aff937353d008b",
+      "sizeBytes": 8704
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game/NavMesh-Terrain.asset",
+      "sha256": "sha256:94c0c63ad989122f829ff3c26f831d54eced7389caa5eb699ec761a222af0ff2",
+      "blobSha": "a4adef50885a7b2ab335b05027c105bcaaf5f531",
+      "sizeBytes": 5630068
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game/Volume Profile.asset",
+      "sha256": "sha256:36c7c9ab6b9ac768567a6b1d1eeeac1ab01fbff4618eb57d6bd6bb78e0ab1904",
+      "blobSha": "3e5a9ee9b185d1c1f7539ac8d1fd7c2a4094b473",
+      "sizeBytes": 1459
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/11_Rendering/URP-HighFidelity-Renderer.asset",
+      "sha256": "sha256:24afcb6f4d95ad759d13eed401f066eb89912073a2af9622af6f3d9bc3a87bfc",
+      "blobSha": "0e3b10d999209b8cdb4963d9ab77e55b31071929",
+      "sizeBytes": 3809
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/11_Rendering/URP-HighFidelity.asset",
+      "sha256": "sha256:dca144921ae6b65ea03acfb8a1edcdada8048e23b30c6b14aef0d043d43d53f4",
+      "blobSha": "25b015af9847abc387ee0456b969cac31cc07d2e",
+      "sizeBytes": 3503
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain 1.asset",
+      "sha256": "sha256:d4ade550a07b784305824936d4e7aeae2a04d36c43c26f5c5bfde60494a3312b",
+      "blobSha": "31780e60e31581bfeca0cebd661ff274bd26705e",
+      "sizeBytes": 557364
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain 2.asset",
+      "sha256": "sha256:1b3a814c6270d9b16ba5eda3904b9738be3d2a1922fbfac0bc88b4f9a9fac295",
+      "blobSha": "afae802ec13fac728ea5e511a78a811f45edbd0d",
+      "sizeBytes": 557364
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain 3.asset",
+      "sha256": "sha256:265e5ddb9b2e0cbc178b7adbe41abf11e36e63e32de67e7a29e944378e195498",
+      "blobSha": "fae40413cccdf0efa4236ff1077bfb84762f5eab",
+      "sizeBytes": 1958960
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain 4.asset",
+      "sha256": "sha256:d1c6f34eb2dae548b16ac19f3827cfd250d27060fcc1259ab009ea175ca93e6a",
+      "blobSha": "eaf163809f0ccdc8c8591031aa03ff941f01f96d",
+      "sizeBytes": 90039456
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain.asset",
+      "sha256": "sha256:7a37259bd8d11fc87bcc886299ce35a98f55edac1cfa84752a7e00f3880d8363",
+      "blobSha": "1b4eb84e6fef74a1f2da663d7605c6054b4f726e",
+      "sizeBytes": 3357456
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/UniversalRenderPipelineGlobalSettings.asset",
+      "sha256": "sha256:bdac5e6c90cf14fc41a2ee0152632b26464873a2c46926eff322ba060f4dd5c5",
+      "blobSha": "783520f24766172c13bb31096412687c1d6ffae0",
+      "sizeBytes": 933
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRP Balanced.asset",
+      "sha256": "sha256:2b412663e4117ae8dd98e26cc6c3ecdb05428480b23eb4c6c64eb199edfb1f08",
+      "blobSha": "230840b470ab6d6ac0eef414f2b1e6fe8f183439",
+      "sizeBytes": 15966
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRP High Fidelity.asset",
+      "sha256": "sha256:9f451877ba4b57f1c173388e5b4f3fa7477dad9bc7d885b5ed708e1131352030",
+      "blobSha": "9b36a99230fc94e413aefb1c53a6b7afe3a7877d",
+      "sizeBytes": 15879
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRP Performant.asset",
+      "sha256": "sha256:04d2ac814cb205c0b89428d36688284095dcb01beba3a830b7d17aee78800dfc",
+      "blobSha": "45d59f11cf620e7e61ecab50fec426947fb9f0b7",
+      "sizeBytes": 15948
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/DefaultLookDevProfile.asset",
+      "sha256": "sha256:bf9ab43157d43aacaefe8f322f145214325a61640805931a923af3c6cafbc36a",
+      "blobSha": "67114aba5e78c68b33028f47e16a1a076e63683f",
+      "sizeBytes": 4985
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/DefaultSettingsVolumeProfile.asset",
+      "sha256": "sha256:b30bbcdd93f0779f3ebc1cb1772a3c15fb9854fc2013e6290545393f3c53a869",
+      "blobSha": "7e53463952ef868113accb484a58b90dc58f0ef8",
+      "sizeBytes": 60063
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/HDRenderPipelineAsset.asset",
+      "sha256": "sha256:154f157b9c168686de512951018c596680b70343fa97813852eee95a8ccd924f",
+      "blobSha": "35313a037a263577014739aad9ee00a750b1ad58",
+      "sizeBytes": 15509
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/HDRenderPipelineGlobalSettings.asset",
+      "sha256": "sha256:a30a558b21017cb607aee903d68d62b1ed895438c85d02904af284e4d1bbf8ab",
+      "blobSha": "9b9f96b3ed6db30cd56b943cf36a710b2a0ce741",
+      "sizeBytes": 53672
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/SkyandFogSettingsProfile.asset",
+      "sha256": "sha256:60b332b68f0bd1253c187a57a555e5b515728f3015307f369cee61032b47df2e",
+      "blobSha": "e1e4b492cb99a32f8ef09a3e98d1ee567b428a6d",
+      "sizeBytes": 9868
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/LuminaryLabs/Editor/ArenaRocksConfig.asset",
+      "sha256": "sha256:39d5e06e2a286e59a85c94559e84e179b8cf031eaa1b186b0b179159a5b03b54",
+      "blobSha": "1a414795526f8827f47eb03f8deb31c81c840456",
+      "sizeBytes": 1198
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/New Terrain.asset",
+      "sha256": "sha256:04ba45ff530edd0dd18cd84e3749408d9f0f2b6585373dbc910225c495d116ae",
+      "blobSha": "351da7584e4e96652ab7415b196103e5bc5013b6",
+      "sizeBytes": 557360
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "sha256": "sha256:4258bed1e28868571085fe493031136fa2ded7a885d7d38a7cd8183ba15abe7d",
+      "blobSha": "70c5d61687451821dc8de6675af42b3bef2352e3",
+      "sizeBytes": 9342
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "sha256": "sha256:c3ff50e3133d989180b187748ffc67903f1fede099a5b85b4fcbd8cb6e8be958",
+      "blobSha": "c7b0771e686032fb792b91a9b80aaf4d36dd5c0b",
+      "sizeBytes": 2256862
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+      "sha256": "sha256:155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+      "blobSha": "98e6d277137da9513b245b50488ce5d6e2a1ca7e",
+      "sizeBytes": 13441
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+      "sha256": "sha256:93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+      "blobSha": "018d42f8c1b0651e910d10282ed5ffc8a6bc2cd6",
+      "sizeBytes": 5539
+    },
+    {
+      "path": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "sha256": "sha256:7be438062cdc296835a1258b68bcbeb8e9fdc4b01ea27c05a24a1074260f7424",
+      "blobSha": "92a60536387caf4a8caaed785b4c07b48abdf201",
+      "sizeBytes": 1852
+    }
+  ]
+}

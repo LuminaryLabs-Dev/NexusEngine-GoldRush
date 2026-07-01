@@ -1,0 +1,209 @@
+{
+  "schema": "nexusengine.goldrush.remaining-audio-sanitized-registry.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
+  "generatedAt": "2026-06-30T16:07:49.471Z",
+  "conversionReport": "reports/conversion/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx.json",
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "totals": {
+    "candidates": 15,
+    "outputs": 15,
+    "browserReadyAudioCopies": 15,
+    "totalBytes": 90145108,
+    "promotionReady": 0,
+    "bySlotId": {
+      "goldrush.audio.music.titleIntro": 1,
+      "goldrush.audio.voice.titleIntro": 1,
+      "goldrush.audio.music.combat": 4,
+      "goldrush.audio.music.wandering": 9
+    },
+    "byMediaKind": {
+      "music": 14,
+      "voice": 1
+    }
+  },
+  "assets": [
+    {
+      "slotId": "goldrush.audio.music.titleIntro",
+      "mediaKind": "music",
+      "cueRole": "title-intro",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroFull.ogg",
+      "sourceHash": "sha256:2c2e5f938a748a56e247dde649e68af4e64c2e78346a833145ffecefd2067389",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.titleIntro/GoldRushIntroFull.ogg",
+      "outputHash": "sha256:2c2e5f938a748a56e247dde649e68af4e64c2e78346a833145ffecefd2067389",
+      "mediaType": "audio/ogg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.voice.titleIntro",
+      "mediaKind": "voice",
+      "cueRole": "title-voice",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroVoice.ogg",
+      "sourceHash": "sha256:cdd24ba209b487ca3deab0a20e66201745952f468bb2e1b02612bebac0b57036",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.voice.titleIntro/GoldRushIntroVoice.ogg",
+      "outputHash": "sha256:cdd24ba209b487ca3deab0a20e66201745952f468bb2e1b02612bebac0b57036",
+      "mediaType": "audio/ogg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.combat",
+      "mediaKind": "music",
+      "cueRole": "combat-intensity",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Griphop - Kevin MacLeod.mp3",
+      "sourceHash": "sha256:70bfde9c912dcf661d9be0ee3fdd03e1ac89b275eaa16d3fcfb7577115f39eda",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Griphop---Kevin-MacLeod.mp3",
+      "outputHash": "sha256:70bfde9c912dcf661d9be0ee3fdd03e1ac89b275eaa16d3fcfb7577115f39eda",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.combat",
+      "mediaKind": "music",
+      "cueRole": "combat-intensity",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/I Can't Remmber I Can't Recall - The 129ers.mp3",
+      "sourceHash": "sha256:11b326885994979cc1f895d3e171b3c27c30d0d92d1c7f7672ce758a55ba2c54",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/I-Can-t-Remmber-I-Can-t-Recall---The-129ers.mp3",
+      "outputHash": "sha256:11b326885994979cc1f895d3e171b3c27c30d0d92d1c7f7672ce758a55ba2c54",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.combat",
+      "mediaKind": "music",
+      "cueRole": "combat-intensity",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Impact Intermezzo - Kevin MacLeod.mp3",
+      "sourceHash": "sha256:e9a9a4069469283b47643a066ff7d13c790085dd69a6f671da7718f81a27f8fe",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Impact-Intermezzo---Kevin-MacLeod.mp3",
+      "outputHash": "sha256:e9a9a4069469283b47643a066ff7d13c790085dd69a6f671da7718f81a27f8fe",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.combat",
+      "mediaKind": "music",
+      "cueRole": "combat-intensity",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Nightmares Inn - RKVC.mp3",
+      "sourceHash": "sha256:a9a742abf1df45c1c14d0741a069ccc9c7dcb760d2db2d86daf40888e529b60f",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Nightmares-Inn---RKVC.mp3",
+      "outputHash": "sha256:a9a742abf1df45c1c14d0741a069ccc9c7dcb760d2db2d86daf40888e529b60f",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/182701__careless_driver__wild-electronic-west.mp3",
+      "sourceHash": "sha256:dd2e9cc93c17d4c92afde46df729e7fb705e82940539d9c6d01f54f69bce2bb3",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/182701__careless_driver__wild-electronic-west.mp3",
+      "outputHash": "sha256:dd2e9cc93c17d4c92afde46df729e7fb705e82940539d9c6d01f54f69bce2bb3",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/A Ghost Town - Quincas Moreira.mp3",
+      "sourceHash": "sha256:e2fa4dd548faf2e42b51d3de760e939defffe7a1942920320dba9788a09e3dae",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/A-Ghost-Town---Quincas-Moreira.mp3",
+      "outputHash": "sha256:e2fa4dd548faf2e42b51d3de760e939defffe7a1942920320dba9788a09e3dae",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Big River - Telecasted.mp3",
+      "sourceHash": "sha256:28ddccf1a78ebb35e1a8851c49cf5081b331733eb692560339e24e4cbcecebc4",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Big-River---Telecasted.mp3",
+      "outputHash": "sha256:28ddccf1a78ebb35e1a8851c49cf5081b331733eb692560339e24e4cbcecebc4",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Bone Dry - Telecasted.mp3",
+      "sourceHash": "sha256:663bdcf2a73c2220cab1e9a1e5e2abce94197d7c0b8c612955ced47919d9936c",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Bone-Dry---Telecasted.mp3",
+      "outputHash": "sha256:663bdcf2a73c2220cab1e9a1e5e2abce94197d7c0b8c612955ced47919d9936c",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Lonely Day - Telecasted.mp3",
+      "sourceHash": "sha256:f2504818859169a13e533b1ee5c540a60e54be220516df6d24d54ee979fa69c4",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Lonely-Day---Telecasted.mp3",
+      "outputHash": "sha256:f2504818859169a13e533b1ee5c540a60e54be220516df6d24d54ee979fa69c4",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Savior - Telecasted.mp3",
+      "sourceHash": "sha256:4335b7a385177ec1fd446b7f34f88509e07a6363544b83d6548ecd631b90ff35",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Savior---Telecasted.mp3",
+      "outputHash": "sha256:4335b7a385177ec1fd446b7f34f88509e07a6363544b83d6548ecd631b90ff35",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Searching For Time - Telecasted.mp3",
+      "sourceHash": "sha256:bd1b96c5276eb37eed5649348bd4faa60c4ebfa1dd06b3382fc2f9b3940f5260",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Searching-For-Time---Telecasted.mp3",
+      "outputHash": "sha256:bd1b96c5276eb37eed5649348bd4faa60c4ebfa1dd06b3382fc2f9b3940f5260",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Spirit Riders - Telecasted.mp3",
+      "sourceHash": "sha256:c62a397b4925cb67bb1153449aef4e9e4076f2ed8b51b512bf24237b85251278",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Spirit-Riders---Telecasted.mp3",
+      "outputHash": "sha256:c62a397b4925cb67bb1153449aef4e9e4076f2ed8b51b512bf24237b85251278",
+      "mediaType": "audio/mpeg",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    },
+    {
+      "slotId": "goldrush.audio.music.wandering",
+      "mediaKind": "music",
+      "cueRole": "exploration-bed",
+      "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/535829__oceans24mission__brickfilmbandits-theme-song.wav",
+      "sourceHash": "sha256:ee69d56dc60439c86824970fe5952e7f8a12050abe624a4f977608130ce4e165",
+      "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/535829__oceans24mission__brickfilmbandits-theme-song.wav",
+      "outputHash": "sha256:ee69d56dc60439c86824970fe5952e7f8a12050abe624a4f977608130ce4e165",
+      "mediaType": "audio/wav",
+      "conversionStatus": "browser-ready-audio-copy",
+      "promotionReady": false
+    }
+  ]
+}

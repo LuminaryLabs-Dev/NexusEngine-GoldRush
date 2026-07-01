@@ -183,7 +183,7 @@
     "src/scenes"
   ],
   "goalSync": {
-    "path": "/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md",
+    "path": "<documents>/Me/GoldRush/.agent/goal.md",
     "ciFallbackPath": "goal.md",
     "requiredMarkers": [
       "NexusRealtime is the core runtime contract.",

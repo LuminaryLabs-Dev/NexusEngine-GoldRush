@@ -1,0 +1,168 @@
+No-go conditions
+
+NO-GO: batch is not exactly audio-only.
+
+NO-GO: batch selection is not exactly 15 files.
+
+NO-GO: selected byte total is not exactly 90,145,108.
+
+NO-GO: worker expands scope beyond the first audio batch.
+
+NO-GO: worker touches any of the remaining 737 paths except the 15 explicitly selected next-batch paths.
+
+NO-GO: worker writes raw files while in default mode.
+
+NO-GO: default mode is anything other than dry-run / fetch-only.
+
+NO-GO: write mode can be reached without an explicit public raw import risk flag.
+
+NO-GO: public raw import risk flag is defaulted, inferred, committed, inherited silently, or set by normal CI defaults.
+
+NO-GO: worker can fetch arbitrary URLs, arbitrary repos, branch HEAD, tags, releases, archives, or unpinned refs.
+
+NO-GO: worker writes outside raw/imported/goldrush-dual-source-001/<sourcePath>.
+
+NO-GO: worker writes into src/, public/, runtime manifests, renderer code, loader code, kit code, sequence code, build config, deploy config, or GitHub Pages output.
+
+NO-GO: any runtime promotion record is created or modified.
+
+NO-GO: any copied raw file is referenced by runtime, preload, asset manifest, audio playback, renderer, or game data.
+
+NO-GO: any conversion, transcoding, normalization, compression, waveform generation, preview generation, or metadata rewrite occurs.
+
+NO-GO: source/target hash mismatch.
+
+NO-GO: source/target size mismatch.
+
+NO-GO: Git LFS pointer is accepted as real audio bytes unless explicitly expected and classified.
+
+NO-GO: secret scan is missing, skipped, failed, or returns unresolved findings.
+
+NO-GO: deny-path report is missing or non-pass.
+
+NO-GO: license/provenance status is represented as approved.
+
+NO-GO: human review is represented as complete.
+
+NO-GO: runtime promotion flag is anything other than false.
+
+NO-GO: approved runtime records exist for this batch.
+
+NO-GO: worker clones the legacy Unity repo locally on this computer.
+
+NO-GO: worker copies into any repository other than LuminaryLabs-Dev/NexusEngine-GoldRush.
+
+NO-GO: changed paths include anything except the guarded worker code, provenance reports, and raw quarantine outputs when explicitly write-enabled.
+
+Validator checks
+
+Validate remainingCoverage.uniquePathCount == 737 before next-batch selection.
+
+Validate batch.domain == "audio".
+
+Validate batch.fileCount == 15.
+
+Validate batch.byteTotal == 90145108.
+
+Validate every selected path is unique.
+
+Validate every selected path is still in the not-copied coverage set.
+
+Validate dry-run leaves copiedFileCount == 0.
+
+Validate write mode requires explicit public raw import risk flag.
+
+Validate absent flag means fetchOnly == true and writeRawFiles == false.
+
+Validate write-enabled result would leave remainingCoverageAfterWrite == 722.
+
+Validate allowed write prefix exactly matches:
+
+raw/imported/goldrush-dual-source-001/
+
+Validate no path traversal: no .., absolute paths, Windows drive paths, control characters, null bytes, symlinks, .git/, .github/, or prefix escape.
+
+Validate fetch source is GitHub blob content at pinned source identity only.
+
+Validate no recursive directory copy.
+
+Validate no inferred sidecars.
+
+Validate no inferred dependencies.
+
+Validate no archive extraction.
+
+Validate no branch, tag, release, or HEAD fetch.
+
+Validate HTTP status, content length, and response bytes before hashing.
+
+Validate source SHA-256 is recorded before write.
+
+Validate target SHA-256 equals source SHA-256 after write.
+
+Validate source size equals target size after write.
+
+Validate aggregate copied size equals 90,145,108 only in write-enabled mode.
+
+Validate audio classification for all 15 files.
+
+Validate MIME/extension classification report exists.
+
+Validate binary/text classification report exists.
+
+Validate Git LFS pointer detection exists.
+
+Validate large-file policy exists.
+
+Validate per-file public exposure risk status exists.
+
+Validate secret scan covers paths, text metadata, and bounded binary strings.
+
+Validate license/provenance report exists but does not approve runtime use.
+
+Validate conversion report states no conversion performed.
+
+Validate runtime promotion gate:
+
+promotionAllowed: false
+runtimeTouched: false
+humanReviewRequired: true
+licenseProvenanceRequired: true
+conversionRequiredBeforeRuntimeUse: true
+approvedRuntimeRecordsRequired: true
+
+Validate receipts exist for dry-run/fetch-only:
+
+goldrush-next-audio-batch-fetch-plan.json
+goldrush-next-audio-batch-dry-run-report.json
+goldrush-next-audio-batch-fetch-receipts.json
+goldrush-next-audio-batch-deny-path-report.json
+goldrush-next-audio-batch-classification-report.json
+goldrush-next-audio-batch-secret-scan-report.json
+goldrush-next-audio-batch-public-risk-report.json
+goldrush-next-audio-batch-promotion-gate.json
+
+Validate receipts exist for write-enabled raw import, if later allowed:
+
+goldrush-next-audio-batch-raw-copy-receipts.json
+goldrush-next-audio-batch-hash-manifest.json
+goldrush-next-audio-batch-source-target-hash-compare.json
+goldrush-next-audio-batch-changed-paths-report.json
+
+Validate changed-path report blocks runtime, renderer, host, sequence, kit, manifest, build, and deploy changes.
+
+Validate no audio file path appears in runtime import graphs.
+
+Validate no audio file path appears in deployed asset manifests.
+
+Validate no audio file path appears in GitHub Pages build output references.
+
+Validate worker has tests for dry-run default, missing flag, malformed flag, valid flag, deny-path rejection, non-audio rejection, hash mismatch rejection, and forbidden changed paths.
+
+Validate architecture boundary remains intact: runtime/kits/sequences own behavior and renderer/host presentation must not own gameplay outcomes. 
+
+NexusRealtime-HowTo
+
+Validate no promotion path is accepted without stable API, renderer independence, headless tests, docs, and explicit promotion decision records. 
+
+NexusRealtime-HowToProtoKit

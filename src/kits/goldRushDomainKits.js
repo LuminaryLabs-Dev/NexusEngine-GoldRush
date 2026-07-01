@@ -18,10 +18,19 @@ import {
   validateGoldRushRealityStatus,
 } from "../content/goldrushRealityStatus.js";
 import {
+  createGoldRushFrontierConditionEffects,
+  createGoldRushFrontierConditionState,
+  validateGoldRushFrontierConditionState,
+} from "../content/goldrushFrontierConditions.js";
+import {
   goldRushLegacyModes,
   resolveLegacyMode,
   validateLegacyModes,
 } from "../content/goldrushLegacyModes.js";
+import {
+  createPlayerActionSurfaceSnapshot,
+  validatePlayerActionSurface,
+} from "../content/goldrushPlayerActionSurface.js";
 import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
@@ -60,11 +69,13 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createPathNetworkKit(),
     createGoldZoneKit(),
     createLoadingGateKit(),
+    createFrontierConditionsKit(),
     createMiningKit(),
     createCargoKit(),
     createCashoutKit(),
     createCombatKit(),
     createGoldRushExtractionLoopKit(),
+    createPlayerActionSurfaceKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -947,7 +958,7 @@ function createAudioStateKit() {
     apiName: "goldrushAudio",
     stability,
     version,
-    requires: ["n:goldrush-combat", "n:goldrush-scene-transition"],
+    requires: ["n:goldrush-combat", "n:goldrush-scene-transition", "n:goldrush-frontier-conditions"],
     services: ["snapshot", "validate"],
     metadata: {
       purpose: "Own music state and one-shot cue descriptors from phase, combat, and scene transitions.",
@@ -959,6 +970,7 @@ function createAudioStateKit() {
             phase,
             combatActive: engine.n.goldrushCombat.snapshot().active,
             sceneState: engine.n.goldrushScenes.snapshot(),
+            frontierConditionEffects: engine.n.goldrushFrontierConditions.effects(),
           });
         },
         validate() {
@@ -974,6 +986,69 @@ function createAudioStateKit() {
   });
 }
 
+function createFrontierConditionsKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-frontier-conditions-kit",
+    domain: "goldrush-frontier-conditions",
+    apiName: "goldrushFrontierConditions",
+    stability,
+    version,
+    requires: ["n:goldrush-world-elements", "n:goldrush-gold-zones", "n:goldrush-loading-gates"],
+    services: ["generate", "set-condition", "advance", "snapshot", "effects", "reset", "validate"],
+    metadata: {
+      purpose: "Own GoldRush live frontier match conditions as planning, world, lighting, and audio descriptors.",
+      layer: "goldrush-custom",
+      domainPath: "n:goldrush:frontier-conditions",
+    },
+    createApi({ engine }) {
+      let state = createGoldRushFrontierConditionState();
+
+      return {
+        generate({ seed = "goldrush-dev-seed", phase = "lobby", tick = engine.clock?.frame ?? 0 } = {}) {
+          state = createGoldRushFrontierConditionState({ seed, phase, tick, reason: "generated" });
+          engine.n.goldrushReplaySummary?.appendEvent?.({
+            type: "frontierConditionGenerated",
+            tick,
+            payload: {
+              conditionId: state.active.id,
+              phase,
+              family: state.active.family,
+            },
+          });
+          return structuredClone(state);
+        },
+        setCondition({ conditionId, reason = "manual", seed = state.seed, phase = state.phase } = {}) {
+          state = createGoldRushFrontierConditionState({
+            seed,
+            phase,
+            tick: engine.clock?.frame ?? state.tick,
+            forcedConditionId: conditionId,
+            reason,
+          });
+          return structuredClone({ accepted: state.active.id === conditionId, state });
+        },
+        advance({ reason = "advance", seed = state.seed, phase = state.phase } = {}) {
+          const next = state.upcoming[0];
+          return this.setCondition({ conditionId: next?.id, reason, seed, phase });
+        },
+        reset() {
+          state = createGoldRushFrontierConditionState();
+          return structuredClone(state);
+        },
+        snapshot() {
+          return structuredClone(state);
+        },
+        effects() {
+          return createGoldRushFrontierConditionEffects(state);
+        },
+        validate() {
+          return validateGoldRushFrontierConditionState(state);
+        },
+      };
+    },
+  });
+}
+
 function createCameraDescriptorKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-camera-descriptor-kit",
@@ -982,32 +1057,49 @@ function createCameraDescriptorKit() {
     stability,
     version,
     requires: ["n:goldrush-combat", "n:goldrush-terrain-patch-window"],
-    services: ["snapshot", "set-mode", "validate"],
+    services: ["snapshot", "set-mode", "reset-for-transition", "validate"],
     metadata: {
       purpose: "Own richer camera descriptors while preserving legacy perspective behavior.",
     },
     createApi({ engine }) {
       let requestedMode = "exploration";
       const perspectiveCatalog = createGoldRushCameraPerspectives({ count: 1000 });
+      let latchedSelectionKey = null;
+      let latchedPerspective = null;
 
       return {
         set(mode) {
           requestedMode = mode === "combat" ? "combat" : mode === "loading" ? "loading" : "exploration";
+          latchedSelectionKey = null;
           return this.snapshot();
+        },
+        resetForTransition({ phase = "lobby", reason = "transition" } = {}) {
+          latchedSelectionKey = null;
+          return {
+            reason,
+            camera: this.snapshot({ phase }),
+          };
         },
         snapshot({ phase = "lobby" } = {}) {
           const combat = engine.n.goldrushCombat.snapshot();
           const terrain = engine.n.goldrushTerrain.snapshot({ phase });
           const activeWindow = terrain.roomPatchWindows.find((window) => window.active) ?? terrain.roomPatchWindows[0];
           const mode = combat.active ? "combat" : phase === "extract" ? "cashout" : requestedMode;
-          const selectedPerspective = selectGoldRushCameraPerspective(perspectiveCatalog, {
-            mode,
-            phase,
-            tick: engine.clock?.frame ?? 0,
-          });
+          const selectionKey = `${mode}:${phase}:${activeWindow?.id ?? "no-window"}`;
+          if (selectionKey !== latchedSelectionKey || !latchedPerspective) {
+            latchedSelectionKey = selectionKey;
+            latchedPerspective = selectGoldRushCameraPerspective(perspectiveCatalog, {
+              mode,
+              phase,
+              tick: stableCameraSelectionTick(selectionKey),
+            });
+          }
+          const selectedPerspective = latchedPerspective;
           return {
             version,
             mode,
+            motionAuthority: "transition-latched-player-follow",
+            selectionKey,
             perspectiveCatalog,
             selectedPerspective,
             perspectiveCount: perspectiveCatalog.count,
@@ -1041,6 +1133,7 @@ function createCameraDescriptorKit() {
           if (!validateGoldRushCameraPerspectives(camera.perspectiveCatalog)) failures.push("invalid-camera-perspective-catalog");
           if (camera.perspectiveCount < 1000) failures.push("missing-camera-perspective-volume");
           if (!camera.selectedPerspective?.playabilityChecks?.includes("player-silhouette-readable")) failures.push("missing-camera-playability-checks");
+          if (camera.motionAuthority !== "transition-latched-player-follow") failures.push("invalid-motion-authority");
           return { passed: failures.length === 0, failures };
         },
       };
@@ -1088,6 +1181,61 @@ function createAnimationStateKit() {
   });
 }
 
+function createPlayerActionSurfaceKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-player-action-surface-kit",
+    domain: "goldrush-player-action-surface",
+    apiName: "goldrushPlayerActionSurface",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-extraction-loop",
+      "n:goldrush-cargo",
+      "n:goldrush-combat",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Compose current GoldRush gameplay facts into one player-facing action prompt/progress/risk surface.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        objectInteraction: null,
+        localPlayer: null,
+      };
+      let state = createPlayerActionSurfaceSnapshot({
+        extractionLoop: null,
+        objectInteraction: externalFacts.objectInteraction,
+        localPlayer: externalFacts.localPlayer,
+      });
+
+      function recompute() {
+        state = createPlayerActionSurfaceSnapshot({
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          objectInteraction: externalFacts.objectInteraction,
+          localPlayer: externalFacts.localPlayer,
+        });
+        return state;
+      }
+
+      return {
+        update({ objectInteraction = externalFacts.objectInteraction, localPlayer = externalFacts.localPlayer } = {}) {
+          externalFacts = {
+            objectInteraction: structuredClone(objectInteraction),
+            localPlayer: structuredClone(localPlayer),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validatePlayerActionSurface(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1103,11 +1251,13 @@ function createScenarioKit() {
       "n:goldrush-path-network",
       "n:goldrush-gold-zones",
       "n:goldrush-loading-gates",
+      "n:goldrush-frontier-conditions",
       "n:goldrush-mining",
       "n:goldrush-cargo",
       "n:goldrush-cashout",
       "n:goldrush-combat",
       "n:goldrush-extraction-loop",
+      "n:goldrush-player-action-surface",
       "n:goldrush-camera-descriptor",
       "n:goldrush-perspective",
       "n:goldrush-world-elements",
@@ -1136,6 +1286,11 @@ function createScenarioKit() {
         generateMatch({ players, phase }) {
           const network = engine.n.goldrushNetwork.generate({ players, phase });
           const rooms = network.rooms;
+          const frontierConditions = engine.n.goldrushFrontierConditions.generate({
+            seed: `players-${players}`,
+            phase,
+            tick: engine.clock?.frame ?? 0,
+          });
           engine.n.goldrushMatch.start({ players, phase });
           engine.n.goldrushMining.seed({ players, shardCount: network.partitions.length });
           engine.n.goldrushCargo.seed({ players });
@@ -1148,6 +1303,7 @@ function createScenarioKit() {
               phase,
               networkStatus: network.status,
               partitionCount: network.partitions.length,
+              frontierConditionId: frontierConditions.active.id,
             },
           });
           if (phase === "combat") engine.n.goldrushPerspective.set("combat");
@@ -1193,6 +1349,7 @@ function createScenarioKit() {
         simulateExtraction({ playerId = "player-1", goldAmount = 0, cargoValue = 0, receiptId = null } = {}) {
           const zone = engine.n.goldrushGoldZones.snapshot()[0];
           const roomWindowId = zone?.patchWindowIds?.[0] ?? null;
+          const frontierConditionEffects = engine.n.goldrushFrontierConditions.effects();
           const receipt = engine.n.goldrushExtractionReceipts.recordExtraction({
             receiptId: receiptId ?? `extract.${playerId}.${engine.clock?.frame ?? 0}`,
             playerId,
@@ -1203,6 +1360,14 @@ function createScenarioKit() {
             goldZoneId: zone?.goldZoneId ?? null,
             roomWindowId,
             tick: engine.clock?.frame ?? 0,
+            frontierCondition: {
+              conditionId: frontierConditionEffects.conditionId,
+              label: frontierConditionEffects.label,
+              extractionRisk: frontierConditionEffects.extraction.riskScalar,
+              cashoutValueScalar: frontierConditionEffects.extraction.cashoutValueScalar,
+              miningPayoutScalar: frontierConditionEffects.mining.payoutScalar,
+              combatPressureScalar: frontierConditionEffects.combat.pressureScalar,
+            },
           });
           if (receipt.status === "accepted") engine.n.goldrushScoring.applyExtractionReceipt(receipt.receiptId);
           engine.n.goldrushReplaySummary.appendEvent({
@@ -1259,6 +1424,7 @@ function createScenarioKit() {
           const cashout = engine.n.goldrushCashout.snapshot();
           const combat = engine.n.goldrushCombat.snapshot();
           const extractionLoop = engine.n.goldrushExtractionLoop.snapshot();
+          const playerActionSurface = engine.n.goldrushPlayerActionSurface.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1266,6 +1432,8 @@ function createScenarioKit() {
           const paths = engine.n.goldrushPaths.snapshot();
           const goldZones = engine.n.goldrushGoldZones.snapshot();
           const loadingGates = engine.n.goldrushLoadingGates.snapshot();
+          const frontierConditions = engine.n.goldrushFrontierConditions.snapshot();
+          const frontierConditionEffects = engine.n.goldrushFrontierConditions.effects();
           const audioState = engine.n.goldrushAudio.snapshot({ phase: state.phase });
           const animationState = engine.n.goldrushAnimation.snapshot({ phase: state.phase });
           const cameraState = engine.n.goldrushCamera.snapshot({ phase: state.phase });
@@ -1305,6 +1473,7 @@ function createScenarioKit() {
             cashout,
             combat,
             extractionLoop,
+            playerActionSurface,
             sceneState,
             world,
             terrainState,
@@ -1312,6 +1481,8 @@ function createScenarioKit() {
             paths,
             goldZones,
             loadingGates,
+            frontierConditions,
+            frontierConditionEffects,
             audioState,
             animationState,
             cameraState,
@@ -1379,6 +1550,15 @@ function createLoop(phase) {
     if (index === activeIndex) return `${step}: active`;
     return `${step}: queued`;
   });
+}
+
+function stableCameraSelectionTick(input) {
+  let value = 2166136261;
+  for (let index = 0; index < input.length; index += 1) {
+    value ^= input.charCodeAt(index);
+    value = Math.imul(value, 16777619);
+  }
+  return value >>> 0;
 }
 
 function createLedger({ players, shardCount, mining, cashout, combat }) {

@@ -1,0 +1,509 @@
+{
+  "schema": "nexusengine.goldrush.audio-cue-approval-plan.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.001.audio-music-and-sfx",
+  "generatedAt": "2026-06-30T20:34:04.097Z",
+  "status": "pending-audio-approval-decisions",
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "sources": {
+    "humanReview": "reports/human-review/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx-request.json",
+    "licenseProvenance": "reports/license-provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx.json"
+  },
+  "rules": {
+    "plannerOnly": true,
+    "writesPublicAssets": false,
+    "promotesRuntimeAssets": false,
+    "approvalsMayNotBeInferredFromFilenames": true,
+    "approvedRuntimePromotionPlannerRemainsOnlyPromotionBridge": true,
+    "trainCueFallbacksRemainActiveUntilApproval": true,
+    "missingSlotsDoNotBlockCurrentBuild": true
+  },
+  "totals": {
+    "targets": 9,
+    "targetsWithCandidates": 6,
+    "missingCandidateTargets": 3,
+    "uniqueReviewCandidates": 15,
+    "approvedCandidates": 0,
+    "publicPromoted": 0,
+    "runtimePromoted": 0
+  },
+  "targets": [
+    {
+      "targetId": "title.music",
+      "slotId": "goldrush.audio.music.titleIntro",
+      "purpose": "Title screen and main-menu bed.",
+      "priority": "P0",
+      "desiredCueRole": "title-intro",
+      "fallbackPattern": "title",
+      "status": "pending-review-candidates",
+      "candidateCount": 1,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.001",
+          "slotId": "goldrush.audio.music.titleIntro",
+          "cueRole": "title-intro",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroFull.ogg",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.titleIntro/GoldRushIntroFull.ogg",
+          "outputHash": "sha256:2c2e5f938a748a56e247dde649e68af4e64c2e78346a833145ffecefd2067389",
+          "outputBytes": 321203,
+          "mediaType": "audio/ogg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "title.voice",
+      "slotId": "goldrush.audio.voice.titleIntro",
+      "purpose": "Title voice callout plus train arrival/departure placeholder voice slot.",
+      "priority": "P0",
+      "desiredCueRole": "title-voice",
+      "fallbackPattern": "title",
+      "status": "pending-review-candidates",
+      "candidateCount": 1,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.002",
+          "slotId": "goldrush.audio.voice.titleIntro",
+          "cueRole": "title-voice",
+          "mediaKind": "voice",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroVoice.ogg",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.voice.titleIntro/GoldRushIntroVoice.ogg",
+          "outputHash": "sha256:cdd24ba209b487ca3deab0a20e66201745952f468bb2e1b02612bebac0b57036",
+          "outputBytes": 60435,
+          "mediaType": "audio/ogg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "train.arrival",
+      "slotId": "goldrush.audio.voice.titleIntro",
+      "purpose": "Readable train arrival callout in the loading yard.",
+      "priority": "P0",
+      "desiredCueRole": "title-voice",
+      "fallbackPattern": "train-arrival",
+      "status": "pending-review-candidates",
+      "candidateCount": 1,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.002",
+          "slotId": "goldrush.audio.voice.titleIntro",
+          "cueRole": "title-voice",
+          "mediaKind": "voice",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroVoice.ogg",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.voice.titleIntro/GoldRushIntroVoice.ogg",
+          "outputHash": "sha256:cdd24ba209b487ca3deab0a20e66201745952f468bb2e1b02612bebac0b57036",
+          "outputBytes": 60435,
+          "mediaType": "audio/ogg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "train.door",
+      "slotId": "goldrush.audio.sfx.goldPickup",
+      "purpose": "Distinct train door opening cue.",
+      "priority": "P0",
+      "desiredCueRole": "short-mechanical-sfx",
+      "fallbackPattern": "train-door",
+      "status": "missing-sanitized-candidate",
+      "candidateCount": 0,
+      "candidates": [],
+      "requiredNextGates": [
+        "copy-or-map-source-audio",
+        "sanitized-browser-ready-audio",
+        "review-packet",
+        "license-provenance-packet"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "train.board",
+      "slotId": "goldrush.audio.sfx.goldPickup",
+      "purpose": "Player board-now confirmation cue.",
+      "priority": "P0",
+      "desiredCueRole": "short-confirmation-sfx",
+      "fallbackPattern": "train-board",
+      "status": "missing-sanitized-candidate",
+      "candidateCount": 0,
+      "candidates": [],
+      "requiredNextGates": [
+        "copy-or-map-source-audio",
+        "sanitized-browser-ready-audio",
+        "review-packet",
+        "license-provenance-packet"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "train.wait",
+      "slotId": "goldrush.audio.sfx.ambush",
+      "purpose": "Party readiness wait cue while boarded players wait for the active roster.",
+      "priority": "P1",
+      "desiredCueRole": "low-attention-wait-sfx",
+      "fallbackPattern": "train-wait",
+      "status": "missing-sanitized-candidate",
+      "candidateCount": 0,
+      "candidates": [],
+      "requiredNextGates": [
+        "copy-or-map-source-audio",
+        "sanitized-browser-ready-audio",
+        "review-packet",
+        "license-provenance-packet"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "train.depart",
+      "slotId": "goldrush.audio.voice.titleIntro",
+      "purpose": "Train departure callout after boarding readiness releases.",
+      "priority": "P0",
+      "desiredCueRole": "title-voice",
+      "fallbackPattern": "train-depart",
+      "status": "pending-review-candidates",
+      "candidateCount": 1,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.002",
+          "slotId": "goldrush.audio.voice.titleIntro",
+          "cueRole": "title-voice",
+          "mediaKind": "voice",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/GoldRushIntroVoice.ogg",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.voice.titleIntro/GoldRushIntroVoice.ogg",
+          "outputHash": "sha256:cdd24ba209b487ca3deab0a20e66201745952f468bb2e1b02612bebac0b57036",
+          "outputBytes": 60435,
+          "mediaType": "audio/ogg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "run.exploration",
+      "slotId": "goldrush.audio.music.wandering",
+      "purpose": "Exploration/wandering gold-field music.",
+      "priority": "P1",
+      "desiredCueRole": "exploration-bed",
+      "fallbackPattern": "wandering",
+      "status": "pending-review-candidates",
+      "candidateCount": 9,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.007",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/182701__careless_driver__wild-electronic-west.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/182701__careless_driver__wild-electronic-west.mp3",
+          "outputHash": "sha256:dd2e9cc93c17d4c92afde46df729e7fb705e82940539d9c6d01f54f69bce2bb3",
+          "outputBytes": 1593272,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "likely-freesound-needs-page-license-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.008",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/A Ghost Town - Quincas Moreira.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/A-Ghost-Town---Quincas-Moreira.mp3",
+          "outputHash": "sha256:e2fa4dd548faf2e42b51d3de760e939defffe7a1942920320dba9788a09e3dae",
+          "outputBytes": 7691531,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.009",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Big River - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Big-River---Telecasted.mp3",
+          "outputHash": "sha256:28ddccf1a78ebb35e1a8851c49cf5081b331733eb692560339e24e4cbcecebc4",
+          "outputBytes": 5131531,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.010",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Bone Dry - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Bone-Dry---Telecasted.mp3",
+          "outputHash": "sha256:663bdcf2a73c2220cab1e9a1e5e2abce94197d7c0b8c612955ced47919d9936c",
+          "outputBytes": 5346780,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.011",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Lonely Day - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Lonely-Day---Telecasted.mp3",
+          "outputHash": "sha256:f2504818859169a13e533b1ee5c540a60e54be220516df6d24d54ee979fa69c4",
+          "outputBytes": 6062535,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.012",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Savior - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Savior---Telecasted.mp3",
+          "outputHash": "sha256:4335b7a385177ec1fd446b7f34f88509e07a6363544b83d6548ecd631b90ff35",
+          "outputBytes": 6206731,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.013",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Searching For Time - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Searching-For-Time---Telecasted.mp3",
+          "outputHash": "sha256:bd1b96c5276eb37eed5649348bd4faa60c4ebfa1dd06b3382fc2f9b3940f5260",
+          "outputBytes": 5081375,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.014",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/Spirit Riders - Telecasted.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/Spirit-Riders---Telecasted.mp3",
+          "outputHash": "sha256:c62a397b4925cb67bb1153449aef4e9e4076f2ed8b51b512bf24237b85251278",
+          "outputBytes": 5246469,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.015",
+          "slotId": "goldrush.audio.music.wandering",
+          "cueRole": "exploration-bed",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/WanderingSongs/535829__oceans24mission__brickfilmbandits-theme-song.wav",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.wandering/535829__oceans24mission__brickfilmbandits-theme-song.wav",
+          "outputHash": "sha256:ee69d56dc60439c86824970fe5952e7f8a12050abe624a4f977608130ce4e165",
+          "outputBytes": 20409704,
+          "mediaType": "audio/wav",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "likely-freesound-needs-page-license-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "targetId": "run.combat",
+      "slotId": "goldrush.audio.music.combat",
+      "purpose": "Combat pressure music layer.",
+      "priority": "P1",
+      "desiredCueRole": "combat-intensity",
+      "fallbackPattern": "combat",
+      "status": "pending-review-candidates",
+      "candidateCount": 4,
+      "candidates": [
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.003",
+          "slotId": "goldrush.audio.music.combat",
+          "cueRole": "combat-intensity",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Griphop - Kevin MacLeod.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Griphop---Kevin-MacLeod.mp3",
+          "outputHash": "sha256:70bfde9c912dcf661d9be0ee3fdd03e1ac89b275eaa16d3fcfb7577115f39eda",
+          "outputBytes": 8271611,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "likely-incompetech-needs-attribution-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.004",
+          "slotId": "goldrush.audio.music.combat",
+          "cueRole": "combat-intensity",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/I Can't Remmber I Can't Recall - The 129ers.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/I-Can-t-Remmber-I-Can-t-Recall---The-129ers.mp3",
+          "outputHash": "sha256:11b326885994979cc1f895d3e171b3c27c30d0d92d1c7f7672ce758a55ba2c54",
+          "outputBytes": 7670835,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.005",
+          "slotId": "goldrush.audio.music.combat",
+          "cueRole": "combat-intensity",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Impact Intermezzo - Kevin MacLeod.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Impact-Intermezzo---Kevin-MacLeod.mp3",
+          "outputHash": "sha256:e9a9a4069469283b47643a066ff7d13c790085dd69a6f671da7718f81a27f8fe",
+          "outputBytes": 2596790,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "likely-incompetech-needs-attribution-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        },
+        {
+          "itemId": "goldrush-dual-source-001.next.001.audio-music-and-sfx.review.006",
+          "slotId": "goldrush.audio.music.combat",
+          "cueRole": "combat-intensity",
+          "mediaKind": "music",
+          "legacySourcePath": "GoldRush_Old/Assets/_GOLDRUSH/06_Audio/CombatSongs/Nightmares Inn - RKVC.mp3",
+          "outputPath": "sanitized/converted/goldrush-dual-source-001/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/audio/goldrush.audio.music.combat/Nightmares-Inn---RKVC.mp3",
+          "outputHash": "sha256:a9a742abf1df45c1c14d0741a069ccc9c7dcb760d2db2d86daf40888e529b60f",
+          "outputBytes": 8454306,
+          "mediaType": "audio/mpeg",
+          "reviewStatus": "pending-human-review",
+          "licenseStatus": "pending-provenance-review",
+          "licenseEvidenceStatus": "needs-source-library-confirmation",
+          "approvalId": null,
+          "promotionReady": false
+        }
+      ],
+      "requiredNextGates": [
+        "audio-identity-review",
+        "track-level-license-provenance",
+        "explicit-human-approval",
+        "matching-approval-id",
+        "approved-runtime-promotion-planner"
+      ],
+      "publicPromotion": false,
+      "runtimePromotion": false
+    }
+  ],
+  "missingSlots": [
+    {
+      "targetId": "train.door",
+      "slotId": "goldrush.audio.sfx.goldPickup",
+      "purpose": "Distinct train door opening cue.",
+      "fallbackPattern": "train-door"
+    },
+    {
+      "targetId": "train.board",
+      "slotId": "goldrush.audio.sfx.goldPickup",
+      "purpose": "Player board-now confirmation cue.",
+      "fallbackPattern": "train-board"
+    },
+    {
+      "targetId": "train.wait",
+      "slotId": "goldrush.audio.sfx.ambush",
+      "purpose": "Party readiness wait cue while boarded players wait for the active roster.",
+      "fallbackPattern": "train-wait"
+    }
+  ]
+}

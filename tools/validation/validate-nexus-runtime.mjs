@@ -16,11 +16,13 @@ const requiredApis = [
   "goldrushPaths",
   "goldrushGoldZones",
   "goldrushLoadingGates",
+  "goldrushFrontierConditions",
   "goldrushMining",
   "goldrushCargo",
   "goldrushCashout",
   "goldrushCombat",
   "goldrushExtractionLoop",
+  "goldrushPlayerActionSurface",
   "goldrushCamera",
   "goldrushPerspective",
   "goldrushScenes",
@@ -67,7 +69,22 @@ assert(prospect.towns.every((town) => town.buildings.length >= 6), "town layouts
 assert(prospect.paths.every((path) => path.points.length >= 4), "paths must expose route points");
 assert(prospect.goldZones.every((zone) => zone.goldAmountPerPickup === 10), "gold zones should preserve legacy pickup value");
 assert(prospect.loadingGates.gates.every((gate) => gate.status === "ready"), "loading gates should validate room/path references");
+assert(prospect.frontierConditions.domainPath === "n:goldrush:frontier-conditions", "frontier conditions should expose their GoldRush domain path");
+assert(prospect.frontierConditions.active.id.startsWith("goldrush.condition."), "frontier conditions should expose an active condition id");
+assert(prospect.frontierConditions.active.modifiers.visibility > 0, "frontier conditions should expose visibility modifiers");
+assert(prospect.frontierConditions.active.modifiers.goldYield > 0, "frontier conditions should expose gold yield modifiers");
+assert(prospect.frontierConditions.active.world.routeCue, "frontier conditions should expose route planning world descriptors");
+assert(prospect.frontierConditions.active.audio.ambience, "frontier conditions should expose audio descriptors");
+assert(prospect.frontierConditions.active.lighting.key, "frontier conditions should expose lighting descriptors");
+assert(prospect.frontierConditions.upcoming.length >= 2, "frontier conditions should expose upcoming conditions");
+assert(prospect.frontierConditionEffects.conditionId === prospect.frontierConditions.active.id, "frontier condition effects should match the active condition");
+assert(prospect.frontierConditionEffects.extraction.riskScalar > 0, "frontier condition effects should expose extraction risk");
+assert(prospect.frontierConditionEffects.combat.pressureScalar > 0, "frontier condition effects should expose combat pressure");
+assert(prospect.frontierConditionEffects.render.lightingKey, "frontier condition effects should expose render lighting");
+assert(runtime.engine.n.goldrushFrontierConditions.validate().passed, "frontier conditions kit should validate");
 assert(prospect.audioState.musicCueId === "goldrush.audio.music.wandering", "prospect phase should use wandering music state");
+assert(prospect.audioState.condition?.conditionId === prospect.frontierConditions.active.id, "audio state should consume frontier condition descriptors");
+assert(prospect.audioState.ambienceCueId === prospect.frontierConditionEffects.audio.ambience, "audio ambience should come from frontier condition effects");
 assert(prospect.animationState.clipSlotIds.base === "goldrush.anim.player.run", "prospect phase should use run animation descriptor");
 assert(prospect.cameraState.mode === "exploration", "prospect phase should expose exploration camera descriptor");
 assert(prospect.cameraState.legacyCameraModel.type === "over-the-shoulder-third-person", "camera kit should expose third-person camera model");
@@ -77,9 +94,20 @@ assert(prospect.cameraState.perspectiveCount >= 1000, "camera kit should expose 
 assert(prospect.cameraState.perspectiveFamilies.length >= 10, "camera kit should cover many player-view perspective families");
 assert(prospect.cameraState.selectedPerspective.playabilityChecks.includes("player-silhouette-readable"), "selected camera should carry playability checks");
 assert(JSON.stringify(prospect.cameraState.perspectiveCatalog).includes("goldrush.camera.pose.1000"), "camera perspective catalog should serialize the full pose set");
+assert(prospect.cameraState.motionAuthority === "transition-latched-player-follow", "camera gameplay motion should be transition-latched, not tick-selected");
+const cameraPoseBeforeTick = prospect.cameraState.selectedPerspective.id;
+const cameraDescriptorBeforeTick = JSON.stringify(prospect.cameraState.threeDescriptor);
+runtime.tickExtractionLoop({ localPlayer: null, input: {}, dt: 0.05 });
+runtime.tickExtractionLoop({ localPlayer: null, input: {}, dt: 0.05 });
+const stableCamera = runtime.snapshot();
+assert(stableCamera.cameraState.selectedPerspective.id === cameraPoseBeforeTick, "camera pose must not change every runtime tick in the same phase");
+assert(JSON.stringify(stableCamera.cameraState.threeDescriptor) === cameraDescriptorBeforeTick, "camera descriptor must not pulse while mode and phase are unchanged");
 assert(prospect.installOrder.length === requiredApis.length, "all Gold Rush domain kits should install");
 assert(prospect.installOrder.includes("n-goldrush-protokit-route-cargo-extraction-bridge-kit"), "GoldRush ProtoKit bridge should install into the runtime");
 assert(runtime.engine.n.goldrushProtoKitBridge.validate().passed, "GoldRush ProtoKit bridge should validate inside the runtime");
+assert(prospect.playerActionSurface?.contract === "goldrush-player-action-surface-v1", "scenario snapshot should expose player action surface contract");
+assert(prospect.playerActionSurface.domainPath === "n:goldrush:player-action-surface", "player action surface should stay in the GoldRush custom domain");
+assert(runtime.engine.n.goldrushPlayerActionSurface.validate().passed, "player action surface kit should validate inside the runtime");
 assert(prospect.realityStatus.summary.placeholderSlots >= 30, "reality status should expose placeholder debt");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "legacy-assets" && domain.status === "blocked-cloud-import"), "legacy assets should stay cloud-blocked until promoted");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "audio-music" && domain.status === "blocked-cloud-import"), "actual audio should stay cloud-blocked until promoted");
@@ -104,6 +132,16 @@ const retainedRuntimeNetwork = runtime.engine.n.goldrushNetwork.snapshot();
 assert(retainedRuntimeNetwork.partitions.length === 2, "runtime network API should retain partition 2 after dropping below 51");
 assert(retainedRuntimeNetwork.partitions[1].state === "retained", "runtime retained partition should be marked retained");
 runtime.generateMatch({ players: 51, phase: "prospect" });
+runtime.engine.n.goldrushFrontierConditions.setCondition({
+  conditionId: "goldrush.condition.high-fever-seam",
+  reason: "validator-high-risk-consumer-proof",
+});
+const highRiskCondition = runtime.snapshot();
+assert(highRiskCondition.frontierConditionEffects.mining.payoutScalar > 1, "high-risk frontier condition should increase mining payout scalar");
+assert(highRiskCondition.frontierConditionEffects.extraction.holdTimeScalar > 1, "high-risk frontier condition should increase extraction hold time scalar");
+assert(highRiskCondition.frontierConditionEffects.combat.pressureScalar > 1, "high-risk frontier condition should increase combat pressure scalar");
+assert(highRiskCondition.audioState.condition.conditionId === "goldrush.condition.high-fever-seam", "audio state should consume forced frontier condition");
+assert(highRiskCondition.audioState.ambienceCueId === "heartbeat-tools-wind", "audio ambience should update for forced frontier condition");
 
 runtime.setCameraMode("combat");
 const combat = runtime.snapshot();
@@ -133,6 +171,52 @@ assert(afterMining.cargo["player-1"] > 0, "mined gold should enter player cargo"
 assert(afterMining.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value === afterMining.cargo["player-1"], "ProtoKit bridge cargo should mirror live mined cargo");
 assert(afterMining.protoKitBridge.protoSnapshot.route.completedIds.includes("mine-seam"), "ProtoKit bridge should mark mine checkpoint complete after live mining");
 
+runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+  position: { x: -17.5, y: 0, z: -16.5 },
+  heading: 0,
+});
+let pressureMineReceipt = null;
+for (let index = 0; index < 6; index += 1) {
+  pressureMineReceipt = runtime.holdExtractionLoopMine({ dt: 0.3 });
+  if (pressureMineReceipt.complete) break;
+}
+assert(pressureMineReceipt?.complete === true, "extraction-loop mining should create carried gold before threat pressure");
+runtime.tickExtractionLoop({
+  localPlayer: {
+    position: { x: -9.5, y: 0, z: -13.4 },
+    heading: 0,
+    look: { yaw: 0, pitch: 0 },
+  },
+  input: { aim: false },
+  dt: 0.1,
+});
+const pressureCombat = runtime.snapshot();
+assert(pressureCombat.extractionLoop.combat.activeThreatCount > 0, "threat pressure should activate when carried gold enters a threat radius");
+assert(pressureCombat.cameraMode === "combat", "active threat pressure should switch the runtime perspective to combat");
+assert(pressureCombat.cameraState.mode === "combat", "active threat pressure should switch the camera descriptor to combat");
+assert(pressureCombat.audioState.musicCueId === "goldrush.audio.music.combat", "active threat pressure should switch audio to combat music");
+assert(pressureCombat.animationState.params.isAiming === true, "active threat pressure should switch animation into aiming posture");
+assert(pressureCombat.sceneState.currentSceneId === "goldrush.scene.legacyGame", "active threat pressure should route scene state to combat scene intent");
+
+runtime.fireExtractionLoop();
+runtime.fireExtractionLoop();
+runtime.tickExtractionLoop({
+  localPlayer: {
+    position: { x: -9.5, y: 0, z: -13.4 },
+    heading: 0,
+    look: { yaw: 0, pitch: 0 },
+  },
+  input: { aim: false },
+  dt: 0.1,
+});
+const pressureCleared = runtime.snapshot();
+assert(pressureCleared.extractionLoop.combat.activeThreatCount === 0, "defeated threat should clear active threat pressure");
+assert(pressureCleared.cameraMode === "exploration", "cleared threat pressure should return to exploration perspective");
+assert(pressureCleared.cameraState.mode === "exploration", "cleared threat pressure should return camera descriptor to exploration");
+assert(pressureCleared.animationState.params.isAiming === false, "cleared threat pressure should leave aiming animation posture");
+assert(pressureCleared.sceneState.currentSceneId === "goldrush.scene.arena", "cleared threat pressure should return scene state to arena intent");
+const preDamageCargo = pressureCleared.cargo["player-1"];
+
 runtime.takeDamage();
 const afterDamage = runtime.snapshot();
 assert(afterDamage.cameraMode === "combat", "damage should force combat perspective");
@@ -143,7 +227,7 @@ assert(afterDamage.audioState.musicCueId === "goldrush.audio.music.combat", "com
 assert(afterDamage.animationState.params.isAiming === true, "combat should switch animation descriptor to aiming");
 assert(afterDamage.cameraState.mode === "combat", "damage should switch camera descriptor to combat");
 assert(afterDamage.cameraState.selectedPerspective.mode === "combat", "combat camera should select a combat perspective packet");
-assert(afterDamage.cargo["player-1"] < afterMining.cargo["player-1"], "damage should put carried gold at risk");
+assert(afterDamage.cargo["player-1"] < preDamageCargo, "damage should put carried gold at risk");
 assert(afterDamage.protoKitBridge.protoSnapshot.pressure.channelsById["ambush-pressure"].value > 0, "ProtoKit bridge should mirror live combat pressure");
 assert(afterDamage.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value === afterDamage.cargo["player-1"], "ProtoKit bridge cargo should mirror damage cargo loss");
 
@@ -161,6 +245,7 @@ assert(afterCashout.protoKitBridge.protoSnapshot.cargo.resourcesById.gold.value 
 assert(afterCashout.protoKitBridge.protoSnapshot.route.status === "completed", "ProtoKit bridge route should complete after live cashout");
 assert(afterCashout.protoKitBridge.protoSnapshot.route.completedIds.includes("cashout-site"), "ProtoKit bridge should mark cashout checkpoint complete");
 assert(afterCashout.extractionReceipts.totals.acceptedCount === 1, "cashout should create one accepted extraction receipt");
+assert(afterCashout.extractionReceipts.receipts[0].frontierCondition.conditionId === "goldrush.condition.high-fever-seam", "cashout receipt should carry frontier condition context");
 assert(afterCashout.scoring.leaders.teamId === "team-01", "cashout should update scoring leader");
 assert(afterCashout.scoring.teams["team-01"].totalScore > 0, "cashout should produce a positive team score");
 assert(afterCashout.sceneState.currentSceneId === "goldrush.scene.arena", "cashout should return to massive terrain arena scene");
@@ -168,7 +253,8 @@ assert(afterCashout.sceneState.activeAudioCueId === "goldrush.audio.sfx.cashout"
 assert(afterCashout.audioState.oneShots.some((shot) => shot.cueId === "goldrush.audio.sfx.cashout"), "cashout should emit one-shot cashout cue");
 assert(afterCashout.animationState.actionState === "cashout", "cashout should emit cashout animation state");
 assert(afterCashout.assets.assets.length === 10, "placeholder asset slots should be installed");
-assert(afterCashout.assets.presentation.scenes.length === 8, "scene slots should be installed");
+assert(afterCashout.assets.presentation.scenes.length === 9, "scene slots should be installed");
+assert(afterCashout.assets.presentation.scenes.some((scene) => scene.id === "goldrush.scene.results"), "results scene slot should be installed");
 assert(afterCashout.assets.presentation.audio.length === 14, "audio slots should be installed");
 assert(afterCashout.assets.presentation.animations.length === 14, "animation slots should be installed");
 assert(
@@ -185,7 +271,11 @@ const afterResults = runtime.snapshot();
 assert(afterResults.match.phase === "results", "end match should advance to results");
 assert(afterResults.results.status === "final", "end match should finalize result state");
 assert(afterResults.results.winner.id === "team-01", "results should report the deterministic team winner");
+assert(afterResults.results.frontierConditionSummary.conditionId === "goldrush.condition.high-fever-seam", "results should explain the active frontier condition");
+assert(afterResults.results.frontierConditionSummary.conditionLinkedReceiptCount === 1, "results should summarize condition-linked extraction receipts");
+assert(afterResults.results.awards.some((award) => award.id === "award.frontier-condition-mastered"), "results should award condition mastery");
 assert(afterResults.replaySummary.keyMoments.length >= 3, "replay summary should include match lifecycle moments");
+assert(afterResults.replaySummary.frontierConditionSummary.conditionId === "goldrush.condition.high-fever-seam", "replay summary should preserve frontier condition context");
 
 console.log("nexus runtime passed");
 

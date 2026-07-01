@@ -1,0 +1,45 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Materials/deb_Goblin01.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Materials/deb_Goblin01.mat",
+  "sourceHash": "sha256:376f1daf8f662368c06bb5e54b459902a897aace8e6100dc8923ada5c30dcd67",
+  "summary": {
+    "lineCount": 142,
+    "guidCount": 7,
+    "textureReferenceCount": 5,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "132047227f63b604f9752ee867f4ec8a",
+      "442788cabdc5f3b4ea06156fbaca360a",
+      "47f53b775c7d58249bd36a609cfdda47",
+      "6a67e677e2ea09a4e8d33e3e6453dc09",
+      "74e5c7b9424f48842adc6767ba70ecf2",
+      "933532a4fcc9baf4fa0491de14d08ed7",
+      "d0353a89b1f911e48b9e16bdc9f2e058"
+    ],
+    "textureRefs": [
+      "132047227f63b604f9752ee867f4ec8a",
+      "442788cabdc5f3b4ea06156fbaca360a",
+      "47f53b775c7d58249bd36a609cfdda47",
+      "6a67e677e2ea09a4e8d33e3e6453dc09",
+      "74e5c7b9424f48842adc6767ba70ecf2"
+    ],
+    "names": [
+      "m_EditorClassIdentifier:",
+      "deb_Goblin01"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _AlphaClip: 0\n    - _AlphaToMask: 0\n    - _Blend: 0\n    - _BlendModePreserveSpecular: 1\n    - _BumpScale: 1\n    - _ClearCoatMask: 0\n    - _ClearCoatSmoothness: 0\n    - _Cull: 2\n    - _Cutoff: 0.5\n    - _DetailAlbedoMapScale: 1\n    - _DetailNormalMapScale: 1\n    - _DstBlend: 0\n    - _DstBlendAlpha: 0\n    - _EnvironmentReflections: 1\n    - _GlossMapScale: 1\n    - _Glossiness: 0.255\n    - _GlossyReflections: 1\n    - _Metallic: 0\n    - _Mode: 0\n    - _OcclusionStrength: 1\n    - _Parallax: 0.02\n    - _QueueOffset: 0\n    - _ReceiveShadows: 1\n    - _Shininess: 0.03\n    - _Smoothness: 1\n    - _SmoothnessTextureChannel: 0\n    - _SpecularHighlights: 1\n    - _SrcBlend: 1\n    - _SrcBlendAlpha: 1\n    - _Surface: 0\n    - _UVSec: 0\n    - _WorkflowMode: 1\n    - _ZWrite: 1"
+    ]
+  }
+}

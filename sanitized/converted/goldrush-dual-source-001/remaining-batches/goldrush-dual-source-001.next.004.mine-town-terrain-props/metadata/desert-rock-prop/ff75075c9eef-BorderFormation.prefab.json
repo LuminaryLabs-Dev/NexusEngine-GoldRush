@@ -1,0 +1,33 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertRock",
+  "role": "desert-rock-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderFormation.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderFormation.prefab",
+  "sourceHash": "sha256:ff75075c9eef33b9d2ee1ba9c9c8b75e5ffedbc72ada6d5f6fc838305ac70dd7",
+  "summary": {
+    "lineCount": 508,
+    "guidCount": 5,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "1b36b525cc4accc438b957c8ac0bc1ae",
+      "6085cde1527cb8245ad7b62acb6ef13c",
+      "c0b775656d775fb43b4752512355f80d",
+      "cb7cdccc676072446a046b9a72b896eb",
+      "d3bf018118e456c4d994ee1daaa9c4a0"
+    ],
+    "names": [
+      "BorderFormation"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 7,
+      "1001": 6
+    }
+  }
+}

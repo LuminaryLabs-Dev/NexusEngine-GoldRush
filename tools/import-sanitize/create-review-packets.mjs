@@ -1,6 +1,10 @@
 import { dirname, join, resolve } from "node:path";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const importJobId = "goldrush-dual-source-001";
@@ -135,7 +139,7 @@ export function createGoldRushReviewPackets({
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = parseArgs(process.argv.slice(2));
   const packets = createGoldRushReviewPackets(args);
-  console.log(JSON.stringify({
+  console.log(sanitizedConsoleJson({
     status: "review-packets-ready",
     importJobId,
     write: args.write,
@@ -145,7 +149,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     domains: packets.humanReview.reviewDomains.length,
     publicPromotion: packets.humanReview.publicPromotion,
     runtimePromotion: packets.humanReview.runtimePromotion,
-  }, null, 2));
+  }, { repoRoot }));
 }
 
 function createReviewItem(output, index) {
@@ -272,8 +276,7 @@ function readJson(relativePath) {
 
 function writeJson(relativePath, value) {
   const absolutePath = join(repoRoot, relativePath);
-  mkdirSync(dirname(absolutePath), { recursive: true });
-  writeFileSync(absolutePath, `${JSON.stringify(value, null, 2)}\n`);
+  writeSanitizedJsonArtifactSync(absolutePath, value, { repoRoot });
 }
 
 function expect(condition, message, failures) {

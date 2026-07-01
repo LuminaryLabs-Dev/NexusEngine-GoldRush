@@ -1,0 +1,124 @@
+{
+  "schema": "nexusengine.goldrush.approval-decision-packet-index.v1",
+  "version": "0.1.0",
+  "importJobId": "goldrush-dual-source-001",
+  "queueId": "goldrush-dual-source-001.remaining-review-domain-queue",
+  "generatedAt": "2026-06-30T18:34:05.246Z",
+  "status": "approval-decision-packets-ready",
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "promotionReady": false,
+  "totals": {
+    "ownerPackets": 5,
+    "reviewDomains": 43,
+    "reviewItems": 737,
+    "pendingHumanReview": 737,
+    "pendingLicenseReview": 737,
+    "approved": 0,
+    "rejected": 0,
+    "publicPromoted": 0,
+    "runtimePromoted": 0,
+    "byOwner": {
+      "audio-licensing": {
+        "reviewDomains": 4,
+        "reviewItems": 15
+      },
+      "character-combat-art": {
+        "reviewDomains": 14,
+        "reviewItems": 47
+      },
+      "environment-material-art": {
+        "reviewDomains": 10,
+        "reviewItems": 121
+      },
+      "environment-model-art": {
+        "reviewDomains": 6,
+        "reviewItems": 118
+      },
+      "world-technical-art": {
+        "reviewDomains": 9,
+        "reviewItems": 436
+      }
+    },
+    "byPriority": {
+      "P0": 26,
+      "P1": 17
+    }
+  },
+  "rules": {
+    "writesPublicAssets": false,
+    "promotesRuntimeAssets": false,
+    "packetCountMustMatchReviewOwners": true,
+    "packetsDefaultToPending": true,
+    "approvalRequiresPromotionPlanner": true,
+    "runtimePathsAreForbiddenInDecisionPackets": true
+  },
+  "packetRefs": [
+    {
+      "ownerPacketId": "goldrush-dual-source-001.approval-decision.audio-licensing",
+      "owner": "audio-licensing",
+      "packetPath": "reports/approval-decisions/goldrush-dual-source-001/goldrush-dual-source-001.approval-decision.audio-licensing.json",
+      "reviewDomains": 4,
+      "reviewItems": 15,
+      "priority": {
+        "P0": 3,
+        "P1": 1
+      },
+      "status": "pending-approval-decisions",
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "ownerPacketId": "goldrush-dual-source-001.approval-decision.character-combat-art",
+      "owner": "character-combat-art",
+      "packetPath": "reports/approval-decisions/goldrush-dual-source-001/goldrush-dual-source-001.approval-decision.character-combat-art.json",
+      "reviewDomains": 14,
+      "reviewItems": 47,
+      "priority": {
+        "P0": 14
+      },
+      "status": "pending-approval-decisions",
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "ownerPacketId": "goldrush-dual-source-001.approval-decision.environment-material-art",
+      "owner": "environment-material-art",
+      "packetPath": "reports/approval-decisions/goldrush-dual-source-001/goldrush-dual-source-001.approval-decision.environment-material-art.json",
+      "reviewDomains": 10,
+      "reviewItems": 121,
+      "priority": {
+        "P1": 10
+      },
+      "status": "pending-approval-decisions",
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "ownerPacketId": "goldrush-dual-source-001.approval-decision.environment-model-art",
+      "owner": "environment-model-art",
+      "packetPath": "reports/approval-decisions/goldrush-dual-source-001/goldrush-dual-source-001.approval-decision.environment-model-art.json",
+      "reviewDomains": 6,
+      "reviewItems": 118,
+      "priority": {
+        "P1": 6
+      },
+      "status": "pending-approval-decisions",
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "ownerPacketId": "goldrush-dual-source-001.approval-decision.world-technical-art",
+      "owner": "world-technical-art",
+      "packetPath": "reports/approval-decisions/goldrush-dual-source-001/goldrush-dual-source-001.approval-decision.world-technical-art.json",
+      "reviewDomains": 9,
+      "reviewItems": 436,
+      "priority": {
+        "P0": 9
+      },
+      "status": "pending-approval-decisions",
+      "publicPromotion": false,
+      "runtimePromotion": false
+    }
+  ]
+}

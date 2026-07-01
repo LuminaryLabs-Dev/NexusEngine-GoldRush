@@ -1,6 +1,10 @@
 import { dirname, join, resolve } from "node:path";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const defaultSourceAccessPath = "reports/provenance/goldrush-source-access-2026-06-29.json";
@@ -90,19 +94,16 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     handoffPath: args.handoffPath ?? defaultHandoffPath,
     generatedAt: args.generatedAt ?? new Date().toISOString(),
   });
-  const serialized = `${JSON.stringify(report, null, 2)}\n`;
-
   if (args.out) {
     const outPath = normalizeRepoPath(args.out);
     const receiptPath = reportPathFromHandoff(args.handoffPath ?? defaultHandoffPath);
     if (outPath === receiptPath && !args.allowReceiptWrite) {
       throw new Error(`refusing to write required receipt path ${receiptPath} without --allow-receipt-write`);
     }
-    mkdirSync(dirname(join(repoRoot, outPath)), { recursive: true });
-    writeFileSync(join(repoRoot, outPath), serialized);
-    console.log(JSON.stringify({ status: "cloud-source-discovery-written", path: outPath }, null, 2));
+    writeSanitizedJsonArtifactSync(join(repoRoot, outPath), report, { repoRoot });
+    console.log(sanitizedConsoleJson({ status: "cloud-source-discovery-written", path: outPath }, { repoRoot }));
   } else {
-    process.stdout.write(serialized);
+    process.stdout.write(`${sanitizedConsoleJson(report, { repoRoot })}\n`);
   }
 }
 

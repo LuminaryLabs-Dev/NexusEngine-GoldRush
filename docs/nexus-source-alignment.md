@@ -27,7 +27,7 @@ manifests/source-docs/nexus-kit-source-alignment.json
 - GoldRush is not the reusable architecture source. It composes generic incubator kits and owns game-specific rules through custom kits.
 - GoldRush loads the relevant route/cargo/extraction ProtoKit stack through `engine.n.goldrushProtoKitBridge`. The imported ProtoKit stack is hosted in an isolated NexusRealtime runtime because direct main-engine ticking currently overflows inside the imported composite stack.
 - Renderer and browser code stay in adapter roots; non-adapter kits expose descriptors, snapshots, receipts, and events.
-- The ME ledger at `/Users/crimsonwheeler/Documents/Me/GoldRush/.agent/goal.md` is a local tracking projection, not a replacement for repo validators. CI uses tracked `goal.md` as the fallback projection because the local ME folder is not present on GitHub runners.
+- The ME ledger at `<documents>/Me/GoldRush/.agent/goal.md` is a local tracking projection, not a replacement for repo validators. CI uses tracked `goal.md` as the fallback projection because the local ME folder is not present on GitHub runners.
 
 ## Validation
 

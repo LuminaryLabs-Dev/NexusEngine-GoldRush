@@ -1,0 +1,29 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.anim.player.shooting",
+  "mediaKind": "animation",
+  "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Attack01.anim",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Attack01.anim",
+  "sourceHash": "sha256:fd8e25680419db937f9beb976c4d71ff4a6d2ab0a6cca1956ee20a6a02114fb1",
+  "summary": {
+    "lineCount": 151527,
+    "guidCount": 0,
+    "fileIdCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0"
+    ],
+    "names": [
+      "Attack01"
+    ],
+    "yamlTags": {
+      "74": 1
+    }
+  }
+}

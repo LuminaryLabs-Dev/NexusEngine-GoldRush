@@ -1,0 +1,46 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/MusicManager.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/MusicManager.prefab",
+  "sourceHash": "sha256:0e00cd6172375f4c149228db07020f3617aee00fc7be1e190831feb8bd0757e3",
+  "summary": {
+    "lineCount": 164,
+    "guidCount": 16,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "0a2f11e8092d62c458da733f935710e1",
+      "1416692be8339a745abbdac8d4f81982",
+      "253077a05fc17f84e9684bc2de154641",
+      "380c2db6a5ec12d46935b0986f90a5f7",
+      "48474b93835bd244183d07ce66731da1",
+      "559988a00ac22514cae58c67713459d6",
+      "6ac6a06ce989e2742b3ec1a03653287b",
+      "6c7dc2bba341a8847bb0b84b9af26989",
+      "70db2f2fd202b0b47b639206680ca71d",
+      "9018f10a4accf6a4a9c59309a7e72f98",
+      "9440c9bf98ab5174ab073d6c0d3a9df4",
+      "a57deb39bd006b9499a58087db17e912",
+      "b47d61bc2a56b204a90e7a4306fc2758",
+      "d4f8f066b91873b40af6049cd2076fc8",
+      "d8c6fd73da6cee04cb43d148c904e91e",
+      "ffa1654e57fa88d49b7b8bc88341661e"
+    ],
+    "names": [
+      "MusicManager",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 1,
+      "82": 1,
+      "114": 1
+    }
+  }
+}

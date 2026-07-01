@@ -1,0 +1,430 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-raw-copy-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "generatedAt": "2026-06-30T16:30:44.482Z",
+  "doesNotModifyFirst31Gate": true,
+  "mode": "raw-files-written",
+  "rawFilesWritten": true,
+  "proofPath": "reports/provenance/goldrush-dual-source-001-next-002-raw-write-proof.json",
+  "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
+  "fetchedFiles": [
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_specular.png",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Boss_specular.png",
+      "blobSha": "0cc3198fb5e7061b42aaa12bdad452450721f227",
+      "sourceHash": "sha256:2f0abef2bbe799efbb872beb116ae67d3a6024b3443fed53e27005e08de21013",
+      "sizeBytes": 673742,
+      "extension": ".png",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Metallic.png",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Metallic.png",
+      "blobSha": "206390eaee3b3ed0a8fbf010807aef12c4feb06d",
+      "sourceHash": "sha256:93c757cfe5024abb0707fdd839f589c56ef0463c774a28ebf44f09f4cf7d9d77",
+      "sizeBytes": 3593183,
+      "extension": ".png",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Roughness.png",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/Xander-Revolver/drive-download-20250223T062959Z-001/Revolver1Roughness.png",
+      "blobSha": "951ec70ca3044d76dc0ffdf1bfe3fbbf59fc2b91",
+      "sourceHash": "sha256:0bd2003e992831a5d501729b8a19b8e0f86e14ac9f2d5281fe268c28eddb90e6",
+      "sizeBytes": 3417191,
+      "extension": ".png",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Items/Gun_Base.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Items/Gun_Base.prefab",
+      "blobSha": "0c42658163ee728270f8c7beffb04a8f7dd4ac19",
+      "sourceHash": "sha256:ff240d15048636bb93909544c43cde73fd97f66fecfc887f9c24703eede1a423",
+      "sizeBytes": 4033,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/Player.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/Player.prefab",
+      "blobSha": "09946739a21b7d57673163e231b4922b4d931253",
+      "sourceHash": "sha256:8f5909e6be54d5d508f588dca65e8d5c947ffe4957ad295f416e58d8f2c95899",
+      "sizeBytes": 158814,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/PlayerCamera.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/PlayerCamera.prefab",
+      "blobSha": "2262ef364c2df0fe43d2bbe119099eb25956326e",
+      "sourceHash": "sha256:b1ef3b1e792d3bd25544ea1a1b75e14a43c02f02d78d5501d57f9a30559b5273",
+      "sizeBytes": 7537,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.anim",
+      "blobSha": "b28806f93a769b0d09f5f713ae95778ebd2e8bab",
+      "sourceHash": "sha256:2b8a9fcfb300a6281f522f887603cbf5e5288925c413508199cdcb8237372e0a",
+      "sizeBytes": 1742852,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldSlideIn.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldSlideIn.anim",
+      "blobSha": "e220b075d319333e3c09a188d69dc45d60dc28a1",
+      "sourceHash": "sha256:263a3cc0fa31164e6749acd409bbde947af45c0dce90a7b09c4c45b0bdc68560",
+      "sizeBytes": 29226,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.anim",
+      "blobSha": "215c26f607c5c996c53b026dd7fbdef8b12f1e34",
+      "sourceHash": "sha256:0d7937a400e51f9e936f82069629a16e78bfed21a96717971ab0b4796cbd03f9",
+      "sizeBytes": 27022,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.anim",
+      "blobSha": "7efd8fec575b62dea2eedc14046b11421e6c19b1",
+      "sourceHash": "sha256:7d7961c339cd34e4aed76822dfabfec720cb5f7cf56e022480cc66d1f87a7b16",
+      "sizeBytes": 11753,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.anim",
+      "blobSha": "386e65fe179440f0f5f6d6221133ce47d8302437",
+      "sourceHash": "sha256:5d2b01659aaede0c2aafce13255932ac742f600a22229c47f7f2bdd4e3623bb5",
+      "sizeBytes": 39051,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Attack01.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Attack01.anim",
+      "blobSha": "e796600aa1dfaf7bad51d6895c078b3ed9ee0b5b",
+      "sourceHash": "sha256:fd8e25680419db937f9beb976c4d71ff4a6d2ab0a6cca1956ee20a6a02114fb1",
+      "sizeBytes": 4181222,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Die01.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Die01.anim",
+      "blobSha": "a71451839879f67e6cd00d8567053b219aef6c54",
+      "sourceHash": "sha256:973a0950345a493f66cf9a386e246a52c08b08c72584172f07f07a3eb5888178",
+      "sizeBytes": 2575108,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Idle01.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Idle01.anim",
+      "blobSha": "8fb662457f3cc657f551db85bd566bba7521bb52",
+      "sourceHash": "sha256:cd20ac6d1265bad6b2a39ba23647a36ad7cd4bc74771f095c6dbebb191c1e8c4",
+      "sizeBytes": 2173813,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Move01.anim",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Move01.anim",
+      "blobSha": "caab98a19090e816bb6584a163d8d6538b3810d3",
+      "sourceHash": "sha256:dcfc8174327e490348c70bb5a665fffb88aae774ad788591d5c8308ceb413c5d",
+      "sizeBytes": 1788716,
+      "extension": ".anim",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/X Bot@Gunplay.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/X Bot@Gunplay.fbx",
+      "blobSha": "7684dba66d93cff41a3d077a74a2648b5227a1d8",
+      "sourceHash": "sha256:aa62b351a3fbb5c43e505c81b94849ec0cf313e616eda054d5ed7166e8bed081",
+      "sizeBytes": 1801440,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Idle (1).fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Idle (1).fbx",
+      "blobSha": "e97d6c516cdfae0c87c0d4328fc9ccfea33956e1",
+      "sourceHash": "sha256:de4c7bbd2cd4497e9981e0a1acc6d08593bc2514b18b23839a411eaf025ea7f4",
+      "sizeBytes": 7262272,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Jumping.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Jumping.fbx",
+      "blobSha": "38db8c4b3fd66c76deaff26f95363922f9b1a056",
+      "sourceHash": "sha256:e795ab7f462b28f5428a054d570bc7470fe169a87ea682402f0ed90334a72345",
+      "sizeBytes": 6617136,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Idle.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Idle.fbx",
+      "blobSha": "a3d821865cd25bca583bf71be583e12537f4c86c",
+      "sourceHash": "sha256:82a00faa6c42491ab0638790b4d41a192a8c8b0093e36e8e8562fc4ca4338933",
+      "sizeBytes": 6439728,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump (1).fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump (1).fbx",
+      "blobSha": "cb861f6fccb323b43f23ee8248e4fe7fd73897e2",
+      "sourceHash": "sha256:36f14c396757033b74f2ca51413b12e026a74eb7af763ddea96ca5dc368872bd",
+      "sizeBytes": 6357936,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump.fbx",
+      "blobSha": "034144c78d85ecd6c38962d77f893d7c234174fa",
+      "sourceHash": "sha256:fea0eb72422e171aa0d3b8bd8453b2640f3a13a1a7a66583b197a78580a15e01",
+      "sizeBytes": 6554928,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Run (1).fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Run (1).fbx",
+      "blobSha": "019ee64579add7c995f93c514edcba4e49729f37",
+      "sourceHash": "sha256:598350597e5e39231c0295827c09122fcf700487d66015dc5b43ae4a84c85fdf",
+      "sizeBytes": 6346992,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Run.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Run.fbx",
+      "blobSha": "585c33289445b6f74f0d05856d68c4d2e2490e00",
+      "sourceHash": "sha256:523b29701806abb040f5d9f9e0ad547191b4a5fbb4b9bea2ad60ca2498404406",
+      "sizeBytes": 6346992,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Running.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Running.fbx",
+      "blobSha": "1e3555cf81aa8f62a3084715b13ab853e0563f1a",
+      "sourceHash": "sha256:b8d383744241f1be8f59c4022eba30bfec1e9bc6caaf743bbb2b1718da91680d",
+      "sizeBytes": 6417408,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/Footing.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/Footing.mat",
+      "blobSha": "43ebc8371bf3395178e6dbeabebc6c0dd93ebabd",
+      "sourceHash": "sha256:7c2b9d3d7f9613b5bac6ff10946ef6695311fc8682fa84fb5d8c3673aa242938",
+      "sizeBytes": 7995,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Cigar_Mat 1.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Cigar_Mat 1.mat",
+      "blobSha": "21590c27c81f483cb683b6b94ac7a16375cfcebb",
+      "sourceHash": "sha256:92c2f407c357170a80898b0e38ef4c048f486d6f9ac81db800667bb9a6473fe4",
+      "sizeBytes": 8456,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Clothes_MAT 1.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Clothes_MAT 1.mat",
+      "blobSha": "8b83fc260217cfe1d77d0a793bb08804f2084c1f",
+      "sourceHash": "sha256:93ce317e6d92f4b08360518061a391f646d2ab98d566375939bfb08c714e11b0",
+      "sizeBytes": 8459,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Eyes_MAT 1.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Eyes_MAT 1.mat",
+      "blobSha": "15d4ea3f43b9a73229a35d21e4cc86e75531ba8f",
+      "sourceHash": "sha256:ec77bd4bcda752464211f8a3359d2daf5929b5e13f83a2aa4a1dfc41fd75e407",
+      "sizeBytes": 8455,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Skin_MAT 1.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Skin_MAT 1.mat",
+      "blobSha": "0e8608238f42546767a5e608b564ba262d1f3ae7",
+      "sourceHash": "sha256:d3c55e415cea0e8d3ffcf1dc4162f27116d445ab075ce79546b8000bbb9d708d",
+      "sizeBytes": 8456,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "player-combat-character",
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.controller",
+      "blobSha": "1609f7fcc478b15d57458470275816dd59feedfd",
+      "sourceHash": "sha256:52160a35d6825c86647c52c718a04c2fecfd8403b66d1a726a32c03e60c5366d",
+      "sizeBytes": 1968,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GOLDSlideIn.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GOLDSlideIn.controller",
+      "blobSha": "e1eba252c24d4c51eb9b93f40138b12c91aff81a",
+      "sourceHash": "sha256:f17689f39ab11e7a4c289a909c3bfc616d9eab37d97723ed390448f9b1b65e23",
+      "sizeBytes": 2030,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.controller",
+      "blobSha": "d4bbea5090c482f217065baaa0cb5694884949d7",
+      "sourceHash": "sha256:8e97716590d7439229f623c1772d5c63ee6dbde473095a967ec5d3be8e006ab9",
+      "sizeBytes": 2028,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.controller",
+      "blobSha": "9ab66f188148ce8eec03e019773d2b1a59faf4aa",
+      "sourceHash": "sha256:c10a1d8ceea1f4da960bc7f8ab0afb1e92d9617434eff7c794f785cb31fd614a",
+      "sizeBytes": 2036,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Player.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Player.controller",
+      "blobSha": "dea15be567c6a3604e5e85aa0f3f2c798a3e79c4",
+      "sourceHash": "sha256:b70095e7845e3d7dd7d62ef457094a19c19db277a100db384852211f4eaad407",
+      "sizeBytes": 7926,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.controller",
+      "blobSha": "2c25bc0b00580d7774dd39c2043c5b0235c5d533",
+      "sourceHash": "sha256:462d8545de6c8d18c4581a67cfe7afa858ea998327a4d92b4b04f0b3cb68e854",
+      "sizeBytes": 2030,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Player/TheBossAnimationController.controller",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/TheBossAnimationController.controller",
+      "blobSha": "3b7e8cea886654856865e047cb162c79bf7b1dcb",
+      "sourceHash": "sha256:84ba60bccbd8c8f0adf38711b43ec192d2bb0a90dc4ddc52a30f375e05c5d3ba",
+      "sizeBytes": 12699,
+      "extension": ".controller",
+      "referencedByDomains": [
+        "player-combat-character"
+      ]
+    }
+  ]
+}

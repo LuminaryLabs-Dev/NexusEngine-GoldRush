@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.trainRail",
+  "role": "train-rail-prop",
+  "sourcePath": "GoldRush/Assets/Entities/LobbyTrain.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/LobbyTrain.prefab",
+  "sourceHash": "sha256:2918a9c17d6662e60cf23ce117dbbda4a6ae08547d874ec32388a75afb57fb68",
+  "summary": {
+    "lineCount": 605,
+    "guidCount": 2,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "9f5a4131563597e4496eadb97c64582e",
+      "b4ec6790cba111b45a6528b357c14b43"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

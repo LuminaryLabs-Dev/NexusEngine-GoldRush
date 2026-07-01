@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.frontierTown",
+  "role": "frontier-town-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChurchWithCemetary.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChurchWithCemetary.prefab",
+  "sourceHash": "sha256:a837e3491b9adb5fdd5f8e980a143983ccc60b3e5708fb12a6357df225713dd8",
+  "summary": {
+    "lineCount": 1906,
+    "guidCount": 10,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "23ce6e10e9fd9604088e218bf3476d8e",
+      "31291a2736820924dad56a476980a6ff",
+      "337d33f0ba312eb4d88c4d0bb4022636",
+      "5fc8617b19d5edb4fbb49ab30fc759b0",
+      "638d8b240012a3847a1c542a063a6594",
+      "675595a4ece1e52499560fb1c1df52e1",
+      "c64d25d8a9f1949479ddd6f665248282",
+      "d619e4a4a61ce85459c94689f99495e3",
+      "d93b1a5b0a7d0174a9e823c304e316c8",
+      "f62f6ddb05dceca47a27fde41cad1df6"
+    ],
+    "names": [
+      "ChurchWithCemetary"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 30,
+      "1001": 29
+    }
+  }
+}

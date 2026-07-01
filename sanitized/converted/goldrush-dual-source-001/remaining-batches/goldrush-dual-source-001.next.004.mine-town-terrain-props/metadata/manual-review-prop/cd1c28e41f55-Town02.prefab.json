@@ -1,0 +1,44 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/World/Location/Town02.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Town02.prefab",
+  "sourceHash": "sha256:cd1c28e41f5582da7dc9dea8c5ff11891a5109a2830857e8f2016cca2f5cd6df",
+  "summary": {
+    "lineCount": 4237,
+    "guidCount": 13,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 6
+  },
+  "references": {
+    "guids": [
+      "0000000000000000e000000000000000",
+      "73c176f402d2c2f4d929aa5da7585d17",
+      "785aa00fbd71627418b6de3e5d8b0914",
+      "78ef6b30d8c204f46817138b13bf6bc9",
+      "7ca9d031a7da52f458c298452f986c0d",
+      "8ca61226f498e094e9b7aeff842d87df",
+      "a62b958a79644da4490bcaad19c357b5",
+      "aaded342916aa7f4aa50ff903502d873",
+      "c200b1321dcd6da44b5d50bb1e113ccd",
+      "c893300ae9d7ec041a47437e8953e120",
+      "cedbf56b3a2f1774490b9bef12babdc4",
+      "d31273e51839ba84a81518ccb7c49d2a",
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [
+      "Cube"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 62,
+      "23": 1,
+      "33": 1,
+      "65": 1,
+      "1001": 61
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/World/Buildings/Saloon.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Saloon.prefab",
+  "sourceHash": "sha256:44e7f160bfa9d8af759b23f74e39cf9d16ee3644835cacbec4358329a7f4e2b7",
+  "summary": {
+    "lineCount": 130,
+    "guidCount": 2,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "246e55031d1207e44a20501691e811f6",
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

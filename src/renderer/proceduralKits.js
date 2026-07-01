@@ -1,7 +1,11 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { createGoldRushWorldElements, validateGoldRushWorldElements } from "../content/goldrushWorldElements.js";
-import { createGoldRushObjectMicroKits, validateGoldRushObjectMicroKits } from "../content/goldrushObjectMicroKits.js";
+import {
+  createGoldRushObjectMicroKits,
+  selectNearestGoldRushObjectAffordance,
+  validateGoldRushObjectMicroKits,
+} from "../content/goldrushObjectMicroKits.js";
 import { createGoldRushEnvironmentSpace, validateGoldRushEnvironmentSpace } from "../content/goldrushEnvironmentSpace.js";
 import { openSourceGlbAssets } from "../content/openSourceGlbAssets.js";
 import {
@@ -13,6 +17,7 @@ import {
   TERRAIN_WIDTH,
   createTerrainColliderDescriptor,
   createTerrainTessellationBands,
+  terrainFieldBaseHeight,
   terrainFieldColor,
   terrainFieldHeight,
   validateTerrainColliderDescriptor,
@@ -182,6 +187,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
   mountEnvironmentSpaceKit(scene, descriptors.environmentSpace);
   const networkPresenceKit = mountNetworkPresenceKit(scene, descriptors.networkPresence);
   const thirdPersonKit = mountThirdPersonPlayerKit(scene, descriptors.playerRig);
+  const playerActionSurfacePromptKit = mountPlayerActionSurfacePromptKit(scene);
   const extractionLoopMarkerKit = mountExtractionLoopMarkerKit(scene);
   const lightingKit = mountLightingCameraKit(scene, descriptors.lighting, root);
 
@@ -197,6 +203,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       worldElementKit.update(state);
       networkPresenceKit.update(state);
       thirdPersonKit.update(state, elapsedSeconds);
+      playerActionSurfacePromptKit.update(state, elapsedSeconds);
       extractionLoopMarkerKit.update(state, elapsedSeconds);
       goldGroup.rotation.y += state.cameraMode === "combat" ? 0.004 : 0.0015;
       routeGroup.children.forEach((child, index) => {
@@ -208,13 +215,51 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       lightingKit.update(state);
       terrainGroup.position.y = state.cameraMode === "combat" ? -0.18 : 0;
       const pressure = state.finalRush?.pressureScalar ?? 0;
-      scene.background = new THREE.Color(pressure > 0.6 ? 0x8c6d56 : pressure > 0 ? 0x8da39a : 0x6f9eaa);
-      scene.fog.color = new THREE.Color(pressure > 0.6 ? 0x9b7958 : pressure > 0 ? 0xa5a071 : 0x7c9386);
+      const atmosphere = resolveConditionAtmosphere(state.frontierConditionEffects?.render, pressure);
+      scene.background = new THREE.Color(atmosphere.background);
+      scene.fog.color = new THREE.Color(atmosphere.fog);
+      scene.fog.near = atmosphere.fogNear;
+      scene.fog.far = atmosphere.fogFar;
     },
     getCamera() {
       return lightingKit.camera;
     },
+    snapshot() {
+      return {
+        camera: lightingKit.snapshot(),
+        gameplay: {
+          extractionLoopMarkers: extractionLoopMarkerKit.snapshot(),
+          playerActionSurfacePrompt: playerActionSurfacePromptKit.snapshot(),
+        },
+        objectMicroKits: microObjectKit.snapshot(),
+        playerRig: thirdPersonKit.snapshot(),
+        validation,
+      };
+    },
   };
+}
+
+function resolveConditionAtmosphere(render = null, pressure = 0) {
+  if (pressure > 0.6) return { background: 0x8c6d56, fog: 0x9b7958, fogNear: 44, fogFar: 190 };
+  if (pressure > 0) return { background: 0x8da39a, fog: 0xa5a071, fogNear: 54, fogFar: 215 };
+  const dust = Math.max(0, Math.min(1, render?.dust ?? 0.15));
+  const fogDensity = Math.max(0.04, Math.min(0.4, render?.fogDensity ?? 0.08));
+  const palette = atmospherePalette(render?.lightingKey, render?.sky);
+  return {
+    background: palette.background,
+    fog: palette.fog,
+    fogNear: Math.round(68 - dust * 28 - fogDensity * 20),
+    fogFar: Math.round(250 - dust * 70 - fogDensity * 90),
+  };
+}
+
+function atmospherePalette(lightingKey = "", sky = "") {
+  if (lightingKey.includes("moon") || sky.includes("moon")) return { background: 0x435b71, fog: 0x4f6577 };
+  if (lightingKey.includes("sunset") || sky.includes("red")) return { background: 0xa76645, fog: 0xb98257 };
+  if (lightingKey.includes("haze") || sky.includes("dust")) return { background: 0xa08b6b, fog: 0xb79a72 };
+  if (lightingKey.includes("smoky") || sky.includes("smoke")) return { background: 0x8e826f, fog: 0x9a876e };
+  if (lightingKey.includes("golden")) return { background: 0xb79d67, fog: 0xc7a86f };
+  return { background: 0x6f9eaa, fog: 0x7c9386 };
 }
 
 export function validateProceduralRendererKits(descriptors = createGoldRushProceduralScene()) {
@@ -371,6 +416,8 @@ function createThirdPersonRigDescriptor() {
       "belt",
       "boots",
       "satchel",
+      "cargo-visual-anchor",
+      "carried-gold",
       "pickaxe",
       "spawn-pedestal",
     ],
@@ -454,9 +501,11 @@ function createCentralMountainDescriptor() {
     screenRole: "midground-landmark",
     terraceCount: 4,
     skyClearance: true,
-    visualHeight: Number(Math.min(5.4, form.height * 0.56).toFixed(2)),
-    visualWidth: Number((form.width * (index === 2 ? 0.72 : 0.78)).toFixed(2)),
-    visualDepth: Number((form.depth * (index === 2 ? 0.72 : 0.8)).toFixed(2)),
+    placement: "base-terrain-not-lifted-collider-summit",
+    routeGapRole: index === 1 ? "split-left-right-with-visible-sky-gap" : "supporting-shoulder-not-ceiling",
+    visualHeight: Number(Math.min(4.7, form.height * 0.48).toFixed(2)),
+    visualWidth: Number((form.width * (index === 2 ? 0.64 : 0.7)).toFixed(2)),
+    visualDepth: Number((form.depth * (index === 2 ? 0.62 : 0.68)).toFixed(2)),
   }));
 }
 
@@ -644,7 +693,7 @@ function mountCanyonCompositionKit(scene, descriptor) {
     });
     const mesh = new THREE.Mesh(createWalkaroundMountainGeometry(mountain), material);
     mesh.name = mountain.id;
-    mesh.position.set(mountain.x, terrainFieldHeight(mountain.x, mountain.z) + 0.03, mountain.z);
+    mesh.position.set(mountain.x, terrainFieldBaseHeight(mountain.x, mountain.z) + 0.16, mountain.z);
     mesh.rotation.y = -0.18 + index * 0.2;
     mesh.castShadow = true;
     mesh.receiveShadow = true;
@@ -768,6 +817,42 @@ function mountMicroObjectKit(scene, descriptor) {
   const group = new THREE.Group();
   group.name = descriptor.id;
   const buckets = new Map();
+  const interactionGroup = new THREE.Group();
+  interactionGroup.name = `${descriptor.id}.interactionAffordances`;
+  const markerReadabilityPolicy = {
+    contract: "goldrush-affordance-marker-readability-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: "n:gameplay:interaction-hold",
+    selectedVisible: 1,
+    maxNearbyVisible: 5,
+    hiddenDefault: true,
+  };
+  const selectedAffordanceCuePolicy = {
+    contract: "goldrush-selected-affordance-cue-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:gameplay:interaction-hold", "n:goldrush:mine-hold-action"],
+    cueRole: "selected-in-world-claim-cue",
+    hiddenDefault: true,
+  };
+  const proximityReadabilityPolicy = {
+    contract: "goldrush-object-proximity-readability-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:gameplay:interaction-hold", "n:control:character-movement"],
+    clearanceRadius: 1.15,
+    focusRadius: 2.35,
+    selectedScale: 1.08,
+    candidateScale: 0.38,
+    clutterScale: 0.12,
+    focusClutterScale: 0.2,
+    floorSink: 0.045,
+  };
+  const resourceVisualFormPolicy = {
+    contract: "goldrush-resource-visual-forms-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: "goldrush-procedural-object-protokit",
+    purpose: "make mineable resources read as seams, nuggets, ore lodes, and tailings fans instead of black lump clutter",
+    requiredForms: ["gold-nugget-cluster", "ore-lode-chip", "gold-seam-lode", "tailings-fan"],
+  };
 
   descriptor.kits.forEach((kit) => {
     const key = `${kit.geometryRole}:${kit.materialRole}`;
@@ -777,6 +862,12 @@ function mountMicroObjectKit(scene, descriptor) {
 
   const dummy = new THREE.Object3D();
   const animated = [];
+  const instancedBuckets = [];
+  let lastAffordanceSelection = selectNearestGoldRushObjectAffordance({ descriptor, player: { x: 0, z: 0 } });
+  let lastMarkerReadability = createMarkerReadabilitySnapshot(markerReadabilityPolicy, lastAffordanceSelection, interactionGroup);
+  let lastSelectedAffordanceCue = createSelectedAffordanceCueSnapshot(selectedAffordanceCuePolicy, lastAffordanceSelection, null);
+  let lastProximityReadability = createObjectProximityReadabilitySnapshot(proximityReadabilityPolicy, lastAffordanceSelection, null, []);
+  const resourceVisualForms = createResourceVisualFormSnapshot(resourceVisualFormPolicy, descriptor);
   for (const [key, kits] of buckets.entries()) {
     const [geometryRole, materialRole] = key.split(":");
     const mesh = new THREE.InstancedMesh(
@@ -799,18 +890,334 @@ function mountMicroObjectKit(scene, descriptor) {
     mesh.userData.kits = kits;
     mesh.userData.geometryRole = geometryRole;
     if (["grass-blade", "scrub", "dust-ridge"].includes(geometryRole)) animated.push(mesh);
+    instancedBuckets.push({ mesh, kits, geometryRole });
     group.add(mesh);
   }
 
+  const interactiveKits = descriptor.kits
+    .filter((kit) => kit.interaction?.enabled)
+    .filter((kit) => ["hero-resource", "combat-readable", "world-readable", "navigation-readable"].includes(kit.interaction.priority));
+  interactiveKits.forEach((kit) => {
+    const marker = createMicroInteractionMarker(kit);
+    interactionGroup.add(marker);
+  });
+  group.add(interactionGroup);
   scene.add(group);
 
   return {
-    update(_state, elapsedSeconds = 0) {
+    update(state, elapsedSeconds = 0) {
+      lastAffordanceSelection = selectNearestGoldRushObjectAffordance({
+        descriptor,
+        player: state.localPlayer?.position ?? null,
+      });
       animated.forEach((mesh, bucketIndex) => {
         mesh.rotation.y = Math.sin(elapsedSeconds * 0.08 + bucketIndex) * 0.008;
       });
+      lastProximityReadability = updateMicroObjectVisualDensity(instancedBuckets, lastAffordanceSelection, state, proximityReadabilityPolicy, dummy);
+      interactionGroup.children.forEach((marker, index) => {
+        updateMicroInteractionMarker(marker, lastAffordanceSelection, markerReadabilityPolicy, selectedAffordanceCuePolicy, state, elapsedSeconds, index);
+      });
+      lastMarkerReadability = createMarkerReadabilitySnapshot(markerReadabilityPolicy, lastAffordanceSelection, interactionGroup);
+      lastSelectedAffordanceCue = createSelectedAffordanceCueSnapshot(selectedAffordanceCuePolicy, lastAffordanceSelection, state);
+    },
+    snapshot() {
+      const interactionActions = {};
+      interactiveKits.forEach((kit) => {
+        interactionActions[kit.interaction.action] = (interactionActions[kit.interaction.action] ?? 0) + 1;
+      });
+      return {
+        id: descriptor.id,
+        contract: "goldrush-layered-procedural-object-protokits-v1",
+        count: descriptor.count,
+        familyCount: descriptor.families.length,
+        raycastPlacement: descriptor.kits.every((kit) => kit.placement?.raycast?.mode === "downward-triangle-raycast"),
+        generationLayered: descriptor.kits.every((kit) => kit.generationLayers?.length >= 5),
+        everyItemProtoKit: descriptor.kits.every((kit) => kit.protoKit?.kind === "goldrush-procedural-object-protokit"),
+        interactionMarkerCount: interactionGroup.children.length,
+        interactionActions,
+        nearestAffordance: structuredClone(lastAffordanceSelection),
+        markerReadability: structuredClone(lastMarkerReadability),
+        selectedAffordanceCue: structuredClone(lastSelectedAffordanceCue),
+        proximityReadability: structuredClone(lastProximityReadability),
+        resourceVisualForms: structuredClone(resourceVisualForms),
+      };
     },
   };
+}
+
+function createResourceVisualFormSnapshot(policy, descriptor) {
+  const resourceKits = descriptor.kits.filter((kit) => kit.role === "reward-readability");
+  const forms = {};
+  resourceKits.forEach((kit) => {
+    const form = resourceVisualFormForKit(kit);
+    forms[form] = (forms[form] ?? 0) + 1;
+  });
+  return {
+    ...policy,
+    resourceKitCount: resourceKits.length,
+    forms,
+    formCount: Object.keys(forms).length,
+    goldReadableCount: (forms["gold-nugget-cluster"] ?? 0) + (forms["gold-seam-lode"] ?? 0),
+    oreReadableCount: (forms["ore-lode-chip"] ?? 0) + (forms["tailings-fan"] ?? 0),
+    allRequiredFormsPresent: policy.requiredForms.every((form) => forms[form] > 0),
+  };
+}
+
+function resourceVisualFormForKit(kit) {
+  if (kit.visual?.resourceForm) return kit.visual.resourceForm;
+  if (kit.geometryRole === "gold-fleck") return "gold-nugget-cluster";
+  if (kit.geometryRole === "ore-chip") return "ore-lode-chip";
+  if (kit.geometryRole === "gold-seam") return "gold-seam-lode";
+  if (kit.geometryRole === "tailings-pile") return "tailings-fan";
+  return "resource-dressing";
+}
+
+function updateMicroObjectVisualDensity(instancedBuckets, selection, state, policy, dummy) {
+  const selectedKitId = selection?.selected?.kitId ?? null;
+  const candidateIds = new Set((selection?.candidates ?? []).map((candidate) => candidate.kitId));
+  const playerPosition = state?.localPlayer?.position ?? null;
+  const summary = {
+    ...policy,
+    selectedKitId,
+    playerClearanceActive: Boolean(playerPosition && selectedKitId),
+    selectedProtected: 0,
+    candidateCompressed: 0,
+    clutterCompressed: 0,
+    unaffected: 0,
+    compressedFamilies: {},
+    maxCompressedDistance: 0,
+  };
+
+  instancedBuckets.forEach(({ mesh, kits }) => {
+    kits.forEach((kit, index) => {
+      const result = resolveMicroObjectVisualDensity(kit, selection, playerPosition, policy, candidateIds);
+      if (result.role === "selected-protected") summary.selectedProtected += 1;
+      else if (result.role === "candidate-compressed") summary.candidateCompressed += 1;
+      else if (result.role === "clutter-compressed") summary.clutterCompressed += 1;
+      else summary.unaffected += 1;
+      if (result.role !== "unaffected" && result.role !== "selected-protected") {
+        summary.compressedFamilies[kit.family] = (summary.compressedFamilies[kit.family] ?? 0) + 1;
+        summary.maxCompressedDistance = Math.max(summary.maxCompressedDistance, result.distance);
+      }
+      dummy.position.set(kit.position.x, kit.position.y + result.yOffset, kit.position.z);
+      dummy.rotation.set(0, kit.rotation, kit.geometryRole === "grass-blade" ? 0.08 : 0);
+      const scale = scaleForMicroKit(kit);
+      dummy.scale.set(scale.x * result.scale, scale.y * result.scale, scale.z * result.scale);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(index, dummy.matrix);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+
+  summary.compressedCount = summary.candidateCompressed + summary.clutterCompressed;
+  summary.maxCompressedDistance = Number(summary.maxCompressedDistance.toFixed(3));
+  summary.compressedFamilies = Object.fromEntries(Object.entries(summary.compressedFamilies).sort(([a], [b]) => a.localeCompare(b)));
+  return summary;
+}
+
+function resolveMicroObjectVisualDensity(kit, selection, playerPosition, policy, candidateIds) {
+  if (!playerPosition || !selection?.selected) return { role: "unaffected", scale: 1, yOffset: 0, distance: Infinity };
+  const selectedKitId = selection.selected.kitId;
+  const distance = distance2D(playerPosition, kit.position);
+  if (kit.id === selectedKitId) {
+    return { role: "selected-protected", scale: policy.selectedScale, yOffset: 0.018, distance };
+  }
+  const sameTarget = kit.interaction?.target?.siteId && kit.interaction.target.siteId === selection.selected.target?.siteId;
+  const sameAction = kit.interaction?.action && kit.interaction.action === selection.selected.action;
+  const isReadableClutter = kit.role === "reward-readability" || kit.role === "terrain-dressing" || kit.role === "navigation";
+  if (candidateIds.has(kit.id) && distance <= policy.focusRadius) {
+    return { role: "candidate-compressed", scale: policy.candidateScale, yOffset: -policy.floorSink * 0.5, distance };
+  }
+  if (distance <= policy.clearanceRadius && (sameTarget || sameAction || isReadableClutter)) {
+    return { role: "clutter-compressed", scale: policy.clutterScale, yOffset: -policy.floorSink, distance };
+  }
+  if (distance <= policy.focusRadius && isReadableClutter && selection.selected.action === "mine-gold") {
+    return { role: "clutter-compressed", scale: policy.focusClutterScale, yOffset: -policy.floorSink, distance };
+  }
+  return { role: "unaffected", scale: 1, yOffset: 0, distance };
+}
+
+function createObjectProximityReadabilitySnapshot(policy, selection, state, instancedBuckets) {
+  return updateMicroObjectVisualDensity(instancedBuckets, selection, state, policy, new THREE.Object3D());
+}
+
+function createMicroInteractionMarker(kit) {
+  const color = interactionColor(kit.interaction.action);
+  const root = new THREE.Group();
+  root.name = `${kit.id}.interaction`;
+  root.position.set(kit.position.x, kit.position.y, kit.position.z);
+  const ringMaterial = new THREE.MeshBasicMaterial({
+    color,
+    transparent: true,
+    opacity: 0.46,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  const radius = Math.max(0.48, Math.min(1.55, kit.interaction.radius * 0.34));
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.035, 5, 28), ringMaterial);
+  ring.name = "affordance-ring";
+  ring.position.set(0, 0.075, 0);
+  ring.rotation.x = Math.PI / 2;
+  const cueRoot = new THREE.Group();
+  cueRoot.name = "selected-affordance-cue";
+  cueRoot.visible = false;
+  const cueMaterial = new THREE.MeshBasicMaterial({
+    color,
+    transparent: true,
+    opacity: 0.78,
+    depthWrite: false,
+  });
+  const stake = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 1.15, 6), cueMaterial);
+  stake.name = "claim-stake";
+  stake.position.set(radius * 0.74, 0.62, radius * 0.16);
+  const progressMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffd87a,
+    transparent: true,
+    opacity: 0.88,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  const progressRing = new THREE.Mesh(new THREE.TorusGeometry(radius * 0.42, 0.028, 5, 18), progressMaterial);
+  progressRing.name = "hold-progress-ring";
+  progressRing.position.set(0, 0.16, 0);
+  progressRing.rotation.x = Math.PI / 2;
+  cueRoot.add(stake, progressRing);
+  root.add(ring, cueRoot);
+  root.userData = {
+    kitId: kit.id,
+    contract: kit.interaction.contract,
+    readabilityContract: "goldrush-affordance-marker-readability-v1",
+    selectedCueContract: "goldrush-selected-affordance-cue-v1",
+    protoKitId: kit.protoKit.id,
+    action: kit.interaction.action,
+    prompt: kit.interaction.prompt,
+    placement: kit.placement.raycast,
+    markerRole: "hidden",
+  };
+  return root;
+}
+
+function updateMicroInteractionMarker(marker, selection, policy, cuePolicy, state, elapsedSeconds = 0, index = 0) {
+  const selectedKitId = selection?.selected?.kitId ?? null;
+  const nearbyCandidateIds = new Set(
+    (selection?.candidates ?? [])
+      .filter((candidate) => candidate.inRange && candidate.kitId !== selectedKitId)
+      .slice(0, policy.maxNearbyVisible)
+      .map((candidate) => candidate.kitId)
+  );
+  const isSelected = marker.userData.kitId === selectedKitId;
+  const isNearbyCandidate = nearbyCandidateIds.has(marker.userData.kitId);
+  const role = isSelected ? "selected" : isNearbyCandidate ? "nearby-candidate" : "hidden";
+  marker.visible = role !== "hidden";
+  marker.userData.markerRole = role;
+  marker.userData.selectionContract = selection?.contract ?? null;
+  marker.userData.selectionReason = selection?.reason ?? null;
+  marker.userData.selectedKitId = selectedKitId;
+  marker.userData.maxNearbyVisible = policy.maxNearbyVisible;
+  marker.userData.hiddenByDefault = policy.hiddenDefault;
+  const cue = createSelectedAffordanceCueSnapshot(cuePolicy, selection, state);
+  marker.userData.selectedAffordanceCue = isSelected ? cue : null;
+  const baseScale = isSelected ? 1.18 : 0.72;
+  const pulse = isSelected
+    ? baseScale + Math.sin(elapsedSeconds * 2.8 + index * 0.17) * 0.08
+    : baseScale + Math.sin(elapsedSeconds * 1.2 + index * 0.13) * 0.025;
+  marker.scale.setScalar(pulse);
+  const opacity = isSelected ? 0.74 : 0.16;
+  const ring = marker.getObjectByName("affordance-ring");
+  if (ring?.material) {
+    ring.material.opacity = opacity;
+    ring.material.depthWrite = false;
+    ring.material.color.set(isSelected ? interactionColor(marker.userData.action) : mutedInteractionColor(marker.userData.action));
+  }
+  const cueRoot = marker.getObjectByName("selected-affordance-cue");
+  if (cueRoot) {
+    cueRoot.visible = isSelected && cue.visible;
+    cueRoot.rotation.y = Math.sin(elapsedSeconds * 1.6) * 0.08;
+  }
+  const progressRing = marker.getObjectByName("hold-progress-ring");
+  if (progressRing) {
+    const progressScale = Math.max(0.18, cue.progress);
+    progressRing.scale.set(progressScale, progressScale, progressScale);
+    progressRing.material.opacity = isSelected ? 0.5 + cue.progress * 0.42 : 0;
+  }
+  const stake = marker.getObjectByName("claim-stake");
+  if (stake?.material) {
+    stake.material.color.set(interactionColor(marker.userData.action));
+    stake.material.opacity = isSelected ? 0.58 + Math.sin(elapsedSeconds * 3) * 0.08 : 0;
+  }
+}
+
+function createSelectedAffordanceCueSnapshot(policy, selection, state) {
+  const selected = selection?.selected ?? null;
+  const miningReadability = state?.extractionLoop?.mining?.readability ?? null;
+  const activeMiningSite = miningReadability?.activeSite ?? null;
+  const miningSites = miningReadability?.sites ?? {};
+  const siteId = selected?.target?.siteId ?? null;
+  const selectedMiningSite = siteId ? miningSites[siteId] ?? null : null;
+  const isSelected = Boolean(selected);
+  const miningProgress = selected?.action === "mine-gold"
+    ? activeMiningSite?.siteId === siteId
+      ? activeMiningSite.progressRatio ?? 0
+      : selectedMiningSite?.progressRatio ?? 0
+    : 0;
+  const carriedGold = Number(state?.extractionLoop?.player?.cargo?.goldDust ?? state?.extractionLoop?.player?.cargo?.totalValue ?? 0);
+  const completedMineCue = selected?.action === "mine-gold" && carriedGold > 0 && miningProgress <= 0;
+  const progress = clamp01(completedMineCue ? 1 : miningProgress);
+  return {
+    ...policy,
+    selectedKitId: selected?.kitId ?? null,
+    protoKitId: selected?.protoKitId ?? null,
+    action: selected?.action ?? null,
+    prompt: selected?.prompt ?? null,
+    target: selected?.target ? structuredClone(selected.target) : null,
+    visible: isSelected,
+    progress,
+    progressSource: selected?.action === "mine-gold" ? "n:goldrush:mine-hold-action" : "n:gameplay:interaction-hold",
+    status: completedMineCue ? "complete" : progress > 0 ? "holding" : isSelected ? "ready" : "hidden",
+  };
+}
+
+function createMarkerReadabilitySnapshot(policy, selection, interactionGroup) {
+  const roles = { selected: 0, nearbyCandidate: 0, hidden: 0 };
+  interactionGroup.children.forEach((marker) => {
+    if (marker.userData.markerRole === "selected") roles.selected += 1;
+    else if (marker.userData.markerRole === "nearby-candidate") roles.nearbyCandidate += 1;
+    else roles.hidden += 1;
+  });
+  return {
+    ...policy,
+    selectedKitId: selection?.selected?.kitId ?? null,
+    candidateCount: selection?.candidateCount ?? 0,
+    visibleMarkerCount: roles.selected + roles.nearbyCandidate,
+    hiddenMarkerCount: roles.hidden,
+    roles,
+    clutterPolicy: "show-selected-plus-nearby-hide-rest",
+  };
+}
+
+function interactionColor(action) {
+  if (action === "mine-gold") return 0xf2bd45;
+  if (action === "take-cover") return 0xc7643f;
+  if (action === "inspect-mine") return 0xd79f58;
+  if (action === "inspect-town") return 0x8dcfbd;
+  return 0xffffff;
+}
+
+function mutedInteractionColor(action) {
+  if (action === "mine-gold") return 0xd6b56b;
+  if (action === "take-cover") return 0xa66b55;
+  if (action === "inspect-mine") return 0xb7895a;
+  if (action === "inspect-town") return 0x7da99e;
+  return 0x9c9c9c;
+}
+
+function clamp01(value) {
+  if (!Number.isFinite(value)) return 0;
+  return Math.max(0, Math.min(1, value));
+}
+
+function distance2D(a, b) {
+  return Math.hypot((a?.x ?? 0) - (b?.x ?? 0), (a?.z ?? 0) - (b?.z ?? 0));
 }
 
 function mountEnvironmentSpaceKit(scene, descriptor) {
@@ -1078,6 +1485,12 @@ function mountExtractionLoopMarkerKit(scene) {
   const beaconGeometry = createPrismGeometry(0.1, 1.2, 6);
   const promptGeometry = createCuboidGeometry(0.66, 0.06, 0.1);
   const markerMeshes = new Map();
+  const laneMeshes = new Map();
+  const coverMeshes = new Map();
+  group.userData.visualContract = "readable-threat-lanes-v1";
+  group.userData.coverContract = "readable-threat-cover-v1";
+  group.userData.extractionCueContract = "goldrush-extraction-cashout-cue-v1";
+  group.userData.extractionSetpieceContract = "goldrush-extraction-setpiece-v1";
   scene.add(group);
 
   function createMarker(marker) {
@@ -1095,15 +1508,116 @@ function mountExtractionLoopMarkerKit(scene) {
     prompt.position.y = 1.48;
     prompt.name = `${marker.id}.prompt`;
     root.add(ring, beacon, prompt);
+    if (marker.type === "extraction-site") {
+      const platform = new THREE.Mesh(createCuboidGeometry(1.55, 0.08, 0.78), material.clone());
+      platform.position.set(0, 0.08, -0.22);
+      platform.name = `${marker.id}.cashout-platform`;
+      assignExtractionSetpieceStyle(platform, 0x8b5a33, 0x1e1207);
+      const archLeft = new THREE.Mesh(createCuboidGeometry(0.08, 1.42, 0.08), material.clone());
+      archLeft.position.set(-0.48, 0.75, -0.42);
+      archLeft.name = `${marker.id}.cashout-arch-left`;
+      assignExtractionSetpieceStyle(archLeft, 0x6d4328, 0x180c04);
+      const archRight = new THREE.Mesh(createCuboidGeometry(0.08, 1.42, 0.08), material.clone());
+      archRight.position.set(0.48, 0.75, -0.42);
+      archRight.name = `${marker.id}.cashout-arch-right`;
+      assignExtractionSetpieceStyle(archRight, 0x6d4328, 0x180c04);
+      const crossbeam = new THREE.Mesh(createCuboidGeometry(1.12, 0.08, 0.1), material.clone());
+      crossbeam.position.set(0, 1.48, -0.42);
+      crossbeam.name = `${marker.id}.cashout-crossbeam`;
+      assignExtractionSetpieceStyle(crossbeam, 0x6d4328, 0x180c04);
+      const railLeft = new THREE.Mesh(createCuboidGeometry(1.7, 0.04, 0.04), material.clone());
+      railLeft.position.set(0, 0.14, -0.72);
+      railLeft.name = `${marker.id}.cashout-rail-left`;
+      assignExtractionSetpieceStyle(railLeft, 0x2c2118, 0x090705);
+      const railRight = new THREE.Mesh(createCuboidGeometry(1.7, 0.04, 0.04), material.clone());
+      railRight.position.set(0, 0.14, 0.26);
+      railRight.name = `${marker.id}.cashout-rail-right`;
+      assignExtractionSetpieceStyle(railRight, 0x2c2118, 0x090705);
+      const tieA = new THREE.Mesh(createCuboidGeometry(0.08, 0.035, 1.1), material.clone());
+      tieA.position.set(-0.46, 0.12, -0.24);
+      tieA.name = `${marker.id}.cashout-rail-tie-a`;
+      assignExtractionSetpieceStyle(tieA, 0x4a2f1c, 0x0c0703);
+      const tieB = new THREE.Mesh(createCuboidGeometry(0.08, 0.035, 1.1), material.clone());
+      tieB.position.set(0.46, 0.12, -0.24);
+      tieB.name = `${marker.id}.cashout-rail-tie-b`;
+      assignExtractionSetpieceStyle(tieB, 0x4a2f1c, 0x0c0703);
+      const post = new THREE.Mesh(createCuboidGeometry(0.06, 1.35, 0.06), material.clone());
+      post.position.set(-0.34, 0.72, 0);
+      post.name = `${marker.id}.cashout-post`;
+      assignExtractionSetpieceStyle(post, 0x79502d, 0x180c04);
+      const flag = new THREE.Mesh(createCuboidGeometry(0.58, 0.24, 0.04), material.clone());
+      flag.position.set(0.02, 1.25, 0);
+      flag.name = `${marker.id}.cashout-flag`;
+      assignExtractionSetpieceStyle(flag, 0xd3a14a, 0x3b2600);
+      const bell = new THREE.Mesh(createExtractionBellGeometry(), material.clone());
+      bell.position.set(0, 1.31, -0.42);
+      bell.name = `${marker.id}.cashout-bell`;
+      assignExtractionSetpieceStyle(bell, 0xf0c45a, 0x5a3700);
+      const holdProgress = new THREE.Mesh(createCuboidGeometry(0.08, 1, 0.05), material.clone());
+      holdProgress.position.set(0.62, 0.62, -0.42);
+      holdProgress.name = `${marker.id}.cashout-hold-progress`;
+      holdProgress.userData.cashoutInteractionRole = "hold-progress";
+      assignExtractionSetpieceStyle(holdProgress, 0xf5c85a, 0x6b4700);
+      const holdPrompt = new THREE.Mesh(createCuboidGeometry(0.62, 0.06, 0.08), material.clone());
+      holdPrompt.position.set(0.58, 1.12, -0.42);
+      holdPrompt.name = `${marker.id}.cashout-hold-prompt`;
+      holdPrompt.userData.cashoutInteractionRole = "hold-prompt";
+      assignExtractionSetpieceStyle(holdPrompt, 0x74d0c2, 0x164038);
+      const smoke = new THREE.Mesh(createExtractionSmokeGeometry(), material.clone());
+      smoke.position.set(0.24, 1.78, 0);
+      smoke.name = `${marker.id}.cashout-smoke`;
+      assignExtractionSetpieceStyle(smoke, 0xd8cfae, 0x2b260e);
+      root.add(platform, archLeft, archRight, crossbeam, railLeft, railRight, tieA, tieB, post, flag, bell, holdProgress, holdPrompt, smoke);
+    }
     root.userData.markerType = marker.type;
     group.add(root);
     return root;
+  }
+
+  function createThreatLane(marker) {
+    const geometry = createThreatLaneGeometry();
+    const material = new THREE.MeshBasicMaterial({
+      color: markerLaneColor(marker),
+      transparent: true,
+      opacity: 0.28,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `${marker.lane.id}.visual`;
+    mesh.visible = false;
+    mesh.userData.markerId = marker.id;
+    mesh.userData.visualContract = "readable-threat-lanes-v1";
+    group.add(mesh);
+    return mesh;
+  }
+
+  function createThreatCover(cover) {
+    const geometry = createThreatCoverGeometry(cover);
+    const material = new THREE.MeshStandardMaterial({
+      color: coverColor(cover),
+      emissive: cover.status === "available" ? 0x221706 : 0x080806,
+      roughness: 0.86,
+      transparent: true,
+      opacity: 0.84,
+      flatShading: true,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `${cover.id}.visual`;
+    mesh.visible = false;
+    mesh.userData.coverContract = "readable-threat-cover-v1";
+    group.add(mesh);
+    return mesh;
   }
 
   return {
     update(state, elapsedSeconds = 0) {
       const markers = state.extractionLoop?.worldSpaceMarkers ?? [];
       const activeIds = new Set(markers.map((marker) => marker.id));
+      const activeLaneIds = new Set();
+      const activeCoverIds = new Set();
+      const engagedCoverIds = new Set();
+      const extractionMarkers = markers.filter((marker) => marker.type === "extraction-site");
       for (const marker of markers) {
         const mesh = markerMeshes.get(marker.id) ?? createMarker(marker);
         markerMeshes.set(marker.id, mesh);
@@ -1113,24 +1627,333 @@ function mountExtractionLoopMarkerKit(scene) {
         mesh.rotation.y = elapsedSeconds * (marker.active ? 1.4 : 0.35);
         const pulse = 1 + Math.sin(elapsedSeconds * 4 + marker.worldPosition.x) * 0.04;
         const progress = Math.max(0, Math.min(1, marker.progress ?? 0));
-        mesh.scale.setScalar(pulse + progress * 0.35);
+        const telegraphPulse = marker.telegraph?.readableBeforeDamage
+          ? 0.12 + Math.max(0, Math.sin(elapsedSeconds * 9)) * 0.14
+          : 0;
+        mesh.scale.setScalar(pulse + progress * 0.35 + telegraphPulse);
         mesh.children.forEach((child) => {
           child.material.opacity = marker.status === "complete" ? 0.32 : marker.inRange || marker.active ? 0.92 : 0.48;
-          child.material.color.set(markerColor(marker));
-          if (child.material.emissive) child.material.emissive.set(marker.active || marker.inRange ? markerEmissive(marker) : 0x181008);
+          child.material.color.set(child.userData.extractionSetpieceColor ?? markerColor(marker));
+          if (child.material.emissive) {
+            child.material.emissive.set(child.userData.extractionSetpieceEmissive ?? (marker.active || marker.inRange ? markerEmissive(marker) : 0x181008));
+          }
         });
+        if (marker.type === "extraction-site") updateExtractionInteractionVisuals(mesh, marker, progress);
+        if (marker.type === "threat" && marker.lane?.id) {
+          const laneMesh = laneMeshes.get(marker.lane.id) ?? createThreatLane(marker);
+          laneMeshes.set(marker.lane.id, laneMesh);
+          updateThreatLaneMesh(laneMesh, marker, elapsedSeconds);
+          activeLaneIds.add(marker.lane.id);
+        }
+        if (marker.type === "threat" && Array.isArray(marker.cover)) {
+          for (const cover of marker.cover) {
+            const coverMesh = coverMeshes.get(cover.id) ?? createThreatCover(cover);
+            coverMeshes.set(cover.id, coverMesh);
+            updateThreatCoverMesh(coverMesh, cover, marker, elapsedSeconds);
+            activeCoverIds.add(cover.id);
+            if (cover.id === marker.engagedCoverId || cover.status === "engaged" || cover.status === "peeking") engagedCoverIds.add(cover.id);
+          }
+        }
       }
       for (const [id, mesh] of markerMeshes) {
         if (!activeIds.has(id)) mesh.visible = false;
       }
+      for (const [id, laneMesh] of laneMeshes) {
+        if (!activeLaneIds.has(id)) laneMesh.visible = false;
+      }
+      for (const [id, coverMesh] of coverMeshes) {
+        if (!activeCoverIds.has(id)) coverMesh.visible = false;
+      }
+      group.userData.activeLaneIds = Array.from(activeLaneIds);
+      group.userData.activeCoverIds = Array.from(activeCoverIds);
+      group.userData.engagedCoverIds = Array.from(engagedCoverIds);
+      group.userData.readableThreatCount = markers.filter((marker) => marker.type === "threat" && marker.telegraph?.id).length;
+      group.userData.extractionCashoutCue = createExtractionCashoutCueSnapshot(extractionMarkers);
+      group.userData.extractionSetpiece = createExtractionSetpieceSnapshot(extractionMarkers, group.userData.extractionCashoutCue);
+      group.userData.extractionInteractionCue = createExtractionInteractionCueSnapshot(extractionMarkers, group.userData.extractionCashoutCue);
     },
     snapshot() {
       return {
         markerCount: markerMeshes.size,
         markerIds: Array.from(markerMeshes.keys()),
+        laneCount: laneMeshes.size,
+        laneIds: Array.from(laneMeshes.keys()),
+        coverCount: coverMeshes.size,
+        coverIds: Array.from(coverMeshes.keys()),
+        engagedCoverIds: group.userData.engagedCoverIds ?? [],
+        visualContract: group.userData.visualContract,
+        coverContract: group.userData.coverContract,
+        extractionCue: group.userData.extractionCashoutCue ?? createExtractionCashoutCueSnapshot([]),
+        extractionSetpiece: group.userData.extractionSetpiece ?? createExtractionSetpieceSnapshot([], createExtractionCashoutCueSnapshot([])),
+        extractionInteractionCue: group.userData.extractionInteractionCue ?? createExtractionInteractionCueSnapshot([], createExtractionCashoutCueSnapshot([])),
       };
     },
   };
+}
+
+function createExtractionCashoutCueSnapshot(markers) {
+  const extractionMarkers = markers.filter((marker) => marker.type === "extraction-site");
+  const visibleMarkers = extractionMarkers.filter((marker) => marker.status !== "latent");
+  const primary = visibleMarkers
+    .slice()
+    .sort((a, b) => {
+      const activeScore = Number(b.active) - Number(a.active);
+      const rangeScore = Number(b.inRange) - Number(a.inRange);
+      const statusScore = extractionStatusRank(b.status) - extractionStatusRank(a.status);
+      return activeScore || rangeScore || statusScore || String(a.id).localeCompare(String(b.id));
+    })[0] ?? null;
+  return {
+    contract: "goldrush-extraction-cashout-cue-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: "n:gameplay:extraction",
+    cueRole: "diegetic-cashout-beacon",
+    visibleCueCount: visibleMarkers.length,
+    readyCount: extractionMarkers.filter((marker) => marker.status === "ready").length,
+    contestedCount: extractionMarkers.filter((marker) => marker.status === "contested").length,
+    lockdownCount: extractionMarkers.filter((marker) => marker.status === "lockdown").length,
+    activeMarkerId: extractionMarkers.find((marker) => marker.active)?.id ?? null,
+    primary: primary ? {
+      markerId: primary.id,
+      label: primary.label,
+      status: primary.status,
+      inRange: Boolean(primary.inRange),
+      active: Boolean(primary.active),
+      progress: roundVisualProgress(primary.progress ?? 0),
+      contestStatus: primary.contest?.status ?? "quiet",
+      interruptRisk: roundVisualProgress(primary.contest?.interruptRisk ?? 0),
+      nextAction: primary.active
+        ? "hold-cashout"
+        : primary.status === "needs-gold"
+          ? "mine-gold"
+          : "route-to-cashout",
+    } : null,
+  };
+}
+
+function createExtractionSetpieceSnapshot(markers, cashoutCue) {
+  const extractionMarkers = markers.filter((marker) => marker.type === "extraction-site" && marker.status !== "latent");
+  const primaryMarkerId = cashoutCue?.primary?.markerId ?? extractionMarkers[0]?.id ?? null;
+  const primary = extractionMarkers.find((marker) => marker.id === primaryMarkerId) ?? extractionMarkers[0] ?? null;
+  return {
+    contract: "goldrush-extraction-setpiece-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:gameplay:extraction", "goldrush-extraction-cashout-cue-v1"],
+    setpieceRole: "rail-depot-cashout-landmark",
+    visualLanguage: ["vertical-arch-silhouette", "smoke-cue", "rail-alignment", "cashout-bell"],
+    visibleSetpieceCount: extractionMarkers.length,
+    landmarkCount: extractionMarkers.length,
+    railAlignment: "depot-track-facing",
+    placementMode: "terrain-raycast-grounded",
+    primary: primary ? {
+      markerId: primary.id,
+      label: primary.label,
+      status: primary.status,
+      hasVerticalSilhouette: true,
+      hasSmokeCue: true,
+      hasRailLanguage: true,
+      hasCashoutBell: true,
+      nextAction: cashoutCue?.primary?.nextAction ?? (primary.active ? "hold-cashout" : "route-to-cashout"),
+    } : null,
+  };
+}
+
+function createExtractionInteractionCueSnapshot(markers, cashoutCue) {
+  const extractionMarkers = markers.filter((marker) => marker.type === "extraction-site" && marker.status !== "latent");
+  const primaryMarkerId = cashoutCue?.primary?.markerId ?? extractionMarkers[0]?.id ?? null;
+  const primary = extractionMarkers.find((marker) => marker.id === primaryMarkerId) ?? extractionMarkers[0] ?? null;
+  const progress = roundVisualProgress(primary?.progress ?? cashoutCue?.primary?.progress ?? 0);
+  const inRange = Boolean(primary?.inRange ?? cashoutCue?.primary?.inRange);
+  const active = Boolean(primary?.active ?? cashoutCue?.primary?.active);
+  const status = primary?.status ?? cashoutCue?.primary?.status ?? "hidden";
+  return {
+    contract: "goldrush-extraction-interaction-cue-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:gameplay:extraction", "goldrush-extraction-cashout-cue-v1", "goldrush-extraction-setpiece-v1"],
+    cueRole: "diegetic-cashout-hold-feedback",
+    visibleCueCount: extractionMarkers.length,
+    activeMarkerId: primary?.id ?? null,
+    primary: primary ? {
+      markerId: primary.id,
+      label: primary.label,
+      status,
+      inRange,
+      active,
+      progress,
+      promptVisible: inRange && status !== "complete",
+      holdProgressVisible: inRange || active || progress > 0,
+      holdState: active ? "holding" : inRange ? "ready-to-hold" : status === "needs-gold" ? "needs-gold" : "route-to-zone",
+      nextAction: active ? "keep-holding-cashout" : inRange ? "hold-cashout" : cashoutCue?.primary?.nextAction ?? "route-to-cashout",
+      interruptRisk: roundVisualProgress(primary.contest?.interruptRisk ?? cashoutCue?.primary?.interruptRisk ?? 0),
+    } : null,
+  };
+}
+
+function updateExtractionInteractionVisuals(mesh, marker, progress = 0) {
+  const normalizedProgress = roundVisualProgress(progress);
+  const holdProgress = mesh.children.find((child) => child.userData.cashoutInteractionRole === "hold-progress");
+  if (holdProgress) {
+    const visibleProgress = marker.active ? Math.max(0.08, normalizedProgress) : marker.inRange ? 0.12 : 0.04;
+    holdProgress.scale.set(1, visibleProgress, 1);
+    holdProgress.position.y = 0.18 + visibleProgress * 0.48;
+    holdProgress.material.opacity = marker.active ? 1 : marker.inRange ? 0.72 : 0.28;
+    holdProgress.userData.progress = normalizedProgress;
+    holdProgress.userData.visualContract = "goldrush-extraction-interaction-cue-v1";
+  }
+  const holdPrompt = mesh.children.find((child) => child.userData.cashoutInteractionRole === "hold-prompt");
+  if (holdPrompt) {
+    holdPrompt.visible = marker.status !== "complete";
+    holdPrompt.material.opacity = marker.active ? 1 : marker.inRange ? 0.82 : 0.24;
+    holdPrompt.scale.set(marker.active ? 1.18 : marker.inRange ? 1 : 0.72, 1, 1);
+    holdPrompt.userData.holdState = marker.active ? "holding" : marker.inRange ? "ready-to-hold" : "route-to-zone";
+    holdPrompt.userData.visualContract = "goldrush-extraction-interaction-cue-v1";
+  }
+}
+
+function assignExtractionSetpieceStyle(mesh, color, emissive = 0x181008) {
+  mesh.userData.extractionSetpieceColor = color;
+  mesh.userData.extractionSetpieceEmissive = emissive;
+  mesh.userData.visualContract = "goldrush-extraction-setpiece-v1";
+  mesh.material.color.set(color);
+  if (mesh.material.emissive) mesh.material.emissive.set(emissive);
+  return mesh;
+}
+
+function extractionStatusRank(status) {
+  if (status === "lockdown") return 5;
+  if (status === "contested") return 4;
+  if (status === "ready") return 3;
+  if (status === "watched") return 2;
+  if (status === "needs-gold") return 1;
+  return 0;
+}
+
+function roundVisualProgress(value) {
+  return Number(Math.max(0, Math.min(1, Number(value) || 0)).toFixed(3));
+}
+
+function createThreatLaneGeometry() {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
+    -0.5, 0, 0,
+    0.5, 0, 0,
+    -0.5, 0, 1,
+    0.5, 0, 0,
+    0.5, 0, 1,
+    -0.5, 0, 1,
+  ]), 3));
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function createExtractionSmokeGeometry() {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
+    -0.16, 0.00, 0,
+    0.12, 0.06, 0,
+    -0.10, 0.28, 0,
+    0.12, 0.06, 0,
+    0.24, 0.32, 0,
+    -0.10, 0.28, 0,
+    -0.08, 0.30, 0,
+    0.20, 0.36, 0,
+    0.02, 0.58, 0,
+  ]), 3));
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function createExtractionBellGeometry() {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
+    -0.12, 0.00, -0.05,
+    0.12, 0.00, -0.05,
+    0.00, 0.24, 0.00,
+    0.12, 0.00, -0.05,
+    0.12, 0.00, 0.05,
+    0.00, 0.24, 0.00,
+    0.12, 0.00, 0.05,
+    -0.12, 0.00, 0.05,
+    0.00, 0.24, 0.00,
+    -0.12, 0.00, 0.05,
+    -0.12, 0.00, -0.05,
+    0.00, 0.24, 0.00,
+    -0.15, -0.04, -0.06,
+    0.15, -0.04, -0.06,
+    0.15, -0.04, 0.06,
+    -0.15, -0.04, -0.06,
+    0.15, -0.04, 0.06,
+    -0.15, -0.04, 0.06,
+  ]), 3));
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function updateThreatLaneMesh(mesh, marker, elapsedSeconds = 0) {
+  const start = marker.lane?.start ?? marker.worldPosition;
+  const end = marker.lane?.end ?? marker.worldPosition;
+  const dx = (end.x ?? 0) - (start.x ?? 0);
+  const dz = (end.z ?? 0) - (start.z ?? 0);
+  const distance = Math.max(0.001, Math.hypot(dx, dz));
+  const laneWidth = Math.max(0.7, Number(marker.lane?.width ?? 2.2));
+  const angle = Math.atan2(dx, dz);
+  const startY = terrainFieldHeight(start.x ?? 0, start.z ?? 0);
+  const endY = terrainFieldHeight(end.x ?? 0, end.z ?? 0);
+  mesh.position.set(start.x ?? 0, Math.max(startY, endY) + 0.11, start.z ?? 0);
+  mesh.rotation.set(0, angle, 0);
+  mesh.scale.set(laneWidth, 1, distance);
+  mesh.visible = marker.status !== "defeated" && ["warning", "danger"].includes(marker.lane?.status);
+  mesh.material.color.set(markerLaneColor(marker));
+  mesh.material.opacity = marker.lane?.status === "danger"
+    ? 0.26 + Math.max(0, Math.sin(elapsedSeconds * 8)) * 0.18
+    : 0.16;
+  mesh.userData.threatId = marker.lane?.threatId ?? marker.id;
+  mesh.userData.telegraphId = marker.telegraph?.id ?? null;
+  mesh.userData.laneStatus = marker.lane?.status ?? "unknown";
+}
+
+function createThreatCoverGeometry(cover) {
+  if (cover.kind === "ore-cart") return createTroughGeometry(0.7, 0.42, 0.42);
+  if (cover.kind === "ridge-shoulder") return createCanyonWallGeometry({ width: 0.95, depth: 0.46, height: 0.82 });
+  return createFacetedBoulderGeometry(0.42);
+}
+
+function updateThreatCoverMesh(mesh, cover, marker, elapsedSeconds = 0) {
+  const position = cover.worldPosition ?? marker.worldPosition;
+  const y = terrainFieldHeight(position.x ?? 0, position.z ?? 0);
+  const pulse = cover.id === marker.recommendedCoverId
+    ? 1 + Math.max(0, Math.sin(elapsedSeconds * 5.5)) * 0.09
+    : 1;
+  const engaged = cover.id === marker.engagedCoverId || cover.status === "engaged" || cover.status === "peeking";
+  mesh.position.set(position.x ?? 0, y + 0.2, position.z ?? 0);
+  mesh.rotation.y = cover.peekSide === "left" ? -0.32 : cover.peekSide === "right" ? 0.32 : 0;
+  mesh.scale.setScalar(pulse * (engaged ? 1.16 : 1));
+  mesh.visible = marker.status !== "defeated" && cover.status !== "cleared" && marker.status !== "latent";
+  mesh.material.color.set(coverColor(cover));
+  mesh.material.opacity = engaged ? 0.98 : cover.status === "available" ? 0.86 : 0.46;
+  if (mesh.material.emissive) mesh.material.emissive.set(engaged ? 0x3c2b0a : cover.status === "available" ? 0x221706 : 0x080806);
+  mesh.userData.threatId = cover.threatId;
+  mesh.userData.laneId = cover.laneId;
+  mesh.userData.peekSide = cover.peekSide;
+  mesh.userData.cameraShoulder = cover.cameraShoulder;
+  mesh.userData.coverScore = cover.coverScore;
+  mesh.userData.blocksLane = cover.blocksLane;
+  mesh.userData.recommended = cover.id === marker.recommendedCoverId;
+  mesh.userData.engaged = engaged;
+}
+
+function coverColor(cover) {
+  if (cover.status === "cleared") return 0x63735a;
+  if (cover.status === "engaged") return 0xf1c15b;
+  if (cover.status === "peeking") return 0xffd27a;
+  if (cover.blocksLane) return 0xc88a43;
+  return 0x8a6f4a;
+}
+
+function markerLaneColor(marker) {
+  if (marker.status === "defeated" || marker.lane?.status === "clear") return 0x63735a;
+  if (marker.lane?.status === "danger") return 0xf05a32;
+  if (marker.lane?.status === "warning") return 0xffb24d;
+  return 0x8d5a3a;
 }
 
 function markerMaterial(marker) {
@@ -1146,26 +1969,159 @@ function markerMaterial(marker) {
 }
 
 function markerColor(marker) {
-  if (marker.type === "extraction-site") return marker.status === "complete" ? 0x74d0c2 : 0xf2d27b;
+  if (marker.type === "extraction-site") {
+    if (marker.status === "complete") return 0x74d0c2;
+    if (marker.status === "lockdown") return 0xf05a32;
+    if (marker.status === "contested") return 0xff9a3c;
+    return 0xf2d27b;
+  }
   if (marker.type === "threat") return marker.status === "defeated" ? 0x63735a : marker.active ? 0xe36b38 : 0x8d5a3a;
   return marker.status === "depleted" ? 0x6d6043 : 0xf5c85a;
 }
 
 function markerEmissive(marker) {
-  if (marker.type === "extraction-site") return 0x3b2f05;
+  if (marker.type === "extraction-site") {
+    if (marker.status === "lockdown") return 0x451000;
+    if (marker.status === "contested") return 0x452000;
+    return 0x3b2f05;
+  }
   if (marker.type === "threat") return marker.active ? 0x3b0805 : 0x1c0e05;
   return 0x4f3300;
+}
+
+function mountPlayerActionSurfacePromptKit(scene) {
+  const group = new THREE.Group();
+  group.name = "goldrush.procGameplay.playerActionSurfacePrompt";
+  group.visible = false;
+  group.userData.visualContract = "goldrush-player-action-surface-visual-v1";
+  group.userData.domainPath = "n:render:micro-object-instancing";
+  group.userData.consumes = ["n:goldrush:player-action-surface"];
+
+  const materials = {
+    panel: new THREE.MeshBasicMaterial({ color: 0x141916, transparent: true, opacity: 0.72, depthWrite: false }),
+    action: new THREE.MeshBasicMaterial({ color: 0xf2bd45, transparent: true, opacity: 0.94, depthWrite: false }),
+    progress: new THREE.MeshBasicMaterial({ color: 0x74d0c2, transparent: true, opacity: 0.9, depthWrite: false }),
+    risk: new THREE.MeshBasicMaterial({ color: 0xe36b38, transparent: true, opacity: 0.0, depthWrite: false }),
+  };
+
+  const panel = new THREE.Mesh(createCuboidGeometry(0.9, 0.08, 0.08), materials.panel);
+  panel.name = "action-surface-panel";
+  const inputPip = new THREE.Mesh(createPrismGeometry(0.1, 0.055, 8), materials.action);
+  inputPip.name = "action-surface-input-pip";
+  inputPip.position.set(-0.42, 0.085, 0);
+  inputPip.rotation.x = Math.PI / 2;
+  const holdTrack = new THREE.Mesh(createCuboidGeometry(0.58, 0.025, 0.04), materials.panel.clone());
+  holdTrack.name = "action-surface-hold-track";
+  holdTrack.position.set(0.08, 0.09, 0);
+  holdTrack.material.opacity = 0.46;
+  const holdFill = new THREE.Mesh(createCuboidGeometry(0.58, 0.032, 0.046), materials.progress);
+  holdFill.name = "action-surface-hold-fill";
+  holdFill.position.set(0.08, 0.122, 0);
+  const targetNeedle = new THREE.Mesh(createCuboidGeometry(0.035, 0.32, 0.035), materials.action.clone());
+  targetNeedle.name = "action-surface-target-needle";
+  targetNeedle.position.set(0.46, 0.24, 0);
+  const riskPulse = new THREE.Mesh(createPrismGeometry(0.22, 0.035, 12), materials.risk);
+  riskPulse.name = "action-surface-risk-pulse";
+  riskPulse.rotation.x = Math.PI / 2;
+  riskPulse.position.set(0, 0.04, 0);
+  group.add(riskPulse, panel, inputPip, holdTrack, holdFill, targetNeedle);
+  scene.add(group);
+
+  let lastSnapshot = createPlayerActionSurfaceVisualSnapshot(null, group);
+
+  return {
+    update(state, elapsedSeconds = 0) {
+      const surface = state.playerActionSurface ?? null;
+      const action = surface?.primaryAction ?? null;
+      const localPlayer = state.localPlayer ?? {};
+      const playerPosition = localPlayer.position ?? { x: 0, z: 0 };
+      const groundY = terrainGroundHeight(localPlayer, playerPosition.x ?? 0, playerPosition.z ?? 0);
+      const yaw = localPlayer.look?.yaw ?? localPlayer.heading ?? 0;
+      const visible = Boolean(action?.action && action.action !== "prospect");
+      group.visible = visible;
+      group.position.set(playerPosition.x ?? 0, groundY + 2.05, playerPosition.z ?? 0);
+      group.rotation.y = yaw;
+      const color = playerActionColor(action?.action);
+      materials.action.color.set(color);
+      materials.progress.color.set(action?.hold?.active ? 0x74d0c2 : color);
+      const holdRatio = clamp01(action?.hold?.ratio ?? 0);
+      holdFill.visible = visible;
+      holdFill.scale.set(Math.max(0.05, holdRatio), 1, 1);
+      holdFill.position.x = -0.21 + holdRatio * 0.29;
+      inputPip.scale.setScalar(action?.inRange ? 1.12 : 0.82);
+      targetNeedle.visible = Boolean(action?.targetId);
+      targetNeedle.material.color.set(color);
+      targetNeedle.material.opacity = action?.inRange ? 0.9 : 0.34;
+      const risk = Number(surface?.risk?.pressure ?? 0) + Number(surface?.risk?.activeThreatCount ?? 0) * 0.22;
+      riskPulse.visible = risk > 0.05;
+      riskPulse.scale.setScalar(1 + Math.max(0, Math.sin(elapsedSeconds * 5.8)) * Math.min(0.45, risk));
+      riskPulse.material.opacity = riskPulse.visible ? Math.min(0.46, 0.12 + risk * 0.18) : 0;
+      panel.scale.x = action?.hold?.active ? 1.16 : 1;
+      panel.material.opacity = visible ? action?.inRange ? 0.78 : 0.54 : 0;
+      group.userData.action = action?.action ?? null;
+      group.userData.prompt = action?.prompt ?? null;
+      group.userData.input = action?.input ?? null;
+      group.userData.holdRatio = holdRatio;
+      group.userData.targetId = action?.targetId ?? null;
+      group.userData.riskPressure = surface?.risk?.pressure ?? 0;
+      lastSnapshot = createPlayerActionSurfaceVisualSnapshot(surface, group);
+    },
+    snapshot() {
+      return structuredClone(lastSnapshot);
+    },
+  };
+}
+
+function createPlayerActionSurfaceVisualSnapshot(surface, group) {
+  const primary = surface?.primaryAction ?? null;
+  return {
+    contract: "goldrush-player-action-surface-visual-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:goldrush:player-action-surface"],
+    visualRole: "diegetic-player-action-prompt",
+    visible: Boolean(group?.visible),
+    sourceContract: surface?.contract ?? null,
+    primaryAction: primary ? {
+      action: primary.action,
+      domainPath: primary.domainPath,
+      prompt: primary.prompt,
+      input: primary.input,
+      targetId: primary.targetId,
+      inRange: Boolean(primary.inRange),
+      holdRatio: roundVisualProgress(primary.hold?.ratio ?? 0),
+      nextAction: primary.nextAction,
+    } : null,
+    availableActionCount: surface?.availableActions?.length ?? 0,
+    risk: surface?.risk ? structuredClone(surface.risk) : null,
+  };
+}
+
+function playerActionColor(action) {
+  if (action === "cashout-gold") return 0x74d0c2;
+  if (action === "take-cover" || action === "hold-cover") return 0xe36b38;
+  if (action === "mine-gold") return 0xf2bd45;
+  if (action === "find-gold-before-cashout" || action === "route-to-cashout") return 0xd6b56b;
+  return 0xffffff;
 }
 
 function mountThirdPersonPlayerKit(scene, descriptor) {
   const group = new THREE.Group();
   group.name = descriptor.id;
   group.position.set(descriptor.anchor.x, descriptor.anchor.y, descriptor.anchor.z);
+  let lastCargoVisual = {
+    contract: "goldrush-cargo-visual-v1",
+    visible: false,
+    amount: 0,
+    nuggetCount: 0,
+    visibleNuggetCount: 0,
+    weightClass: "empty",
+  };
 
   const coat = new THREE.MeshStandardMaterial({ color: 0x263a36, roughness: 0.78, flatShading: true });
   const hat = new THREE.MeshStandardMaterial({ color: 0xb8873d, roughness: 0.82, flatShading: true });
   const bone = new THREE.MeshStandardMaterial({ color: 0xe1d0a8, emissive: 0x1f1606, roughness: 0.72, flatShading: true });
   const gear = new THREE.MeshStandardMaterial({ color: 0xd0a34a, emissive: 0x3d2900, roughness: 0.62, flatShading: true });
+  const carriedGold = new THREE.MeshStandardMaterial({ color: 0xf3c858, emissive: 0x9b6500, emissiveIntensity: 0.32, roughness: 0.52, metalness: 0.18, flatShading: true });
   const leather = new THREE.MeshStandardMaterial({ color: 0x4e342a, roughness: 0.82, flatShading: true });
   const darkLeather = new THREE.MeshStandardMaterial({ color: 0x2f211b, roughness: 0.86, flatShading: true });
 
@@ -1215,7 +2171,22 @@ function mountThirdPersonPlayerKit(scene, descriptor) {
 
   const pack = new THREE.Mesh(createGoldSatchelGeometry(), gear);
   pack.position.set(-0.34, 0.84, -0.16);
+  pack.name = "goldrush.player.prospectorSatchel";
   group.add(pack);
+
+  const cargoNuggets = new THREE.Group();
+  cargoNuggets.name = "goldrush.player.carriedGoldCargo";
+  cargoNuggets.userData.contract = "goldrush-cargo-visual-v1";
+  cargoNuggets.position.set(-0.38, 1.08, -0.2);
+  Array.from({ length: 6 }, (_, index) => {
+    const nugget = new THREE.Mesh(createCargoNuggetGeometry(index), carriedGold);
+    nugget.name = `goldrush.player.carriedGoldCargo.nugget.${index + 1}`;
+    nugget.position.set((index % 3 - 1) * 0.065, Math.floor(index / 3) * 0.06, (index % 2) * 0.045);
+    nugget.rotation.set(index * 0.27, index * 0.41, index * 0.19);
+    nugget.visible = false;
+    cargoNuggets.add(nugget);
+  });
+  group.add(cargoNuggets);
 
   const leftArm = new THREE.Mesh(createCuboidGeometry(0.07, 0.5, 0.07), bone);
   leftArm.position.set(-0.36, 0.83, 0.02);
@@ -1268,7 +2239,9 @@ function mountThirdPersonPlayerKit(scene, descriptor) {
         : (combat ? descriptor.anchor.z + 0.36 : descriptor.anchor.z + Math.cos(elapsedSeconds * 0.26) * 0.32);
       group.position.y = terrainGroundHeight(localPlayer, group.position.x, group.position.z)
         + descriptor.anchor.y;
-      torso.rotation.z = combat ? aimSway * 0.5 : 0;
+      const cargoVisual = resolvePlayerCargoVisual(state);
+      const carryLean = Number(cargoVisual.mobility?.postureLean ?? localPlayer?.movementModifiers?.postureLean ?? 0);
+      torso.rotation.z = combat ? aimSway * 0.5 + carryLean * 0.35 : carryLean;
       head.rotation.y = combat ? aimSway : Math.sin(elapsedSeconds * 0.8) * (isMoving ? 0.05 : 0.08);
       leftArm.rotation.x = combat ? -0.2 : stride;
       rightArm.rotation.x = combat ? -0.78 + aimSway : -stride;
@@ -1276,9 +2249,83 @@ function mountThirdPersonPlayerKit(scene, descriptor) {
       poseKneeLegRig(rightLegRig, { stride, combat, idlePhase: walkPhase + Math.PI });
       pick.rotation.x = combat ? -0.9 + aimSway : -0.25 - stride * 0.22;
       pick.rotation.z = combat ? -0.72 : -0.38;
-      pack.scale.setScalar(1 + Math.min(0.22, ((state.cargo?.["player-1"] ?? 0) / 250) * 0.22));
+      pack.scale.setScalar(cargoVisual.scale);
+      pack.rotation.z = -carryLean * 0.6;
+      pack.userData.cargoVisual = cargoVisual;
+      pack.userData.mobilityContract = cargoVisual.mobility?.contract ?? null;
+      lastCargoVisual = {
+        ...cargoVisual,
+        domainPath: cargoVisual.domainPath ?? "n:goldrush:gold-carrying",
+        renderRole: cargoVisual.renderRole ?? "carried-object",
+        postureLean: carryLean,
+        visibleNuggetCount: updateCargoVisualGroup(cargoNuggets, carriedGold, cargoVisual, elapsedSeconds),
+      };
+    },
+    snapshot() {
+      return {
+        id: descriptor.id,
+        visualContract: "goldrush-third-person-player-rig-v1",
+        cargoVisual: structuredClone(lastCargoVisual),
+      };
     },
   };
+}
+
+function resolvePlayerCargoVisual(state) {
+  const visual = state.extractionLoop?.player?.cargo?.visual;
+  const mobility = state.extractionLoop?.player?.cargo?.mobility ?? visual?.mobility ?? state.localPlayer?.movementModifiers?.cargo ?? null;
+  if (visual?.contract === "goldrush-cargo-visual-v1") {
+    return {
+      ...visual,
+      mobility,
+    };
+  }
+  const amount = Math.max(0, Number(state.cargo?.["player-1"] ?? 0));
+  const loadRatio = Math.min(1, amount / 120);
+  const fallbackMobility = mobility ?? {
+    domainPath: "n:goldrush:gold-carrying",
+    contract: "goldrush-cargo-mobility-v1",
+    amount,
+    loadRatio,
+    speedMultiplier: Number((1 - loadRatio * 0.28).toFixed(3)),
+    sprintMultiplier: Number((1 - loadRatio * 0.42).toFixed(3)),
+    postureLean: Number((loadRatio * 0.16).toFixed(3)),
+    weightClass: amount >= 90 ? "heavy" : amount >= 45 ? "loaded" : amount > 0 ? "light" : "empty",
+  };
+  return {
+    domainPath: "n:goldrush:gold-carrying",
+    contract: "goldrush-cargo-visual-v1",
+    visible: amount > 0,
+    amount,
+    loadRatio,
+    nuggetCount: amount > 0 ? Math.min(6, Math.ceil(amount / 18)) : 0,
+    scale: 1 + loadRatio * 0.34,
+    swayAmplitude: 0.015 + loadRatio * 0.055,
+    emissiveIntensity: 0.18 + loadRatio * 0.44,
+    weightClass: amount >= 90 ? "heavy" : amount >= 45 ? "loaded" : amount > 0 ? "light" : "empty",
+    mobility: fallbackMobility,
+  };
+}
+
+function updateCargoVisualGroup(group, material, cargoVisual, elapsedSeconds = 0) {
+  const visible = Boolean(cargoVisual.visible && cargoVisual.amount > 0);
+  let visibleNuggetCount = 0;
+  group.visible = visible;
+  group.userData.contract = cargoVisual.contract;
+  group.userData.amount = cargoVisual.amount;
+  group.userData.weightClass = cargoVisual.weightClass;
+  group.userData.nuggetCount = cargoVisual.nuggetCount;
+  group.position.y = 1.08 + Math.sin(elapsedSeconds * 3.2) * (cargoVisual.swayAmplitude ?? 0.02);
+  group.rotation.z = Math.sin(elapsedSeconds * 2.4) * (cargoVisual.swayAmplitude ?? 0.02) * 0.6;
+  group.scale.setScalar(cargoVisual.scale ?? 1);
+  material.emissiveIntensity = cargoVisual.emissiveIntensity ?? 0.3;
+  group.children.forEach((child, index) => {
+    child.visible = visible && index < (cargoVisual.nuggetCount ?? 0);
+    if (child.visible) visibleNuggetCount += 1;
+    child.rotation.y += visible ? 0.004 + index * 0.0008 : 0;
+  });
+  group.userData.visibleNuggetCount = visibleNuggetCount;
+  return visibleNuggetCount;
 }
 
 function createKneeLegRig({ side, x, bone, bootMaterial }) {
@@ -1326,6 +2373,14 @@ function poseKneeLegRig(rig, { stride = 0, combat = false, idlePhase = 0 } = {})
 
 function mountLightingCameraKit(scene, descriptor, root) {
   const camera = new THREE.PerspectiveCamera(descriptor.camera.exploration.fov, 1, 0.1, 260);
+  let lastSnapshot = {
+    mode: "unmounted",
+    position: { x: 0, y: 0, z: 0 },
+    lookAt: { x: 0, y: 0, z: 0 },
+    selectedPerspectiveId: null,
+    selectionKey: null,
+    motionAuthority: "unknown",
+  };
   const key = new THREE.DirectionalLight(descriptor.lightRig.key.color, descriptor.lightRig.key.intensity);
   key.position.fromArray(descriptor.lightRig.key.position);
   key.castShadow = true;
@@ -1347,6 +2402,7 @@ function mountLightingCameraKit(scene, descriptor, root) {
       const preset = state.cameraState?.threeDescriptor
         ?? (state.cameraMode === "combat" ? descriptor.camera.combat : descriptor.camera.exploration);
       camera.fov = preset.fov;
+      let lookAtTarget = null;
       if (state.localPlayer?.position) {
         const player = state.localPlayer.position;
         const playerY = terrainGroundHeight(state.localPlayer, player.x, player.z);
@@ -1367,15 +2423,50 @@ function mountLightingCameraKit(scene, descriptor, root) {
           Math.cos(heading) * 3.4
         );
         camera.position.copy(shoulderTarget).add(shoulderOffset);
-        camera.lookAt(shoulderTarget.add(lookAhead));
+        lookAtTarget = shoulderTarget.add(lookAhead);
+        camera.lookAt(lookAtTarget);
       } else {
         camera.position.fromArray(preset.position);
-        camera.lookAt(...preset.lookAt);
+        lookAtTarget = new THREE.Vector3(...preset.lookAt);
+        camera.lookAt(lookAtTarget);
       }
       const rect = root.getBoundingClientRect();
       camera.aspect = Math.max(320, rect.width) / Math.max(360, rect.height || window.innerHeight);
       camera.updateProjectionMatrix();
+      lastSnapshot = {
+        mode: state.cameraMode ?? state.cameraState?.mode ?? "unknown",
+        controllerContract: "goldrush-linear-camera-controller-v1",
+        controlPipeline: [
+          "transition-latched-camera-descriptor",
+          "local-player-mouse-look-yaw-pitch",
+          "over-shoulder-player-follow",
+          "single-three-camera-render",
+        ],
+        decoupledFrom: [
+          "object-protokit-generation",
+          "micro-object-interaction-markers",
+          "per-frame-camera-catalog-selection",
+        ],
+        fov: Number(camera.fov.toFixed(3)),
+        position: vectorSnapshot(camera.position),
+        lookAt: vectorSnapshot(lookAtTarget ?? new THREE.Vector3()),
+        selectedPerspectiveId: state.cameraState?.selectedPerspective?.id ?? null,
+        selectionKey: state.cameraState?.selectionKey ?? null,
+        motionAuthority: state.cameraState?.motionAuthority ?? "renderer-fallback",
+        playerPosition: state.localPlayer?.position ? vectorSnapshot(state.localPlayer.position) : null,
+      };
     },
+    snapshot() {
+      return structuredClone(lastSnapshot);
+    },
+  };
+}
+
+function vectorSnapshot(vector) {
+  return {
+    x: Number((vector.x ?? 0).toFixed(4)),
+    y: Number((vector.y ?? 0).toFixed(4)),
+    z: Number((vector.z ?? 0).toFixed(4)),
   };
 }
 
@@ -1957,6 +3048,80 @@ function createGoldSeamGeometry() {
   ]);
 }
 
+function createGoldNuggetClusterGeometry() {
+  const nuggets = [
+    createCrystalGeometry(0.14),
+    createCrystalGeometry(0.1),
+    createCrystalGeometry(0.085),
+  ];
+  nuggets[0].scale(1, 0.72, 0.88);
+  nuggets[1].scale(0.8, 0.58, 0.72);
+  nuggets[2].scale(0.7, 0.5, 0.66);
+  nuggets[0].translate(0, 0.06, 0);
+  nuggets[1].translate(0.13, 0.035, -0.055);
+  nuggets[2].translate(-0.12, 0.03, 0.07);
+  return mergeBufferGeometries(nuggets);
+}
+
+function createOreLodeChipGeometry() {
+  const base = createFacetedBoulderGeometry(0.16);
+  base.scale(1.15, 0.62, 0.82);
+  base.translate(0, 0.04, 0);
+  const face = createIndexedGeometry([
+    -0.14, 0.03, -0.035,
+    0.12, 0.055, -0.05,
+    0.09, 0.18, 0.02,
+    -0.12, 0.145, 0.035,
+  ], [0, 1, 2, 0, 2, 3]);
+  return mergeBufferGeometries([base, face]);
+}
+
+function createGoldSeamLodeGeometry() {
+  const seam = createGoldSeamGeometry();
+  const ridge = createIndexedGeometry([
+    -0.54, 0.02, -0.055,
+    -0.18, 0.105, -0.03,
+    0.22, 0.07, -0.025,
+    0.56, 0.13, 0.01,
+    0.48, 0.21, 0.075,
+    0.04, 0.17, 0.075,
+    -0.46, 0.2, 0.07,
+  ], [
+    0, 1, 6,
+    1, 5, 6,
+    1, 2, 5,
+    2, 3, 4,
+    2, 4, 5,
+  ]);
+  ridge.translate(0, 0.02, 0.035);
+  return mergeBufferGeometries([seam, ridge]);
+}
+
+function createTailingsFanGeometry() {
+  const fan = createIndexedGeometry([
+    -0.48, 0, -0.28,
+    -0.16, 0.035, -0.18,
+    0.24, 0.025, -0.24,
+    0.52, 0, -0.08,
+    0.42, 0.04, 0.24,
+    0.04, 0.075, 0.34,
+    -0.38, 0.035, 0.18,
+  ], [
+    0, 1, 6,
+    1, 5, 6,
+    1, 2, 5,
+    2, 4, 5,
+    2, 3, 4,
+  ]);
+  const scatterA = createOreLodeChipGeometry();
+  const scatterB = createFacetedBoulderGeometry(0.08);
+  scatterA.scale(0.55, 0.45, 0.55);
+  scatterB.scale(0.75, 0.35, 0.75);
+  scatterA.translate(-0.18, 0.08, 0.04);
+  scatterB.translate(0.22, 0.06, 0.12);
+  return mergeBufferGeometries([fan, scatterA, scatterB]);
+}
+
 function createMineFrameGeometry() {
   const group = new THREE.BufferGeometry();
   const left = createCuboidGeometry(0.1, 0.72, 0.12);
@@ -2031,8 +3196,8 @@ function createMicroKitGeometry(role) {
   if (role === "grass-blade") return createBladeGeometry(0.34);
   if (role === "scrub") return createScrubGeometry();
   if (role === "cactus-sprout") return createPrismGeometry(0.045, 0.42, 7);
-  if (role === "gold-fleck") return createCrystalGeometry(0.12);
-  if (role === "ore-chip") return createFacetedBoulderGeometry(0.12);
+  if (role === "gold-fleck") return createGoldNuggetClusterGeometry();
+  if (role === "ore-chip") return createOreLodeChipGeometry();
   if (role === "wood-splinter") return createCuboidGeometry(0.055, 0.035, 0.42);
   if (role === "canvas-scrap") return createCanvasScrapGeometry();
   if (role === "trail-marker") return createMarkerGeometry(0.085);
@@ -2045,8 +3210,8 @@ function createMicroKitGeometry(role) {
   if (role === "cover-rock") return createFacetedBoulderGeometry(0.32);
   if (role === "metal-sliver") return createCuboidGeometry(0.032, 0.025, 0.28);
   if (role === "dust-card-anchor") return createDustRidgeGeometry();
-  if (role === "gold-seam") return createGoldSeamGeometry();
-  if (role === "tailings-pile") return createFacetedBoulderGeometry(0.18);
+  if (role === "gold-seam") return createGoldSeamLodeGeometry();
+  if (role === "tailings-pile") return createTailingsFanGeometry();
   if (role === "mine-frame") return createMineFrameGeometry();
   if (role === "support-timber") return createCuboidGeometry(0.1, 0.08, 0.8);
   if (role === "ore-cart") return createTroughGeometry(0.5, 0.28, 0.34);
@@ -2068,7 +3233,10 @@ function createMicroKitMaterial(materialRole) {
     side: THREE.DoubleSide,
   };
   if (materialRole === "gold") {
-    return new THREE.MeshStandardMaterial({ ...base, emissive: 0x5a3a00, roughness: 0.45 });
+    return new THREE.MeshStandardMaterial({ ...base, emissive: 0x8a5a00, emissiveIntensity: 0.42, roughness: 0.34, metalness: 0.16 });
+  }
+  if (materialRole === "ore") {
+    return new THREE.MeshStandardMaterial({ ...base, emissive: 0x5c3216, emissiveIntensity: 0.24, roughness: 0.62, metalness: 0.08 });
   }
   if (materialRole === "dust") {
     return new THREE.MeshBasicMaterial({ color: baseColor, transparent: true, opacity: 0.26, side: THREE.DoubleSide });
@@ -2089,7 +3257,7 @@ function microKitMaterialColor(materialRole) {
     scrub: 0x6d7f47,
     cactus: 0x4d7f4b,
     gold: 0xf4be45,
-    ore: 0x51493d,
+    ore: 0x7d5a38,
     wood: 0x7b4d31,
     canvas: 0xd6bd92,
     metal: 0x8d8b83,
@@ -2109,8 +3277,10 @@ function scaleForMicroKit(kit) {
   if (kit.geometryRole === "strata-ribbon") return { x: kit.scale * 1.25, y: kit.scale * 0.12, z: kit.scale * 0.14 };
   if (kit.geometryRole === "shadow-pocket") return { x: kit.scale * 0.82, y: kit.scale * 0.52, z: kit.scale * 0.12 };
   if (kit.geometryRole === "cover-rock") return { x: kit.scale * 1.3, y: kit.scale * 0.95, z: kit.scale * 1.1 };
-  if (kit.geometryRole === "gold-seam") return { x: kit.scale * 1.8, y: kit.scale * 0.32, z: kit.scale * 0.28 };
-  if (kit.geometryRole === "tailings-pile") return { x: kit.scale * 1.45, y: kit.scale * 0.55, z: kit.scale * 1.1 };
+  if (kit.geometryRole === "gold-fleck") return { x: kit.scale * 0.95, y: kit.scale * 0.78, z: kit.scale * 0.95 };
+  if (kit.geometryRole === "ore-chip") return { x: kit.scale * 1.15, y: kit.scale * 0.65, z: kit.scale * 0.88 };
+  if (kit.geometryRole === "gold-seam") return { x: kit.scale * 1.95, y: kit.scale * 0.42, z: kit.scale * 0.36 };
+  if (kit.geometryRole === "tailings-pile") return { x: kit.scale * 1.62, y: kit.scale * 0.34, z: kit.scale * 1.28 };
   if (kit.geometryRole === "mine-frame") return { x: kit.scale * 1.7, y: kit.scale * 1.45, z: kit.scale * 1.15 };
   if (kit.geometryRole === "support-timber") return { x: kit.scale * 0.7, y: kit.scale * 0.8, z: kit.scale * 1.4 };
   if (kit.geometryRole === "ore-cart") return { x: kit.scale * 1.25, y: kit.scale * 1.0, z: kit.scale * 1.1 };
@@ -2583,6 +3753,14 @@ function createGoldSatchelGeometry() {
   return createIndexedGeometry(vertices, indices);
 }
 
+function createCargoNuggetGeometry(seed = 0) {
+  const radius = 0.045 + (seed % 3) * 0.008;
+  const height = 0.05 + (seed % 2) * 0.012;
+  const geometry = createPrismGeometry(radius, height, 7);
+  geometry.scale(1.25, 0.82 + (seed % 3) * 0.08, 0.92);
+  return geometry;
+}
+
 function createPickaxeGeometry() {
   const vertices = [
     -0.035, -0.52, 0,
@@ -2657,7 +3835,7 @@ function validateThirdPersonRigDescriptor(descriptor) {
     && descriptor.aimTarget?.z > descriptor.anchor.z
     && descriptor.locomotion?.strideAmplitude > 0
     && descriptor.dependencyStrategy?.futureAssetRuntime === "three-gltf-animation-mixer"
-    && ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptor.visualParts?.includes(part));
+    && ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "cargo-visual-anchor", "carried-gold", "pickaxe"].every((part) => descriptor.visualParts?.includes(part));
 }
 
 function validateSkyDescriptor(descriptor) {
@@ -2688,10 +3866,11 @@ function validateCanyonCompositionDescriptor(descriptor) {
     && descriptor.centralMountains.every((mountain) => (
       mountain.height >= 6
       && mountain.blockerRadius >= 6
-      && mountain.visualHeight <= 5.5
+      && mountain.visualHeight <= 4.8
       && mountain.visualHeight < mountain.height
       && mountain.composition === "midground-walkaround-terraced-shoulders"
       && mountain.skyClearance === true
+      && mountain.placement === "base-terrain-not-lifted-collider-summit"
       && ["walkaround", "split", "detour"].some((term) => mountain.routeRole?.includes(term))
     ))
     && descriptor.farRidge?.length >= 18

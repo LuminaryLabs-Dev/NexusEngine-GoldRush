@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/World/Buildings/House01.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/House01.prefab",
+  "sourceHash": "sha256:dcf12fe44dfd5797bfea96cd3f5e6ce6f55c212ad3764d630f64555d46804855",
+  "summary": {
+    "lineCount": 130,
+    "guidCount": 2,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "558a10379b25fdb4eb58a073571fd21d",
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

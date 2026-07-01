@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+  "sourceHash": "sha256:c3ff50e3133d989180b187748ffc67903f1fede099a5b85b4fcbd8cb6e8be958",
+  "summary": {
+    "lineCount": 7822,
+    "guidCount": 5,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 3,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "2e498d1c8094910479dc3e1b768306a4",
+      "71c1514a6bd24e1e882cebbe1904ce04",
+      "8f586378b4e144a9851e7b34d9b748ee",
+      "e3265ab4bf004d28a9537516768c1c75",
+      "fe393ace9b354375a9cb14cdbbc28be4"
+    ],
+    "textureRefs": [],
+    "names": [
+      "LiberationSans SDF Material",
+      "LiberationSans SDF",
+      "LiberationSans SDF Atlas"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _ColorMask: 15\n    - _FaceDilate: 0\n    - _GradientScale: 10\n    - _MaskSoftnessX: 0\n    - _MaskSoftnessY: 0\n    - _OutlineSoftness: 0\n    - _OutlineWidth: 0\n    - _PerspectiveFilter: 0.875\n    - _ScaleRatioA: 0.9\n    - _ScaleRatioB: 1\n    - _ScaleRatioC: 0.73125\n    - _ScaleX: 1\n    - _ScaleY: 1\n    - _ShaderFlags: 0\n    - _Sharpness: 0\n    - _Stencil: 0\n    - _StencilComp: 8\n    - _StencilOp: 0\n    - _StencilReadMask: 255\n    - _StencilWriteMask: 255\n    - _TextureHeight: 1024\n    - _TextureWidth: 1024\n    - _UnderlayDilate: 0\n    - _UnderlayOffsetX: 0\n    - _UnderlayOffsetY: 0\n    - _UnderlaySoftness: 0\n    - _VertexOffsetX: 0\n    - _VertexOffsetY: 0\n    - _WeightBold: 0.75\n    - _WeightNormal: 0"
+    ]
+  }
+}

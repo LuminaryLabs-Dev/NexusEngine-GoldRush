@@ -242,7 +242,7 @@ export function createExtractionReceiptKit() {
       const rejectedReceiptIds = new Set();
 
       return {
-        recordExtraction({ receiptId, playerId, teamId = "team-01", goldAmount = 0, cargoValue = 0, cashoutId = "cashout.central-yard", goldZoneId = null, roomWindowId = null, tick = engine.clock?.frame ?? 0 } = {}) {
+        recordExtraction({ receiptId, playerId, teamId = "team-01", goldAmount = 0, cargoValue = 0, cashoutId = "cashout.central-yard", goldZoneId = null, roomWindowId = null, tick = engine.clock?.frame ?? 0, frontierCondition = null, extractionSiteContest = null } = {}) {
           if (appliedReceiptIds.has(receiptId) || rejectedReceiptIds.has(receiptId)) {
             const duplicate = { receiptId, status: "duplicate", playerId, teamId, tick, rejectionReason: "duplicate-receipt" };
             receipts.push(duplicate);
@@ -267,6 +267,8 @@ export function createExtractionReceiptKit() {
             tick,
             pressureScalar: pressure.pressure ?? 0,
             multiplier,
+            frontierCondition: frontierCondition ? structuredClone(frontierCondition) : null,
+            extractionSiteContest: extractionSiteContest ? structuredClone(extractionSiteContest) : null,
             rejectionReason: null,
           };
           appliedReceiptIds.add(receiptId);
@@ -547,7 +549,7 @@ export function createMatchResultsKit() {
     apiName: "goldrushResults",
     stability,
     version,
-    requires: ["n:goldrush-match-lifecycle", "n:goldrush-scoring", "n:goldrush-extraction-receipts"],
+    requires: ["n:goldrush-match-lifecycle", "n:goldrush-scoring", "n:goldrush-extraction-receipts", "n:goldrush-frontier-conditions"],
     services: ["compute", "finalize", "result", "snapshot", "validate"],
     metadata: {
       purpose: "Own end-of-match winner, placements, awards, reason, and final result state.",
@@ -560,6 +562,14 @@ export function createMatchResultsKit() {
         const match = engine.n.goldrushMatch.snapshot();
         const scoring = engine.n.goldrushScoring.snapshot();
         const extractions = engine.n.goldrushExtractionReceipts.snapshot();
+        const frontierConditionSummary = createResultFrontierConditionSummary({
+          frontierConditions: engine.n.goldrushFrontierConditions.snapshot(),
+          frontierConditionEffects: engine.n.goldrushFrontierConditions.effects(),
+          extractions,
+        });
+        const extractionContestSummary = createExtractionContestSummary(extractions);
+        const finalRushPressureSummary = createFinalRushPressureSummary(extractions);
+        const combatOutcomeSummary = createCombatOutcomeSummary(engine.n.goldrushExtractionLoop?.getState?.());
         const teamPlacements = Object.values(scoring.teams).sort((a, b) => a.placement - b.placement);
         const winner = teamPlacements[0]
           ? { kind: "team", id: teamPlacements[0].teamId, score: teamPlacements[0].totalScore }
@@ -569,6 +579,10 @@ export function createMatchResultsKit() {
           resultId: `result.${match.matchId}`,
           status: "pending",
           reason,
+          frontierConditionSummary,
+          extractionContestSummary,
+          finalRushPressureSummary,
+          combatOutcomeSummary,
           matchId: match.matchId,
           completedTick: match.tick,
           winner,
@@ -585,6 +599,39 @@ export function createMatchResultsKit() {
               targetId: winner.id,
               value: extractions.totals.extractedGold,
             },
+            {
+              id: "award.frontier-condition-mastered",
+              targetId: winner.id,
+              value: frontierConditionSummary.conditionId,
+            },
+            ...(extractionContestSummary.lockdownCount > 0
+              ? [{
+                id: "award.lockdown-extractor",
+                targetId: winner.id,
+                value: extractionContestSummary.lockdownCount,
+              }]
+              : []),
+            ...(finalRushPressureSummary.pressureLinkedReceiptCount > 0
+              ? [{
+                id: "award.collapse-cashout",
+                targetId: winner.id,
+                value: finalRushPressureSummary.maxMultiplier,
+              }]
+              : []),
+            ...(combatOutcomeSummary.damageReceiptCount > 0
+              ? [{
+                id: "award.under-fire-extractor",
+                targetId: winner.id,
+                value: combatOutcomeSummary.damageTaken,
+              }]
+              : []),
+            ...(combatOutcomeSummary.threatsDefeated > 0
+              ? [{
+                id: "award.claim-jumper-cleared",
+                targetId: winner.id,
+                value: combatOutcomeSummary.threatsDefeated,
+              }]
+              : []),
           ],
           finalAudioCueId: "goldrush.audio.sfx.cashout",
           finalAnimationCueId: "goldrush.anim.player.idle",
@@ -618,6 +665,10 @@ export function createMatchResultsKit() {
           if (current.status === "final" && !current.resultId) failures.push("missing-result-id");
           if (current.status === "final" && !Object.hasOwn(current.winner, "score")) failures.push("missing-winner-score");
           if (current.status === "final" && !Number.isFinite(current.completedTick)) failures.push("invalid-completed-tick");
+          if (current.status === "final" && !current.frontierConditionSummary?.conditionId) failures.push("missing-frontier-condition-summary");
+          if (current.status === "final" && !current.extractionContestSummary) failures.push("missing-extraction-contest-summary");
+          if (current.status === "final" && !current.finalRushPressureSummary) failures.push("missing-final-rush-pressure-summary");
+          if (current.status === "final" && !current.combatOutcomeSummary) failures.push("missing-combat-outcome-summary");
           return { passed: failures.length === 0, failures };
         },
       };
@@ -632,7 +683,7 @@ export function createReplaySummaryKit() {
     apiName: "goldrushReplaySummary",
     stability,
     version,
-    requires: ["n:goldrush-match-lifecycle", "n:goldrush-extraction-receipts", "n:goldrush-room-handoff-receipts", "n:goldrush-scoring", "n:goldrush-match-results"],
+    requires: ["n:goldrush-match-lifecycle", "n:goldrush-extraction-receipts", "n:goldrush-room-handoff-receipts", "n:goldrush-scoring", "n:goldrush-match-results", "n:goldrush-frontier-conditions"],
     services: ["capture", "append-event", "snapshot", "export-summary", "validate"],
     metadata: {
       purpose: "Own deterministic compact replay summaries from match, receipt, scoring, and result ledgers.",
@@ -647,6 +698,15 @@ export function createReplaySummaryKit() {
         const handoffReceipts = engine.n.goldrushRoomHandoffReceipts.snapshot();
         const scoring = engine.n.goldrushScoring.snapshot();
         const results = engine.n.goldrushResults.snapshot();
+        const frontierConditionSummary = createResultFrontierConditionSummary({
+          frontierConditions: engine.n.goldrushFrontierConditions.snapshot(),
+          frontierConditionEffects: engine.n.goldrushFrontierConditions.effects(),
+          extractions: extractionReceipts,
+        });
+        const extractionLoop = engine.n.goldrushExtractionLoop?.getState?.();
+        const extractionContestSummary = createExtractionContestSummary(extractionReceipts);
+        const finalRushPressureSummary = createFinalRushPressureSummary(extractionReceipts);
+        const combatOutcomeSummary = createCombatOutcomeSummary(extractionLoop);
         const topPlayers = Object.values(scoring.players).sort((a, b) => a.placement - b.placement).slice(0, 5);
         const topTeams = Object.values(scoring.teams).sort((a, b) => a.placement - b.placement).slice(0, 5);
         const keyMoments = [
@@ -655,12 +715,18 @@ export function createReplaySummaryKit() {
             tick: receipt.tick,
             type: receipt.status === "accepted" ? "extractionAccepted" : "extractionRejected",
             receiptId: receipt.receiptId,
+            contestStatus: receipt.extractionSiteContest?.status ?? null,
+            calledThreatIds: receipt.extractionSiteContest?.calledThreatIds ?? [],
+            finalRushPressure: receipt.pressureScalar ?? 0,
+            extractionMultiplier: receipt.multiplier ?? 1,
+            goldZoneId: receipt.goldZoneId ?? null,
           })),
           ...handoffReceipts.receipts.filter((receipt) => receipt.status !== "duplicate").map((receipt) => ({
             tick: receipt.tick,
             type: receipt.status === "accepted" ? "handoffAccepted" : "handoffRejected",
             receiptId: receipt.handoffId,
           })),
+          ...createCombatReplayMoments(extractionLoop),
         ].sort((a, b) => a.tick - b.tick || a.type.localeCompare(b.type));
         const summary = {
           version,
@@ -676,9 +742,13 @@ export function createReplaySummaryKit() {
           receiptCounts: {
             extractions: extractionReceipts.totals.acceptedCount,
             handoffs: handoffReceipts.appliedHandoffIds.length,
-            combat: engine.n.goldrushCombat.snapshot().receipts.length,
+            combat: engine.n.goldrushCombat.snapshot().receipts.length + combatOutcomeSummary.receiptCount,
             scoring: scoring.appliedReceiptIds.length,
           },
+          frontierConditionSummary,
+          extractionContestSummary,
+          finalRushPressureSummary,
+          combatOutcomeSummary,
           topPlayers: topPlayers.map((player) => ({ playerId: player.playerId, totalScore: player.totalScore })),
           topTeams: topTeams.map((team) => ({ teamId: team.teamId, totalScore: team.totalScore })),
           resultStatus: results.status,
@@ -712,6 +782,10 @@ export function createReplaySummaryKit() {
           const failures = [];
           if (first.deterministicHash !== second.deterministicHash) failures.push("summary-not-deterministic");
           if (!first.matchId) failures.push("missing-match-id");
+          if (!first.frontierConditionSummary?.conditionId) failures.push("missing-replay-frontier-condition-summary");
+          if (!first.extractionContestSummary) failures.push("missing-replay-extraction-contest-summary");
+          if (!first.finalRushPressureSummary) failures.push("missing-replay-final-rush-pressure-summary");
+          if (!first.combatOutcomeSummary) failures.push("missing-replay-combat-outcome-summary");
           return { passed: failures.length === 0, failures };
         },
       };
@@ -773,6 +847,9 @@ function createPendingResult() {
     resultId: null,
     status: "pending",
     reason: null,
+    frontierConditionSummary: null,
+    extractionContestSummary: null,
+    combatOutcomeSummary: null,
     matchId: null,
     completedTick: null,
     winner: { kind: "none", id: null, score: 0 },
@@ -780,5 +857,154 @@ function createPendingResult() {
     awards: [],
     finalAudioCueId: null,
     finalAnimationCueId: null,
+  };
+}
+
+function createCombatOutcomeSummary(extractionLoop) {
+  const receipts = extractionLoop?.combat?.readability?.receipts ?? extractionLoop?.combat?.receipts ?? [];
+  const shotReceipts = receipts.filter((receipt) => receipt.type === "player-shot");
+  const hitReceipts = shotReceipts.filter((receipt) => receipt.result === "hit" || receipt.result === "threat-defeated");
+  const damageReceipts = receipts.filter((receipt) => receipt.type === "player-damaged");
+  const defeatedThreatIds = Array.from(new Set(shotReceipts
+    .filter((receipt) => receipt.result === "threat-defeated")
+    .map((receipt) => receipt.targetThreatId)
+    .filter(Boolean))).sort();
+  const laneIds = Array.from(new Set(receipts.map((receipt) => receipt.laneId).filter(Boolean))).sort();
+  const telegraphIds = Array.from(new Set(receipts.map((receipt) => receipt.telegraphId).filter(Boolean))).sort();
+  const damageTaken = damageReceipts.reduce((sum, receipt) => sum + Math.max(0, receipt.damageApplied ?? 0), 0);
+  const baseDamageTaken = damageReceipts.reduce((sum, receipt) => sum + Math.max(0, receipt.baseDamage ?? receipt.damageApplied ?? 0), 0);
+  const damageMitigated = damageReceipts.reduce((sum, receipt) => sum + Math.max(0, receipt.damageMitigated ?? 0), 0);
+  const coverReceiptCount = receipts.filter((receipt) => receipt.coverId).length;
+  const coverIds = Array.from(new Set(receipts.map((receipt) => receipt.coverId).filter(Boolean))).sort();
+  const damageDealt = hitReceipts.reduce((sum, receipt) => sum + Math.max(0, receipt.damageApplied ?? 0), 0);
+  const latestReceipt = receipts.at(-1) ?? null;
+  return {
+    contract: "goldrush-combat-outcome-summary-v1",
+    receiptCount: receipts.length,
+    shotCount: shotReceipts.length,
+    hitCount: hitReceipts.length,
+    damageReceiptCount: damageReceipts.length,
+    damageDealt,
+    damageTaken,
+    baseDamageTaken,
+    damageMitigated,
+    coverReceiptCount,
+    coverIds,
+    threatsDefeated: Number(extractionLoop?.combat?.threatsDefeated ?? defeatedThreatIds.length),
+    defeatedThreatIds,
+    laneIds,
+    telegraphIds,
+    lastCombatReceiptId: latestReceipt?.receiptId ?? null,
+    lastCombatType: latestReceipt?.type ?? null,
+    readableCombat: Boolean(extractionLoop?.combat?.readability?.contract === "readable-threat-lanes-v1"),
+  };
+}
+
+function createCombatReplayMoments(extractionLoop) {
+  const receipts = extractionLoop?.combat?.readability?.receipts ?? extractionLoop?.combat?.receipts ?? [];
+  return receipts.map((receipt) => ({
+    tick: receipt.tick,
+    type: receipt.type === "player-damaged" ? "combatDamageTaken" : "combatPressureResolved",
+    receiptId: receipt.receiptId,
+    threatId: receipt.targetThreatId ?? receipt.sourceThreatId ?? null,
+    result: receipt.result ?? null,
+    damageApplied: receipt.damageApplied ?? 0,
+    baseDamage: receipt.baseDamage ?? receipt.damageApplied ?? 0,
+    damageMitigated: receipt.damageMitigated ?? 0,
+    coverId: receipt.coverId ?? null,
+    telegraphId: receipt.telegraphId ?? null,
+    laneId: receipt.laneId ?? null,
+    counterplay: receipt.counterplay ?? null,
+  }));
+}
+
+function createExtractionContestSummary(extractions) {
+  const accepted = (extractions?.receipts ?? []).filter((receipt) => receipt.status === "accepted");
+  const contestReceipts = accepted.filter((receipt) => receipt.extractionSiteContest?.status);
+  const statuses = contestReceipts.map((receipt) => receipt.extractionSiteContest.status);
+  const calledThreatIds = Array.from(new Set(contestReceipts.flatMap((receipt) => receipt.extractionSiteContest.calledThreatIds ?? []))).sort();
+  const highestPressure = contestReceipts.reduce((max, receipt) => Math.max(max, receipt.extractionSiteContest.pressure ?? 0), 0);
+  const lockdownReceipt = contestReceipts.find((receipt) => receipt.extractionSiteContest.status === "lockdown");
+  const firstContest = contestReceipts[0]?.extractionSiteContest ?? null;
+  return {
+    contestedCount: statuses.filter((status) => status === "contested" || status === "lockdown").length,
+    lockdownCount: statuses.filter((status) => status === "lockdown").length,
+    watchedCount: statuses.filter((status) => status === "watched").length,
+    calledThreatIds,
+    highestPressure: Number(highestPressure.toFixed(3)),
+    mostSevereStatus: lockdownReceipt ? "lockdown" : statuses.includes("contested") ? "contested" : statuses.includes("watched") ? "watched" : null,
+    primarySiteId: lockdownReceipt?.extractionSiteContest?.siteId ?? firstContest?.siteId ?? null,
+    primaryCue: lockdownReceipt?.extractionSiteContest?.cue ?? firstContest?.cue ?? null,
+    contestReceiptIds: contestReceipts.map((receipt) => receipt.receiptId),
+  };
+}
+
+function createFinalRushPressureSummary(extractions) {
+  const accepted = (extractions?.receipts ?? []).filter((receipt) => receipt.status === "accepted");
+  const pressureReceipts = accepted.filter((receipt) => {
+    return Number(receipt.pressureScalar ?? 0) > 0
+      || Number(receipt.multiplier ?? 1) > 1
+      || receipt.extractionSiteContest?.finalRushPressure?.active === true;
+  });
+  const pressureValues = pressureReceipts.map((receipt) => Number(receipt.pressureScalar ?? 0));
+  const highestPressureReceipt = pressureReceipts
+    .slice()
+    .sort((a, b) => Number(b.pressureScalar ?? 0) - Number(a.pressureScalar ?? 0))[0] ?? null;
+  const averagePressure = pressureValues.length
+    ? pressureValues.reduce((sum, value) => sum + value, 0) / pressureValues.length
+    : 0;
+  const maxMultiplier = pressureReceipts.reduce((max, receipt) => Math.max(max, Number(receipt.multiplier ?? 1)), 1);
+  const pressuredGoldZoneIds = Array.from(new Set(pressureReceipts.map((receipt) => receipt.goldZoneId).filter(Boolean))).sort();
+  const zoneStatuses = Array.from(new Set(pressureReceipts.map((receipt) => {
+    return receipt.extractionSiteContest?.finalRushPressure?.zoneStatus ?? null;
+  }).filter(Boolean))).sort();
+  return {
+    contract: "goldrush-final-rush-result-summary-v1",
+    pressureLinkedReceiptCount: pressureReceipts.length,
+    acceptedExtractionCount: accepted.length,
+    highestPressure: Number(Math.max(0, ...pressureValues).toFixed(3)),
+    averagePressure: Number(averagePressure.toFixed(3)),
+    maxMultiplier: Number(maxMultiplier.toFixed(3)),
+    pressuredGoldZoneIds,
+    primaryGoldZoneId: highestPressureReceipt?.goldZoneId ?? pressuredGoldZoneIds[0] ?? null,
+    primaryRoomWindowId: highestPressureReceipt?.roomWindowId ?? null,
+    zoneStatuses,
+    readout: pressureReceipts.length
+      ? `${formatResultEntityLabel(pressuredGoldZoneIds[0] ?? "gold zone")} paid ${Number(maxMultiplier.toFixed(2))}x under collapse pressure`
+      : "No collapse pressure affected extraction score",
+  };
+}
+
+function formatResultEntityLabel(value = "") {
+  return String(value ?? "")
+    .replace(/^gold\.zone\./, "")
+    .replace(/^room-window-/, "")
+    .split(/[-_.]/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ") || "Gold Zone";
+}
+
+function createResultFrontierConditionSummary({ frontierConditions, frontierConditionEffects, extractions }) {
+  const accepted = (extractions?.receipts ?? []).filter((receipt) => receipt.status === "accepted");
+  const conditionLinkedReceipts = accepted.filter((receipt) => receipt.frontierCondition?.conditionId);
+  const receiptConditionIds = Array.from(new Set(conditionLinkedReceipts.map((receipt) => receipt.frontierCondition.conditionId)));
+  const active = frontierConditions?.active ?? null;
+  const effects = frontierConditionEffects ?? null;
+
+  return {
+    conditionId: active?.id ?? effects?.conditionId ?? receiptConditionIds[0] ?? null,
+    label: active?.label ?? effects?.label ?? conditionLinkedReceipts[0]?.frontierCondition?.label ?? null,
+    family: active?.family ?? effects?.family ?? null,
+    playerRead: active?.playerRead ?? effects?.playerRead ?? null,
+    extractionRisk: effects?.extraction?.riskScalar ?? conditionLinkedReceipts[0]?.frontierCondition?.extractionRisk ?? null,
+    cashoutValueScalar: effects?.extraction?.cashoutValueScalar ?? conditionLinkedReceipts[0]?.frontierCondition?.cashoutValueScalar ?? null,
+    miningPayoutScalar: effects?.mining?.payoutScalar ?? conditionLinkedReceipts[0]?.frontierCondition?.miningPayoutScalar ?? null,
+    combatPressureScalar: effects?.combat?.pressureScalar ?? conditionLinkedReceipts[0]?.frontierCondition?.combatPressureScalar ?? null,
+    audioAmbience: effects?.audio?.ambience ?? null,
+    renderLighting: effects?.render?.lightingKey ?? null,
+    receiptConditionIds,
+    conditionLinkedReceiptCount: conditionLinkedReceipts.length,
+    acceptedExtractionCount: accepted.length,
   };
 }

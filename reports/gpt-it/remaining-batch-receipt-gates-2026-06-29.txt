@@ -1,0 +1,126 @@
+Recommendation: add batch-scoped receipt gates first
+
+Do not copy the 15 audio raw files yet. The next local implementation should first add batch-scoped receipt validation and use goldrush-dual-source-001.next.001.audio-music-and-sfx as the first remaining-batch fixture.
+
+Reason: the current validator is explicitly locked to the first 31-file raw-copy plan. Copying more raw files before the validator understands independently scoped batches would create an untrusted second import path: either the new files are ignored by the gate, or the first-31 gate gets mutated to mean two different things.
+
+The correct next PR is therefore:
+
+validator/schema only
+no raw asset writes
+no runtime/public promotion
+audio batch receipt fixture only
+
+Then a later PR can copy the 15 raw audio files once the batch gate proves them.
+
+1. Copy now or add gates first?
+
+Add batch-scoped receipt gates first.
+
+The worker has proved the next batch operationally:
+
+batch: goldrush-dual-source-001.next.001.audio-music-and-sfx
+files: 15
+bytes: 90,145,108
+source method: GitHub blob fetch by SHA
+secret findings: 0
+raw writes: 0
+
+But that proof is not yet a merge gate because the cloud validator still only understands the first 31-file plan. Treat the worker result as evidence for a new batch receipt, not as permission to write raw files.
+
+2. Receipt files and fields a remaining-batch write should produce
+
+Do not append the 15-file batch into the first 31-file receipt set. Write a separate immutable namespace, for example:
+
+receipts/raw-copy/first-31/...
+receipts/raw-copy/remaining-batches/
+  goldrush-dual-source-001.next.001.audio-music-and-sfx/
+    batch.receipt.json
+    source-blobs.receipt.json
+    copy-plan.receipt.json
+    content-hashes.receipt.json
+    secret-scan.receipt.json
+    collision-and-overlap.receipt.json
+    validator.receipt.json
+
+Minimum fields:
+
+Receipt	Required fields
+batch.receipt.json	schemaVersion, batchId, domain, status, mode, fileCount, totalBytes, createdAt, toolName, toolVersion, baseCommit, targetRepo, targetBranches, rawWrites
+source-blobs.receipt.json	per file: sourceRepo, sourcePath, sourceBlobSha, sourceBlobUrl, sourceSizeBytes, fetchMethod: github_blob_by_sha, fetchedBytes, fetchVerified
+copy-plan.receipt.json	per file: sourcePath, targetRawPath, assetDomain, assetClass, intendedState: raw_quarantine, runtimeEligible: false, publicEligible: false
+content-hashes.receipt.json	per file: targetRawPath, sizeBytes, sha256, gitBlobSha, optional mimeGuess, extension, hashAlgorithm
+secret-scan.receipt.json	scanner, scannerVersion, filesScanned, bytesScanned, findingCount, findings, allowlistId, result: pass/fail
+collision-and-overlap.receipt.json	overlapsFirst31, overlapsPriorBatches, targetPathCollisions, caseFoldCollisions, duplicateContent, duplicateSourceBlob, result
+validator.receipt.json	validatorVersion, validatedBatchId, validatedAgainstFirst31ReceiptSet, validatedAgainstBatchIndex, result, errors, warnings
+
+The key field is scope. Every receipt must identify:
+
+receiptKind: remaining-batch
+batchId: goldrush-dual-source-001.next.001.audio-music-and-sfx
+doesNotModifyFirst31Gate: true
+
+A small global index is acceptable only if it is append-only:
+
+receipts/raw-copy/batch-index.json
+
+That index should list batch IDs and receipt digests. It must not rewrite the semantics of the first 31-file receipt plan.
+
+3. What the validator must prove before merge to development / Build
+
+Before any remaining batch can merge, the validator should prove all of this:
+
+First-31 gate still passes unchanged.
+The new batch has its own schema-valid receipt set.
+The batch ID is unique and stable.
+The batch does not mutate first-31 receipt files.
+The batch count is exactly 15.
+The batch byte total is exactly 90,145,108.
+Every source file was fetched by immutable GitHub blob SHA.
+Every fetched blob matches the declared source blob SHA.
+Every planned target raw path is normalized and inside the approved raw quarantine root.
+No target path overlaps the first 31 files.
+No target path overlaps any prior remaining batch.
+No case-insensitive path collisions exist.
+No path traversal, symlink, executable, script, HTML, or active-content payload is accepted.
+Every file has a declared content hash and byte size.
+The secret scan covers all 15 files and reports zero findings.
+The batch is marked raw/quarantined, not reviewed, not public, not runtime.
+The validator can reconstruct the full import ledger as:
+  first-31 locked receipts + remaining batch receipts.
+
+For an actual copy PR, add:
+
+Every raw file exists at the planned target path.
+Every raw file byte-for-byte matches its receipt.
+No extra raw files were written.
+No generated runtime assets were written.
+No public asset manifest was changed.
+
+For branch discipline:
+
+development and Build should receive the same validated commit content, not two manually different copies.
+4. No-go conditions for public/runtime promotion
+
+Raw copy success is not promotion approval. Public/runtime promotion should be blocked by any of these:
+
+Missing or mutable source provenance.
+Any source fetched by branch/path only instead of immutable blob SHA.
+Any hash, byte count, or file count mismatch.
+Any secret finding.
+Any malware, active content, executable payload, HTML/script/polyglot, path traversal, symlink, or unsafe archive behavior.
+Any unclear license, ownership, attribution, or third-party provenance.
+Any file that remains unsanitized.
+Any file that lacks human review approval.
+Any file that lacks an explicit runtime asset classification.
+Any collision with an existing approved runtime asset ID or public path.
+Any asset promoted directly from raw quarantine into runtime/public paths.
+Any audio file that is corrupt, unreadable, unexpectedly encoded, or fails the chosen runtime audio constraints.
+Any missing sanitizer receipt, review receipt, promotion receipt, or rollback path.
+Any validator that cannot prove first-31 receipts plus batch receipts together.
+
+The next safe move is therefore:
+
+PR 1: batch-scoped validator + receipt schema + audio batch proof fixture, no raw writes.
+PR 2: copy the 15 raw audio files only after PR 1 proves the gate.
+PR 3+: sanitize/review/promote approved runtime assets one promotion batch at a time.

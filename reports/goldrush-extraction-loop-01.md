@@ -7,6 +7,6 @@
 - Loop phase: extracted
 - Extracted: true
 - Cargo value: 840
-- Screenshot: /Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/goldrush-extraction-loop-01.png
+- Screenshot: screenshots/goldrush-extraction-loop-01.png
 
 Legacy assets and audio remain blocked; this proof uses procedural/local placeholders only.

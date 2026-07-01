@@ -49,7 +49,7 @@
     "lowerSkyBlueRatio": 0,
     "lowerVeryBlueRatio": 0
   },
-  "screenshot": "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/terrain-gap-seal-01.png",
+  "screenshot": "screenshots/terrain-gap-seal-01.png",
   "acceptance": {
     "lowerHalfSkyBlueRatioMax": 0.08,
     "lowerHalfVeryBlueRatioMax": 0.025,

@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/Graphics/HDRP_Assets/HDRP High Fidelity.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRP High Fidelity.asset",
+  "sourceHash": "sha256:9f451877ba4b57f1c173388e5b4f3fa7477dad9bc7d885b5ed708e1131352030",
+  "summary": {
+    "lineCount": 549,
+    "guidCount": 2,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 1,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "0cf1dab834d4ec34195b920ea7bbf9ec",
+      "254c4fe87beb7be4fa72e1681edbed02"
+    ],
+    "textureRefs": [],
+    "names": [
+      "HDRP High Fidelity"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

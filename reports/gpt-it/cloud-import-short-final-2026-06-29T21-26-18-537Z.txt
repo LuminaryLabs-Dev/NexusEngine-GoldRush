@@ -1,0 +1,91 @@
+Skip to content
+Chat history
+ChatGPT Pro
+New chat
+Search chats
+Library
+Scheduled
+Apps
+More
+Pinned
+Nexus Realtime
+Gold Rush Cloud Import
+GoldRush Asset Integration
+NexusEngine GoldRush Scope
+NexusEngine-GoldRush Alignment
+Cloud Asset Integration Planning
+Show more
+Museum Multiverse
+Reboot Outreach
+Nexus Game Kit
+Nexus Agent
+Lightspeed
+Luminary Labs
+Nexus GitHub Manager
+Soft Strange Studio
+Projects
+SIGGRAPH Participants
+Charlies World
+Kickback
+Super Automation
+VendingBackpack
+Show more
+Chats
+Lane 04 update and repo sync completed
+Lane 03 update complete with Dev ledger refresh
+Lane 02 owner-map update complete
+Lane 01 registry intake refresh completed
+Lane 15 integration update blocked due to safety checks
+Lane 14 map update completed successfully
+Lane 13 triage update completed
+Lane 12 docs health and archive review updated
+Lane 11 workflow health update complete
+Lane 10 Rust XR mobile build state refreshed
+Lane 09 state updated with latest follow-up
+Lane 08 update pushed to main
+Lane 06 core state update completed
+Lane 07 state update complete
+Lane 05 updated with followup 17
+The Open Above Game
+Fixing experiments step-by-step
+Mystical Forest Dragon Emblem
+CPD Playwright Mixamo Download
+Open-Source Terrain Repos
+Compare Names App Script
+NexusRealtime AI Perception
+NexusEngine Editor Overview
+Updated Automations and Rule
+Starting Workflow Strategy
+Free App Access
+Lane 15 cycle summary and updates
+Lane 14 updated with product and dependency map
+Luminary Labs
+Personal account
+Nexus Realtime
+Share
+Use High thinking, but answer in the exact receipt format below.
+
+We are in LuminaryLabs-Dev/NexusEngine-GoldRush. The repo now contains docs/cloud-asset-receipts.md and tools/validation/validate-cloud-asset-receipts.mjs.
+
+Task: Try to perform the cloud-side old Gold Rush raw asset/audio import for importJobId goldrush-dual-source-001. Do not clone old repos locally. Do not write anywhere except LuminaryLabs-Dev/NexusEngine-GoldRush. Expected source is thecrimsondeveloper/Gold_Rush with roots GoldRush/ and GoldRush_Old/.
+
+If you have GitHub/cloud write tools, create branch import/goldrush-dual-source-001-cloud-pass from development and add the six required receipt files from docs/cloud-asset-receipts.md. If safe scanned candidates can be copied, copy them under raw/imported/goldrush-dual-source-001/. Do not promote to public/assets.
+
+If you cannot write files or cannot inspect the private source repo, say so immediately. Do not keep thinking.
+
+Return exactly:
+status: wrote-pr | wrote-branch | no-write-access | no-source-access | blocked
+branch:
+pr:
+source_repo_seen: yes/no
+source_commit:
+receipts_written: list
+raw_files_copied_count:
+blocked_reason:
+next_command_for_codex:
+
+Show more
+Thinking failed
+
+Pro Extended
+ChatGPT can make mistakes. Check important info.

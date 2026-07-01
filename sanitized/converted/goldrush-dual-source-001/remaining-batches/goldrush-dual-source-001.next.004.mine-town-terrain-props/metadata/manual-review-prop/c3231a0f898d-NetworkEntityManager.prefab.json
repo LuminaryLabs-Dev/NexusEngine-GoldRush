@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/NetworkEntityManager.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/NetworkEntityManager.prefab",
+  "sourceHash": "sha256:c3231a0f898d6abca834a26336a2c563667b1f9d0111cb9e8958875d1860acf0",
+  "summary": {
+    "lineCount": 98,
+    "guidCount": 2,
+    "namedObjectCount": 3,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "2c0d2fafa8e68b84482f2df642e4512d",
+      "e62d03bf3242313438d92f9d4f18bf61"
+    ],
+    "names": [
+      "NetworkEntityManager",
+      "m_EditorClassIdentifier:",
+      "'NetworkEntitySpawner 1 (WARNING: NO PREFAB)'"
+    ],
+    "yamlTags": {
+      "1": 2,
+      "4": 2,
+      "114": 2
+    }
+  }
+}

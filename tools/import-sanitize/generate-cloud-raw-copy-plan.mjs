@@ -1,6 +1,10 @@
 import { dirname, join, resolve } from "node:path";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const defaultInventoryPath = "reports/provenance/goldrush-dual-source-001-candidate-inventory.json";
@@ -160,14 +164,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     slicePath: args.slicePath ?? defaultSlicePath,
     generatedAt: args.generatedAt ?? new Date().toISOString(),
   });
-  const serialized = `${JSON.stringify(report, null, 2)}\n`;
   if (args.out) {
     const outPath = normalizeRepoPath(args.out);
-    mkdirSync(dirname(join(repoRoot, outPath)), { recursive: true });
-    writeFileSync(join(repoRoot, outPath), serialized);
-    console.log(JSON.stringify({ status: "cloud-raw-copy-plan-written", path: outPath }, null, 2));
+    writeSanitizedJsonArtifactSync(join(repoRoot, outPath), report, { repoRoot });
+    console.log(sanitizedConsoleJson({ status: "cloud-raw-copy-plan-written", path: outPath }, { repoRoot }));
   } else {
-    process.stdout.write(serialized);
+    process.stdout.write(`${sanitizedConsoleJson(report, { repoRoot })}\n`);
   }
 }
 

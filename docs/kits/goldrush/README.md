@@ -38,6 +38,7 @@ Each kit contract has the same 10 documented points: `domainPath`, `purpose`, `p
 - `n:goldrush:player-grounding`
 - `n:goldrush:terrain-patch-windows`
 - `n:goldrush:prop-placement`
+- `n:goldrush:frontier-conditions`
 - `n:goldrush:terrain-physics`
 - `n:goldrush:mountain-blockers`
 - `n:goldrush:ground-probes`
@@ -59,6 +60,7 @@ Each kit contract has the same 10 documented points: `domainPath`, `purpose`, `p
 - `n:goldrush:gold-carrying`
 - `n:goldrush:cashout-sites`
 - `n:goldrush:ambush-pressure`
+- `n:goldrush:player-action-surface`
 - `n:goldrush:match-loop`
 - `n:goldrush:extraction-receipts`
 - `n:goldrush:gold-rush-scoring`

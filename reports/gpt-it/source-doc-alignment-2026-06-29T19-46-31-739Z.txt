@@ -1,0 +1,133 @@
+Skip to content
+Chat history
+ChatGPT Pro
+New chat
+Search chats
+Library
+Scheduled
+Apps
+More
+Pinned
+Nexus Realtime
+NexusEngine-GoldRush Alignment
+Cloud Asset Integration Planning
+Asset Registry Implementation Steps
+Cloud Worker Checklist Request
+Playwright Game Test
+Show more
+Museum Multiverse
+Reboot Outreach
+Nexus Game Kit
+Nexus Agent
+Lightspeed
+Luminary Labs
+Nexus GitHub Manager
+Soft Strange Studio
+Projects
+SIGGRAPH Participants
+Charlies World
+Kickback
+Super Automation
+VendingBackpack
+Show more
+Chats
+Lane 11 workflow health update complete
+Lane 09 state updated with latest follow-up
+Lane 10 Rust XR mobile build state refreshed
+Lane 08 update pushed to main
+Lane 07 state update complete
+Lane 06 core state update completed
+Lane 05 updated with followup 17
+Lane 04 update and repo sync completed
+Lane 03 update complete with Dev ledger refresh
+Lane 02 owner-map update complete
+Fixing experiments step-by-step
+Lane 01 registry intake refresh completed
+Lane 15 integration update blocked due to safety checks
+Lane 14 map update completed successfully
+Lane 13 triage update completed
+Lane 12 docs health and archive review updated
+Mystical Forest Dragon Emblem
+CPD Playwright Mixamo Download
+Open-Source Terrain Repos
+Compare Names App Script
+NexusRealtime AI Perception
+The Open Above Game
+NexusEngine Editor Overview
+Updated Automations and Rule
+Starting Workflow Strategy
+Free App Access
+Lane 15 cycle summary and updates
+Lane 14 updated with product and dependency map
+Luminary Labs
+Personal account
+Nexus Realtime
+Share
+Use high thinking. Short answer only. We are continuing NexusEngine-GoldRush. The active goal explicitly requires using NexusRealtime, NexusRealtime Kits/ProtoKits, and custom GoldRush kits. I locally read installed docs: node_modules/nexusrealtime/README.md says everything meaningful becomes a kit, domains compose, realtime install/tick/inspect/validate/promote; node_modules/@luminarylabs/nexusrealtime-protokits/README.md and docs/START-HERE.md say ProtoKits are DSM/DSK-shaped, domain-first, renderer-agnostic, data-contract driven, headless validated, and games compose domains through data; docs/domain-protokit-contract.md says kits need VERSION/createXKit/resources/events/systems/requires/provides/initWorld/install/metadata/reset/snapshot/tests and must not own DOM/Canvas/Three/browser calls unless they are adapters. Proposed next local repo step: add a source-doc alignment manifest and validator in NexusEngine-GoldRush that proves the repo has read/anchored the NexusRealtime README and ProtoKits docs, maps those principles to existing GoldRush domain-kit gates, and keeps the local ME/GoldRush/.agent/goal.md tracking file aligned. Is this an aligned next step before cloud assets arrive? Return risks, required manifest fields, validation edge cases, and any better next step, in bullets.
+Show more
+Thought for 2m 19s
+
+Yes — aligned. Do it before cloud assets arrive, but keep it as an architecture gate, not a gameplay milestone. It matches the NexusRealtime rule that games compose runtime + kits + sequences, with ProtoKits as incubation and hosts/renderers as presentation only. 
+
+NexusRealtime-Ideology
+
+ 
+
+NexusRealtime-HowTo
+
+Main risk: creating a “docs passed” badge that does not prove the repo actually composes NexusRealtime kits. The validator must fail on code drift, not just missing markdown.
+
+Other risks:
+
+stale anchors when node_modules docs update;
+
+validator coupling to exact README prose instead of stable principles;
+
+duplicating ProtoKit rules instead of validating the local GoldRush kit contracts;
+
+.agent/goal.md becoming the source of truth instead of a tracked projection of repo state;
+
+cloud asset delay hiding missing thin-slice/headless-test work.
+
+Required manifest fields:
+
+manifestVersion
+
+sourceDocs[]: path, package name, version/hash, required anchors
+
+principles[]: deterministic tick, kits own behavior, ProtoKits incubate, data contracts, renderer-agnostic/headless validation, no DOM/Canvas/Three in non-adapter kits
+
+goldRushMappings[]: principle → local file/gate/test
+
+kitGates[]: VERSION, createXKit, resources, events, systems, requires/provides, init/install/reset/snapshot/tests
+
+forbiddenPatterns[]: DOM/Canvas/Three/browser globals inside domain kits
+
+goalSync: path to ME/GoldRush/.agent/goal.md, required goal IDs/status markers
+
+validatorOutputs: pass/fail, warnings, source hash diff, missing anchors, CI command
+
+Validation edge cases:
+
+docs exist but package import path is wrong;
+
+source doc hash changed but anchors still semantically valid;
+
+renderer adapter legitimately uses Canvas/Three and must be exempted by kit type;
+
+tests exist but are browser-only, not headless;
+
+requires/provides tokens exist but do not match installed kit composition;
+
+custom GoldRush kit has VERSION/create factory but no reset/snapshot path;
+
+.agent/goal.md says aligned while manifest or tests fail;
+
+vendored docs differ from lockfile package version.
+
+Better next step: implement the manifest plus one executable smoke validator that composes NexusRealtime + ProtoKits + one GoldRush custom kit headlessly, ticks once, inspects resources/events, and fails if any non-adapter kit touches host/renderer APIs. That turns “source-doc alignment” into a real NexusRealtime gate.
+
+Sources
+
+Pro Extended
+ChatGPT can make mistakes. Check important info.

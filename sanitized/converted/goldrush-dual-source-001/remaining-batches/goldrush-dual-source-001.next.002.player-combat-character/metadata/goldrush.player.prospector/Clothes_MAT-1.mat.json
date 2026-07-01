@@ -1,0 +1,39 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Clothes_MAT 1.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Clothes_MAT 1.mat",
+  "sourceHash": "sha256:93ce317e6d92f4b08360518061a391f646d2ab98d566375939bfb08c714e11b0",
+  "summary": {
+    "lineCount": 291,
+    "guidCount": 4,
+    "fileIdCount": 4,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "63e6cfcbb0d605841ab2dc20457a2918",
+      "6e4ae4064600d784cac1e41a9e6f2e59",
+      "da692e001514ec24dbc4cca1949ff7e8",
+      "dc94c32f3e377a545b6692ef6fbc667f"
+    ],
+    "fileIds": [
+      "0",
+      "11500000",
+      "4800000",
+      "2800000"
+    ],
+    "names": [
+      "m_EditorClassIdentifier:",
+      "Clothes_MAT 1"
+    ],
+    "yamlTags": {
+      "21": 1,
+      "114": 1
+    }
+  }
+}

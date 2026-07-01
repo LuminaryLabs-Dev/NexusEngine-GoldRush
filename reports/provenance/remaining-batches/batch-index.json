@@ -1,7 +1,7 @@
 {
   "schema": "nexusengine.goldrush.remaining-batch-index.v1",
   "importJobId": "goldrush-dual-source-001",
-  "generatedAt": "2026-06-30T01:53:23.907Z",
+  "generatedAt": "2026-06-30T17:28:11.413Z",
   "appendOnly": true,
   "doesNotModifyFirst31Gate": true,
   "batches": [
@@ -19,6 +19,132 @@
         "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/secret-scan.receipt.json": "sha256:dc000c902ae4b28ebd9ddbe4c687dae51bf10eefed7ae7e7205b0cb5ed5ea215",
         "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/collision-and-overlap.receipt.json": "sha256:f369e200c963bb9cab128b09c1e2f63a58efca854bc1b22ca200e96845302f52",
         "reports/provenance/remaining-batches/goldrush-dual-source-001.next.001.audio-music-and-sfx/validator.receipt.json": "sha256:9588db84bbbf661ddb3f88cf4e60f5a6c90604b09e05e8f50a8545683ff38b49"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+      "domainId": "player-combat-character",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 36,
+      "totalBytes": 74640633,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/source.receipt.json": "sha256:448adac4c7bcd1f75ecc9e91e9d0c6e28f73605f3eeea579df692feeb31fc29e",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/raw-copy.receipt.json": "sha256:bd97502199b3610ed55aaa3b025f19e8536fb12b363f70806707e1af0022e506",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/hashes.receipt.json": "sha256:006fa72a327f6c86fcf5bdbbd92ddecaebde47d96d925aa254bb03b606864ab7",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/secret-scan.receipt.json": "sha256:31a31865ec633a697546d3f49556a624f379f5ce6f8cf5f28abf5637cc36eaab",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/collision-and-overlap.receipt.json": "sha256:792884c602a8a82602a4f159eac17a47e7ca1d1717220aeefab074be8ee715f0",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.002.player-combat-character/validator.receipt.json": "sha256:5794f631afffd7292043eda2868c537156b8f571db17e44e6fdd19b7a73812ec"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.003.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 125,
+      "totalBytes": 189766893,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/source.receipt.json": "sha256:1ff2b088abf02ed8fd09fbefccf2c4278d0b137c446c1714d713c5ebf01f8efa",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/raw-copy.receipt.json": "sha256:38a0bf196d1def0dbc692d7cf4d568f85c72592957e08543eeb7f5b161f85b79",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/hashes.receipt.json": "sha256:fe15295938c705c97d709a2e9fb85e2a1447c5281a43e00522cf2b4988c7c28c",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/secret-scan.receipt.json": "sha256:31c6ab68ee6b7ed1e78322c1316b8053891de5d5788dcdcee8c925a90ba21a52",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:1c360d381313b20f66281ec7647cd92d5ccaa3646b0d69da5c7f8f2be74b9b4f",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.003.mine-town-terrain-props/validator.receipt.json": "sha256:cb170565d75c4bff44e1f48f3e2df2310c1897abc25e1d3d17fb728f3c6ae5e6"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 125,
+      "totalBytes": 37057275,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/source.receipt.json": "sha256:3dbb48f507757102d1c0a4501f7b2d05ff8e8cb4e6725ade0e44ed24f1c91877",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/raw-copy.receipt.json": "sha256:d449ece8c1995941927b479e0e745be484d8b8cd11019e56fed2aa4a6fdbca35",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/hashes.receipt.json": "sha256:54594d4ed32ceb6e9fce610817b3404e6db8db3d3146ebef1fad48f328b64006",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/secret-scan.receipt.json": "sha256:ef8f0cf986c9e2d073f467e88ebbb90a427d4d0c66297a5d6c6bf750107c71ce",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:6104222c131318ab81934b38dd58e35fabe2837dd955663bee099f6523d1f159",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.004.mine-town-terrain-props/validator.receipt.json": "sha256:e02e8640e7eed118bf00fbc7f5d54089c24c8c3e6055e7472b4ae83d2a0a7daf"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 125,
+      "totalBytes": 7371751,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/source.receipt.json": "sha256:16a7032f26e84548beba1738ad1c8da6bd5408be08c998cd770a7fdd2f59e749",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/raw-copy.receipt.json": "sha256:8a8cb5cde1a949c735b36995cc2dc892b4f2d8ada8914412177032fd6d498355",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/hashes.receipt.json": "sha256:352eab5e3254407dae10ceac00a1c4f7ce106b3c52460b2fb54f3d24fb808801",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/secret-scan.receipt.json": "sha256:902e8995f086923ab5df285c1ed19a1d6c912047bbc5667bd63eff1ea0513603",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:ba74f5e8af99d9f6566cacfe1269bba5ff0f4574ba2e0f9b857ec18d265ec623",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.005.mine-town-terrain-props/validator.receipt.json": "sha256:22ff01d670ea400c7f2499671503b48ef7fd2881238f0bbb9abb63da23d50f2b"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.006.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 125,
+      "totalBytes": 1052989,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/source.receipt.json": "sha256:cb225c199ede41e04974d87363fa15796a6075c3415a6bcf7f87b6ec46f952e7",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/raw-copy.receipt.json": "sha256:a2a3d519ca29db8a56165bbd7b249d20152cf2506bacd2d35dd4ab235000814a",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/hashes.receipt.json": "sha256:1a22baee3ea811dba7d07c41d9777fe524815ed9e6298665a768a27a1243543b",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/secret-scan.receipt.json": "sha256:51a7df106e451bb477c237bf54e4507835f8bf8315db78a2230da0e97fcc4c73",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:68f5d3bcaced85a5492701fc9cc142384c2c58d4de973cc5d56fe6ba0c104ced",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.006.mine-town-terrain-props/validator.receipt.json": "sha256:12e43da2a0636790e7c90560557f893b294185c33708b5cb96e67ce4fa1d9454"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.007.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 125,
+      "totalBytes": 1083452,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/source.receipt.json": "sha256:d25cd087effbe0e7b5c696a207001bc6abe01f8259fb2065836ee5b5d4dbae1f",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/raw-copy.receipt.json": "sha256:367465fb40d30b1a0d2d2b3ce5f71f1734042c08af7e1f572f09626fca0ec4cf",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/hashes.receipt.json": "sha256:29021611ccaeaa4803b5444636c5ad8990fefb75320db4867a7bea3156ecf80f",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/secret-scan.receipt.json": "sha256:917cf67ff0620580af336d792df398e020893da27faee258cbcdc0e116b8a27d",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:25cc8b91a8a2bd8ed779d0d82a4833625f530696eaff3723f1e9963505d5bc6c",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.007.mine-town-terrain-props/validator.receipt.json": "sha256:2b999e54c69e0d3296568bad509e617c3cd691099762548c2fc36f7fb89ace05"
+      },
+      "publicPromotion": false,
+      "runtimePromotion": false
+    },
+    {
+      "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+      "domainId": "mine-town-terrain-props",
+      "status": "raw-files-written-receipts-ready",
+      "itemCount": 61,
+      "totalBytes": 105447269,
+      "receiptRoot": "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props",
+      "receiptDigests": {
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/source.receipt.json": "sha256:1d5a582fc8e9fd70f4566f3b41c7458a95e572ed1076d00fb95d5ddd45abcb0c",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/raw-copy.receipt.json": "sha256:e448628f1037eba099ffb54c3bfb22fecdf9c483386ad8a22774a3f59f3b6bc6",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/hashes.receipt.json": "sha256:18c4411f5cc52158fccd39be5456c32247ce9fcf36dd48cf6a8025b030278a6e",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/secret-scan.receipt.json": "sha256:fa4e9da0073fdbbc6d0e8ab2c875e20f119aeb23e59a444e15132dd54938542a",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/collision-and-overlap.receipt.json": "sha256:07f4a8407cbbc23e892757bc4c6b79a61b9704127d9b77e6ff8990c00acb9d2f",
+        "reports/provenance/remaining-batches/goldrush-dual-source-001.next.008.mine-town-terrain-props/validator.receipt.json": "sha256:9d15c419d22beb390784ade2bba67dd3b58420704496b6c971f6736096630f46"
       },
       "publicPromotion": false,
       "runtimePromotion": false

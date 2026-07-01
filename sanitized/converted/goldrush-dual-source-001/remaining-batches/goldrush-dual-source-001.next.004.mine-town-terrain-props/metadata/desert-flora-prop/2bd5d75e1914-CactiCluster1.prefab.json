@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertFlora",
+  "role": "desert-flora-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/CactiCluster1.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/CactiCluster1.prefab",
+  "sourceHash": "sha256:2bd5d75e1914eaf0367613533b40a78222652292fe50bf411b2ac0fefdef9b30",
+  "summary": {
+    "lineCount": 498,
+    "guidCount": 3,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "2d7bf058345e07f488af293ec7dec066",
+      "35986e7858bdf134cb284502fad2bea5",
+      "af199f7467eb2a246a98761dd2a5914d"
+    ],
+    "names": [
+      "CactiCluster1"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 8,
+      "1001": 7
+    }
+  }
+}

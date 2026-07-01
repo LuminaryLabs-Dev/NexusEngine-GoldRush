@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/LuminaryLabs/Editor/ArenaRocksConfig.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/LuminaryLabs/Editor/ArenaRocksConfig.asset",
+  "sourceHash": "sha256:39d5e06e2a286e59a85c94559e84e179b8cf031eaa1b186b0b179159a5b03b54",
+  "summary": {
+    "lineCount": 39,
+    "guidCount": 2,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 1,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "44690eff83d72bf4ab1c63cff1db2c79",
+      "e2d719d2c998c664b806e24f163647d1"
+    ],
+    "textureRefs": [],
+    "names": [
+      "ArenaRocksConfig"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

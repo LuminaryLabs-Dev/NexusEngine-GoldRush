@@ -90,7 +90,7 @@ n:control:*   -> n:goldrush:exploration-camera/prospector-movement
 n:render:*    -> n:goldrush:three-scene-renderer/gold-field-renderer/desert-prop-kits/lobby-character-preview
 n:audio:*     -> n:goldrush:music-and-stingers
 n:animation:* -> n:goldrush:prospector-animation
-n:gameplay:*  -> n:goldrush:mine-hold-action/gold-carrying/cashout-sites/ambush-pressure
+n:gameplay:*  -> n:goldrush:mine-hold-action/gold-carrying/cashout-sites/ambush-pressure/player-action-surface
 n:match:*     -> n:goldrush:match-loop/extraction-receipts/gold-rush-scoring/results-screen
 ```
 

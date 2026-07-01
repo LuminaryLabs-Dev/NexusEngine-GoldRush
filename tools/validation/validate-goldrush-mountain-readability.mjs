@@ -6,6 +6,7 @@ import {
   sampleMountainViewClearanceMask,
   sampleMountainWalkaroundClearance,
   sampleTerrainCollider,
+  terrainFieldBaseHeight,
   terrainFieldColor,
   terrainFieldHeight,
 } from "../../src/physics/terrainCollider.js";
@@ -16,15 +17,16 @@ const centralMountains = descriptors.canyonComposition.centralMountains;
 assert(CENTRAL_MOUNTAIN_FORMS.length >= 3, "mountain forms must remain present");
 assert(centralMountains.length >= 3, "renderer must expose central mountain descriptors");
 assert(centralMountains.every((mountain) => mountain.composition === "midground-walkaround-terraced-shoulders"), "mountains must be terraced midground landmarks");
-assert(centralMountains.every((mountain) => mountain.visualHeight <= 5.5), "visible mountain meshes must not become foreground slabs");
+assert(centralMountains.every((mountain) => mountain.visualHeight <= 4.8), "visible mountain meshes must not become foreground slabs");
 assert(centralMountains.every((mountain) => mountain.visualHeight < mountain.height), "visual mountain caps must be lower than collider heightfield mass");
 assert(centralMountains.every((mountain) => mountain.blockerRadius >= 6), "mountains must still block direct traversal through the core");
+assert(centralMountains.every((mountain) => mountain.placement === "base-terrain-not-lifted-collider-summit"), "mountains must render from base terrain instead of stacking on collider summit");
 
 const spawn = sampleTerrainCollider({ x: -12, z: -20 });
 const approach = sampleTerrainCollider({ x: -4, z: -7.5 });
 const westRoute = sampleTerrainCollider({ x: -26, z: 6 });
 const eastRoute = sampleTerrainCollider({ x: 25, z: 6 });
-const mountainCore = sampleTerrainCollider({ x: 9.2, z: 13.4 });
+const mountainCore = sampleTerrainCollider({ x: 9.2, z: 17.4 });
 
 assert(spawn.walkable, "spawn must remain walkable");
 assert(approach.walkable, "spawn-facing mountain approach must remain walkable");
@@ -36,15 +38,19 @@ assert(sampleMountainWalkaroundClearance(-26, 6) > 0.35, "west route must have w
 assert(sampleMountainWalkaroundClearance(25, 6) > 0.35, "east route must have walkaround clearance");
 
 const nearCorridorHeight = terrainFieldHeight(-4, -7.5);
-const coreHeight = terrainFieldHeight(9.2, 13.4);
+const coreHeight = terrainFieldHeight(9.2, 17.4);
+const coreBaseHeight = terrainFieldBaseHeight(9.2, 17.4);
 assert(coreHeight > nearCorridorHeight + 2.6, "mountain core must still read taller than the cleared approach");
-assert(Number.isInteger(terrainFieldColor(9.2, 13.4)), "mountain color must remain centralized");
+assert(coreHeight > coreBaseHeight + 4.5, "collider mountain must remain a real blocker above base terrain");
+assert(Math.max(...centralMountains.map((mountain) => mountain.visualHeight)) < coreHeight - coreBaseHeight, "visible mountain cap must remain lower than collider lift");
+assert(Number.isInteger(terrainFieldColor(9.2, 17.4)), "mountain color must remain centralized");
 assert(raycastTerrainDown({ x: -4, z: -7.5 })?.bandId === "near-play-band", "approach must raycast to visible terrain");
 
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");
 assert(proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must use terraced mountain geometry");
 assert(proceduralSource.includes("midground-walkaround-terraced-shoulders"), "renderer descriptor must name the BUG-002 composition intent");
+assert(proceduralSource.includes("terrainFieldBaseHeight"), "renderer must place visual mountains from base terrain");
 assert(colliderSource.includes("sampleCentralMountainHeight"), "heightfield must own central mountain shaping");
 assert(colliderSource.includes("sampleMountainViewClearanceMask"), "heightfield must own camera-view clearance");
 assert(colliderSource.includes("sampleMountainWalkaroundClearance"), "heightfield must own walkaround clearance");
@@ -64,6 +70,11 @@ console.log(JSON.stringify({
     view: Number(sampleMountainViewClearanceMask(-4, -7.5).toFixed(3)),
     west: Number(sampleMountainWalkaroundClearance(-26, 6).toFixed(3)),
     east: Number(sampleMountainWalkaroundClearance(25, 6).toFixed(3)),
+  },
+  stacking: {
+    coreHeight: Number(coreHeight.toFixed(3)),
+    coreBaseHeight: Number(coreBaseHeight.toFixed(3)),
+    colliderLift: Number((coreHeight - coreBaseHeight).toFixed(3)),
   },
 }, null, 2));
 

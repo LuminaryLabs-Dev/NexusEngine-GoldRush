@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.trainRail",
+  "role": "train-rail-prop",
+  "sourcePath": "GoldRush/Assets/World/Props/TrainTrack_Straight.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Props/TrainTrack_Straight.prefab",
+  "sourceHash": "sha256:66c656d8df87f6979378555e16c1c46026a6ffde1f588ede826b2bc6be5a6922",
+  "summary": {
+    "lineCount": 162,
+    "guidCount": 2,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "33556b593a3c3fa418ba89b247e991fb",
+      "95f0f63139e2fe140a720eee4032e2ab"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

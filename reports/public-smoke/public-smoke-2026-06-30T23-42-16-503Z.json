@@ -1,0 +1,24 @@
+{
+  "status": "failed",
+  "url": "http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e",
+  "startedAt": "2026-06-30T23:42:16.518Z",
+  "steps": [
+    {
+      "name": "load-public-url",
+      "status": "failed",
+      "durationMs": 52597,
+      "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\", waiting until \"domcontentloaded\"\u001b[22m\n"
+    }
+  ],
+  "screenshots": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "loadingCheckpoint": null,
+  "finalState": null,
+  "captureError": "page.evaluate: Execution context was destroyed, most likely because of a navigation",
+  "error": {
+    "message": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "stack": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=mr1ak62e\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at gotoWithRetry (tools/proof/public-deploy-smoke.mjs:210:35)\n    at async file://tools/proof/public-deploy-smoke.mjs:56:5\n    at async step (tools/proof/public-deploy-smoke.mjs:198:5)\n    at async file://tools/proof/public-deploy-smoke.mjs:55:3"
+  },
+  "finishedAt": "2026-06-30T23:43:10.261Z"
+}

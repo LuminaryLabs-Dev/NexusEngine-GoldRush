@@ -1,0 +1,35 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.prop.goldPile",
+  "mediaKind": "prop-animation",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/GoldAnimations/GOLD FALL.controller",
+  "sourceHash": "sha256:52160a35d6825c86647c52c718a04c2fecfd8403b66d1a726a32c03e60c5366d",
+  "summary": {
+    "lineCount": 73,
+    "guidCount": 0,
+    "fileIdCount": 4,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0",
+      "934987263921666571",
+      "9100000",
+      "-975245075821449831"
+    ],
+    "names": [
+      "GOLD FALL",
+      "Base Layer"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "1102": 1,
+      "1107": 1
+    }
+  }
+}

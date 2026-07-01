@@ -5,6 +5,7 @@ import {
   validateCannonTerrainPhysics,
 } from "../../src/physics/cannonTerrainPhysics.js";
 import {
+  CENTRAL_MOUNTAIN_FORMS,
   createTerrainColliderDescriptor,
   raycastTerrainDown,
   sampleTerrainCollider,
@@ -39,7 +40,8 @@ assert(spawnGround.walkable, "player spawn should be walkable");
 assert(Number.isFinite(spawnGround.height), "player spawn height must be finite");
 assert(spawnGround.normal.y > 0.25, "terrain normal must be usable for grounded movement");
 
-const mountainGround = sampleTerrainCollider({ x: 8.4, z: 8.6 });
+const mainMountain = CENTRAL_MOUNTAIN_FORMS.find((form) => form.id === "central-mountain.gold-spine") ?? CENTRAL_MOUNTAIN_FORMS[0];
+const mountainGround = sampleTerrainCollider({ x: mainMountain.x, z: mainMountain.z });
 assert(!mountainGround.walkable, "central mountain interiors must block player traversal");
 assert(mountainGround.blockingFeatureId?.startsWith("central-mountain."), "mountain blocker must report the blocking feature id");
 

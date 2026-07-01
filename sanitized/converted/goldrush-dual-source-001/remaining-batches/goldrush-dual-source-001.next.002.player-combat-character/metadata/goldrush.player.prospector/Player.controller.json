@@ -1,0 +1,55 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Player.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/Player/Player.controller",
+  "sourceHash": "sha256:b70095e7845e3d7dd7d62ef457094a19c19db277a100db384852211f4eaad407",
+  "summary": {
+    "lineCount": 302,
+    "guidCount": 3,
+    "fileIdCount": 13,
+    "namedObjectCount": 8,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "275acc666842fb44eb5d10be7a254d5d",
+      "ad75676f235c5b344a0b82bc44d2d40e",
+      "d8550eb65861d7c4f933b2c449091393"
+    ],
+    "fileIds": [
+      "0",
+      "-7096829971125208638",
+      "7280158160019196411",
+      "7400000",
+      "-4352635037921945536",
+      "3270079493425954000",
+      "-1668786259437647350",
+      "2208752458576380124",
+      "511555112118222449",
+      "-9053492779082407886",
+      "8998773368370249675",
+      "9100000",
+      "-3826611240427067107"
+    ],
+    "names": [
+      "Gunplay",
+      "m_Conditions:",
+      "Idle",
+      "Running",
+      "Player",
+      "Speed",
+      "IsShooting",
+      "Base Layer"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "1101": 6,
+      "1102": 3,
+      "1107": 1
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.prop.goldPile",
+  "mediaKind": "prop-animation",
+  "sourcePath": "GoldRush/Assets/Entities/Player/TheBossAnimationController.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/TheBossAnimationController.controller",
+  "sourceHash": "sha256:84ba60bccbd8c8f0adf38711b43ec192d2bb0a90dc4ddc52a30f375e05c5d3ba",
+  "summary": {
+    "lineCount": 481,
+    "guidCount": 6,
+    "fileIdCount": 16,
+    "namedObjectCount": 14,
+    "yamlTagTypes": 5
+  },
+  "references": {
+    "guids": [
+      "3569a46662e06ce4d9f437e545068868",
+      "661720053fce3694f92344acd38d09aa",
+      "9ddbe4e0fa63d2041bd3d9ba6c3cd0ed",
+      "d4006051bfb11ce40b7dc600d761e97a",
+      "e39a2c0cc51c383409e586d8bbc272e5",
+      "e8910572e1452834e8a7769b51a616a8"
+    ],
+    "fileIds": [
+      "0",
+      "8809780577710968969",
+      "-203655887218126122",
+      "-2566824649177957800",
+      "-5599642136566531280",
+      "-5956705620507119109",
+      "-2273501733030531592",
+      "-2739797153483537089",
+      "5269622567212089089",
+      "-2166659431396875878",
+      "8496732917238295246",
+      "100516018841899710",
+      "-3287933687320630474",
+      "-8679885603842745135",
+      "9100000",
+      "-2100417676507930206"
+    ],
+    "names": [
+      "m_Conditions:",
+      "Aim Jump",
+      "Aim Idle",
+      "Run",
+      "Idle",
+      "Aim Run",
+      "Base Layer",
+      "TheBossAnimationController",
+      "IsRunning",
+      "IsJumping",
+      "IsAiming",
+      "Blend",
+      "Blend Tree",
+      "Jump"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "206": 1,
+      "1101": 6,
+      "1102": 6,
+      "1107": 1
+    }
+  }
+}

@@ -20,7 +20,7 @@ This pass targeted three player-visible problems:
 
 Source recording:
 
-`/Users/crimsonwheeler/Documents/ME/recordings/Screen Recording 2026-06-29 at 8.36.49 AM.mov`
+`<documents>/ME/recordings/Screen Recording 2026-06-29 at 8.36.49 AM.mov`
 
 Fresh proof video:
 

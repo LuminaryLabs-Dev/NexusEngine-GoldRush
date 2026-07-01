@@ -1,17 +1,18 @@
 import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const importJobId = "goldrush-dual-source-001";
 const defaultBatchId = `${importJobId}.next.001.audio-music-and-sfx`;
 const coveragePath = `reports/provenance/${importJobId}-remaining-coverage.json`;
-const fetchProofPath = `reports/provenance/${importJobId}-next-001-fetch-proof.json`;
-const rawWriteProofPath = `reports/provenance/${importJobId}-next-001-raw-write-proof.json`;
 const firstRawCopyPlanPath = `reports/provenance/${importJobId}-raw-copy-plan.json`;
 const receiptRoot = "reports/provenance/remaining-batches";
-const activeAudioExtensions = new Set([".ogg", ".mp3", ".wav"]);
 
 export function generateRemainingBatchReceipts({
   batchId = defaultBatchId,
@@ -19,11 +20,15 @@ export function generateRemainingBatchReceipts({
   write = false,
 } = {}) {
   const coverage = readJson(coveragePath);
+  const batch = (coverage.nextCopyBatches ?? []).find((candidate) => candidate.batchId === batchId);
+  assert(batch, `batch not found: ${batchId}`);
+
+  const sequence = getBatchSequence(batchId);
+  const fetchProofPath = `reports/provenance/${importJobId}-next-${sequence}-fetch-proof.json`;
+  const rawWriteProofPath = `reports/provenance/${importJobId}-next-${sequence}-raw-write-proof.json`;
   const proofPath = existsRepoFile(rawWriteProofPath) ? rawWriteProofPath : fetchProofPath;
   const batchProof = readJson(proofPath);
   const firstRawCopyPlan = readJson(firstRawCopyPlanPath);
-  const batch = (coverage.nextCopyBatches ?? []).find((candidate) => candidate.batchId === batchId);
-  assert(batch, `batch not found: ${batchId}`);
 
   const firstPlanTargets = new Set(
     (firstRawCopyPlan.domains ?? [])
@@ -138,12 +143,12 @@ export function generateRemainingBatchReceipts({
     batchId,
     generatedAt,
     doesNotModifyFirst31Gate: true,
-    validatorVersion: "1",
+    validatorVersion: "2",
     validatedAgainstFirst31ReceiptSet: true,
     validatedAgainstBatchIndex: true,
-    expectedItemCount: 15,
-    expectedTotalBytes: 90145108,
-    expectedExtensions: [...activeAudioExtensions].sort(),
+    expectedItemCount: batch.itemCount,
+    expectedTotalBytes: batch.totalBytes,
+    expectedExtensions: [...new Set(batch.items.map((item) => item.extension))].sort(),
     result: "pass",
     errors: [],
     warnings: [],
@@ -164,26 +169,18 @@ export function generateRemainingBatchReceipts({
       sha256Json(value),
     ])
   );
-  const index = {
-    schema: "nexusengine.goldrush.remaining-batch-index.v1",
-    importJobId,
-    generatedAt,
-    appendOnly: true,
-    doesNotModifyFirst31Gate: true,
-    batches: [
-      {
-        batchId,
-        domainId: batch.domainId,
-        status: batchProof.write ? "raw-files-written-receipts-ready" : "fetch-proof-receipts-ready",
-        itemCount: batch.itemCount,
-        totalBytes: batch.totalBytes,
-        receiptRoot: batchDir,
-        receiptDigests,
-        publicPromotion: false,
-        runtimePromotion: false,
-      },
-    ],
+  const newRecord = {
+    batchId,
+    domainId: batch.domainId,
+    status: batchProof.write ? "raw-files-written-receipts-ready" : "fetch-proof-receipts-ready",
+    itemCount: batch.itemCount,
+    totalBytes: batch.totalBytes,
+    receiptRoot: batchDir,
+    receiptDigests,
+    publicPromotion: false,
+    runtimePromotion: false,
   };
+  const index = createUpdatedIndex({ batchId, generatedAt, newRecord });
 
   const output = {
     indexPath: `${receiptRoot}/batch-index.json`,
@@ -205,13 +202,42 @@ export function generateRemainingBatchReceipts({
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = parseArgs(process.argv.slice(2));
   const result = generateRemainingBatchReceipts(args);
-  console.log(JSON.stringify({
+  console.log(sanitizedConsoleJson({
     status: args.write ? "remaining-batch-receipts-written" : "remaining-batch-receipts-dry-run",
     indexPath: result.indexPath,
     batchDir: result.batchDir,
     receiptFiles: Object.keys(result.receiptFiles).length,
     batches: result.index.batches.length,
-  }, null, 2));
+  }, { repoRoot }));
+}
+
+function createUpdatedIndex({ batchId, generatedAt, newRecord }) {
+  const indexPath = `${receiptRoot}/batch-index.json`;
+  const existing = existsRepoFile(indexPath)
+    ? readJson(indexPath)
+    : {
+      schema: "nexusengine.goldrush.remaining-batch-index.v1",
+      importJobId,
+      appendOnly: true,
+      doesNotModifyFirst31Gate: true,
+      batches: [],
+    };
+  const records = new Map((existing.batches ?? []).map((record) => [record.batchId, record]));
+  records.set(batchId, newRecord);
+  return {
+    schema: "nexusengine.goldrush.remaining-batch-index.v1",
+    importJobId,
+    generatedAt,
+    appendOnly: true,
+    doesNotModifyFirst31Gate: true,
+    batches: [...records.values()].sort((a, b) => a.batchId.localeCompare(b.batchId)),
+  };
+}
+
+function getBatchSequence(batchId) {
+  const match = batchId.match(/\.next\.(\d{3})\./);
+  assert(match, `batch id missing next sequence: ${batchId}`);
+  return match[1];
 }
 
 function parseArgs(argv) {
@@ -236,8 +262,7 @@ function existsRepoFile(relativePath) {
 
 function writeJson(relativePath, value) {
   const absolute = join(repoRoot, normalizeRepoPath(relativePath));
-  mkdirSync(dirname(absolute), { recursive: true });
-  writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
+  writeSanitizedJsonArtifactSync(absolute, value, { repoRoot });
 }
 
 function sha256Json(value) {

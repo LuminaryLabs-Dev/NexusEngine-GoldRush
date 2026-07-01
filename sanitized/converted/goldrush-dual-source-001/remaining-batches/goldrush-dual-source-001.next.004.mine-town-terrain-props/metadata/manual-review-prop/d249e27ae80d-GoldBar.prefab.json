@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/GoldBar.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/GoldBar.prefab",
+  "sourceHash": "sha256:d249e27ae80d21162f7eb76737d063f4e90586b2e90453f6bafd035bf67b64c8",
+  "summary": {
+    "lineCount": 86,
+    "guidCount": 2,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "0000000000000000e000000000000000",
+      "76ff32d88dd2af74f944c2beee189815"
+    ],
+    "names": [
+      "GoldBar"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 1,
+      "23": 1,
+      "33": 1
+    }
+  }
+}

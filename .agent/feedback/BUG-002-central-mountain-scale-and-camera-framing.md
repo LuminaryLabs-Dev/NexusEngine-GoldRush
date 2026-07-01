@@ -2,7 +2,7 @@
 
 ## Status
 
-Open.
+Resolved locally.
 
 ## Player Feedback
 
@@ -36,7 +36,31 @@ The terrain and mountain composition is overwhelming the player view. The centra
 - The player can see sky, horizon, route floor, and at least one route cue at the same time.
 - Camera proof includes spawn, approach, left detour, right detour, and near-mountain samples.
 
-## Next Local Action
+## Local Fix
 
-Move/reshape the central mountain into a readable midground obstacle: lower the immediate spawn-facing mass, widen route gaps, and add camera-aware spawn framing without changing the intended "walk around the middle mountain" design.
+- Moved central mountain forms farther into the midground while preserving the central blocker.
+- Strengthened spawn, west, and east clearance corridors.
+- Added `terrainFieldBaseHeight()` so renderer landmarks can mount to the base terrain instead of stacking visible meshes on top of the invisible collider summit.
+- Lowered central mountain visual caps and narrowed visual footprints.
+- Tightened validators so future passes must keep mountain visuals below collider lift and must use base-terrain placement.
 
+## Latest Validator Evidence
+
+```txt
+node tools/validation/validate-goldrush-mountain-readability.mjs
+status: goldrush-mountain-readability-ready
+maxVisualHeight: 4.42
+colliderLift: 9.2
+view clearance: 0.82
+west clearance: 0.764
+east clearance: 0.746
+```
+
+## Remaining Human-View Check
+
+Complete. Browser proof shows the central mountains as midground landmarks with visible sky, horizon, floor route, and walkaround cues.
+
+```txt
+screenshot: screenshots/mountain-readability-2026-06-30.png
+report: reports/mountain-readability-2026-06-30.md
+```

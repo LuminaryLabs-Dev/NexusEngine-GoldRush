@@ -5,6 +5,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createCloudSourceDiscoveryReport } from "./generate-cloud-source-discovery.mjs";
 import { createGoldRushAssetIntakeReport } from "./goldrush-asset-intake-classifier.mjs";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const defaultPlanPath = "reports/provenance/goldrush-dual-source-001-raw-copy-plan.json";
@@ -209,10 +213,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const result = await copyRawPlanFromGithub(args);
   if (args.summaryOut) {
     const outPath = join(repoRoot, normalizeRepoPath(args.summaryOut));
-    mkdirSync(dirname(outPath), { recursive: true });
-    writeFileSync(outPath, `${JSON.stringify(result, null, 2)}\n`);
+    writeSanitizedJsonArtifactSync(outPath, result, { repoRoot });
   }
-  console.log(JSON.stringify(result, null, 2));
+  console.log(sanitizedConsoleJson(result, { repoRoot }));
 }
 
 function readGithubBlob({ sourceRepo, blobSha }) {
@@ -258,8 +261,7 @@ function writeReceipts(handoff, receipts) {
   for (const [key, report] of Object.entries(receipts)) {
     const relPath = paths[key];
     const absolute = join(repoRoot, normalizeRepoPath(relPath));
-    mkdirSync(dirname(absolute), { recursive: true });
-    writeFileSync(absolute, `${JSON.stringify(report, null, 2)}\n`);
+    writeSanitizedJsonArtifactSync(absolute, report, { repoRoot });
   }
 }
 

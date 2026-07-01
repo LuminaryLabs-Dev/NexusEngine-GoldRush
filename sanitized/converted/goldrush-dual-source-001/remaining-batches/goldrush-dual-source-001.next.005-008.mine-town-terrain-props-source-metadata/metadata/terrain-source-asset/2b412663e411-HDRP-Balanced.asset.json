@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/Graphics/HDRP_Assets/HDRP Balanced.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRP Balanced.asset",
+  "sourceHash": "sha256:2b412663e4117ae8dd98e26cc6c3ecdb05428480b23eb4c6c64eb199edfb1f08",
+  "summary": {
+    "lineCount": 551,
+    "guidCount": 3,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 1,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "0cf1dab834d4ec34195b920ea7bbf9ec",
+      "254c4fe87beb7be4fa72e1681edbed02",
+      "2b7005ba3a4d8474b8cdc34141ad766e"
+    ],
+    "textureRefs": [],
+    "names": [
+      "HDRP Balanced"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

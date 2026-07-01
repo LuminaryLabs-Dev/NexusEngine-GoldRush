@@ -1,6 +1,10 @@
 import { dirname, join, resolve } from "node:path";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const importJobId = "goldrush-dual-source-001";
@@ -118,7 +122,7 @@ export function createRemainingAssetCoverage({
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = parseArgs(process.argv.slice(2));
   const report = createRemainingAssetCoverage(args);
-  console.log(JSON.stringify({
+  console.log(sanitizedConsoleJson({
     status: "remaining-asset-coverage-ready",
     importJobId,
     write: args.write,
@@ -126,7 +130,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     copiedCandidates: report.totals.copiedCandidates,
     remainingCandidates: report.totals.remainingUniquePaths,
     nextCopyBatches: report.nextCopyBatches.length,
-  }, null, 2));
+  }, { repoRoot }));
 }
 
 function createNextCopyBatches(uniqueRemaining) {
@@ -236,8 +240,7 @@ function readJson(relativePath) {
 
 function writeJson(relativePath, value) {
   const absolutePath = join(repoRoot, relativePath);
-  mkdirSync(dirname(absolutePath), { recursive: true });
-  writeFileSync(absolutePath, `${JSON.stringify(value, null, 2)}\n`);
+  writeSanitizedJsonArtifactSync(absolutePath, value, { repoRoot });
 }
 
 function sumBytes(items) {

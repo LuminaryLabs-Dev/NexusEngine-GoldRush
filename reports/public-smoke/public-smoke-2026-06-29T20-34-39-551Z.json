@@ -30,10 +30,10 @@
     }
   ],
   "screenshots": [
-    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/01-title-2026-06-29T20-34-39-551Z.png",
-    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/02-lobby-2026-06-29T20-34-39-551Z.png",
-    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/03-loading-yard-2026-06-29T20-34-39-551Z.png",
-    "/Users/crimsonwheeler/Documents/GitHub/NexusEngine-GoldRush/screenshots/public-smoke/04-gold-field-2026-06-29T20-34-39-551Z.png"
+    "screenshots/public-smoke/01-title-2026-06-29T20-34-39-551Z.png",
+    "screenshots/public-smoke/02-lobby-2026-06-29T20-34-39-551Z.png",
+    "screenshots/public-smoke/03-loading-yard-2026-06-29T20-34-39-551Z.png",
+    "screenshots/public-smoke/04-gold-field-2026-06-29T20-34-39-551Z.png"
   ],
   "consoleErrors": [
     {

@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-source-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "generatedAt": "2026-06-30T17:08:37.329Z",
+  "doesNotModifyFirst31Gate": true,
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "treeTruncated": false
+  },
+  "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
+  "batchStatus": "planned-not-copied",
+  "itemCount": 125,
+  "totalBytes": 37057275,
+  "publicPromotion": false,
+  "runtimePromotion": false
+}

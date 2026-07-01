@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/03_Materials/MainMenuPixelation.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/03_Materials/MainMenuPixelation.mat",
+  "sourceHash": "sha256:a168667100924c914bfcc6f0c26a08e3bb94371d379548d082a0929f0b867495",
+  "summary": {
+    "lineCount": 89,
+    "guidCount": 1,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 1,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "574c71f997be7c04fbddd4abf72f5f20"
+    ],
+    "textureRefs": [],
+    "names": [
+      "MainMenuPixelation"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _BumpScale: 1\n    - _Cutoff: 0.5\n    - _DetailNormalMapScale: 1\n    - _DstBlend: 0\n    - _GlossMapScale: 1\n    - _Glossiness: 0.5\n    - _GlossyReflections: 1\n    - _Metallic: 0\n    - _Mode: 0\n    - _OcclusionStrength: 1\n    - _Parallax: 0.02\n    - _PixelationAmount: 17.9\n    - _ScreenSize: 1\n    - _SmoothnessTextureChannel: 0\n    - _SpecularHighlights: 1\n    - _SrcBlend: 1\n    - _UVSec: 0\n    - _ZWrite: 1\n    - _ph: 1\n    - _pixelResolution: 466.57\n    - _pw: 1"
+    ]
+  }
+}

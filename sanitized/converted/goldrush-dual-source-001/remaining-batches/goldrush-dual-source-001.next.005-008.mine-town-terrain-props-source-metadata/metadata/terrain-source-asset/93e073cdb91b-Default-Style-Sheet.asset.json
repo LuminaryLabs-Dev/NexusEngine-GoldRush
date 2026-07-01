@@ -1,0 +1,41 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+  "sourceHash": "sha256:93e073cdb91b7e3d2fa31e2dd13626d7b9d2f327904ba8c3c2b97a3eecfbabac",
+  "summary": {
+    "lineCount": 82,
+    "guidCount": 1,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 12,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "ab2114bdc8544297b417dfefe9f1e410"
+    ],
+    "textureRefs": [],
+    "names": [
+      "Default Style Sheet",
+      "Normal",
+      "H1",
+      "Quote",
+      "A",
+      "Link",
+      "Title",
+      "H2",
+      "H3",
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

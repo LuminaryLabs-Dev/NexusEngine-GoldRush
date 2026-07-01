@@ -179,20 +179,32 @@ function validateRendererBoundary() {
 function validateGoalSync() {
   const goalPath = manifest.goalSync?.path;
   expect(typeof goalPath === "string" && goalPath.length > 0, "goal-sync-path-missing");
+  const resolvedManifestGoalPath = resolveManifestPath(goalPath);
   const fallbackPath = manifest.goalSync?.ciFallbackPath
     ? path.join(repoRoot, manifest.goalSync.ciFallbackPath)
     : null;
   const resolvedGoalPath = process.env.CI && fallbackPath && existsSync(fallbackPath)
     ? fallbackPath
-    : existsSync(goalPath)
-      ? goalPath
-      : null;
+    : resolvedManifestGoalPath && existsSync(resolvedManifestGoalPath)
+      ? resolvedManifestGoalPath
+      : fallbackPath && existsSync(fallbackPath)
+        ? fallbackPath
+        : null;
   expect(Boolean(resolvedGoalPath), "goal-sync-file-missing");
   if (!resolvedGoalPath) return;
   const text = readFileSync(resolvedGoalPath, "utf8");
   for (const marker of manifest.goalSync.requiredMarkers ?? []) {
     expect(text.includes(marker), `goal-sync-missing-marker:${marker}`);
   }
+}
+
+function resolveManifestPath(value) {
+  if (typeof value !== "string" || value.length === 0) return null;
+  if (value.startsWith("<documents>/")) {
+    return path.join(process.env.HOME ?? "", "Documents", value.slice("<documents>/".length));
+  }
+  if (path.isAbsolute(value)) return value;
+  return path.join(repoRoot, value);
 }
 
 function validateDocs() {

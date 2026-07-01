@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-validator-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.007.mine-town-terrain-props",
+  "generatedAt": "2026-06-30T17:27:16.209Z",
+  "doesNotModifyFirst31Gate": true,
+  "validatorVersion": "2",
+  "validatedAgainstFirst31ReceiptSet": true,
+  "validatedAgainstBatchIndex": true,
+  "expectedItemCount": 125,
+  "expectedTotalBytes": 1083452,
+  "expectedExtensions": [
+    ".mat"
+  ],
+  "result": "pass",
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.prop.goldPile",
+  "mediaKind": "prop-animation",
+  "handling": "gold-prop-source-metadata",
+  "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Jumping.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Jumping.fbx",
+  "sourceHash": "sha256:e795ab7f462b28f5428a054d570bc7470fe169a87ea682402f0ed90334a72345",
+  "sourceBytes": 6617136,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model/animation bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

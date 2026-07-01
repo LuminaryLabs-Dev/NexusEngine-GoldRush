@@ -1,0 +1,2756 @@
+Skip to content
+Chat history
+ChatGPT
+New chat
+Search chats
+Library
+Scheduled
+Apps
+More
+Pinned
+Nexus Realtime
+Museum Multiverse
+Reboot Outreach
+Nexus Game Kit
+Nexus Agent
+Lightspeed
+Luminary Labs
+Nexus GitHub Manager
+Soft Strange Studio
+Projects
+SIGGRAPH Participants
+Charlies World
+Kickback
+Super Automation
+VendingBackpack
+Show more
+Chats
+Lane 11 workflow health update complete
+Lane 09 state updated with latest follow-up
+Lane 10 Rust XR mobile build state refreshed
+Lane 08 update pushed to main
+Lane 07 state update complete
+Lane 06 core state update completed
+Lane 05 updated with followup 17
+Lane 04 update and repo sync completed
+Lane 03 update complete with Dev ledger refresh
+Lane 02 owner-map update complete
+Fixing experiments step-by-step
+Lane 01 registry intake refresh completed
+Lane 15 integration update blocked due to safety checks
+Lane 14 map update completed successfully
+Lane 13 triage update completed
+Lane 12 docs health and archive review updated
+Mystical Forest Dragon Emblem
+CPD Playwright Mixamo Download
+Open-Source Terrain Repos
+Compare Names App Script
+NexusRealtime AI Perception
+The Open Above Game
+NexusEngine Editor Overview
+Updated Automations and Rule
+Starting Workflow Strategy
+Free App Access
+Lane 15 cycle summary and updates
+Lane 14 updated with product and dependency map
+Luminary Labs
+Pro
+Share
+High thinking mode. We are using this ChatGPT project as a massive brainstorming engine for a real repo build: NexusEngine-TheOpenAbove.
+
+Task: Pitch THE OPEN ABOVE as a full standalone game, then expand it into a huge build-design brainstorm that can drive implementation.
+
+Important source context: I inspected the public repo WITHOUT cloning it: https://github.com/LuminaryLabs-Agents/NexusRealtime-Experiments
+Relevant public paths found:
+- experiments/the-open-above/README.md
+- experiments/the-open-above/index.html
+- experiments/the-open-above/open-above.config.js
+- experiments/the-open-above/open-above.js
+- experiments/the-open-above-v2/index.html
+- experiments/the-open-above-v2/open-above-v2.config.js
+- experiments/the-open-above-v2/open-above-v2.js
+- experiments/the-open-above-harness/index.html
+- docs/open-above-v2-bird-flight-simulator-domain-plan.md
+- tests/open-above-static-smoke.mjs
+- tests/open-above-v2-static-smoke.mjs
+
+Repo facts to preserve:
+- The Open Above is a NexusRealtime experiment composing generic ProtoKit DSKs into a high-fidelity bird simulator over streamed terrain.
+- It proves NexusRealtime.createRealtimeGame() can compose generic flight, terrain, patch, scatter, actor, lighting, flock, camera, and render descriptor kits into a playable browser slice.
+- The app owns app-specific data in open-above.config.js; ProtoKits stay generic.
+- Renderer host owns Three.js rendering, keyboard input, HUD, requestAnimationFrame, and window.GameHost debug/control surface.
+- Current controls: W/ArrowUp pitch up, S/ArrowDown pitch down, A/ArrowLeft bank left, D/ArrowRight bank right, Space boost, backquote debug state.
+- The original The Open Above route explicitly avoids arcade checkpoint rings, ring challenges, and terrain ring objectives. Preserve that principle: no ring-race game. Make the player read terrain, weather, ecology, and flock behavior instead.
+- V2 domain plan goal: transform experiments/the-open-above-v2 from a flight harness into a high-fidelity, data-driven bird flight simulator built from many small NexusRealtime domain kits.
+- The desired feeling: dive along terrain, build speed, bank around a ridge, catch lift under a cloud, climb through rain, stabilize with the flock, then glide into open sky.
+- Core verbs from the plan: glide, bank, carve, dive, swoop, climb, flap, recover, follow flock, enter cloud, catch lift, avoid storm, perch, launch.
+- V2 config includes terrain shaping, hydrology, horizon LOD, material paint, cel terrain shading, ancient canopy stands, stone fields, flock count, bird-follow camera, wind streak effects, smoke/cloud effects, direct assisted flight response, high-speed swoops, horizon terrain rings, and Protokits from main.
+- V2 implementation composes kits including: data registry, performance budget, sky atmosphere, lighting descriptors, material palette, terrain sampler, terrain hydrology, terrain shaping, terrain horizon LOD, world patch streaming, scatter placement, instanced render, flight motion, flight camera domain, actor render, flock agent.
+- Static smoke tests expect a canonical harness route, GameHost + GameHostV2, direct assisted flight, low carve camera authority, persistent position/target lag, no heuristic autopilot loop, no branded old flight preset imports, and validation flags for terrain/camera/horizon readiness.
+- Repo convention from README: canonical base-name routes; do not add V1/V2 gallery cards; fold successful variants back into the base route after unified implementation and tests.
+
+Now produce a full-game pitch and massive brainstorm for NexusEngine-TheOpenAbove.
+
+Output requirements:
+1. Start with a one-paragraph executive pitch that sounds like a real game pitch, not a tech demo.
+2. Give a compact "what the player does every minute" loop.
+3. Define the full-game identity: genre, camera, mood, target player, player fantasy, core promise, platform assumptions, and what makes it different from flying games or survival games.
+4. Expand the game into a huge concrete design inventory. Target 1000+ specific ideas if your response limit permits. Do not stay abstract. Use numbered lists and dense horizontal wording. If you cannot fit 1000+, give the maximum useful amount now and end with an explicit continuation marker.
+5. Include concrete lists for: biomes, weather states, cloud types, wind/lift phenomena, bird species or body archetypes, wing/feather traits, flock behaviors, animal encounters, terrain landmarks, perches, nests/roosts, hazards, objectives, non-ring navigation challenges, ecological events, traversal techniques, progression unlocks, skill tests, sensory cues, audio events, visual effects, camera behaviors, HUD states, accessibility assists, failure/recovery states, debug tools, test scenarios, and first 10 production milestones.
+6. Convert the brainstorm into a production direction for NexusEngine-TheOpenAbove: what to build first, what to preserve from NexusRealtime-Experiments, what to discard, what should live in route/app code, what should become reusable domain kits, and what validation proof is needed.
+7. Respect the architecture: host loads data/kits, composes game, maps input to public kit APIs, ticks engine, reads render descriptors, draws with Three.js, exposes GameHost. Host should not own bird physics, weather rules, cloud/rain rules, flock meaning, perch rules, or objective logic long-term.
+8. Avoid suggesting cloning or editing NexusRealtime-Experiments. Treat it as source inspiration only. The target build repo is NexusEngine-TheOpenAbove.
+9. Be bold and expansive. Do not ask clarifying questions before producing the pitch.
+
+Return the pitch now.
+Show more
+Executive pitch
+
+The Open Above is a third-person wilderness flight adventure where you live as a wild bird crossing a vast, breathing mountain world, not by chasing rings or markers, but by reading terrain, clouds, wind, weather, flock motion, animal behavior, and the shape of the land itself. You dive into valleys to gather speed, carve along ridgelines, catch lift under storm-dark clouds, perch on ancient trees, migrate with flocks, survive weather fronts, defend roosts, discover hidden ecological landmarks, and gradually master the sky as a real navigable habitat. The promise is simple: the world teaches you how to fly.
+
+Thought for 22s
+Executive pitch
+
+The Open Above is a third-person wilderness flight adventure where you live as a wild bird crossing a vast, breathing mountain world, not by chasing rings or markers, but by reading terrain, clouds, wind, weather, flock motion, animal behavior, and the shape of the land itself. You dive into valleys to gather speed, carve along ridgelines, catch lift under storm-dark clouds, perch on ancient trees, migrate with flocks, survive weather fronts, defend roosts, discover hidden ecological landmarks, and gradually master the sky as a real navigable habitat. The promise is simple: the world teaches you how to fly.
+
+1. What the player does every minute
+
+Launch: Start from a perch, cliff, nest, canopy branch, ruin, or moving flock.
+
+Read: Scan horizon, clouds, tree motion, birds, rain curtains, cliffs, shadows, and water.
+
+Commit: Pick a terrain line: ridge, valley, river, canopy corridor, cliff wall, cloud shelf.
+
+Dive: Drop for speed, stabilize, skim terrain, avoid branches and rock faces.
+
+Carve: Bank around ridges, roll through wind shear, hold altitude with terrain lift.
+
+Exploit: Catch thermal, ridge lift, storm updraft, canopy vent, waterfall spray, sea breeze.
+
+React: Weather shifts, predators appear, flock changes heading, visibility drops, stamina dips.
+
+Navigate: Use landmarks, flock calls, sun angle, river direction, mountain silhouettes, smell cues.
+
+Recover: Flap out of stall, shelter under cliff, perch to rest, ride flock draft, escape turbulence.
+
+Resolve: Reach roost, discover habitat, rescue fledgling, find migration route, survive storm, claim perch.
+
+No rings. No checkpoint race. The challenge is natural reading, embodied flight, and ecological navigation.
+
+2. Full-game identity
+Axis	Direction
+Genre	Open-world bird flight simulator, ecological traversal adventure, wilderness survival-lite
+Camera	Third-person over-bird follow camera, close enough to feel wing motion, wide enough to read terrain
+Mood	Awe, altitude, danger, solitude, migration, storm beauty, ancient wilderness
+Target player	Players who love movement mastery, nature games, atmospheric exploration, gliding, emergent systems
+Player fantasy	“I am not piloting a plane. I am a living bird reading the sky.”
+Core promise	Master flight by learning how weather, landforms, ecology, and flock behavior interact
+Platform assumptions	Browser-first Three.js, keyboard initially, gamepad later, WebGPU/WebGL renderer path, deterministic sim core
+Different from flying games	No aircraft UI, no speedometer obsession, no ring racing, no abstract courses
+Different from survival games	Survival is ecological and movement-based, not inventory-grid crafting
+Different from walking exploration	The main verb is reading moving air across land at speed
+Nexus identity	A flagship proof that many generic NexusRealtime DSKs can compose into one expressive standalone game
+3. Core design pillars
+
+Terrain is the level designer: Ridges, valleys, cliffs, rivers, forests, canopies, and cloud decks create flight lines.
+
+Weather is the enemy and the opportunity: Storms threaten, but lift lives inside them.
+
+The flock is a living interface: Birds communicate safe paths, hazards, migration intent, panic, rest, and opportunity.
+
+Movement is the progression: Better player skill plus body archetype unlocks, not stat inflation alone.
+
+No ring-race grammar: Navigation challenges use landmarks, wind, ecology, silhouettes, calls, scent, stars, water, and memory.
+
+The game is data-driven: The app owns Open Above data, generic kits own reusable simulation meaning.
+
+Host is a renderer and conductor: Long-term, the host should not own bird physics, weather rules, cloud rules, flock meaning, perch rules, or objective logic.
+
+4. Massive concrete design inventory
+4.1 Biomes
+
+Alpine dawn basin
+
+High meadow thermals
+
+Granite ridge maze
+
+Ancient canopy valley
+
+Rainforest cloud shelf
+
+Wind-cut desert escarpment
+
+Volcanic ash highlands
+
+Glacier bowl
+
+Snow cornice ridge
+
+Red canyon riverway
+
+Coastal cliff chain
+
+Sea-stack archipelago
+
+Mangrove tidal flats
+
+Misty karst towers
+
+Thunderhead plateau
+
+Dead forest burn scar
+
+Blooming valley migration stop
+
+Monsoon gorge
+
+Temperate old-growth range
+
+Badlands updraft labyrinth
+
+River delta feeding grounds
+
+Frozen pine pass
+
+Autumn migration corridor
+
+Storm-shadow grasslands
+
+Moonlit crater lake
+
+4.2 Micro-biomes
+
+Sun-warmed rock thermal patch
+
+Mossy cliff moisture pocket
+
+Fallen giant tree tunnel
+
+Branch canopy cathedral
+
+Windless lee-side hollow
+
+Insect bloom meadow
+
+Raven cliff colony
+
+Eagle hunting shelf
+
+Broken stone ruin perch
+
+Waterfall spray lift zone
+
+Snowmelt stream corridor
+
+Lightning-struck snag field
+
+Hidden berry grove
+
+Cicada hum canopy strip
+
+Firefly dusk wetland
+
+Bat cave exit plume
+
+Cliff swallow wall
+
+High-altitude lichen plateau
+
+Hot spring steam vent
+
+Exposed predator nesting crag
+
+Hollow redwood rest site
+
+River bend fish boil
+
+Mudflat shell bank
+
+Avalanche debris fan
+
+Cloud-shadow temperature seam
+
+4.3 Weather states
+
+Clear high-pressure morning
+
+Gentle afternoon cumulus
+
+Valley fog inversion
+
+Ridge crosswind
+
+Sudden mountain gust front
+
+Warm rain shower
+
+Cold rain curtain
+
+Thunderstorm build
+
+Lightning-active cell
+
+Hail pocket
+
+Snow squall
+
+Wet heavy snow
+
+Freezing rain edge
+
+Dry desert windstorm
+
+Dust wall
+
+Coastal marine layer
+
+Sea breeze arrival
+
+Monsoon surge
+
+Post-storm golden air
+
+Night radiative cooling
+
+Moonlit stillness
+
+Aurora high atmosphere
+
+Smoke haze
+
+Wildfire ember wind
+
+Pressure-drop animal panic
+
+4.4 Cloud types
+
+Small fair-weather cumulus
+
+Tall growing cumulus
+
+Dark anvil thunderhead
+
+Stratocumulus ceiling
+
+Ground-hugging valley fog
+
+Lenticular mountain wave cloud
+
+Orographic cap cloud
+
+Rain shaft cloud base
+
+Broken cloud street
+
+High cirrus streak
+
+Mammatus storm underside
+
+Scud fragments under storm
+
+Mist plume from waterfall
+
+Steam cloud from hot spring
+
+Sea fog wall
+
+Snow cloud deck
+
+Dust cloud front
+
+Smoke column
+
+Pollen haze cloud
+
+Insect swarm shimmer
+
+Dawn mist layers
+
+Moonlit cloud shelf
+
+Cloud shadow bands
+
+Rotating storm core
+
+Safe lift-marking cumulus line
+
+4.5 Wind and lift phenomena
+
+Ridge lift along windward slopes
+
+Thermal columns over warm rocks
+
+Cloud-base suction lift
+
+Lee-side rotor turbulence
+
+Valley venturi acceleration
+
+Canyon wall compression wind
+
+Waterfall spray updraft
+
+Ocean cliff sea breeze lift
+
+Storm gust outflow
+
+Mountain wave high lift
+
+Tree canopy rough air
+
+Forest gap sinking air
+
+Sun patch micro-thermal
+
+River cooling sink
+
+Glacier katabatic flow
+
+Desert heat shimmer climb
+
+Night cold-air drainage
+
+Rain-cooled downdraft
+
+Fire plume lift
+
+Dust devil spiral lift
+
+Bird flock draft pocket
+
+Predator wake turbulence
+
+Cliff corner shear
+
+Cloud street conveyor
+
+Storm edge launch window
+
+4.6 Bird species and body archetypes
+
+Swift alpine falcon
+
+Broad-winged eagle
+
+Lightweight swallow
+
+Heavy raven
+
+Gliding albatross archetype
+
+Agile kestrel
+
+Soaring vulture
+
+Forest owl
+
+Diving osprey
+
+Mountain hawk
+
+High-altitude crane
+
+Migratory goose
+
+Cliff swift
+
+Jungle hornbill
+
+Desert kite
+
+Snow owl
+
+River kingfisher
+
+Storm petrel
+
+Condor-scale giant soarer
+
+Small finch scout
+
+Cormorant waterline flyer
+
+Heron slow wingbeat flyer
+
+Magpie opportunist
+
+Crow problem-solver
+
+Mythic ancient skybird skin
+
+4.7 Wing and feather traits
+
+Long narrow glide wings
+
+Broad thermal wings
+
+Short agile forest wings
+
+Split primary feathers
+
+High camber lift feathers
+
+Wet feather drag penalty
+
+Snow-packed feather weight
+
+Damaged feather asymmetry
+
+Molting feather stamina tax
+
+Juvenile unstable wingbeat
+
+Storm-hardened feather trait
+
+Silent owl feather edge
+
+High-speed dive feather lock
+
+Gust-sensing feather vibration
+
+Bright flock recognition markings
+
+Camouflage forest plumage
+
+White snow visibility trait
+
+Dark storm silhouette trait
+
+Iridescent rain sheen
+
+Mud-stained ground landing state
+
+Feather preen recovery action
+
+Tail-fan braking trait
+
+Wingtip vortex visual trait
+
+Low-stamina feather droop
+
+Panic feather ruffle state
+
+4.8 Flock behaviors
+
+V-formation migration
+
+Loose thermal circling
+
+Panic scatter burst
+
+Predator mobbing spiral
+
+Roost convergence at dusk
+
+Dawn launch wave
+
+Juvenile follow chain
+
+Elder route leader
+
+Wind testing scouts
+
+Rain shelter clustering
+
+Cloud lift exploitation
+
+Ridge line train
+
+Food signal descent
+
+Danger call diversion
+
+Flock draft lane
+
+Injured bird slow subgroup
+
+Mate pairing behavior
+
+Territory boundary display
+
+Storm refusal behavior
+
+Emergency canyon landing
+
+Mixed-species migration
+
+Nest defense swarm
+
+High-altitude oxygen pacing
+
+Flock split decision
+
+Rejoin call-and-response
+
+4.9 Animal encounters
+
+Eagle predator dive
+
+Fox near ground perch
+
+Mountain goat rockfall trigger
+
+Deer herd panic movement
+
+Bear at berry grove
+
+Wolves crossing snow pass
+
+Fish boil in river
+
+Salmon run feeding event
+
+Insect swarm feeding cloud
+
+Bats emerging from cave
+
+Owls hunting at dusk
+
+Ravens stealing nest material
+
+Snakes near low roost
+
+Marmots whistling danger
+
+Cliff swallows crowding wall
+
+Seals at coastal rocks
+
+Whales below ocean glide line
+
+Bees around flowering meadow
+
+Locust cloud hazard and food
+
+Lynx stalking forest edge
+
+Human hikers far below, non-combat
+
+Abandoned tower pigeons
+
+Cranes crossing thermal lane
+
+Vultures marking carcass thermal
+
+Dragonfly clouds over wetlands
+
+4.10 Terrain landmarks
+
+Needle ridge spine
+
+Split mountain pass
+
+Hanging valley lip
+
+Horseshoe canyon
+
+Twin waterfalls
+
+Cracked granite dome
+
+Sky arch stone bridge
+
+Broken watchtower ruin
+
+Giant dead tree crown
+
+Glacier blue crevasse field
+
+Red cliff amphitheater
+
+Spiral river canyon
+
+Cloud-piercing mesa
+
+Lake mirror basin
+
+Ancient canopy giant
+
+Storm-black basalt wall
+
+Wind-carved stone fin
+
+Snow saddle crossing
+
+Sea stack chain
+
+Hidden crater lake
+
+Burned forest scar
+
+Flowering meadow bowl
+
+Steam vent terrace
+
+Raven colony cliff
+
+Final open-sky summit
+
+4.11 Perches
+
+Thin branch balance perch
+
+Wide ancient limb rest perch
+
+Cliff nub launch perch
+
+Ruin window ledge
+
+Dead snag lookout
+
+Mossy rock shelf
+
+Waterfall wet ledge
+
+Snow cornice risky perch
+
+Hollow tree interior perch
+
+Nest rim perch
+
+Boulder field low perch
+
+Human signpost perch
+
+Abandoned antenna perch
+
+Ship mast coastal perch
+
+Sea stack top perch
+
+Cathedral canopy fork
+
+River log perch
+
+Predator-exposed high perch
+
+Flock communal branch
+
+Storm shelter cave lip
+
+Thermal scout rock
+
+Moon-viewing pine tip
+
+Rain-dry cliff overhang
+
+Migration route marker perch
+
+Final roost crown
+
+4.12 Nests and roosts
+
+Starter cliff nest
+
+High pine nest
+
+Hidden canopy nest
+
+Eagle abandoned nest
+
+Swallow mud wall colony
+
+Raven stick fortress
+
+Hollow tree owl roost
+
+Coastal sea stack nest
+
+Snow ledge nest
+
+Ruined tower roost
+
+Communal dusk roost
+
+Storm shelter roost
+
+Migratory waypoint roost
+
+Juvenile training nest
+
+Predator-damaged nest
+
+Flood-threatened low nest
+
+Wind-perfect exposed nest
+
+Moss-lined recovery nest
+
+Nest with stolen shiny objects
+
+Nest near insect field
+
+Nest above river bend
+
+Ancient myth roost
+
+Temporary migration bivouac
+
+Winter survival roost
+
+Endgame open-sky eyrie
+
+4.13 Hazards
+
+Rock face collision
+
+Tree branch clipping
+
+Stall from over-climb
+
+Overspeed dive instability
+
+Tailwind misjudged landing
+
+Crosswind perch miss
+
+Rain feather drag
+
+Ice feather weight
+
+Lightning strike zone
+
+Hail impact damage
+
+Predator lock-on
+
+Exhaustion crash landing
+
+Fog disorientation
+
+Dust blindness
+
+Smoke suffocation zone
+
+Canopy turbulence trap
+
+Lee rotor tumble
+
+Downdraft sinkhole
+
+Narrow canyon dead end
+
+Avalanche air blast
+
+Falling rocks
+
+Thunder panic flock scatter
+
+Human structures as collision hazard
+
+Barbed wire near low fields
+
+Night low-visibility hunting risk
+
+4.14 Objectives
+
+Reach dusk roost before storm
+
+Guide juvenile through ridge line
+
+Find lift under cloud street
+
+Cross glacier without landing
+
+Escape eagle through forest gap
+
+Recover stolen nest object
+
+Scout safe migration pass
+
+Follow river to feeding ground
+
+Discover hidden thermal valley
+
+Shelter flock during hail
+
+Deliver twig to rebuild nest
+
+Lead flock around wildfire smoke
+
+Find missing mate call
+
+Track scent to berry grove
+
+Rescue fledgling from cliff shelf
+
+Claim high perch territory
+
+Map landmarks by memory
+
+Survive night crossing
+
+Climb above thunderhead edge
+
+Follow whale coast route
+
+Race storm front to roost, not rings
+
+Find ancient skybird mural
+
+Complete first migration leg
+
+Teach juvenile launch timing
+
+Return to birthplace after season
+
+4.15 Non-ring navigation challenges
+
+Follow ridge shadow to pass
+
+Use river flow direction to orient
+
+Track cloud street alignment
+
+Match flock call direction
+
+Use sunset angle to choose valley
+
+Follow insects to warm meadow
+
+Read tree lean for prevailing wind
+
+Track rain curtain edge
+
+Find gap in fog by sound
+
+Use cliff color strata as landmark
+
+Follow thermal birds circling
+
+Ride valley wind without map marker
+
+Identify safe pass by snow plume
+
+Follow waterfall roar in mist
+
+Navigate by lightning flashes
+
+Use moon reflection on lake
+
+Find roost by dusk chorus
+
+Use predator avoidance paths
+
+Follow scent plume from flowers
+
+Track migration scratches on trees
+
+Use star band for night migration
+
+Locate coast by gull calls
+
+Recognize unique mountain silhouette
+
+Descend through cloud break
+
+Navigate by flock body language
+
+4.16 Ecological events
+
+Insect bloom after rain
+
+Salmon run feeding frenzy
+
+Dusk bat emergence
+
+Morning thermal awakening
+
+Predator territory expansion
+
+Wildfire smoke front
+
+Post-fire insect surge
+
+Sudden flower bloom
+
+Monsoon arrival
+
+Snowmelt flood
+
+Avalanche opening new perch
+
+Tree fall creating canopy route
+
+Nest raiding event
+
+Flock migration departure
+
+Juvenile first-flight day
+
+Berry season arrival
+
+Cicada emergence
+
+Coastal storm fish wash-up
+
+Cliff colony panic
+
+Lightning-struck tree burn
+
+Fog inversion morning
+
+Starling murmuration encounter
+
+Crane migration crossing
+
+Drought lowering lake
+
+Ancient roost rediscovered
+
+4.17 Traversal techniques
+
+Terrain-hugging dive
+
+Ridge carve
+
+Thermal circling climb
+
+Cloud-base lift hold
+
+Tailwind speed run
+
+Crosswind crab glide
+
+High-bank canyon turn
+
+Feather-brake perch landing
+
+Last-second branch flare
+
+Storm edge climb
+
+Flock draft glide
+
+Canopy gap threading
+
+Rock wall slipstream
+
+River corridor low glide
+
+Ocean wave skim
+
+Cliff launch drop
+
+Rain recovery flap
+
+Stall break nose-down
+
+Emergency tumble correction
+
+Predator juke roll
+
+Wing-fold dive
+
+Tail-fan braking spiral
+
+Slow owl hover approach
+
+Long albatross dynamic soar
+
+Mountain wave altitude step
+
+4.18 Progression unlocks
+
+Stronger sustained flap
+
+Better stall recovery
+
+Wider thermal detection
+
+Improved wet feather tolerance
+
+Higher altitude comfort
+
+Faster perch lock
+
+Better flock communication
+
+Longer glide efficiency
+
+Improved storm reading
+
+Night orientation sense
+
+Juvenile mentoring ability
+
+Predator warning call
+
+Snow landing stability
+
+Stronger dive control
+
+More precise bank authority
+
+Cloud lift intuition
+
+Nest building upgrade
+
+Roost memory map
+
+Regional landmark memory
+
+Feather preen faster recovery
+
+Reduced turbulence panic
+
+Better terrain skim confidence
+
+Migration endurance
+
+Species archetype variant access
+
+Ancient route memory
+
+4.19 Skill tests
+
+Perch on narrow branch in crosswind
+
+Climb from valley floor without flapping
+
+Cross ridge using only lift
+
+Recover from induced stall
+
+Thread three canopy gaps naturally
+
+Escape predator without losing altitude
+
+Land at dusk in heavy rain
+
+Find roost without HUD marker
+
+Maintain flock formation through gusts
+
+Dive below fog and emerge safely
+
+Ride thermal to cloud base
+
+Avoid lightning by reading charge cues
+
+Use tailwind to beat storm
+
+Approach nest without disturbing chicks
+
+Carry twig through turbulence
+
+Follow hidden river in moonlight
+
+Navigate by sound in fog
+
+Identify safe lift from cloud shape
+
+Make emergency cliff landing
+
+Guide juvenile around downdraft
+
+Coast above waves without crash
+
+Cross open basin with limited stamina
+
+Circle in narrow thermal core
+
+Recover wet feathers before predator arrives
+
+Find pass from mountain silhouette only
+
+4.20 Sensory cues
+
+Tree crowns bend toward wind direction
+
+Grass ripples mark surface gusts
+
+Feather vibration signals overspeed
+
+Wing creak signals high load
+
+Camera tremor signals turbulence
+
+Cloud underside darkens before rain
+
+Flock calls change with danger
+
+Distant thunder marks storm vector
+
+Insects sparkle over warm air
+
+Ravens circle over carrion thermal
+
+Dust streamers reveal rotor wind
+
+Snow plume shows ridge lift
+
+Waterfall mist shows updraft
+
+Rain streak angle shows crosswind
+
+Sun-warmed rock glows subtly
+
+Predator shadow crosses ground
+
+Leaves detach in gust front
+
+Bird heartbeat rises near exhaustion
+
+Sound muffles inside cloud
+
+Horizon desaturates in fog
+
+Feathers bead with rain
+
+Breath mist appears in cold altitude
+
+Wingtip vortices appear in high-G carve
+
+Roost chorus grows louder near shelter
+
+Cloud edge brightens near lift
+
+4.21 Audio events
+
+Wingbeat strain loop
+
+Feather flutter overspeed rattle
+
+Low glide wind rush
+
+High dive wind roar
+
+Rain ticking on feathers
+
+Hail impact clicks
+
+Thunder roll distance system
+
+Predator scream warning
+
+Flock contact chirps
+
+Juvenile distress call
+
+Dusk roost chorus
+
+Cliff echo wing sounds
+
+Canopy rustle pass-by
+
+Waterfall low-frequency roar
+
+Snow muffled ambience
+
+Desert wind whistle
+
+Insect swarm buzz
+
+Branch landing creak
+
+Nest material scrape
+
+Distant animal calls
+
+Fog-dampened ambience
+
+Storm pressure rumble
+
+Cloud interior low hush
+
+Dive recovery gasp chirp
+
+Successful perch soft trill
+
+4.22 Visual effects
+
+Wind streaks beside wings
+
+Feather particle shedding
+
+Rain bead trails
+
+Wingtip vapor in wet air
+
+Cloud volumetric layers
+
+Mist wrapping ridge edges
+
+Lightning backlighting cloud
+
+Hail streak impacts
+
+Snow caught in wing vortices
+
+Dust wall opacity gradient
+
+Heat shimmer over rocks
+
+Insect swarm sparkles
+
+Aurora high-altitude ribbon
+
+Sunrise cloud rim glow
+
+Moonlit feather sheen
+
+Terrain cel-shade bands
+
+Waterfall spray sparkle
+
+Flock silhouette parallax
+
+Predator shadow pass
+
+Low stamina vignette
+
+Rain distortion on camera
+
+Fog depth fade
+
+Branch leaf burst on near miss
+
+Perch landing dust puff
+
+Cloud shadow racing terrain
+
+4.23 Camera behaviors
+
+Low-authority carve camera
+
+Persistent position lag
+
+Persistent target lag
+
+Speed-reactive pullback
+
+Dive compression shake
+
+Perch approach slow zoom
+
+Cloud entry damped view
+
+Storm turbulence shake
+
+Flock-follow offset framing
+
+Predator glance assist
+
+Horizon stabilizer option
+
+Bank angle readable roll
+
+Terrain skim lower chase angle
+
+High-altitude wide awe frame
+
+Canopy threading close camera
+
+Landing flare shoulder view
+
+Cliff-side look-ahead bias
+
+Valley reveal camera rise
+
+Rain visibility adaptive contrast
+
+Debug camera detach
+
+Migration cinematic wide mode
+
+Juvenile escort rear-view glance
+
+Nest approach soft lock
+
+Crash recovery ground-level frame
+
+No full autopilot camera override
+
+4.24 HUD states
+
+Minimal default no-HUD mode
+
+Small stamina feather icon
+
+Optional wind vector whisper indicator
+
+Optional lift warmth shimmer reticle
+
+Optional flock trust pulse
+
+Optional storm danger edge glow
+
+Optional perch readiness dot
+
+Optional altitude band text in debug only
+
+Optional speed readout in debug only
+
+Optional objective memory phrase
+
+No ring overlays
+
+No floating checkpoint tunnel
+
+No arcade lap timer
+
+Diegetic calls instead of waypoint arrows
+
+Landmark memory sketch map pause screen
+
+Perch rest summary
+
+Migration route journal
+
+Weather front label in accessibility mode
+
+Predator warning edge flash
+
+Recovery prompt after stall
+
+Soft tutorial hint on repeated failure
+
+Debug kit readiness panel
+
+Snapshot validation overlay
+
+Camera authority readout
+
+GameHost state console toggle
+
+4.25 Accessibility assists
+
+Reduced camera roll
+
+Reduced turbulence shake
+
+High-contrast terrain silhouette mode
+
+Stronger cloud lift visualization
+
+Optional wind direction ribbon
+
+Larger perch affordance zone
+
+Assisted landing flare
+
+Assisted stall recovery
+
+Slower predator reaction window
+
+Longer stamina buffer
+
+Rain visibility boost
+
+Fog audio navigation boost
+
+Colorblind weather palette
+
+Motion sickness comfort camera
+
+One-stick glide mode for gamepad
+
+Keyboard direct assisted flight
+
+Toggle hold boost
+
+Tutorial callout replay
+
+Flock path hint mode
+
+Objective phrase reminders
+
+Predator audio subtitle
+
+Weather event subtitle
+
+Perch lock haptic pulse later
+
+Minimum visual noise mode
+
+Low-spec effects fallback
+
+4.26 Failure and recovery states
+
+Stall wobble
+
+Wingtip brush recovery
+
+Hard branch collision
+
+Soft canopy tumble
+
+Ground crash slide
+
+Water skim failure
+
+Wet feather exhaustion
+
+Hail stunned state
+
+Lightning near-miss disorientation
+
+Predator grapple escape
+
+Nest material dropped
+
+Juvenile lost contact
+
+Flock abandoned route
+
+Perch overshoot recovery turn
+
+Canyon dead-end climb panic
+
+Fog lost-state loop
+
+Low altitude emergency flap
+
+Broken feather temporary drag
+
+Shelter rest recovery
+
+Preen to restore feather quality
+
+Flock rejoin recovery objective
+
+Respawn at last safe perch
+
+Downed but alive ground hop
+
+Weather wait-out state
+
+Route memory retained after failure
+
+4.27 Debug tools
+
+window.GameHost control surface
+
+window.GameHostV2 compatibility bridge
+
+Snapshot dump toggle
+
+Render descriptor inspector
+
+Terrain readiness flag
+
+Camera readiness flag
+
+Horizon LOD readiness flag
+
+Weather cell debug overlay
+
+Wind vector field overlay
+
+Lift column overlay
+
+Perch affordance overlay
+
+Flock intent overlay
+
+Bird physics state readout
+
+Stall state readout
+
+Carve authority readout
+
+Camera lag graph
+
+Input mapping inspector
+
+Performance budget panel
+
+Draw call count panel
+
+Instance count panel
+
+Cloud particle budget panel
+
+Scenario seed selector
+
+Deterministic replay capture
+
+Per-frame validation log
+
+Static smoke route checker
+
+4.28 Test scenarios
+
+Launch from cliff in calm air
+
+Ridge lift sustain test
+
+Thermal climb test
+
+Dive overspeed recovery test
+
+Low carve camera authority test
+
+Persistent target lag test
+
+Direct assisted flight response test
+
+No heuristic autopilot loop test
+
+Canonical route load test
+
+Terrain horizon LOD visibility test
+
+Cloud particle budget test
+
+Rain drag behavior test
+
+Storm downdraft escape test
+
+Perch landing precision test
+
+Branch collision recovery test
+
+Flock follow behavior test
+
+Predator chase evasion test
+
+Fog navigation assist test
+
+Low-spec fallback test
+
+Debug backquote state test
+
+Window resize test
+
+GameHost restart test
+
+Snapshot reset test
+
+Deterministic seed repeat test
+
+No branded old preset import test
+
+4.29 Route and app-code responsibilities
+
+Load Open Above app config
+
+Select enabled generic ProtoKits
+
+Compose NexusRealtime.createRealtimeGame()
+
+Map keyboard input to public APIs
+
+Map gamepad input later
+
+Own Three.js renderer setup
+
+Own requestAnimationFrame loop
+
+Own canvas lifecycle
+
+Own HUD rendering
+
+Own debug panel rendering
+
+Own window.GameHost exposure
+
+Own route smoke flags
+
+Own browser feature detection
+
+Own fallback renderer path
+
+Own asset placeholder selection
+
+Own screenshot capture hook
+
+Own route canonical naming
+
+Own demo scenario seed list
+
+Own app-specific biome data
+
+Own app-specific species roster
+
+Own app-specific landmark table
+
+Own app-specific mission table
+
+Own route-level performance defaults
+
+Own theme and UI copy
+
+Own integration test harness
+
+4.30 Reusable domain kit candidates
+
+Flight motion kit
+
+Assisted flight input kit
+
+Wing body archetype kit
+
+Bird stamina kit
+
+Feather condition kit
+
+Stall recovery kit
+
+Perch affordance kit
+
+Launch behavior kit
+
+Landing flare kit
+
+Weather cell kit
+
+Cloud descriptor kit
+
+Rain drag kit
+
+Wind field kit
+
+Lift phenomenon kit
+
+Terrain sampler kit
+
+Terrain hydrology kit
+
+Terrain shaping kit
+
+Horizon LOD kit
+
+World patch streaming kit
+
+Scatter placement kit
+
+Flock agent kit
+
+Predator encounter kit
+
+Ecological event kit
+
+Objective graph kit
+
+Migration route kit
+
+4.31 More reusable domain kits
+
+Landmark navigation kit
+
+Scent plume kit
+
+Audio cue descriptor kit
+
+Sensory cue kit
+
+Camera lag kit
+
+Flight camera domain kit
+
+Render descriptor kit
+
+Instanced vegetation kit
+
+Cloud particle kit
+
+Wind streak FX kit
+
+Material palette kit
+
+Cel terrain shading kit
+
+Lighting descriptor kit
+
+Sky atmosphere kit
+
+Performance budget kit
+
+Snapshot validator kit
+
+Replay determinism kit
+
+Debug overlay descriptor kit
+
+Accessibility assist kit
+
+Tutorial hint kit
+
+Biome registry kit
+
+Species registry kit
+
+Encounter director kit
+
+Roost memory kit
+
+Seasonal state kit
+
+4.32 Objective families
+
+Migration route objectives
+
+Roost survival objectives
+
+Flock escort objectives
+
+Storm escape objectives
+
+Perch discovery objectives
+
+Juvenile training objectives
+
+Predator evasion objectives
+
+Nest repair objectives
+
+Weather reading objectives
+
+Landmark memory objectives
+
+Cloud lift mastery objectives
+
+Thermal climbing objectives
+
+Ridge carving objectives
+
+Night navigation objectives
+
+Food discovery objectives
+
+Ecological rescue objectives
+
+Territory display objectives
+
+Ancient route discovery objectives
+
+Seasonal return objectives
+
+Shelter timing objectives
+
+Body archetype challenge objectives
+
+Low-stamina endurance objectives
+
+Fog sound-navigation objectives
+
+Coastal wind objectives
+
+High-altitude summit objectives
+
+4.33 Production content packets
+
+Starter cliff biome packet
+
+Meadow thermal biome packet
+
+Granite ridge biome packet
+
+Old-growth canopy packet
+
+Storm cloud packet
+
+Rain shader packet
+
+Wind streak packet
+
+Bird archetype packet
+
+Flock behavior packet
+
+Perch affordance packet
+
+Nest packet
+
+Predator encounter packet
+
+Weather event packet
+
+Landmark descriptor packet
+
+Terrain material palette packet
+
+Terrain hydrology packet
+
+Scatter vegetation packet
+
+Camera behavior packet
+
+HUD minimal packet
+
+Accessibility packet
+
+Debug overlay packet
+
+Static smoke packet
+
+Deterministic scenario packet
+
+Tutorial phrase packet
+
+Production screenshot packet
+
+4.34 First region design: “The Learning Sky”
+
+Cliff nest start
+
+Warm meadow below
+
+Safe ridge lift wall
+
+One obvious thermal cloud
+
+One risky canyon shortcut
+
+One ancient tree perch
+
+One river navigation line
+
+One juvenile flock partner
+
+One predator near boundary
+
+One rain shower transition
+
+One dusk roost target
+
+One hidden waterfall lift
+
+One easy branch perch
+
+One hard cliff perch
+
+One fog pocket
+
+One sunset silhouette landmark
+
+One no-HUD navigation objective
+
+One glide-only mastery route
+
+One storm escape objective
+
+One flock follow objective
+
+One direct assisted flight tutorial
+
+One stall recovery tutorial
+
+One camera proof scenario
+
+One performance budget test
+
+One screenshot acceptance vista
+
+4.35 Mid-game region design: “The Weather Teeth”
+
+Jagged mountain ridge chain
+
+Lenticular cloud field
+
+Rotor turbulence valley
+
+Hail corridor
+
+Glacier sink zone
+
+Snow cornice perches
+
+Eagle predator territory
+
+Narrow pass navigation
+
+Moonlit high crossing
+
+Thin-air stamina pressure
+
+Cloud-base climb challenge
+
+Lightning avoidance challenge
+
+Avalanche air blast event
+
+Flock split decision
+
+Injured bird escort
+
+Ancient storm roost
+
+Snow visibility assist test
+
+Wind shear tutorial
+
+Long dive speed route
+
+Emergency cave shelter
+
+Migration memory upgrade
+
+Strong feather condition test
+
+High-altitude audio palette
+
+Distant horizon LOD proof
+
+Summit open-sky reveal
+
+4.36 Endgame region design: “The Open Above”
+
+Massive cloud ocean
+
+High mountain wave ladder
+
+Aurora night migration
+
+Ancient skybird route
+
+Giant storm wall
+
+Flock convergence event
+
+Predator no longer central threat
+
+Weather mastery challenge
+
+No-HUD landmark navigation
+
+Multi-biome route stitching
+
+Long endurance glide
+
+Final roost above cloud line
+
+Multiple species flock gathering
+
+Seasonal return callback
+
+Deep silence audio moment
+
+Very high camera awe mode
+
+Dynamic cloud shadows below
+
+Player-chosen route ending
+
+Flock trust resolution
+
+Juvenile grown follow-up
+
+Old nest memory scene
+
+Sun breakthrough finale
+
+Open sky freeflight unlock
+
+Migration route replay mode
+
+Postgame weather sandbox
+
+4.37 What to avoid
+
+Arcade ring checkpoints
+
+Race-lap UI
+
+Floating neon path tunnels
+
+Overpowered autopilot
+
+Camera snapping to target
+
+Physics hidden in renderer host
+
+Weather rules hidden in renderer host
+
+Cloud logic hidden in renderer host
+
+Flock behavior hidden in renderer host
+
+Objective logic hidden in renderer host
+
+Branded old flight preset imports
+
+One giant app-specific physics blob
+
+V1/V2 duplicated gallery identity
+
+Hardcoded one-off mission scripts
+
+UI covering the sky
+
+Constant map markers
+
+Over-tutorialized movement
+
+Generic survival crafting inventory
+
+Human combat framing
+
+Plane-like cockpit instrumentation
+
+Excessive particle noise
+
+Unreadable terrain tint-only landmarks
+
+Infinite flat terrain
+
+Tiny primitive props as main landmarks
+
+Debug success claims without smoke proof
+
+4.38 Production risks to design around
+
+Flight feels floaty without terrain stakes
+
+Camera fights player bank angle
+
+Weather looks pretty but has no gameplay meaning
+
+Flock becomes decoration only
+
+Terrain streaming pops visibly
+
+Perches feel arbitrary
+
+Objectives regress into markers
+
+HUD grows too large
+
+Low-end browser frame rate collapses
+
+Clouds become opaque walls
+
+Rain makes everything unreadable
+
+Biomes differ only by color
+
+Bird body archetypes feel cosmetic
+
+Tests only validate syntax
+
+Host accumulates domain logic
+
+Snapshot shape becomes unstable
+
+Debug flags lie about readiness
+
+Renderer descriptors under-specify intent
+
+Input response becomes delayed
+
+Autopilot heuristics creep back in
+
+V2 stays harness-like
+
+Base route never receives successful variant
+
+Game lacks minute-to-minute goals
+
+World lacks memorable landmarks
+
+Skill ceiling is too low
+
+4.39 Validation proof ideas
+
+Static smoke validates canonical route
+
+Static smoke validates GameHost exists
+
+Static smoke validates GameHostV2 bridge
+
+Smoke validates direct assisted flight flag
+
+Smoke rejects heuristic autopilot loop
+
+Smoke rejects old branded preset imports
+
+Smoke validates low camera authority
+
+Smoke validates position lag
+
+Smoke validates target lag
+
+Smoke validates terrain readiness flag
+
+Smoke validates camera readiness flag
+
+Smoke validates horizon readiness flag
+
+Runtime test launches and ticks 300 frames
+
+Runtime test moves bird on input
+
+Runtime test detects lift zone effect
+
+Runtime test detects rain drag effect
+
+Runtime test detects perch affordance
+
+Runtime test detects flock response
+
+Runtime test validates render descriptor count
+
+Runtime test validates budget limits
+
+Screenshot test proves visible horizon
+
+Screenshot test proves landmark readability
+
+Screenshot test proves no ring objects
+
+Replay test proves deterministic seed
+
+Debug state dump proves domain ownership
+
+4.40 First 25 implementation tickets
+
+Create NexusEngine-TheOpenAbove base route scaffold
+
+Port source-inspired config shape, not repo contents
+
+Define app-owned biome registry
+
+Define app-owned bird archetype registry
+
+Define app-owned landmark registry
+
+Install generic kit composition layer
+
+Add direct assisted flight input mapping
+
+Add first terrain sampler descriptors
+
+Add first terrain shaping descriptors
+
+Add horizon LOD descriptor proof
+
+Add ridge lift and thermal descriptors
+
+Add simple cloud descriptor renderer
+
+Add rain state descriptor renderer
+
+Add bird actor render descriptor
+
+Add close follow camera descriptor
+
+Add minimal flock descriptor
+
+Add perch descriptor prototype
+
+Add no-ring static assertion
+
+Add window.GameHost debug surface
+
+Add 300-frame Playwright smoke
+
+Add screenshot acceptance route
+
+Add performance budget logging
+
+Add first “Learning Sky” scenario
+
+Fold V2-style success into base route identity
+
+Lock first milestone with proof artifacts
+
+5. Production direction for NexusEngine-TheOpenAbove
+Build first
+
+Build a single playable vertical slice called something like:
+
+The Learning Sky
+
+It should prove the core fantasy in 3 to 5 minutes:
+
+Start on a cliff nest.
+
+Launch into a meadow basin.
+
+Dive to build speed.
+
+Carve along a ridge.
+
+Catch a thermal under a readable cloud.
+
+Follow a small flock through a valley.
+
+Enter light rain.
+
+Recover from wet feather drag.
+
+Land on a dusk roost.
+
+That slice is enough to prove the full game direction without needing every biome.
+
+Preserve from NexusRealtime-Experiments source inspiration
+
+Preserve these ideas as design and architecture constraints:
+
+Generic ProtoKit composition: The game is a composition of generic DSKs, not a bespoke monolith.
+
+App-owned config: open-above.config.js style data ownership should carry forward into NexusEngine-TheOpenAbove.
+
+Host owns rendering: Three.js, RAF, HUD, input plumbing, debug surface, and canvas lifecycle stay host-side.
+
+Public kit APIs: Input maps to kit APIs, not private state mutation.
+
+GameHost debug surface: Keep a transparent browser debug/control surface.
+
+Direct assisted flight: Preserve immediate, readable keyboard response.
+
+Low carve camera authority: The camera should follow and reveal, not steer the player.
+
+Persistent target and position lag: Keep the physical feeling of a trailing camera.
+
+No heuristic autopilot loop: The bird is assisted, not secretly flown by a pathing hack.
+
+Canonical route convention: Make the standalone base route the canonical identity, not split V1/V2 gallery cards.
+
+Discard or avoid
+
+Discard harness identity: This should stop feeling like a flight harness and start feeling like a finished game slice.
+
+Discard ring grammar: No checkpoint rings, terrain rings, arcade ring challenges, or ring objectives.
+
+Discard tint-only worldbuilding: Landmarks need geometry, silhouettes, motion, sound, and flight utility.
+
+Discard primitive prop clutter: Prefer fewer, authored, readable landmarks over noisy object scatter.
+
+Discard host-owned domain rules: Do not let the route become a bird/weather/flock/objective simulator internally.
+
+Discard V1/V2 split behavior: Successful V2 decisions should fold into the base game identity.
+
+Discard autopilot-like camera corrections: Camera assists should be transparent and low-authority.
+
+6. What lives where
+Route/app code should own
+NexusEngine-TheOpenAbove route shell
+Open Above config data
+Three.js renderer host
+RAF loop
+Keyboard and gamepad input mapping
+HUD and debug UI
+GameHost exposure
+Screenshot hooks
+Browser feature fallbacks
+Scenario selection
+App-specific species roster
+App-specific biome roster
+App-specific landmark roster
+App-specific objective content
+Reusable domain kits should own
+Bird flight motion
+Assisted input interpretation
+Glide, bank, carve, dive, swoop, climb, flap, recover
+Wing archetype physics
+Feather condition and drag
+Weather states
+Cloud behavior
+Rain rules
+Wind fields
+Lift phenomena
+Terrain sampling
+Terrain shaping
+Hydrology descriptors
+Horizon LOD
+World patch streaming
+Scatter placement
+Flock intent and behavior
+Perch affordances
+Nest and roost rules
+Predator encounters
+Ecological events
+Non-ring objective logic
+Navigation challenge logic
+Camera domain behavior
+Render descriptors
+Performance budget
+Snapshot validation
+Deterministic replay
+Accessibility assists
+Renderer host should read
+terrain descriptors
+patch descriptors
+scatter descriptors
+actor descriptors
+flock descriptors
+cloud descriptors
+rain descriptors
+wind streak descriptors
+lighting descriptors
+camera descriptors
+HUD descriptors
+debug descriptors
+validation flags
+
+The host draws. It does not decide why a storm matters, why a flock turns, why a perch is valid, or why a bird stalls.
+
+7. Snapshot and API direction
+Suggested snapshot shape
+snapshot.openAbove
+  meta
+    routeId
+    scenarioId
+    seed
+    tick
+    readiness
+      terrain
+      camera
+      horizon
+      weather
+      flock
+      perch
+  bird
+    position
+    velocity
+    forward
+    up
+    bank
+    pitch
+    speed
+    stamina
+    featherCondition
+    flightState
+    bodyArchetype
+  inputIntent
+    pitch
+    bank
+    flap
+    boost
+    brake
+    perch
+  terrain
+    patches
+    landmarks
+    hydrology
+    materialZones
+  weather
+    state
+    cells
+    windField
+    liftZones
+    precipitation
+    cloudDescriptors
+  flock
+    agents
+    formation
+    intent
+    trust
+    calls
+  objectives
+    active
+    completed
+    failed
+    navigationHints
+  render
+    actors
+    terrain
+    scatter
+    sky
+    clouds
+    particles
+    lighting
+    camera
+  debug
+    budgets
+    validation
+    recentEvents
+Public API intent
+engine.n.openAbove.input.setFlightIntent(intent)
+engine.n.openAbove.flight.getBirdState()
+engine.n.openAbove.weather.getCurrentCells()
+engine.n.openAbove.wind.sampleAt(position)
+engine.n.openAbove.lift.sampleAt(position)
+engine.n.openAbove.flock.getIntent()
+engine.n.openAbove.perch.requestLanding(targetId)
+engine.n.openAbove.objectives.getActive()
+engine.n.openAbove.render.getDescriptors()
+engine.n.openAbove.debug.getValidation()
+engine.n.openAbove.reset(seed)
+8. Validation proof needed
+Static proof
+
+Canonical route exists.
+
+No V1/V2 gallery-card split.
+
+GameHost exists.
+
+GameHostV2 bridge exists only if needed for compatibility.
+
+No ring objective terms in route implementation.
+
+No old branded flight preset imports.
+
+Direct assisted flight flag exists.
+
+Low carve camera authority flag exists.
+
+Persistent camera position lag exists.
+
+Persistent camera target lag exists.
+
+Terrain readiness flag exists.
+
+Camera readiness flag exists.
+
+Horizon readiness flag exists.
+
+Runtime proof
+
+Browser loads route.
+
+Engine composes without exceptions.
+
+RAF ticks for at least 300 frames.
+
+Bird position changes under input.
+
+Boost changes speed.
+
+Bank changes heading.
+
+Terrain descriptors render.
+
+Horizon descriptors render.
+
+Cloud descriptors render.
+
+Wind or lift affects bird state.
+
+Flock descriptors exist.
+
+Perch descriptors exist.
+
+Debug state can be toggled with backquote.
+
+Snapshot reset works.
+
+Deterministic seed repeats critical state.
+
+Screenshot proof
+
+The bird is readable.
+
+The horizon is visible.
+
+A ridge flight line is visible.
+
+A cloud lift target is visible.
+
+At least one perch is visually readable.
+
+At least one flock group is visible.
+
+Terrain has verticality.
+
+Weather is visible but not opaque.
+
+No rings are visible.
+
+HUD is absent or minimal.
+
+9. First 10 production milestones
+Milestone 1: Standalone route boot
+
+Goal: NexusEngine-TheOpenAbove boots a canonical playable browser route with GameHost, config loading, RAF, Three.js scene, and smoke flags.
+
+Acceptance:
+
+route loads
+GameHost exists
+engine ticks
+debug state dumps
+no V1/V2 split
+Milestone 2: Bird flight core
+
+Goal: Direct assisted flight feels good with glide, bank, dive, boost, flap, recover, and stall states owned by kit logic.
+
+Acceptance:
+
+W/S pitch
+A/D bank
+Space boost
+stall recoverable
+no autopilot loop
+Milestone 3: Terrain and horizon readability
+
+Goal: Build the first basin, ridge, valley, cliff, meadow, and far horizon LOD.
+
+Acceptance:
+
+visible horizon
+readable ridge line
+no flat prototype field
+stable frame budget
+Milestone 4: Weather and lift gameplay
+
+Goal: Clouds, wind, rain, thermals, and ridge lift affect flight.
+
+Acceptance:
+
+cloud lift works
+rain drag works
+ridge lift works
+debug samples visible
+Milestone 5: Camera feel
+
+Goal: Over-bird camera with low carve authority, persistent lag, speed pullback, dive shake, and accessibility roll reduction.
+
+Acceptance:
+
+camera does not steer player
+bank remains readable
+terrain skim feels fast
+motion assist available
+Milestone 6: Flock meaning
+
+Goal: Flock agents communicate route, danger, lift, rest, and panic.
+
+Acceptance:
+
+flock follows thermal
+flock reacts to predator
+flock converges at roost
+player can rejoin
+Milestone 7: Perch, launch, roost
+
+Goal: Perches become physical recovery and objective nodes.
+
+Acceptance:
+
+landing affordance works
+launch works
+rest recovery works
+dusk roost objective works
+Milestone 8: First ecological objective chain
+
+Goal: A 3 to 5 minute loop from cliff nest to ridge lift to storm edge to dusk roost.
+
+Acceptance:
+
+no rings
+objective uses terrain/weather/flock
+completion state works
+failure recovery works
+Milestone 9: Visual and audio identity pass
+
+Goal: Make it feel like a real game: wing audio, cloud layers, rain streaks, wind streaks, terrain material zones, flock calls.
+
+Acceptance:
+
+sky has depth
+weather has sound
+bird has physical presence
+landmarks are memorable
+Milestone 10: Proof hardening
+
+Goal: Static smoke, Playwright smoke, screenshot proof, deterministic replay, performance budget, and route acceptance all pass.
+
+Acceptance:
+
+static tests pass
+browser tests pass
+screenshot accepted
+performance budget met
+debug flags truthful
+10. Core implementation stance
+
+Build NexusEngine-TheOpenAbove as a real standalone game repo whose first slice is small but final-shaped. Do not make a tech demo that “could become” a game. Make the first playable route already express the final grammar:
+
+read land
+read weather
+move with skill
+trust or question the flock
+recover through perches
+survive natural hazards
+navigate without rings
+
+The first implementation should be ruthless about one thing: every visible system must either teach flight, affect flight, or help the player read the sky.
+
+Use high thinking. Short answer only. Continuing NexusEngine-GoldRush. Current state: GoldRush already has local generic incubator kits and custom GoldRush kits, and source-doc alignment validates NexusRealtime + ProtoKits docs. I inspected @luminarylabs/nexusrealtime-protokits/generic-route-cargo-extraction-kit. It is directly relevant to GoldRush mine/carry/extract. It exposes a runtime kit facade engine.n.genericRouteCargoExtraction with route checkpoints, cargo pickup/delivery, pressure adjustment, reset/getSnapshot/getDescriptors. Important dependency detail: the composite requires generic-route-progress-kit, generic-resource-loop-kit, and generic-pressure-loop-kit installed explicitly. Proposed next implementation: add a GoldRush ProtoKit bridge that installs those three child ProtoKits plus generic-route-cargo-extraction-kit into createGoldRushRuntime before GoldRush custom kits, configured with mine seam -> carry gold -> cashout checkpoints, gold cargo, and ambush pressure. Add a validator proving the ProtoKit APIs exist, can pickup gold, complete a mine checkpoint, adjust pressure, deliver gold, and expose serializable descriptors; GoldRush custom extraction loop remains the game-specific orchestrator. Is this aligned with the final goal that NexusRealtime, NexusRealtime Kits/ProtoKits, and custom GoldRush kits all define/load game parts? Return risks, required bridge fields, validation edge cases, and whether to proceed. Bullets only.
+Show more
+Thought for a couple of seconds
+
+Yes, aligned. Proceed.
+
+This is exactly the right split:
+
+NexusRealtime: runtime composition, deterministic ticking, API surface.
+
+ProtoKits: generic route/cargo/resource/pressure mechanics.
+
+GoldRush custom kits: mine seams, gold semantics, ambushes, cashout rules, match state, receipts, extraction fantasy.
+
+Core risk: do not let the generic cargo kit become the GoldRush game loop owner.
+
+It should provide reusable mechanics.
+
+GoldRush custom extraction remains the orchestrator.
+
+Required bridge fields:
+
+kitId: stable GoldRush bridge kit name.
+
+dependencies: explicit install of:
+
+generic-route-progress-kit
+
+generic-resource-loop-kit
+
+generic-pressure-loop-kit
+
+generic-route-cargo-extraction-kit
+
+routeCheckpoints: mine seam, carry path, cashout/extraction.
+
+cargoTypes: gold, maybe later ore, relic, paydirt.
+
+pickupRules: mine seam proximity, capacity, claim window.
+
+deliveryRules: cashout/extraction zone, room handoff, receipt emission.
+
+pressureRules: ambush pressure, final rush, collapse pressure, carrying penalty.
+
+descriptorMapping: expose cargo, checkpoint, pressure, and route descriptors to renderer/HUD/proof.
+
+snapshotMapping: serialize generic kit state into GoldRush snapshot shape.
+
+Validation edge cases:
+
+APIs exist before custom GoldRush kits run.
+
+Missing child dependency fails loudly.
+
+Pickup gold only at valid seam checkpoint.
+
+Cannot deliver before pickup.
+
+Cannot complete cashout without cargo.
+
+Pressure adjustment mutates snapshot deterministically.
+
+Reset clears cargo, checkpoint progress, pressure, descriptors.
+
+Descriptors are serializable JSON.
+
+Multiple pickups do not duplicate cargo incorrectly.
+
+Delivery emits a GoldRush-specific extraction receipt.
+
+Generic kit state does not overwrite custom GoldRush match lifecycle state.
+
+Custom extraction loop can read generic state without private access.
+
+Validator proves both engine.n.genericRouteCargoExtraction and GoldRush bridge APIs exist.
+
+Implementation order:
+
+Install child ProtoKits first.
+
+Install generic-route-cargo-extraction-kit.
+
+Install GoldRush bridge.
+
+Install GoldRush custom kits after bridge.
+
+Add validator before rendering changes.
+
+Proceed condition: proceed if the bridge is treated as an adapter layer, not a replacement for GoldRush extraction, scoring, match lifecycle, receipts, or room handoff logic.
+
+High
+ChatGPT can make mistakes. Check important info.

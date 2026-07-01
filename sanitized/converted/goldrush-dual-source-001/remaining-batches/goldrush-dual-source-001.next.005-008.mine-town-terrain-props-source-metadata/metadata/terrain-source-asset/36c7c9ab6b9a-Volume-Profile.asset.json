@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game/Volume Profile.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game/Volume Profile.asset",
+  "sourceHash": "sha256:36c7c9ab6b9ac768567a6b1d1eeeac1ab01fbff4618eb57d6bd6bb78e0ab1904",
+  "summary": {
+    "lineCount": 64,
+    "guidCount": 2,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "0b2db86121404754db890f4c8dfe81b2",
+      "d7fd9488000d3734a9e00ee676215985"
+    ],
+    "textureRefs": [],
+    "names": [
+      "Volume Profile",
+      "Bloom"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

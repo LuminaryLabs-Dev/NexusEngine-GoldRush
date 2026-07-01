@@ -1,6 +1,7 @@
 import { createGoldRushRuntime } from "../../src/kits/goldRushRuntime.js";
 import { createNetworkOrchestrator } from "../../src/network/networkOrchestrator.js";
 import { readFileSync } from "node:fs";
+import { sanitizedConsoleJson } from "../safety/publicArtifactSanitizer.mjs";
 
 const debugUrl = process.env.GOLDRUSH_PLAYTEST_URL ?? "http://localhost:5177/NexusEngine-GoldRush/";
 
@@ -54,9 +55,11 @@ assert(appSource.includes("goldrushReality.validate"), "app debug state should e
 assert(appSource.includes("engine.n.goldrushNetwork") || readFileSync(new URL("../../src/kits/goldRushDomainKits.js", import.meta.url), "utf8").includes("joinPlayer"), "runtime should expose incremental network joins");
 assert(partySource.includes("new Peer("), "PeerJS party room should create peer sessions");
 assert(partySource.includes("start-match"), "PeerJS party room should broadcast leader match starts");
+assert(partySource.includes("goldrush-peer-party-boarding-sync-v1"), "PeerJS party room should expose boarding readiness sync");
+assert(partySource.includes("reportBoardingStatus"), "PeerJS party room should report loading-yard boarding readiness");
 assert(!appSource.includes("createTone("), "audio should not use sustained humming oscillator tones");
 
-console.log(JSON.stringify({
+console.log(sanitizedConsoleJson({
   status: "live-playtest-ready",
   url: debugUrl,
   players: state.players,
@@ -79,7 +82,7 @@ console.log(JSON.stringify({
     promotedAssets: state.realityStatus.summary.promotedAssets,
     promotedAudio: state.realityStatus.summary.promotedAudio,
   },
-}, null, 2));
+}));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);

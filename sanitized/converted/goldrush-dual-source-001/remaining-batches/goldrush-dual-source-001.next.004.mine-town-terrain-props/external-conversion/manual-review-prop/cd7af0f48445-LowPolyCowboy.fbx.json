@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/LowPolyCowboy.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/LowPolyCowboy.fbx",
+  "sourceHash": "sha256:cd7af0f484452f98ddad4958b8c009aef81a881c7ce5b0049ca49cd86d7c9f14",
+  "sourceBytes": 351820,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

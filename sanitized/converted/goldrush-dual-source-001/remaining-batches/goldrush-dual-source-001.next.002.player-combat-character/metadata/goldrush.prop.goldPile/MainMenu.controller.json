@@ -1,0 +1,39 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.prop.goldPile",
+  "mediaKind": "prop-animation",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenu.controller",
+  "sourceHash": "sha256:8e97716590d7439229f623c1772d5c63ee6dbde473095a967ec5d3be8e006ab9",
+  "summary": {
+    "lineCount": 73,
+    "guidCount": 1,
+    "fileIdCount": 5,
+    "namedObjectCount": 3,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "aae9319ebfa25564490b8312bca920ee"
+    ],
+    "fileIds": [
+      "0",
+      "1294218868006854871",
+      "-2907045246037018071",
+      "9100000",
+      "7400000"
+    ],
+    "names": [
+      "Base Layer",
+      "MainMenu",
+      "MainMenuGrow"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "1102": 1,
+      "1107": 1
+    }
+  }
+}

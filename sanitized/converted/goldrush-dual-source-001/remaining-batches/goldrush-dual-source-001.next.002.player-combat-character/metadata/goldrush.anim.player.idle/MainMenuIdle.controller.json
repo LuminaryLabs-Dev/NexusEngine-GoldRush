@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.anim.player.idle",
+  "mediaKind": "animation",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/MainMenuIdle.controller",
+  "sourceHash": "sha256:c10a1d8ceea1f4da960bc7f8ab0afb1e92d9617434eff7c794f785cb31fd614a",
+  "summary": {
+    "lineCount": 73,
+    "guidCount": 1,
+    "fileIdCount": 5,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "60d8485a09eb9424896bbb6a76b24b10"
+    ],
+    "fileIds": [
+      "0",
+      "7400000",
+      "-7962784832802613909",
+      "-2907045246037018071",
+      "9100000"
+    ],
+    "names": [
+      "MainMenuIdle",
+      "Base Layer"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "1102": 1,
+      "1107": 1
+    }
+  }
+}

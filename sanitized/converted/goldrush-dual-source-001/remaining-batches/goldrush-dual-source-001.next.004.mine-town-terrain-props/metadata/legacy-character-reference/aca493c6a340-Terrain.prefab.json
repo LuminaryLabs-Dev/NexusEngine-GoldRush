@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.legacyCharacterReference",
+  "role": "legacy-character-reference",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/08_Terrain/Terrain.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/08_Terrain/Terrain.prefab",
+  "sourceHash": "sha256:aca493c6a340a31c63f3fc0a8547222c9e92351f94cbe69c5e7acf4ac1503523",
+  "summary": {
+    "lineCount": 188,
+    "guidCount": 3,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "0000000000000000f000000000000000",
+      "13b0a7785d77ca242a60f6e6c4cf7c78",
+      "a0917c1f47cf76d49ae8323ec8f95169"
+    ],
+    "names": [
+      "Terrain"
+    ],
+    "yamlTags": {
+      "1": 2,
+      "4": 2,
+      "154": 2,
+      "218": 2
+    }
+  }
+}

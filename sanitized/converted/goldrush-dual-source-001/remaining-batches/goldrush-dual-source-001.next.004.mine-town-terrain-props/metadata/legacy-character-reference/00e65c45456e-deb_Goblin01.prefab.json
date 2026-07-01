@@ -1,0 +1,73 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.legacyCharacterReference",
+  "role": "legacy-character-reference",
+  "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Prefab/deb_Goblin01.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Prefab/deb_Goblin01.prefab",
+  "sourceHash": "sha256:00e65c45456e516a67aacd484fca386a05dcdabdc1398bc0aaff1a171c4b4e48",
+  "summary": {
+    "lineCount": 1485,
+    "guidCount": 3,
+    "namedObjectCount": 42,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "9e3cdc50972d05f4fafcb2b1d8606790",
+      "a0c20659838f8e147847eda60ff6bdb5",
+      "d7fdc0cb67bd0f74aabf75a8fc6b926d"
+    ],
+    "names": [
+      "deb_Goblin01",
+      "Bip001 Spine1",
+      "Bip001 R Thigh",
+      "Bip001 R Hand",
+      "Bip001 R Forearm",
+      "Bip001 R Foot",
+      "Bip001 Spine",
+      "Bip001 R UpperArm",
+      "Bip001 R Toe0Nub",
+      "Bip001 R Toe0",
+      "Bip001 R Finger0Nub",
+      "Bip001 R Finger02",
+      "Bip001 R Finger01",
+      "Bip001 R Finger0",
+      "Bip001 R Finger1Nub",
+      "Bip001 R Finger12",
+      "Bip001 R Finger11",
+      "Bip001 R Finger1",
+      "Bip001 L UpperArm",
+      "Bip001 L Toe0Nub",
+      "Bip001 L Toe0",
+      "Bip001 L Thigh",
+      "Bip001 R Clavicle",
+      "Bip001 R Calf",
+      "Bip001 Pelvis",
+      "Bip001 Neck",
+      "Bip001 L Finger12",
+      "Bip001 L Finger11",
+      "Bip001 L Finger1",
+      "Bip001 L Finger0Nub",
+      "Bip001 L Hand",
+      "Bip001 L Forearm",
+      "Bip001 L Foot",
+      "Bip001 L Finger1Nub",
+      "Bip001 L Calf",
+      "Bip001 HeadNub",
+      "Bip001 Head",
+      "Bip001",
+      "Bip001 L Finger02",
+      "Bip001 L Finger01",
+      "Bip001 L Finger0",
+      "Bip001 L Clavicle"
+    ],
+    "yamlTags": {
+      "1": 43,
+      "4": 43,
+      "95": 1,
+      "137": 1
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.frontierTown",
+  "role": "frontier-town-prop",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Chapel.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Chapel.fbx",
+  "sourceHash": "sha256:9f8b3156d7f78c87a0ec9e408fd37f3e26f1730a01eb0b9a53cc76da2fac5c73",
+  "sourceBytes": 374920,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

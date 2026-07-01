@@ -1,0 +1,36 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/Graphics/HDRP_Assets/SkyandFogSettingsProfile.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/SkyandFogSettingsProfile.asset",
+  "sourceHash": "sha256:60b332b68f0bd1253c187a57a555e5b515728f3015307f369cee61032b47df2e",
+  "summary": {
+    "lineCount": 449,
+    "guidCount": 5,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 3,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "0d7593b3a9277ac4696b20006c21dde2",
+      "2d08ce26990eb1a4a9177b860541e702",
+      "953beb541740ddc499d005ee80c9ff29",
+      "d7fd9488000d3734a9e00ee676215985",
+      "d877ec3e844f2ca46830012e8e79319b"
+    ],
+    "textureRefs": [],
+    "names": [
+      "m_EditorClassIdentifier:",
+      "SkyandFogSettingsProfile",
+      "Exposure"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

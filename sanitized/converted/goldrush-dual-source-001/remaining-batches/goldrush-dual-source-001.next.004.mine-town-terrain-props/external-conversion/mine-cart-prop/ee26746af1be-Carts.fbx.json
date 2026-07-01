@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.mineCart",
+  "role": "mine-cart-prop",
+  "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Carts.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Carts.fbx",
+  "sourceHash": "sha256:ee26746af1bed80eebcaf2ebb73c7b813f27409410c56be3fc8cd0e7a9517725",
+  "sourceBytes": 3421296,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

@@ -3,6 +3,11 @@ import { execFileSync } from "node:child_process";
 import { dirname, join, resolve } from "node:path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import {
+  sanitizedConsoleJson,
+  sanitizeTextForOutput,
+  writeSanitizedJsonArtifactSync,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const importJobId = "goldrush-dual-source-001";
@@ -87,15 +92,27 @@ export function copyRemainingBatchFromGithub({
 
   const copied = [];
   const secretFindings = [];
-  for (const item of batch.items ?? []) {
-    const bytes = readGithubBlob({
-      sourceRepo: coverage.source.nameWithOwner,
-      blobSha: item.blobSha,
+  try {
+    for (const item of batch.items ?? []) {
+      const bytes = readGithubBlob({
+        sourceRepo: coverage.source.nameWithOwner,
+        blobSha: item.blobSha,
+      });
+      const sourceHash = `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+      expect(bytes.length === item.sizeBytes, `downloaded-size-mismatch:${item.sourcePath}`, failures);
+      secretFindings.push(...detectSecretFindings(item, bytes));
+      copied.push({ ...item, bytes, sourceHash });
+    }
+  } catch (error) {
+    const failure = createFetchFailureProof({
+      generatedAt,
+      batch,
+      coverage,
+      write,
+      error,
     });
-    const sourceHash = `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
-    expect(bytes.length === item.sizeBytes, `downloaded-size-mismatch:${item.sourcePath}`, failures);
-    secretFindings.push(...detectSecretFindings(item, bytes));
-    copied.push({ ...item, bytes, sourceHash });
+    if (proofOut) writeJson(proofOut, failure);
+    throw new Error(`${failure.status}: ${failure.error.kind}`);
   }
 
   expect(secretFindings.length === 0, "secret-scan-blocked", failures);
@@ -144,8 +161,16 @@ export function copyRemainingBatchFromGithub({
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = parseArgs(process.argv.slice(2));
-  const result = copyRemainingBatchFromGithub(args);
-  console.log(JSON.stringify(result, null, 2));
+  try {
+    const result = copyRemainingBatchFromGithub(args);
+    console.log(sanitizedConsoleJson(result, { repoRoot }));
+  } catch (error) {
+    console.error(sanitizedConsoleJson({
+      status: "remaining-batch-worker-failed",
+      error: sanitizeTextForOutput(error.message, { repoRoot }),
+    }, { repoRoot }));
+    process.exit(1);
+  }
 }
 
 function findBatch(coverage, batchId) {
@@ -168,6 +193,46 @@ function readGithubBlob({ sourceRepo, blobSha }) {
   assert(blob.sha === blobSha, `github blob sha mismatch: ${blobSha}`);
   assert(blob.encoding === "base64", `unsupported github blob encoding: ${blob.encoding}`);
   return Buffer.from(blob.content.replace(/\n/g, ""), "base64");
+}
+
+function createFetchFailureProof({ generatedAt, batch, coverage, write, error }) {
+  const githubError = parseGithubError(error);
+  return {
+    schema: "nexusengine.goldrush.remaining-batch-fetch-failure.v1",
+    importJobId,
+    generatedAt,
+    status: "remaining-batch-worker-fetch-blocked",
+    fetch: false,
+    write: false,
+    requestedWrite: write === true,
+    batchId: batch.batchId,
+    domainId: batch.domainId,
+    source: coverage.source,
+    targetRawRoot: batch.targetRawRoot,
+    itemCount: batch.itemCount,
+    totalBytes: batch.totalBytes,
+    publicPromotion: false,
+    runtimePromotion: false,
+    rawFilesWritten: false,
+    error: githubError,
+  };
+}
+
+function parseGithubError(error) {
+  const stdout = String(error?.stdout ?? "");
+  let response = {};
+  try {
+    response = JSON.parse(stdout);
+  } catch {
+    response = {};
+  }
+  return {
+    kind: response.status === "401" ? "github-api-bad-credentials" : "github-api-fetch-failed",
+    ghExitStatus: Number.isFinite(error?.status) ? error.status : null,
+    httpStatus: response.status ?? null,
+    message: sanitizeTextForOutput(response.message ?? error?.message ?? "GitHub API request failed", { repoRoot }),
+    docs: response.documentation_url ? "https://docs.github.com/rest" : null,
+  };
 }
 
 function detectSecretFindings(item, bytes) {
@@ -224,8 +289,7 @@ function readJson(relativePath) {
 
 function writeJson(relativePath, value) {
   const absolute = join(repoRoot, normalizeRepoPath(relativePath));
-  mkdirSync(dirname(absolute), { recursive: true });
-  writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
+  writeSanitizedJsonArtifactSync(absolute, value, { repoRoot });
 }
 
 function writeRawFile(relativePath, bytes) {

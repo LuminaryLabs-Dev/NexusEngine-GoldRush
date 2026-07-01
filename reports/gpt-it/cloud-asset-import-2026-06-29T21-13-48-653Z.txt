@@ -1,0 +1,8 @@
+I’ll first inspect the required NexusEngine-GoldRush policy, manifest, registry, and validator files, then cloud-check the expected Gold_Rush source roots before creating import/goldrush-dual-source-001-cloud-pass. I’ll write only gated provenance, scan, ledger, hash, and classification artifacts unless policy-backed approval permits raw import or promotion.
+
+I’ll also account for branch/PR conflicts, LFS or oversized binaries, duplicate modern/classic filenames, missing roots, missing policy files, and unavailable execution by producing validator-ready receipts instead of inventing results.
+
+Pro thinking
+
+Pro Extended
+ChatGPT can make mistakes. Check important info.

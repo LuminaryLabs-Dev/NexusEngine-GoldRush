@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { createGoldRushProceduralScene, validateProceduralRendererKits } from "../../src/renderer/proceduralKits.js";
+import { selectNearestGoldRushObjectAffordance } from "../../src/content/goldrushObjectMicroKits.js";
 
 const descriptors = createGoldRushProceduralScene();
 const validation = validateProceduralRendererKits(descriptors);
@@ -38,7 +39,7 @@ assert(
   "canyon walls must frame both sides of the playable field"
 );
 assert(
-  ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "pickaxe"].every((part) => descriptors.playerRig.visualParts.includes(part)),
+  ["skull-head", "rib-cage", "bone-arms", "bone-legs", "upper-legs", "knee-joints", "lower-legs", "spawn-pedestal", "hat-brim", "satchel", "cargo-visual-anchor", "carried-gold", "pickaxe"].every((part) => descriptors.playerRig.visualParts.includes(part)),
   "third-person player rig must expose readable skeleton prospector parts"
 );
 assert(descriptors.desertItems.placements.length >= 80, "desert item kit needs dense prop coverage");
@@ -66,6 +67,39 @@ assert(
 assert(
   descriptors.objectMicroKits.kits.every((kit) => kit.kit && kit.archetype && kit.role && kit.placement?.zone && kit.visual?.batchKey && kit.transform?.scale > 0),
   "every generated object micro-kit must include taxonomy, placement, visual, and transform metadata"
+);
+assert(
+  descriptors.objectMicroKits.kits.every((kit) => kit.protoKit?.kind === "goldrush-procedural-object-protokit" && kit.protoKit.domainPath?.startsWith("n:goldrush:object:")),
+  "every generated object must be represented as its own GoldRush procedural object protokit"
+);
+assert(
+  descriptors.objectMicroKits.kits.every((kit) => kit.generationLayers?.map((layer) => layer.id).join(">") === "seed>environment-space>raycast-placement>visual-batch>interaction-affordance"),
+  "every generated object protokit must use the same layered procedural generation pipeline"
+);
+assert(
+  descriptors.objectMicroKits.kits.every((kit) => kit.placement?.raycast?.mode === "downward-triangle-raycast" && kit.placement.raycast.source === "n:world:placement-raycast"),
+  "every generated object protokit must be placed by downward terrain raycast"
+);
+assert(
+  descriptors.objectMicroKits.kits.every((kit) => Math.abs(kit.position.y - kit.placement.raycast.surfaceY) < 0.2),
+  "object y placement must stay close to the raycast terrain surface"
+);
+assert(
+  descriptors.objectMicroKits.kits.some((kit) => kit.interaction?.enabled && kit.interaction.action === "mine-gold")
+    && descriptors.objectMicroKits.kits.some((kit) => kit.interaction?.enabled && kit.interaction.action === "take-cover"),
+  "object protokits must expose interaction affordances for mining and cover"
+);
+const nearestMiningAffordance = selectNearestGoldRushObjectAffordance({
+  descriptor: descriptors.objectMicroKits,
+  player: { x: -17.5, z: -16.5 },
+  actionFilter: "mine-gold",
+});
+assert(
+  nearestMiningAffordance.contract === "goldrush-nearest-object-affordance-v1"
+    && nearestMiningAffordance.domainPath === "n:gameplay:interaction-hold"
+    && nearestMiningAffordance.selected?.action === "mine-gold"
+    && nearestMiningAffordance.selected?.target?.siteId === "mine-seam-01",
+  "nearest object affordance selector must connect visible gold protokits to the mining site"
 );
 assert(
   descriptors.objectMicroKits.kits.every((kit) => kit.placement?.environmentSpaceId?.startsWith("space.")),
@@ -113,8 +147,12 @@ assert(descriptors.glbAssets.assets.every((asset) => asset.license === "CC0-1.0"
 
 const rendererSource = readFileSync(new URL("../../src/renderer/goldRushRenderer.js", import.meta.url), "utf8");
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
+const objectKitSource = readFileSync(new URL("../../src/content/goldrushObjectMicroKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");
 const appSource = readFileSync(new URL("../../src/app/goldRushApp.js", import.meta.url), "utf8");
+const extractionLoopSource = readFileSync(new URL("../../src/kits/goldRushExtractionLoopKit.js", import.meta.url), "utf8");
+const playerActionSurfaceSource = readFileSync(new URL("../../src/content/goldrushPlayerActionSurface.js", import.meta.url), "utf8");
+const extractionSetpieceProofSource = readFileSync(new URL("../proof/extraction-setpiece-proof.mjs", import.meta.url), "utf8");
 assert(!rendererSource.includes("CircleGeometry"), "renderer must not use circular arena primitive");
 assert(!rendererSource.includes("BoxGeometry"), "renderer must not use box markers as the core player field");
 assert(rendererSource.includes("toneMapping"), "renderer must use tone mapping for the immersive 3D view");
@@ -128,10 +166,92 @@ assert(colliderSource.includes("raycastTerrainDown") && colliderSource.includes(
 assert(proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must build terraced walkaround mountain geometry");
 assert(proceduralSource.includes("createSpawnPedestalGeometry"), "renderer must include a spawn pedestal under the local skeleton character");
 assert(proceduralSource.includes("shoulderTarget") && proceduralSource.includes("state.localPlayer") && proceduralSource.includes("state.localPlayer.look?.yaw"), "camera must attach over the local skeleton character shoulder and follow mouse-look yaw");
+assert(proceduralSource.includes("goldrush-linear-camera-controller-v1") && proceduralSource.includes("single-three-camera-render"), "camera must expose a linear decoupled controller contract");
+assert(proceduralSource.includes("per-frame-camera-catalog-selection"), "camera contract must explicitly reject per-frame catalog selection");
+assert(proceduralSource.includes("createMicroInteractionMarker"), "renderer must expose visible interaction markers from object protokit affordances");
+assert(proceduralSource.includes("selectNearestGoldRushObjectAffordance") && proceduralSource.includes("nearestAffordance"), "renderer snapshot must expose nearest object affordance selection from protokits");
+assert(proceduralSource.includes("goldrush-affordance-marker-readability-v1") && proceduralSource.includes("updateMicroInteractionMarker") && proceduralSource.includes("show-selected-plus-nearby-hide-rest"), "object affordance markers must use a readability policy that hides non-selected clutter");
+assert(proceduralSource.includes("goldrush-selected-affordance-cue-v1") && proceduralSource.includes("createSelectedAffordanceCueSnapshot") && proceduralSource.includes("selected-in-world-claim-cue"), "selected object affordances must expose an in-world cue/progress contract");
+assert(proceduralSource.includes("goldrush-object-proximity-readability-v1") && proceduralSource.includes("updateMicroObjectVisualDensity") && proceduralSource.includes("clutterScale"), "renderer must compress nearby nonselected object clutter around the selected affordance");
+assert(proceduralSource.includes("goldrush-resource-visual-forms-v1") && proceduralSource.includes("createGoldNuggetClusterGeometry") && proceduralSource.includes("createOreLodeChipGeometry") && proceduralSource.includes("createTailingsFanGeometry"), "resource micro-kits must render as readable nugget, ore-lode, seam, and tailings forms");
+assert(proceduralSource.includes("goldrush-extraction-cashout-cue-v1") && proceduralSource.includes("createExtractionCashoutCueSnapshot") && proceduralSource.includes("diegetic-cashout-beacon"), "extraction markers must expose a diegetic cashout cue contract");
+assert(
+  proceduralSource.includes("goldrush-extraction-setpiece-v1")
+    && proceduralSource.includes("createExtractionSetpieceSnapshot")
+    && proceduralSource.includes("rail-depot-cashout-landmark")
+    && proceduralSource.includes("cashout-crossbeam")
+    && proceduralSource.includes("cashout-bell"),
+  "extraction markers must expose a renderer-owned rail depot setpiece contract"
+);
+assert(
+  proceduralSource.includes("goldrush-extraction-interaction-cue-v1")
+    && proceduralSource.includes("createExtractionInteractionCueSnapshot")
+    && proceduralSource.includes("diegetic-cashout-hold-feedback")
+    && proceduralSource.includes("cashout-hold-progress")
+    && proceduralSource.includes("cashout-hold-prompt"),
+  "extraction markers must expose a renderer-owned cashout hold interaction cue"
+);
+assert(
+  appSource.includes("publicSmokePlaceAtExtractionSetpiece")
+    && extractionSetpieceProofSource.includes("proof-placement-at-extraction-setpiece")
+    && extractionSetpieceProofSource.includes("camera-relative-player-view"),
+  "extraction setpiece must have a human-view proof path with camera-relative player framing"
+);
+assert(
+  extractionSetpieceProofSource.includes("cashout-hold-progress-proof")
+    && extractionSetpieceProofSource.includes("keep-holding-cashout")
+    && extractionSetpieceProofSource.includes("extractionInteractionCue"),
+  "extraction setpiece proof must validate in-world cashout hold progress feedback"
+);
+assert(
+  objectKitSource.includes("visualForm: \"gold-nugget-cluster\"")
+    && objectKitSource.includes("visualForm: \"ore-lode-chip\"")
+    && objectKitSource.includes("visualForm: \"gold-seam-lode\"")
+    && objectKitSource.includes("visualForm: \"tailings-fan\"")
+    && proceduralSource.includes("kit.visual?.resourceForm"),
+  "resource visual form identity must live on object protokits and be consumed by the renderer"
+);
+assert(proceduralSource.includes("everyItemProtoKit") && proceduralSource.includes("raycastPlacement"), "renderer snapshot must expose object protokit and raycast placement proof");
+assert(appSource.includes("goldrush-object-interaction-host-v1"), "app state must expose the object interaction host contract");
+assert(
+  appSource.includes("goldrushPlayerActionSurface")
+    && appSource.includes("playerActionSurfaceValidation")
+    && playerActionSurfaceSource.includes("goldrush-player-action-surface-v1")
+    && playerActionSurfaceSource.includes("n:goldrush:player-action-surface")
+    && playerActionSurfaceSource.includes("choosePrimaryAction"),
+  "app state must expose a GoldRush player action surface that composes interaction, extraction, cargo, and combat"
+);
+assert(
+  proceduralSource.includes("mountPlayerActionSurfacePromptKit")
+    && proceduralSource.includes("goldrush-player-action-surface-visual-v1")
+    && proceduralSource.includes("diegetic-player-action-prompt")
+    && proceduralSource.includes("state.playerActionSurface")
+    && proceduralSource.includes("playerActionSurfacePrompt: playerActionSurfacePromptKit.snapshot()"),
+  "renderer must consume player action surface through one diegetic in-world prompt contract"
+);
+assert(appSource.includes("publicSmokePlaceAtNearestObjectAffordance"), "public smoke proof must be able to place the player by object affordance");
+assert(appSource.includes("dispatchNearestObjectAffordance") && appSource.includes("holdExtractionLoopMine({ siteId"), "app interaction must dispatch selected object affordances into domain runtime actions");
+assert(appSource.includes("interactionHoldGraceFrames") && extractionLoopSource.includes("!input.holdActive"), "object-affordance holds must not be cancelled by the next extraction-loop tick");
 assert(proceduralSource.includes("ribCage") && proceduralSource.includes("bone-arms"), "player rig must read as a skeleton character");
 assert(proceduralSource.includes("createKneeLegRig") && proceduralSource.includes("poseKneeLegRig"), "player legs must be two-part rigs with knee animation");
+assert(proceduralSource.includes("goldrush-cargo-visual-v1"), "player rig must render kit-owned cargo visual contract data");
+assert(proceduralSource.includes("updateCargoVisualGroup") && proceduralSource.includes("createCargoNuggetGeometry"), "player rig must show physical carried gold when cargo exists");
+assert(proceduralSource.includes("goldrush-cargo-mobility-v1"), "player rig must preserve kit-owned cargo mobility contract data");
+assert(proceduralSource.includes("postureLean") && proceduralSource.includes("movementModifiers"), "player rig must consume cargo mobility as visible posture read");
+assert(proceduralSource.includes("playerRig: thirdPersonKit.snapshot()"), "procedural renderer snapshot must expose third-person player rig proof state");
+assert(proceduralSource.includes("visibleNuggetCount"), "player rig snapshot must expose visible carried-gold nugget count for browser proof");
 assert(!proceduralSource.includes("Math.abs(Math.sin(walkPhase)) * (combat ? 0.015 : 0.045)"), "walk animation must not pulse the whole player root vertically");
 assert(proceduralSource.includes("renderGround") && appSource.includes("cached-movement-ground"), "renderer must consume cached movement grounding for stable player/camera height");
+assert(proceduralSource.includes("readable-threat-lanes-v1"), "renderer must expose the readable threat lane visual contract");
+assert(proceduralSource.includes("readable-threat-cover-v1"), "renderer must expose the readable threat cover visual contract");
+assert(proceduralSource.includes("createThreatLaneGeometry") && proceduralSource.includes("updateThreatLaneMesh"), "renderer must draw threat lanes from extraction-loop marker data");
+assert(proceduralSource.includes("createThreatCoverGeometry") && proceduralSource.includes("updateThreatCoverMesh"), "renderer must draw threat cover from extraction-loop marker data");
+assert(proceduralSource.includes("marker.telegraph?.readableBeforeDamage"), "threat marker pulse must be driven by kit-owned telegraph state");
+assert(proceduralSource.includes("marker.lane?.status === \"danger\""), "threat lane color/opacity must be driven by kit-owned lane status");
+assert(proceduralSource.includes("cover.id === marker.recommendedCoverId"), "recommended cover highlight must be driven by kit-owned cover state");
+assert(proceduralSource.includes("engagedCoverIds"), "renderer snapshot must expose engaged cover ids from kit-owned marker state");
+assert(proceduralSource.includes("cover.id === marker.engagedCoverId"), "engaged cover highlight must be driven by kit-owned cover state");
+assert(proceduralSource.includes("mesh.userData.engaged = engaged"), "cover mesh userData must expose engaged status for browser proof");
 
 console.log("procedural renderer kits passed");
 

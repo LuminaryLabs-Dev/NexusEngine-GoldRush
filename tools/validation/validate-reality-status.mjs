@@ -27,6 +27,7 @@ assert(findDomain(runtimeStatus, "legacy-assets").status === "blocked-cloud-impo
 assert(findDomain(runtimeStatus, "audio-music").status === "blocked-cloud-import", "audio must be marked cloud-blocked");
 assert(findDomain(runtimeStatus, "character-rig").status === "prototype", "procedural character must be marked prototype");
 assert(findDomain(runtimeStatus, "animation-clips").status === "prototype", "animation clips must be marked prototype");
+assert(findDomain(runtimeStatus, "mining-gold").currentTruth.includes("cargo visual"), "mining prototype truth should acknowledge the local cargo visual contract");
 assert(findDomain(runtimeStatus, "network-rooms").status === "real-local", "network room orchestration should be real local");
 assert(findDomain(runtimeStatus, "terrain-collider").status === "real-local", "terrain collider should be real local");
 assert(findDomain(runtimeStatus, "scene-kit-loading").status === "real-local", "scene-kit loading proof should be real when receipts are supplied");

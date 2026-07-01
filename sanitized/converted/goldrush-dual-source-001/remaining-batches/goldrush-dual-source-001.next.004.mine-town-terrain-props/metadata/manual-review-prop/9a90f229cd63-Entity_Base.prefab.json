@@ -1,0 +1,26 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/Entities/Entity_Base.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Entity_Base.prefab",
+  "sourceHash": "sha256:9a90f229cd63777e54928e3ff380022aa45d43c60c7ae1c21f50137477d783f4",
+  "summary": {
+    "lineCount": 34,
+    "guidCount": 0,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [],
+    "names": [
+      "Entity_Base"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 1
+    }
+  }
+}

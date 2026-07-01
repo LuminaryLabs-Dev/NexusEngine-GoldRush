@@ -1,0 +1,15 @@
+status: wrote-pr | wrote-branch | no-write-access | no-source-access | blocked
+branch:
+pr:
+source_repo_seen: yes/no
+source_commit:
+receipts_written: list
+raw_files_copied_count:
+blocked_reason:
+next_command_for_codex:
+
+Show more
+Reading documents
+
+Pro Extended
+ChatGPT can make mistakes. Check important info.

@@ -1,0 +1,36 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.player.prospector",
+  "mediaKind": "character",
+  "sourcePath": "GoldRush/Assets/Entities/Player/Footing.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/Footing.mat",
+  "sourceHash": "sha256:7c2b9d3d7f9613b5bac6ff10946ef6695311fc8682fa84fb5d8c3673aa242938",
+  "summary": {
+    "lineCount": 279,
+    "guidCount": 2,
+    "fileIdCount": 3,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "6e4ae4064600d784cac1e41a9e6f2e59",
+      "da692e001514ec24dbc4cca1949ff7e8"
+    ],
+    "fileIds": [
+      "0",
+      "11500000",
+      "4800000"
+    ],
+    "names": [
+      "m_EditorClassIdentifier:",
+      "Footing"
+    ],
+    "yamlTags": {
+      "21": 1,
+      "114": 1
+    }
+  }
+}

@@ -38,9 +38,15 @@ Only this repository should be cloned and edited locally for this workflow. Lega
 npm install
 npm run check
 npm run dev
+npm run proof:peer-party-boarding
+npm run proof:peer-party-disconnect
 ```
 
 `npm run check` validates the network kit, room compatibility boundaries, NexusRealtime `engine.n.*` kit wiring, match lifecycle/receipt/scoring behavior, legacy source intake readiness, world/domain descriptors, procedural renderer kits, runtime asset boundaries, asset registry promotion fields, and the production build.
+
+`npm run proof:peer-party-boarding` is a local Playwright proof for the PeerJS party lobby. It opens two browser contexts, creates and joins a party code, launches the loading-yard train scene, boards both clients, and verifies `goldrush-peer-party-boarding-sync-v1` reaches `2/2` ready on both sides.
+
+`npm run proof:peer-party-disconnect` proves the late-disconnect policy during loading-yard boarding: a member can leave before boarding, the active roster reduces, a disconnect receipt is retained, and the remaining boarded player is released into train departure.
 
 ## Deploy
 

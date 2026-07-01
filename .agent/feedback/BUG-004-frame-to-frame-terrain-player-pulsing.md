@@ -11,14 +11,14 @@ The recorded gameplay shows a pulsing issue that appears every other frame or ne
 ## Evidence
 
 - Source recording:
-  `/Users/crimsonwheeler/Documents/ME/recordings/Screen Recording 2026-06-29 at 8.36.49 AM.mov`
+  `<documents>/ME/recordings/Screen Recording 2026-06-29 at 8.36.49 AM.mov`
 - Duration: 4.05 seconds.
 - Source frame rate: about 44.29 fps.
 - Dense frame contact sheet:
-  `/tmp/goldrush-pulse-review/native-frames-000-079.jpg`
+  `<tmp>/native-frames-000-079.jpg`
 - Player crop sheets:
-  `/tmp/goldrush-pulse-review/player-crop-028-045.jpg`
-  `/tmp/goldrush-pulse-review/player-crop-060-079.jpg`
+  `<tmp>/player-crop-028-045.jpg`
+  `<tmp>/player-crop-060-079.jpg`
 
 ## Human-Visible Failure
 
@@ -71,7 +71,7 @@ The proof still has isolated frame deltas and severe central-mountain framing de
 
 ## 2026-06-29 Re-Review
 
-- New source recording reviewed: `/Users/crimsonwheeler/Documents/Me/recordings/Screen Recording 2026-06-29 at 10.05.50 AM.mov`.
+- New source recording reviewed: `<documents>/Me/recordings/Screen Recording 2026-06-29 at 10.05.50 AM.mov`.
 - Dense native-frame review did not show a clean every-other-frame global flicker.
 - The visible pulse reads as large flat terrain/lighting bands moving across the player view while the camera moves.
 - Current local fix direction is to simplify stacked terrain surfaces by carving coarse band top faces beneath finer terrain bands.

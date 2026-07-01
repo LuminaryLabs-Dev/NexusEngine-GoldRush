@@ -1,0 +1,46 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.scene.playerTest",
+  "mediaKind": "camera-metadata",
+  "sourcePath": "GoldRush/Assets/Entities/Player/PlayerCamera.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/PlayerCamera.prefab",
+  "sourceHash": "sha256:b1ef3b1e792d3bd25544ea1a1b75e14a43c02f02d78d5501d57f9a30559b5273",
+  "summary": {
+    "lineCount": 273,
+    "guidCount": 3,
+    "fileIdCount": 9,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 5
+  },
+  "references": {
+    "guids": [
+      "23c1ce4fb46143f46bc5cb5224c934f6",
+      "79416eb4fc8bb5a4a9050087fd2c8476",
+      "d73b0a95be81246699cf0d9ecdc01863"
+    ],
+    "fileIds": [
+      "0",
+      "7360918371931899904",
+      "6608720474565337489",
+      "958020653056507604",
+      "2635678239600111502",
+      "3177453036734808826",
+      "4426243900831685874",
+      "2734452673178554438",
+      "11500000"
+    ],
+    "names": [
+      "PlayerCamera",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 1,
+      "20": 1,
+      "81": 1,
+      "114": 3
+    }
+  }
+}

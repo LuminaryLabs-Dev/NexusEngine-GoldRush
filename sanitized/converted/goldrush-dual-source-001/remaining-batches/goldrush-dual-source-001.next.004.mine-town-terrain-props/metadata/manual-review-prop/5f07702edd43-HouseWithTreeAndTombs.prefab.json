@@ -1,0 +1,33 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/HouseWithTreeAndTombs.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/HouseWithTreeAndTombs.prefab",
+  "sourceHash": "sha256:5f07702edd43345fb7362f1203b7b19251ec3ad023f8a95e3586d0118631de65",
+  "summary": {
+    "lineCount": 426,
+    "guidCount": 4,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "1c366a597c3385a46a08ecccb24c45b6",
+      "56d2f45c2d790274089e541ea88edc07",
+      "5fc8617b19d5edb4fbb49ab30fc759b0",
+      "d93b1a5b0a7d0174a9e823c304e316c8"
+    ],
+    "names": [
+      "HouseWithTreeAndTombs"
+    ],
+    "yamlTags": {
+      "1": 5,
+      "4": 5,
+      "64": 4,
+      "1001": 4
+    }
+  }
+}

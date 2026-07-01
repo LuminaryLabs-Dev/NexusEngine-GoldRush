@@ -1,0 +1,43 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/03_Materials/Ground.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/03_Materials/Ground.mat",
+  "sourceHash": "sha256:07a53c57d7ffe86aabd6d110439371437f3d1798aa23bb6ced9e949625d89c67",
+  "summary": {
+    "lineCount": 141,
+    "guidCount": 6,
+    "textureReferenceCount": 4,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "3222d8bfaef2ef244874bc254a4fb04b",
+      "933532a4fcc9baf4fa0491de14d08ed7",
+      "ad7cc69b89d20f04ebf5087a738da19f",
+      "c946362fd285c1141bc515b4aeed73ab",
+      "d0353a89b1f911e48b9e16bdc9f2e058",
+      "f1453ccf7d985334a836477063845b6a"
+    ],
+    "textureRefs": [
+      "3222d8bfaef2ef244874bc254a4fb04b",
+      "ad7cc69b89d20f04ebf5087a738da19f",
+      "c946362fd285c1141bc515b4aeed73ab",
+      "f1453ccf7d985334a836477063845b6a"
+    ],
+    "names": [
+      "Ground",
+      "m_EditorClassIdentifier:"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _AlphaClip: 0\n    - _AlphaToMask: 0\n    - _Blend: 0\n    - _BlendModePreserveSpecular: 1\n    - _BumpScale: 1\n    - _ClearCoatMask: 0\n    - _ClearCoatSmoothness: 0\n    - _Cull: 2\n    - _Cutoff: 0.5\n    - _DetailAlbedoMapScale: 1\n    - _DetailNormalMapScale: 1\n    - _DstBlend: 0\n    - _DstBlendAlpha: 0\n    - _EnvironmentReflections: 1\n    - _GlossMapScale: 0\n    - _Glossiness: 0.5\n    - _GlossyReflections: 1\n    - _Metallic: 0\n    - _Mode: 0\n    - _OcclusionStrength: 1\n    - _Parallax: 0.02\n    - _QueueOffset: 0\n    - _ReceiveShadows: 1\n    - _Smoothness: 0\n    - _SmoothnessTextureChannel: 0\n    - _SpecularHighlights: 1\n    - _SrcBlend: 1\n    - _SrcBlendAlpha: 1\n    - _Surface: 0\n    - _UVSec: 0\n    - _WorkflowMode: 1\n    - _ZWrite: 1"
+    ]
+  }
+}

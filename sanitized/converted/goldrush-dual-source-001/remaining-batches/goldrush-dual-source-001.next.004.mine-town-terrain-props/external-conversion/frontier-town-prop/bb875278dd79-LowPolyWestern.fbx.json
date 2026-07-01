@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.frontierTown",
+  "role": "frontier-town-prop",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/low-poly-western/source/LowPolyWestern.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/low-poly-western/source/LowPolyWestern.fbx",
+  "sourceHash": "sha256:bb875278dd79b139091a5d4bf9e26c75f0908533a11f90ee935de030d9b835a6",
+  "sourceBytes": 609180,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

@@ -34,9 +34,30 @@ The catalog is not a visual gimmick. It is the proof surface for whether the gam
 - the player silhouette must read at thumbnail size.
 - the route or landmark must be visible without UI labels.
 - combat views must show cover and threat lanes.
+- cover-peek views should consume `readable-threat-cover-v1` fields like `peekSide`, `cameraShoulder`, and `recommendedCoverId`.
 - mining views must show gold/tool readability.
 - canyon views must show depth instead of a flat plane.
 
 ## Current Proof
 
 `npm run check` validates the catalog through `tools/validation/validate-nexus-runtime.mjs`.
+
+## Combat Pressure Boundary
+
+The active gameplay camera is not selected from the catalog every frame. Runtime transitions now use one combat-presentation boundary:
+
+```txt
+active readable threat / aim / fire / damage
+-> goldrushPerspective: combat
+-> goldrushCamera: combat
+-> goldrushScenes: combat scene intent
+-> goldrushAnimation: aiming posture
+
+threat defeated and aim released
+-> goldrushPerspective: exploration
+-> goldrushCamera: exploration
+-> goldrushScenes: arena intent
+-> goldrushAnimation: travel posture
+```
+
+Frontier-condition danger and extraction-site risk may still bias music, scoring, and cashout pressure. They do not keep the camera in combat without an active threat.

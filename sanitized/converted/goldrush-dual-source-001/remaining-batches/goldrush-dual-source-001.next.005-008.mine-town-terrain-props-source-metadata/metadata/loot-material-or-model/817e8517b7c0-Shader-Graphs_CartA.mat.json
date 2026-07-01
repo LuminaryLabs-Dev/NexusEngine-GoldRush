@@ -1,0 +1,39 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Shader Graphs_CartA.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Shader Graphs_CartA.mat",
+  "sourceHash": "sha256:817e8517b7c00d7e11d6f69deae50f49650295ac40d57794b29844a8ac40912c",
+  "summary": {
+    "lineCount": 119,
+    "guidCount": 4,
+    "textureReferenceCount": 2,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "032a1e8991461f440aea391913cb5ffc",
+      "44a52c82e1ac5124d8cc1dfff6920ebd",
+      "d2262214f2403fc4082ff794f1f3ee2c",
+      "da692e001514ec24dbc4cca1949ff7e8"
+    ],
+    "textureRefs": [
+      "44a52c82e1ac5124d8cc1dfff6920ebd",
+      "d2262214f2403fc4082ff794f1f3ee2c"
+    ],
+    "names": [
+      "Shader Graphs_CartA",
+      "m_EditorClassIdentifier:"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _AddPrecomputedVelocity: 0\n    - _AlphaCutoffEnable: 0\n    - _AlphaDstBlend: 0\n    - _AlphaSrcBlend: 1\n    - _BlendMode: 0\n    - _ConservativeDepthOffsetEnable: 0\n    - _CullMode: 2\n    - _CullModeForward: 2\n    - _DepthOffsetEnable: 0\n    - _DoubleSidedEnable: 0\n    - _DoubleSidedGIMode: 0\n    - _DoubleSidedNormalMode: 2\n    - _DstBlend: 0\n    - _DstBlend2: 0\n    - _EnableBlendModePreserveSpecularLighting: 0\n    - _EnableFogOnTransparent: 1\n    - _ExcludeFromTUAndAA: 0\n    - _LightDarkThreshold: 2\n    - _LightDarkThreshold_1: 3\n    - _OpaqueCullMode: 2\n    - _PerPixelSorting: 0\n    - _PosterizationSteps: 12\n    - _RenderQueueType: 1\n    - _SrcBlend: 1\n    - _StencilRef: 0\n    - _StencilRefDepth: 1\n    - _StencilRefDistortionVec: 4\n    - _StencilRefMV: 33\n    - _StencilWriteMask: 6\n    - _StencilWriteMaskDepth: 9\n    - _StencilWriteMaskDistortionVec: 4\n    - _StencilWriteMaskMV: 43\n    - _SurfaceType: 0\n    - _ToonSteps: 3\n    - _TransparentBackfaceEnable: 0\n    - _TransparentCullMode: 2\n    - _TransparentDepthPostpassEnable: 0\n    - _TransparentDepthPrepassEnable: 0\n    - _TransparentSortPriority: 0\n    - _TransparentWritingMotionVec: 0\n    - _TransparentZWrite: 0\n    - _UseShadowThreshold: 0\n    - _ZTestDepthEqualForOpaque: 3\n    - _ZTestTransparent: 4\n    - _ZWrite: 1"
+    ]
+  }
+}

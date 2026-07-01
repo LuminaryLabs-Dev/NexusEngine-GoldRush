@@ -1,0 +1,27 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.frontierTown",
+  "role": "frontier-town-prop",
+  "sourcePath": "GoldRush/Assets/World/Buildings/Church.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Church.prefab",
+  "sourceHash": "sha256:95aa73b4bfacefa0468884956f46649c21c492027ef6a348fe39e99b80a22cba",
+  "summary": {
+    "lineCount": 130,
+    "guidCount": 2,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 2
+  },
+  "references": {
+    "guids": [
+      "23ce6e10e9fd9604088e218bf3476d8e",
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [],
+    "yamlTags": {
+      "4": 2,
+      "1001": 2
+    }
+  }
+}

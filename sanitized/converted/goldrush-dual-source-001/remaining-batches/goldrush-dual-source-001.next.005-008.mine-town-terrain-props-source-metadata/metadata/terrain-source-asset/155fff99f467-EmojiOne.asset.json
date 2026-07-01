@@ -1,0 +1,54 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+  "sourceHash": "sha256:155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54",
+  "summary": {
+    "lineCount": 660,
+    "guidCount": 3,
+    "textureReferenceCount": 1,
+    "namedObjectCount": 18,
+    "colorCount": 0,
+    "floatBlockCount": 2
+  },
+  "references": {
+    "guids": [
+      "84a92b25f83d49b9bc132d206b370281",
+      "cf81c85f95fe47e1a27f6ae460cf182c",
+      "dffef66376be4fa480fb02b19edbe903"
+    ],
+    "textureRefs": [
+      "dffef66376be4fa480fb02b19edbe903"
+    ],
+    "names": [
+      "TextMeshPro/Sprite",
+      "EmojiOne",
+      "Smiling face with smiling eyes",
+      "1f60b",
+      "1f60d",
+      "1f60e",
+      "Grinning face",
+      "1f601",
+      "Face with tears of joy",
+      "1f603",
+      "1f604",
+      "1f605",
+      "1f606",
+      "1f609",
+      ".notdef",
+      "1f923",
+      "263a",
+      "2639"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _ColorMask: 15\n    - _CullMode: 0\n    - _Stencil: 0\n    - _StencilComp: 8\n    - _StencilOp: 0\n    - _StencilReadMask: 255\n    - _StencilWriteMask: 255\n    - _UseUIAlphaClip: 0",
+      "[]"
+    ]
+  }
+}

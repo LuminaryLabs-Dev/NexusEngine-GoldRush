@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.scene.mainMenu",
+  "mediaKind": "scene-animation",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.controller",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/10_Animations/RushSlideIn.controller",
+  "sourceHash": "sha256:462d8545de6c8d18c4581a67cfe7afa858ea998327a4d92b4b04f0b3cb68e854",
+  "summary": {
+    "lineCount": 73,
+    "guidCount": 1,
+    "fileIdCount": 5,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "bd9b77cfdff91db4fbf8cf8c3412a76e"
+    ],
+    "fileIds": [
+      "0",
+      "8343390934075010949",
+      "-2907045246037018071",
+      "9100000",
+      "7400000"
+    ],
+    "names": [
+      "Base Layer",
+      "RushSlideIn"
+    ],
+    "yamlTags": {
+      "91": 1,
+      "1102": 1,
+      "1107": 1
+    }
+  }
+}

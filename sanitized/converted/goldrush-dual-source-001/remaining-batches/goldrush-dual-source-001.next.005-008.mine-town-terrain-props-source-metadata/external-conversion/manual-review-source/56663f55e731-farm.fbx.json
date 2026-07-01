@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.review",
+  "role": "manual-review-source",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/wild-west-farm/source/farm.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/wild-west-farm/source/farm.fbx",
+  "sourceHash": "sha256:56663f55e7312d3393d9daede52676d35720f62c698b06e39fa57607c5b4c1a1",
+  "sourceBytes": 963116,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires GLB/glTF conversion, scale/origin/collider metadata, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

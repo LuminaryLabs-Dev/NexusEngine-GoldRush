@@ -1,0 +1,30 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertRock",
+  "role": "desert-rock-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderRock2.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderRock2.prefab",
+  "sourceHash": "sha256:9eca2374938bd5513299626a3f0a06897496b30e6d7f45bf711c7ad9c9c27312",
+  "summary": {
+    "lineCount": 271,
+    "guidCount": 2,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "1b36b525cc4accc438b957c8ac0bc1ae",
+      "ffa8912053ce7824e8c29f743382ff88"
+    ],
+    "names": [
+      "BorderRock2"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 4,
+      "1001": 3
+    }
+  }
+}

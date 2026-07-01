@@ -1,8 +1,15 @@
 import { chromium } from "playwright";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import {
+  sanitizePathForOutput,
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifact,
+  writeSanitizedTextArtifact,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const args = parseArgs(process.argv.slice(2));
+const repoRoot = path.resolve(new URL("../..", import.meta.url).pathname);
 const publicUrl = args.url || process.env.GOLDRUSH_PUBLIC_URL || "https://luminarylabs-dev.github.io/NexusEngine-GoldRush/";
 const cacheBustUrl = withCacheBust(publicUrl);
 const outputRoot = path.resolve(args.out ?? "reports/public-smoke");
@@ -24,6 +31,8 @@ const report = {
   screenshots: [],
   consoleErrors: [],
   pageErrors: [],
+  loadingCheckpoint: null,
+  boardingPath: null,
   finalState: null,
 };
 
@@ -78,14 +87,27 @@ try {
   await step("board-train-and-enter-match", async () => {
     await page.waitForFunction(() => {
       const state = window.GoldRushHost?.getState?.();
-      return state?.loadingScene?.doorOpen === true;
+      return state?.loadingScene?.doorOpen === true
+        && state?.loadingScene?.boardingCue?.contract === "goldrush-train-boarding-cue-v1"
+        && state?.loadingScene?.boardingCue?.visible === true
+        && state?.firstSequence?.trainReadout?.nextPlayerAction === "board-train"
+        && state?.audioManager?.lastTrainCueShots?.some((shot) => {
+          return shot.contract === "goldrush-train-transition-audio-cues-v1"
+            && shot.trainBeat === "player-boarding";
+        });
     }, null, { timeout: timeoutMs });
+    const loadingState = await getHostState(page);
+    report.loadingCheckpoint = summarizeState(loadingState);
+    assert(report.loadingCheckpoint?.screen === "loading", "loading checkpoint should be captured before match handoff");
+    assert(report.loadingCheckpoint?.audioManager?.lastTrainCueShots?.some((shot) => {
+      return shot.contract === "goldrush-train-transition-audio-cues-v1"
+        && shot.trainBeat === "player-boarding"
+        && shot.fallbackPattern === "train-board";
+    }), "loading checkpoint should retain the train boarding audio fallback cue");
     const walkedToRun = await walkForwardUntilRun(page, 12000);
     const screenAfterWalk = await getHostState(page);
-    if (!walkedToRun && screenAfterWalk?.screen !== "run") {
-      const receipt = await page.evaluate(() => window.GoldRushHost?.actions?.publicSmokePlaceAtTrainDoor?.() ?? { accepted: false, reason: "missing-action" });
-      if (!receipt.accepted) throw new Error(`public smoke train-door placement failed: ${receipt.reason}`);
-    }
+    report.boardingPath = summarizeBoardingPath(screenAfterWalk, { walkedToRun });
+    assert(walkedToRun || screenAfterWalk?.screen === "run", "public smoke must board the train through natural camera-relative walking from the loading-yard spawn");
     await waitForScreen(page, "run", timeoutMs);
     await waitForActiveSite(page, "site.gold-field", timeoutMs);
     await capture(page, "04-gold-field");
@@ -109,6 +131,33 @@ try {
     assert(state.realityValidation?.passed === true, "reality-status validation should pass");
   });
 
+  await step("complete-extraction-and-results", async () => {
+    const receipt = await page.evaluate(async () => window.GoldRushHost?.actions?.publicSmokeCompleteRunToResults?.() ?? { accepted: false, reason: "missing-action" });
+    if (!receipt.accepted) throw new Error(`public smoke result completion failed: ${receipt.reason}`);
+    await waitForScreen(page, "results", timeoutMs);
+    await waitForActiveSite(page, "site.results", timeoutMs);
+    await page.waitForFunction(() => {
+      const state = window.GoldRushHost?.getState?.();
+      return state?.loadedKitGroups?.includes("results-summary")
+        && state?.loadedKitGroups?.includes("replay-summary")
+        && state?.results?.status === "final";
+    }, null, { timeout: timeoutMs });
+    const resultsText = await page.locator('[data-screen-panel="results"]').innerText({ timeout: timeoutMs });
+    assert(/Lockdown/i.test(resultsText), "results screen should show lockdown extraction context");
+    assert(/Replay Moments/i.test(resultsText), "results screen should show replay moments");
+    assert(!/GOLDRUSH\.CONDITION/i.test(resultsText), "results screen should not leak raw condition ids");
+    assert(!/claim-jumper-01/i.test(resultsText), "results screen should not leak raw threat ids");
+    assert(!/rail-depot-extract-01/i.test(resultsText), "results screen should not leak raw cashout site ids");
+    const actionVisibility = await getResultActionVisibility(page);
+    assert(actionVisibility.every((entry) => entry.visible), `results action buttons should stay in first viewport: ${JSON.stringify(actionVisibility)}`);
+    const state = await getHostState(page);
+    report.finalState = summarizeState(state);
+    assert(state.results?.extractionContestSummary?.lockdownCount === 1, "results should count one lockdown extraction");
+    assert(state.results?.extractionContestSummary?.calledThreatIds?.includes("claim-jumper-01"), "results should preserve called contest threat");
+    assert(state.replaySummary?.extractionContestSummary?.lockdownCount === 1, "replay should count one lockdown extraction");
+    await capture(page, "05-results");
+  });
+
   report.status = "passed";
 } catch (error) {
   report.status = "failed";
@@ -128,17 +177,19 @@ try {
 } finally {
   report.finishedAt = new Date().toISOString();
   await browser?.close();
-  await writeFile(reportPath, JSON.stringify(report, null, 2));
-  await writeFile(markdownPath, renderMarkdown(report));
-  console.log(JSON.stringify({
-    status: report.status,
-    url: report.url,
-    report: reportPath,
-    markdown: markdownPath,
-    screenshots: report.screenshots,
-    finalState: report.finalState,
-    error: report.error?.message ?? null,
-  }, null, 2));
+  const publicReport = await writeSanitizedJsonArtifact(reportPath, report, { repoRoot });
+  await writeSanitizedTextArtifact(markdownPath, renderMarkdown(publicReport), { repoRoot });
+  console.log(sanitizedConsoleJson({
+    status: publicReport.status,
+    url: publicReport.url,
+    report: sanitizePathForOutput(reportPath),
+    markdown: sanitizePathForOutput(markdownPath),
+    screenshots: publicReport.screenshots,
+    loadingCheckpoint: publicReport.loadingCheckpoint,
+    boardingPath: publicReport.boardingPath,
+    finalState: publicReport.finalState,
+    error: publicReport.error?.message ?? null,
+  }, { repoRoot }));
 }
 
 async function step(name, callback) {
@@ -171,7 +222,7 @@ async function gotoWithRetry(page, url, { timeoutMs: timeout, attempts = 6 } = {
 async function capture(page, name) {
   const file = path.join(screenshotRoot, `${name}-${runId}.png`);
   await page.screenshot({ path: file, fullPage: false });
-  report.screenshots.push(file);
+  report.screenshots.push(sanitizePathForOutput(file));
 }
 
 async function waitForScreen(page, screen, timeout) {
@@ -222,6 +273,22 @@ async function getHostState(page) {
   return page.evaluate(() => window.GoldRushHost?.getState?.() ?? null);
 }
 
+async function getResultActionVisibility(page) {
+  return page.evaluate(() => {
+    return ["results-lobby", "results-next-run"].map((action) => {
+      const element = document.querySelector(`[data-action="${action}"]`);
+      const rect = element?.getBoundingClientRect();
+      return {
+        action,
+        visible: Boolean(rect && rect.width > 0 && rect.height > 0 && rect.bottom <= window.innerHeight && rect.top >= 0),
+        top: Number(rect?.top?.toFixed(1) ?? 0),
+        bottom: Number(rect?.bottom?.toFixed(1) ?? 0),
+        viewportHeight: window.innerHeight,
+      };
+    });
+  });
+}
+
 async function assertHostState(page, predicate, message) {
   const state = await getHostState(page);
   assert(state && predicate(state), message);
@@ -257,6 +324,16 @@ function summarizeState(state) {
       trainDeparting: state.loadingScene.trainDeparting,
       playerLockedToTrain: state.loadingScene.playerLockedToTrain,
       trainPosition: state.loadingScene.trainPosition,
+      trainReadout: state.firstSequence?.trainReadout ? {
+        contract: state.firstSequence.trainReadout.contract,
+        currentBeat: state.firstSequence.trainReadout.currentBeat,
+        nextPlayerAction: state.firstSequence.trainReadout.nextPlayerAction,
+      } : null,
+    } : null,
+    audioManager: state.audioManager ? {
+      status: state.audioManager.status,
+      trainTransitionAudioContract: state.audioManager.trainTransitionAudioContract,
+      lastTrainCueShots: state.audioManager.lastTrainCueShots,
     } : null,
     loadingPlayer: state.loadingPlayer ? {
       position: state.loadingPlayer.position,
@@ -284,6 +361,42 @@ function summarizeState(state) {
       recommendation: state.physicsBackend?.recommendation,
     },
     realityValidation: state.realityValidation,
+    results: state.results ? {
+      status: state.results.status,
+      winner: state.results.winner,
+      placementCount: state.results.placements?.length ?? 0,
+      contest: state.results.extractionContestSummary ? {
+        lockdownCount: state.results.extractionContestSummary.lockdownCount,
+        calledThreatIds: state.results.extractionContestSummary.calledThreatIds,
+        highestPressure: state.results.extractionContestSummary.highestPressure,
+      } : null,
+      finalRushPressure: state.results.finalRushPressureSummary ? {
+        pressureLinkedReceiptCount: state.results.finalRushPressureSummary.pressureLinkedReceiptCount,
+        highestPressure: state.results.finalRushPressureSummary.highestPressure,
+        maxMultiplier: state.results.finalRushPressureSummary.maxMultiplier,
+      } : null,
+      awards: state.results.awards?.map((award) => award.id) ?? [],
+    } : null,
+    replaySummary: state.replaySummary ? {
+      resultStatus: state.replaySummary.resultStatus,
+      keyMoments: state.replaySummary.keyMoments?.length ?? 0,
+      contest: state.replaySummary.extractionContestSummary ? {
+        lockdownCount: state.replaySummary.extractionContestSummary.lockdownCount,
+        calledThreatIds: state.replaySummary.extractionContestSummary.calledThreatIds,
+      } : null,
+    } : null,
+  };
+}
+
+function summarizeBoardingPath(state, { walkedToRun }) {
+  return {
+    method: walkedToRun || state?.screen === "run" ? "natural-walk-from-loading-yard-spawn" : "failed-before-run",
+    screen: state?.screen ?? null,
+    loadingPhase: state?.loadingScene?.loadingPhase ?? null,
+    trainDeparting: state?.loadingScene?.trainDeparting ?? null,
+    playerLockedToTrain: state?.loadingScene?.playerLockedToTrain ?? null,
+    nextPlayerAction: state?.firstSequence?.trainReadout?.nextPlayerAction ?? null,
+    loadingPlayerPosition: state?.loadingPlayer?.position ?? null,
   };
 }
 
@@ -305,6 +418,18 @@ ${stepLines}
 ## Screenshots
 
 ${screenshotLines}
+
+## Loading Checkpoint
+
+\`\`\`json
+${JSON.stringify(nextReport.loadingCheckpoint, null, 2)}
+\`\`\`
+
+## Boarding Path
+
+\`\`\`json
+${JSON.stringify(nextReport.boardingPath, null, 2)}
+\`\`\`
 
 ## Final State
 

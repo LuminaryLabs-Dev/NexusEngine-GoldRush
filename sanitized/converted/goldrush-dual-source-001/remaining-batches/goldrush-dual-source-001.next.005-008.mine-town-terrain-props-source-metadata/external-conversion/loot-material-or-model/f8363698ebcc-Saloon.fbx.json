@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Saloon.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Saloon.fbx",
+  "sourceHash": "sha256:f8363698ebcc9652d257063bce092d5275b1b60843358e7adad485e7c22c64f8",
+  "sourceBytes": 185864,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires GLB/glTF conversion, scale/origin/collider metadata, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

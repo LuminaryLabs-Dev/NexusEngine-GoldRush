@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-source-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "generatedAt": "2026-06-30T16:30:44.482Z",
+  "doesNotModifyFirst31Gate": true,
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "treeTruncated": false
+  },
+  "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
+  "batchStatus": "planned-not-copied",
+  "itemCount": 36,
+  "totalBytes": 74640633,
+  "publicPromotion": false,
+  "runtimePromotion": false
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/DefaultLookDevProfile.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/HDRP_Assets/HDRPDefaultResources/DefaultLookDevProfile.asset",
+  "sourceHash": "sha256:bf9ab43157d43aacaefe8f322f145214325a61640805931a923af3c6cafbc36a",
+  "summary": {
+    "lineCount": 221,
+    "guidCount": 5,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 5,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "24f077503be6ae942a1e1245dbd53ea9",
+      "7ddcec8a8eb2d684d833ac8f5d26aebd",
+      "9008a067f4d626c4d8bc4bc48f04bb89",
+      "d7fd9488000d3734a9e00ee676215985",
+      "f086a068d4c5889438831b3ae9afc11c"
+    ],
+    "textureRefs": [],
+    "names": [
+      "DefaultLookDevProfile",
+      "AmbientOcclusion",
+      "HDShadowSettings",
+      "Bloom",
+      "Tonemapping"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

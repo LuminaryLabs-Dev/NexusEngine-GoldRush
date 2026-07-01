@@ -1,0 +1,31 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.frontierTown",
+  "role": "frontier-town-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChapelWithTombs.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChapelWithTombs.prefab",
+  "sourceHash": "sha256:cec1ed3ab69b3ce71671cd9dbef015ba7066879ef8a5725e222b1be6532e4b3f",
+  "summary": {
+    "lineCount": 604,
+    "guidCount": 2,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 4
+  },
+  "references": {
+    "guids": [
+      "40e2902034948fe4f8123d4f1ecb6c4a",
+      "5c1542ad9b39d2248b66b8671bd5e0a8"
+    ],
+    "names": [
+      "ChapelWithTombs"
+    ],
+    "yamlTags": {
+      "1": 6,
+      "4": 6,
+      "64": 5,
+      "1001": 5
+    }
+  }
+}

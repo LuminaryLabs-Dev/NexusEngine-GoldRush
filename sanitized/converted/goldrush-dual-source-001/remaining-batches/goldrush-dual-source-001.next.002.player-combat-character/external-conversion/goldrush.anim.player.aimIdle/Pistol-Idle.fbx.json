@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.anim.player.aimIdle",
+  "mediaKind": "animation",
+  "handling": "retarget-animation-clip",
+  "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Idle.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Idle.fbx",
+  "sourceHash": "sha256:82a00faa6c42491ab0638790b4d41a192a8c8b0093e36e8e8562fc4ca4338933",
+  "sourceBytes": 6439728,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "retargeted-animation-map",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model/animation bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

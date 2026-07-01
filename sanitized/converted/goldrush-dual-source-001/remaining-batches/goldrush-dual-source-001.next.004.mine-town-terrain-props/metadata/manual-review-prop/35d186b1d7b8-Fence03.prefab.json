@@ -1,0 +1,25 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/World/Buildings/Fence03.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Fence03.prefab",
+  "sourceHash": "sha256:35d186b1d7b8d58a1a94f8c5904671361350da18d65b08c9a8f5309f8a697f08",
+  "summary": {
+    "lineCount": 60,
+    "guidCount": 1,
+    "namedObjectCount": 0,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [
+      "f45f94a68926cf84dba488e6eb450d8a"
+    ],
+    "names": [],
+    "yamlTags": {
+      "1001": 1
+    }
+  }
+}

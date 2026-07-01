@@ -1,0 +1,1389 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-raw-copy-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.006.mine-town-terrain-props",
+  "generatedAt": "2026-06-30T17:24:29.322Z",
+  "doesNotModifyFirst31Gate": true,
+  "mode": "raw-files-written",
+  "rawFilesWritten": true,
+  "proofPath": "reports/provenance/goldrush-dual-source-001-next-006-raw-write-proof.json",
+  "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
+  "fetchedFiles": [
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_32Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_32Mat.mat",
+      "blobSha": "bc984d8ea42d542fdeafd52bc1af78f60633be75",
+      "sourceHash": "sha256:24f611e588a44ac54ba2ada69cda60baf10a0d01206d16caf0f90722f2199d0a",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_33Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_33Mat.mat",
+      "blobSha": "8d94d97147143451babdbc32ef924bea7ad581bf",
+      "sourceHash": "sha256:2a2c8cae1d3356823c068413c78a9bc03fa9baeded0ce8df0cd9bd10529e7791",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_34Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_34Mat.mat",
+      "blobSha": "0919add2ab6b9e47e0545bbcb455903488064721",
+      "sourceHash": "sha256:b695a404cf52e68d6a792818b0deca211070b158904b9628e6bb6d9ef658fb63",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_35Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_35Mat.mat",
+      "blobSha": "2fec843517ef01e7e6f612b7663742bf8d9bdb1b",
+      "sourceHash": "sha256:5cffad8ce5325b33df20b198048e628ef3c3ca3dc5b0a0f027524df8e854a93f",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_36Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_36Mat.mat",
+      "blobSha": "aa4928031508b47345ce84650556c6c2b5240f32",
+      "sourceHash": "sha256:fd44d47be618999e33b5a1c2478031111c6e1198d71eb772a6e8058a387aa9d6",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_37Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_37Mat.mat",
+      "blobSha": "86fbb0c3a50cb17543154c535a14ca80d0bd31de",
+      "sourceHash": "sha256:d341bd7d9a29af503cf0e1c49ab42f537521a7d6e73f8d15847ae2f15d1d0b3d",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_38Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_38Mat.mat",
+      "blobSha": "12918fab4cb95a4dba17dbe2163a582402cc7cac",
+      "sourceHash": "sha256:d0ddeb66705d5288a48ecb1dd8b9c58514a59ac6f8529560d2e2905801ea7c76",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_39Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_39Mat.mat",
+      "blobSha": "09d556df6a41ed4e04e5aa441e8c456223215694",
+      "sourceHash": "sha256:7f03976f7a80a30b86ca4813f3d12187e98d26f6a0aa693e472e5965f54e3589",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_3Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_3Mat.mat",
+      "blobSha": "babc223edd3a0f89af35c60a97249a1dccdad75b",
+      "sourceHash": "sha256:43dda36b0665c6fc8a80408b0b614f5432b0090e76afe8f4b3095a0b26d06e0c",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_40Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_40Mat.mat",
+      "blobSha": "8db1128397db4e4dac5183f452da50a99b701273",
+      "sourceHash": "sha256:4e074da3528481e9564d3a24c764751897d49345d85b69405eddadf342f88266",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_41Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_41Mat.mat",
+      "blobSha": "89015620ffe6caac0d8431ebb2eb8754381d30a9",
+      "sourceHash": "sha256:a5e5ecd4aad985ea81353fbb0e5e9d7d99613ce8d2dca2a08596bcd53ea5ce59",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_43Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_43Mat.mat",
+      "blobSha": "6bdca7a13fbe258f3669860c571b3c6b8e161af3",
+      "sourceHash": "sha256:e679f10c9b3f318d172c4119dc782044730890cfd5280229bf001587e60e4d1c",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_44Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_44Mat.mat",
+      "blobSha": "ee0629f45aa4454618b4b82837a5ecf0a172572c",
+      "sourceHash": "sha256:1dd02daed1647748f0adeee1762d0cab25a1497a902aa0794ee500ba9abed5a7",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_45Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_45Mat.mat",
+      "blobSha": "7a0c8921ca019cf3086f86e40550c897406c5adf",
+      "sourceHash": "sha256:74fa5d7804c5a4f6245de4de5ca879066227b3ad3c0ecbd1c2de4b0fb9049c51",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_46Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_46Mat.mat",
+      "blobSha": "070a4f9063d47bd983ba27dc1dd00f365db6a113",
+      "sourceHash": "sha256:70762a658223ebb399b4608a11e4b8da28de5f3254552e7e2f879fa940ce28ed",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_47Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_47Mat.mat",
+      "blobSha": "c3865813aa89873f2a0f8c690c99aac63d5132c8",
+      "sourceHash": "sha256:26fc92ee10781d438b435a7e81bdf1ea2c7639a2a0a804e82da30ad286a002d2",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_48Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_48Mat.mat",
+      "blobSha": "3512c6e641392767515f8f3d5f8c48f68c590cdc",
+      "sourceHash": "sha256:33c06fda6647b2ceb6122f5523ac6ca6efd2c4646a047caae90591f7a224c73c",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_49Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_49Mat.mat",
+      "blobSha": "46973dad8c394d30fbbe74b952bfe7bb83b9df18",
+      "sourceHash": "sha256:eb295ed98d383b8b4a965212ebd209eed54de6620683619dc73f30d8c987b5d0",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_4Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_4Mat.mat",
+      "blobSha": "61bd05a62a55769964ca1860bb13d0282f7e7d43",
+      "sourceHash": "sha256:4701bd3095d2454402f8a88418b020db6034f3320662f36c0d022676bf7cb1fe",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_50Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_50Mat.mat",
+      "blobSha": "075958a9834e4ca48ce45325351a7e0e77fdd73a",
+      "sourceHash": "sha256:028bcf96e67330264a0cf010607ab793faf76a74ccaca6c7d9d81f15e2fdf17f",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_51Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_51Mat.mat",
+      "blobSha": "57404ab00ec278bc5041722b55dda63b2ca5d2f5",
+      "sourceHash": "sha256:fcffa1e996287a8ada9e31cf9effa6a17429e013ffcfc86089529e4245f20868",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_52Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_52Mat.mat",
+      "blobSha": "03ff498f7930fde2aa2fd1267b9a59f77e394f5c",
+      "sourceHash": "sha256:d9d689b79b21d82cb976b8ea894944039e73f0b5d6a8c78eb229f6b5569822df",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_53Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_53Mat.mat",
+      "blobSha": "b6bbbdefa51b6542d890e2cd5405d00367875149",
+      "sourceHash": "sha256:12423ed08e244e72ae0df44a00d5e5c846afbaf3e239b83fa2cc13ea549680dd",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_54Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_54Mat.mat",
+      "blobSha": "481bd5eaec80cf390232843e864c56cc074ebf10",
+      "sourceHash": "sha256:80797f1ed1780e620482a4c4c3e465ee9cb17b6e1d215f37dd8e325b8d70cebb",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_55Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_55Mat.mat",
+      "blobSha": "e0beb7345821c5b74f2a2c51e148cf004d68abf4",
+      "sourceHash": "sha256:280b81342f448f494459bef7ead770d00aedb5b590a899925d57f4429984ebdd",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_56Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_56Mat.mat",
+      "blobSha": "0f6fbc5d50b17d8c99a52c3e28be571562ea2415",
+      "sourceHash": "sha256:75709b847846cc45b58003537f5cdbccaff5f391e92a0e5e20dc4b5012bf63fe",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_57Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_57Mat.mat",
+      "blobSha": "91cbf5be2537362eab8d41630d8bb9d86cfdefc1",
+      "sourceHash": "sha256:9e761584cc4575878965f2fc6568c537eb41c7cf77120dbfe25969b22eb11033",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_58Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_58Mat.mat",
+      "blobSha": "b294ff760bf23bf1ea7c5a56d1ff6b57cfe89a97",
+      "sourceHash": "sha256:1b862fac3cdab275ee816ecc9dd2039bf5949d9ad38916e9165ba0ca007b7202",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_59Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_59Mat.mat",
+      "blobSha": "0d54a2d73baf7145162767d61cf160a7afdbe3fb",
+      "sourceHash": "sha256:c6db3432e02786e3104206aafc1a5e2f8f3f172cc0b40eb078f505e4818e7c7e",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_5Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_5Mat.mat",
+      "blobSha": "6a0a8e97294c30cdd403b45d819cfaff5167b46a",
+      "sourceHash": "sha256:ea0ac9970075380e084c01540169150d34e336d8dc957ee950b7d42a94610e6d",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_60Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_60Mat.mat",
+      "blobSha": "1df32d45d0cbe1fd9e9746ab0c9dd0384a3d1d76",
+      "sourceHash": "sha256:4cc17e1daa9947fa9a57bf31de9fac338116c3770e27bd016200ea39d1c71671",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_61Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_61Mat.mat",
+      "blobSha": "ae79ab86f836c25eba17d34f00d6a37b026e9289",
+      "sourceHash": "sha256:75f566cda83cc42f04fb8e65dc797b19b39b1ecdddfcb4ea9cdafc6c9d729e10",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_62Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_62Mat.mat",
+      "blobSha": "389c7851114f5c0ba494a56cf1277b487c7900b2",
+      "sourceHash": "sha256:93da329ec669cc0627466f2c458943ede867f7d023ac658a9b90887d36317db2",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_63Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_63Mat.mat",
+      "blobSha": "f74e4c15933053506c8971841149acc9766e4689",
+      "sourceHash": "sha256:ccad208a175a26892b60c993fc8f376facced4f7ca0219655ae9a13d8249d9d3",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_64Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_64Mat.mat",
+      "blobSha": "d4b618714b761622ece5639811c2842b8c8a9978",
+      "sourceHash": "sha256:97a696b389a9bd4f12e9919b1acf7c36fcc49774d81c0e408c4709bbb9b8c118",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_65Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_65Mat.mat",
+      "blobSha": "cb75a08f16d131bb53e7cb20f50bb071981f64f2",
+      "sourceHash": "sha256:a320c8b4f37c30fd62feb134bcef33dd29a95f9afed77d59eba23574c382a808",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_66Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_66Mat.mat",
+      "blobSha": "9d488010d54744b3a627c2e09a53b064e59718fb",
+      "sourceHash": "sha256:326ecd54972d83239cc52d172486fabffcb58d63fc7833de3b5e24287820e976",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_67Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_67Mat.mat",
+      "blobSha": "d3b7ed736e026ed430b964f1b888d9d8787952f4",
+      "sourceHash": "sha256:4f2ede726fe53f6d99e38512a8972c3e50271591529ddf7cbc81b967112877fd",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_68Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_68Mat.mat",
+      "blobSha": "2ef0c05aee5e5065794223e58b12197d72e09666",
+      "sourceHash": "sha256:912f9e277ad4149362854404890235024353c542dfa7ba905d6b00052b964e4f",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_69Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_69Mat.mat",
+      "blobSha": "9e677d55d89878c3071d9f41995605d68807a4b8",
+      "sourceHash": "sha256:dcc99db00cd116f1d4312641fa2848e8c6d6b49e6c7c4fb20a57534625feac13",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_6Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_6Mat.mat",
+      "blobSha": "235bf2c5ef9d0316d282000d296950d104112ddc",
+      "sourceHash": "sha256:d2d5c22e0beed5bef523b40bcbcfd113cf620aaded19510410c9d8320e832f7f",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_70Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_70Mat.mat",
+      "blobSha": "a7fb9e5b72417c77edd0369190088f8fe5df688a",
+      "sourceHash": "sha256:2b84b71fa96df2312c794a0e903e95cfbef52a20cb88e01a7e356246d35798d2",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_71Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_71Mat.mat",
+      "blobSha": "1ab6dc1b9d3ade395f80df31b1ddf4cc9d620241",
+      "sourceHash": "sha256:a3433337166ea7a29a217d0ee6536b13c756a68054c93ef13318e18b761a7eed",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_72Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_72Mat.mat",
+      "blobSha": "63f246e3a5a47debbb4cb37255325392e0996ae3",
+      "sourceHash": "sha256:56da53f8d252824bea7659ce1440b97eb16637e5b738b32011867993bb9b01ec",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_73Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_73Mat.mat",
+      "blobSha": "2d753a1b445ec89fec023fc532075479f0ae32b8",
+      "sourceHash": "sha256:24812359c15b808af9d571c8a27cd80cc4a4582b907b5f164f84936de9f08245",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_74Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_74Mat.mat",
+      "blobSha": "1a620b3fa06e2bead95672ac62ee7aeb25ec08c6",
+      "sourceHash": "sha256:c5a644470c704aedfa4f8599517d1872986b9964239fcbedd12a0c6749b9350b",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_75Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_75Mat.mat",
+      "blobSha": "a45a60c23bdcd61ffc5bac186aead58b43f220bc",
+      "sourceHash": "sha256:e79569599985011af8a05d5d0e2de8a22ea94a3f6855d25184aac45b6ffcf637",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_76Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_76Mat.mat",
+      "blobSha": "5dbb6ee3d272208cad92751a568eb84bdc8aa2c9",
+      "sourceHash": "sha256:1774aa15da4883dd4c76de22c50792bc85ade03e1a90bead530432b075de41ab",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_77Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_77Mat.mat",
+      "blobSha": "34eb36269f8552bd1d3a6639d1f825a756f78a78",
+      "sourceHash": "sha256:514151af82fbb745a963959057ebf9d326b5979a26ad75e453592e3a676ca3d0",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_78Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_78Mat.mat",
+      "blobSha": "1499b3a3a41eb6852bcebf1bb02077fc98a8dbb6",
+      "sourceHash": "sha256:10c1de679ac896305b257391dfa7f199add80fa98211164e9462bdeca652cf77",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_79Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_79Mat.mat",
+      "blobSha": "97b39a8c23d3efaf1f5f382f63a2bc1c97d63b2f",
+      "sourceHash": "sha256:e97b17638fd48655dbc3b348fcd5712ca8d007282b012402130d290e9fc22269",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_7Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_7Mat.mat",
+      "blobSha": "b9dffa90c1b4252eceaa3d33d1daf9feba622af8",
+      "sourceHash": "sha256:709f4de656fd1f52aa5cd9fe9c07a3fb2e01965623e60356b78cd5175fd41a93",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_80Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_80Mat.mat",
+      "blobSha": "e9eb4b82e5b4aee8c20c3c8f0e785a5c44263526",
+      "sourceHash": "sha256:373b519ad158f593c7bb7e48220c6f93be50892053ce1ab5c9d4fc180be74664",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_81Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_81Mat.mat",
+      "blobSha": "c4fc7e5bb1df241160b42d00b688f0c52dabd6fe",
+      "sourceHash": "sha256:3cde74699fa485caa7249d1af3cf08bebace0305df0e779a44185a64fdb2d7b4",
+      "sizeBytes": 8421,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_82Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_82Mat.mat",
+      "blobSha": "b783e90ef569d31eb18e51367975890c8187d057",
+      "sourceHash": "sha256:797b81ad1e9a5b18b8cc5eb89f6a4ab5c5c4055ebdedcf46e7cd61cfe7799444",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_83Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_83Mat.mat",
+      "blobSha": "7b682e43e2c90ea02624d42fbad66a0241703a96",
+      "sourceHash": "sha256:de20fe0201843574d4c798019e676379c60390099a4e0ed96b3b752fca57221f",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_84Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_84Mat.mat",
+      "blobSha": "820698bba51e38081241ce7f9eb1296f78faad16",
+      "sourceHash": "sha256:8df0c4e215d240a41fcd42c71729deade850dd6aeadf9969e2261e1df596b19f",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_85Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_85Mat.mat",
+      "blobSha": "1a68d9f55a7fe061506d91d89b489f11ef7be27c",
+      "sourceHash": "sha256:8cc02214902f64bb188152f215ba33389ee3445a4ed4dd2bf9637515b8b56ba4",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_86Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_86Mat.mat",
+      "blobSha": "d62457a984a8b65f8764f1d2830aa99389b475dd",
+      "sourceHash": "sha256:a1a9ed6ff392167dcc62419c01ef84c6612cb979f21d0e892db7aaa75081a231",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_87Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_87Mat.mat",
+      "blobSha": "649cb1922ed20f36267130059cbe8e0b305c99fd",
+      "sourceHash": "sha256:f4bb0acb20ec0b18a4b43e05932683fc43f3cc39f2b913838dd0d4384415a9c4",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_88Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_88Mat.mat",
+      "blobSha": "e8c62d4c71f2e8acc08881631f59f540ee0ceba4",
+      "sourceHash": "sha256:fa752427056de1b36a449e0e87239a6a4c959bcde11340ea9db0ae8715150f38",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_89Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_89Mat.mat",
+      "blobSha": "3746c97b7106f6eea21a293e0bafc9745cee24c8",
+      "sourceHash": "sha256:08b6d50e7b9c933f14e70521ae0a03fe48df839d3666974110280f5931a8f708",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_8Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_8Mat.mat",
+      "blobSha": "475e29485d2096744aaca4e788251a0568c2a3df",
+      "sourceHash": "sha256:70f8da59a6e841828f404c2b5345a15528e66a4e23ff464e630f8dc9a2c3860b",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_90Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_90Mat.mat",
+      "blobSha": "5a435e29c08a50977e49600192871123f138856d",
+      "sourceHash": "sha256:a2b7213948870bffd437cf4f5db1a59509120cce910f940531adc9114b219215",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_91Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_91Mat.mat",
+      "blobSha": "99b5744a1961273cfa27083e91369f5d9589b94e",
+      "sourceHash": "sha256:633013af8a854a530a591d4ffe42710c147ce2222685e6cd7baa788e9ba9d168",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_92Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_92Mat.mat",
+      "blobSha": "4a0da8c40a73d73076ac23240282c77b5fc2068f",
+      "sourceHash": "sha256:7d235b5cf510a5262895d14375b49d090ca70d5a84709d301d5e20e1e72f4407",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_93Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_93Mat.mat",
+      "blobSha": "c38d9d00a78839f12ce5813a5398c8a940338725",
+      "sourceHash": "sha256:dbdb17cbce46b3a38e48c92d7e224a697fc1336c282fa1889435d9eeb81af260",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_94Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_94Mat.mat",
+      "blobSha": "9fe91c03cd6121c5a31e7b9e0f01d9c2dd2e72cb",
+      "sourceHash": "sha256:b2f17e26ec7f4a858542baa40cb644c3d8ff29ed144379c6d341a17abafcb016",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_95Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_95Mat.mat",
+      "blobSha": "267181d611fbfeb0411453548aa058a73caf3b97",
+      "sourceHash": "sha256:8aa1bc8c4e3802f72d970af9e3944d426eeed842d9b60aa9d17ac2f40a7b8d70",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_96Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_96Mat.mat",
+      "blobSha": "1b91094d4fd226c899f6eebff2011e045872e3ce",
+      "sourceHash": "sha256:ef1fc3884d890d24e6df55bfe3a5c92c715ea699a6e0693985a3c363791b5a52",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_97Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_97Mat.mat",
+      "blobSha": "8e21d5ade2ea16a88f9a4481d465fce402a85fb2",
+      "sourceHash": "sha256:3214d0913d01b6d72bfd887a5b46b4d1af7a2385c3830b1de88ee8758f5c6ecb",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_98Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_98Mat.mat",
+      "blobSha": "d61e5f1cc3ce4409d56b123f25263412db76ee0f",
+      "sourceHash": "sha256:4fdf7cc95963a7fb6030bb4e867d7b62b560bde33b601f7eae0819a1f1a7f77e",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_99Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_99Mat.mat",
+      "blobSha": "cc557a7da053346c4232e4706c8a714474d644f1",
+      "sourceHash": "sha256:6dd688d91470031ffb392706dbd2a06b9a992b9155ef40929d94b57cc08d11b7",
+      "sizeBytes": 8423,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_9Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cube_9Mat.mat",
+      "blobSha": "4f66b89df0793bb7efbbb2a33588ec3d0015ea4f",
+      "sourceHash": "sha256:0af49ab45479e8228b29fa85a80e94db79a90a46da9623982f7b556be5773a70",
+      "sizeBytes": 8422,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_10Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_10Mat.mat",
+      "blobSha": "f3bddaf0d7ea99c0b08f8f37cdaa1e00a5965b6f",
+      "sourceHash": "sha256:50a6f51f8cf08e6bfe4453720ac31cd755611253f8e6c54fee0ffe5992985ac1",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_11Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_11Mat.mat",
+      "blobSha": "99665e8a58a7cb540006e6f9182973e947859726",
+      "sourceHash": "sha256:718c57defc46e05ccd893103bd8512d7dadd2db17ff1a4c42c4e1b7fc1227d87",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_12Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_12Mat.mat",
+      "blobSha": "3eb6292f13b7420eb90bfd0c8650e45fc14f6053",
+      "sourceHash": "sha256:de356116e21881dd7e62c9afcf1cca23ea754553c80394bfa41e92c68e07b8c9",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_13Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_13Mat.mat",
+      "blobSha": "69f2b44061a64ef37ae64193c37cb793bb09b7ef",
+      "sourceHash": "sha256:430057fdbbaf6f307a3f927f1a6228b49ffa09a614ea5a976f49dac0844729f0",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_14Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_14Mat.mat",
+      "blobSha": "64900167d949736199a5730bf09cc6c30e78b99e",
+      "sourceHash": "sha256:7d7309e55d66d292ba282a13487ffd4a3c01b71f51c0ae6e04e3171e669caab3",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_15Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_15Mat.mat",
+      "blobSha": "0c2083ac524c55db2ce8316f9738f4d30a3a4bf8",
+      "sourceHash": "sha256:594f05d8fc7147fcc12f449b56858d6625af6a9b19fee9e8356756663c7baac2",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_16Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_16Mat.mat",
+      "blobSha": "c97c597ed75f628e0ce90f40c07c66a3e66f4d7b",
+      "sourceHash": "sha256:cdc59287b4298d4cd2a1490751d79e5952c331dd46ed92f04da0744ae624ac49",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_17Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_17Mat.mat",
+      "blobSha": "803bb120594d4ea97ef2bd56ab2c23795af252d3",
+      "sourceHash": "sha256:2a3fb4f43ae8b89b0becf637e510096441ccd56503e7c8ce244986a4b0473aba",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_18Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_18Mat.mat",
+      "blobSha": "722a07284d0f868019172e36ef7d80b7f93a7266",
+      "sourceHash": "sha256:4c12c534cfdad5bf74216ef65f4be631d4406bd94dc6c795d461b7d95df4fcf6",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_19Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_19Mat.mat",
+      "blobSha": "e702437279c4ea4e2fcf029ff866767261f59683",
+      "sourceHash": "sha256:d8caa2e01c7914b1efd45cb1e4444a38d1905cb20fff18448d57464ef1b8506c",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_1Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_1Mat.mat",
+      "blobSha": "1a5ac0a69bd9a6d349f7ac90e81cebefd8108fd1",
+      "sourceHash": "sha256:a5af5c2a83da72da732d4dc5a6d6b7caab1c7f6c2cd3d4c070195a998f58af51",
+      "sizeBytes": 8424,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_20Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_20Mat.mat",
+      "blobSha": "a59e3bcb7025937d78fd5c086fbcc6b0de7b0cbf",
+      "sourceHash": "sha256:8135908590fbadcc17ed566ae65bf39bf8d26051f97fdf7f839b3eb077a8a1e1",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_21Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_21Mat.mat",
+      "blobSha": "cd74cdaddda0719e9e18612525a75c55524e71e2",
+      "sourceHash": "sha256:864c1b44677e6521418852f367065f3ef2a08904e34a54a556e850e09afaf43c",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_22Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_22Mat.mat",
+      "blobSha": "28c3f201271e5d770f74c77465f6b73e9f091d6a",
+      "sourceHash": "sha256:ac1d6773e1add75bc9eb0591cdfd454556e0b1b9fe87f6deea535979120c0969",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_23Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_23Mat.mat",
+      "blobSha": "460c81f9879cf3b86e5e08e4287f6ab5f85354f4",
+      "sourceHash": "sha256:d79fbdb8fc6cf8cd5215fc1f6bc0d1100210eb88bcbcbb89cd477db506c8b24d",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_24Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_24Mat.mat",
+      "blobSha": "2f3a5d5b17503dae940b48b4ace187d8aaded91b",
+      "sourceHash": "sha256:cabb8f2df3be882a1553b13379fe236e3d6000a70186f891e6ef823f10ee5da7",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_25Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_25Mat.mat",
+      "blobSha": "c793a0893d8ba3c9b48441561251046c4c007c0e",
+      "sourceHash": "sha256:555ae03d201aacd549a2d0cb66de0793e2aa6f61638a2019e0eca4ff89a510df",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_26Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_26Mat.mat",
+      "blobSha": "cb75d92f44e7564353435af386f2d9abc9f6ec9c",
+      "sourceHash": "sha256:0a219bb93497022cb8f25bd5f744ea5c6328d45d6fa6fd6f5aba0a180cf60caf",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_27Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_27Mat.mat",
+      "blobSha": "5a657d390e9028d7db1ffed9d9291fddcc3eaaff",
+      "sourceHash": "sha256:462e1bcdfaddbcca16d5947ce8fbb7f2e7c2ce045c870e4cefc6b98a47180b94",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_28Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_28Mat.mat",
+      "blobSha": "3196e114d2ce811673ef4d06f37b9ccf018db869",
+      "sourceHash": "sha256:15b8889a33e43428441042f88672089c3037e5275d2aad24b8ec439bcd7a127f",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_29Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_29Mat.mat",
+      "blobSha": "13d09135786956d188f8be691bdf0777e009d724",
+      "sourceHash": "sha256:f9369f24cf2a7fdcd6b6fcb60ee6c5a741ab1ad10ebb79f978a73f9c106b19cb",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_2Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_2Mat.mat",
+      "blobSha": "4385a20fde4d44b2d391bf8b21b6a1c1a9dd5f4c",
+      "sourceHash": "sha256:f3dae4f087b091b325579a64287d588ab20349bc9375cd64ab9c38b902439d69",
+      "sizeBytes": 8425,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_30Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_30Mat.mat",
+      "blobSha": "e23f4b0ac91ac4ce431f6244b594725decf687db",
+      "sourceHash": "sha256:7d2c951d4dd6bc6bdc4c5ca280e0a9ac9f1f2169e965f1de48b20e88fba4ff83",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_31Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_31Mat.mat",
+      "blobSha": "5fc7eebeda518f656c307369e07749bf9a7a3e88",
+      "sourceHash": "sha256:7bf8b4db0848e657310477be467e1126e4c62acb4a37db813ae1a7598aef435b",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_32Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_32Mat.mat",
+      "blobSha": "a84bdee002736175637f77667e192118e0ac64ec",
+      "sourceHash": "sha256:af97b1bc2a956c1079b42f7ceef875fd960ec071de63213ce478afb5a915f32f",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_33Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_33Mat.mat",
+      "blobSha": "320dc82afb5b79c0f72b73a6d3e4a81ddd1c2569",
+      "sourceHash": "sha256:22ad3adc9d61f5ee735a25a86b62a05ab5726845e02ffeae4b301b897c512373",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_34Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_34Mat.mat",
+      "blobSha": "a847693f56dc4e2223e60de1879ab5baeb932d14",
+      "sourceHash": "sha256:a0a51278da5d195d6774fea80fe3097508eb6058a317c16c7322b37a28239f96",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_35Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_35Mat.mat",
+      "blobSha": "bda3f72bde15fc8021a7f3796206967af65041d1",
+      "sourceHash": "sha256:bf78aa292f0fdfea361ad056f6f6ae8fa7e751ee4cb406f6306b9d6788318985",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_36Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_36Mat.mat",
+      "blobSha": "e123546731def1c4de6b57363ce4219550eebaf2",
+      "sourceHash": "sha256:a9af95e301fc2dd9a011f70d908fe0e87f98abae9e54ce660ff820bbc17227ed",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_37Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_37Mat.mat",
+      "blobSha": "beb3ac72d3cb67a0998f0313c285b38e97d040bd",
+      "sourceHash": "sha256:bdddbc4a0a39720c70ef0f0a0b240181853d9a9076ba9cf949a565ba21f4224e",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_38Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_38Mat.mat",
+      "blobSha": "609110e0d1f452879316c3326d42627260cf9a5e",
+      "sourceHash": "sha256:4acc1c0e841fdc4d4cd603ff452a1a06608fcc7d3d67ddf42d1bae2aa52479b5",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_39Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_39Mat.mat",
+      "blobSha": "5324770a1d79c4dc8099742185b597d7217323fb",
+      "sourceHash": "sha256:d1d655f61e403a6046f2f4fc16f592427bac27ac54779d1b8821911c724f942b",
+      "sizeBytes": 8425,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_3Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_3Mat.mat",
+      "blobSha": "426d662444152d92c7cff35fffaa208fdc23dc50",
+      "sourceHash": "sha256:287dc46652f19ede41da0edeea618972c76fbd23e7d0b6ec93a7f7d6449dfa4e",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_40Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_40Mat.mat",
+      "blobSha": "4dd524825d2ad382bb5b649f7d8506dc76ea63c9",
+      "sourceHash": "sha256:3863599a5df134f6be5cbce285a385b086636bcb195eeb40c104659758a56b10",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_41Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_41Mat.mat",
+      "blobSha": "2144ea6ea0201814bb13a6b0fecaa1a38c19bf8e",
+      "sourceHash": "sha256:88891a3a150e1c19f0c9a3467c3ffb8e4c314f6543a2f594cf673af67df569e2",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_42Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_42Mat.mat",
+      "blobSha": "7d4e5bf0267c77d2724e40ff59dd94522a62c37c",
+      "sourceHash": "sha256:f08464ad93857303a2af9c8a8031b87a71f33e94a3ccb93654fe3f548581e352",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_43Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_43Mat.mat",
+      "blobSha": "2037f7ca07d9e9bcf43d92a2eaa257ead09c1e41",
+      "sourceHash": "sha256:1dd988cd7b1e40cfea86c94edf0a32e851c1c48eb23c529479e6aadb1f8538c5",
+      "sizeBytes": 8425,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_44Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_44Mat.mat",
+      "blobSha": "31b3d6e72430b4f4a55e20575ee31fca7ff19e3a",
+      "sourceHash": "sha256:251e9c6ee158081d5792c05325018c54af996af354499942b1f58fb87466d9f9",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_45Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_45Mat.mat",
+      "blobSha": "d2de3729b5ba71bdef00d7c4ce369f3c1c7d809d",
+      "sourceHash": "sha256:18639b683fd29be0b11cbbf3fb9ab3152e2007f405af740da4ee985cf62528be",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_46Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_46Mat.mat",
+      "blobSha": "59edcbdaef508c4513196b0b086565bff662c1a4",
+      "sourceHash": "sha256:3a9cc1f45b7e94c180440eefb3a6c6a931d4aa7c48022e091ce134961bec2a3b",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_47Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_47Mat.mat",
+      "blobSha": "8114d84764ebcd1b535f023e37005f755563768c",
+      "sourceHash": "sha256:c465ba92bc5818677f5cfeb329235a25c02a0e6ac6e93f03326cfe885eb3c9a0",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_48Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_48Mat.mat",
+      "blobSha": "32e40be452ae75540a92746c2d84667ac6fadd4e",
+      "sourceHash": "sha256:a92fbfc04bf903824ee3d0b96b8ed2fa7368913088b48950eda4bbe89012e845",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_49Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_49Mat.mat",
+      "blobSha": "0320c8eee2036e103b71f0866cd06cc05cc98ce4",
+      "sourceHash": "sha256:37d8b9bb1f93c80246ac3c0c8be4da42823c70437426d7a63807e14275d03d91",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_4Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_4Mat.mat",
+      "blobSha": "de76e6133f50f25a39dd6392af81f905bd0719a9",
+      "sourceHash": "sha256:d5f991348e2ecdc5699eee85a6fe47b2f89cb66856a3e3840d860084e7404313",
+      "sizeBytes": 8424,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_50Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_50Mat.mat",
+      "blobSha": "6c4d6f2b3c201cb3bb2febd1359bbb376aa965f3",
+      "sourceHash": "sha256:f1439471d554d7335161a2e31aa3ddfc2b562934f75c642cc1502a6bd883aecb",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_51Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_51Mat.mat",
+      "blobSha": "ef0bf9d6d0b3dfba770e2bf169f9d40004ffd1ff",
+      "sourceHash": "sha256:28c889f3b6f0c14d409233391f492fbe743bb5ca545ed5bfceb157fd676fdecb",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_52Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_52Mat.mat",
+      "blobSha": "81fb53cc943a3856680aa2e1c0f59450980dbfd7",
+      "sourceHash": "sha256:1c8d731513adacb8bdb2158a46b60af1add50e6411b6dfada2a1b745e5b03db3",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_53Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_53Mat.mat",
+      "blobSha": "fa83b151831b6775e138fc07bd79b7e5f9df4a92",
+      "sourceHash": "sha256:ffc1a9d3304e4ee7daa635f73ca89f3f55f402942610c4424aba75d778f2b889",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_55Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_55Mat.mat",
+      "blobSha": "199ea8ddaba755027109b3eb53cc292a41c86af0",
+      "sourceHash": "sha256:c83c23213cb82eaf860cc97d7041e46e3e10d9da154961156398fbdfc9388701",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_56Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_56Mat.mat",
+      "blobSha": "ae034c6af6b3ccdf0ec5bb08727353230c42d4d6",
+      "sourceHash": "sha256:9eb197aa7178487ed852a04251bcc636be9390eae6e58793661f4183228f4f23",
+      "sizeBytes": 8427,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_57Mat.mat",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/materials/Cylinder_57Mat.mat",
+      "blobSha": "d986e91f4cd12fb7197a923290c67c33e0a2c351",
+      "sourceHash": "sha256:7aa7e7b85250a6ca0c7afe4aa95139b40ce2f8c42de18c9917e38edd949509b5",
+      "sizeBytes": 8426,
+      "extension": ".mat",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    }
+  ]
+}

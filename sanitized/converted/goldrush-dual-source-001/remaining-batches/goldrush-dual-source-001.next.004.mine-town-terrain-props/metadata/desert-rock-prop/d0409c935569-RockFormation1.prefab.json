@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertRock",
+  "role": "desert-rock-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation1.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation1.prefab",
+  "sourceHash": "sha256:d0409c9355699b7789da7ce92570bfa1435e6764f70599462cf5d835ceedf0d9",
+  "summary": {
+    "lineCount": 350,
+    "guidCount": 4,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "13c8aaedd6f06e545af8a9d24b771eea",
+      "953cbe8dc4e8f3f448c5fa3de9a90715",
+      "cda0b4d7640de9848b9288bb604bb9b2",
+      "d3bf018118e456c4d994ee1daaa9c4a0"
+    ],
+    "names": [
+      "RockFormation1"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 5,
+      "1001": 4
+    }
+  }
+}

@@ -14,6 +14,7 @@ export function createGoldRushRenderer(root) {
   const proceduralScene = mountGoldRushProceduralScene({ scene, root });
   let currentState = null;
   let started = false;
+  let frameCount = 0;
 
   function resize() {
     const rect = root.getBoundingClientRect();
@@ -27,6 +28,7 @@ export function createGoldRushRenderer(root) {
     resize();
     proceduralScene.update(currentState, time / 1000);
     renderer.render(scene, proceduralScene.getCamera());
+    frameCount += 1;
     window.requestAnimationFrame(draw);
   }
 
@@ -40,5 +42,15 @@ export function createGoldRushRenderer(root) {
 
   window.addEventListener("resize", resize);
 
-  return { render, validation: proceduralScene.validation };
+  return {
+    render,
+    validation: proceduralScene.validation,
+    snapshot() {
+      return {
+        mounted: true,
+        frameCount,
+        procedural: proceduralScene.snapshot(),
+      };
+    },
+  };
 }

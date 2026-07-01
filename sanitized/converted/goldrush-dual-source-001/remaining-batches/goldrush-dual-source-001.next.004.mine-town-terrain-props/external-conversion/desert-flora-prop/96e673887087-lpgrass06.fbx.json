@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertFlora",
+  "role": "desert-flora-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass06.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass06.fbx",
+  "sourceHash": "sha256:96e6738870879c05570b22ce8d74f1b705fe8233804f075469608a803e23cfd7",
+  "sourceBytes": 31596,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

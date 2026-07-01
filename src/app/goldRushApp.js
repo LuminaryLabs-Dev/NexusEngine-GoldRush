@@ -3,11 +3,28 @@ import { createPeerPartyRoom } from "../network/peerPartyRoom.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
 import { createGoldRushAudioManager } from "../audio/goldRushAudioManager.js";
 import { goldRushLegacyModes, resolveLegacyMode } from "../content/goldrushLegacyModes.js";
+import { createGoldRushEnvironmentSpace } from "../content/goldrushEnvironmentSpace.js";
+import {
+  createGoldRushObjectMicroKits,
+  selectNearestGoldRushObjectAffordance,
+} from "../content/goldrushObjectMicroKits.js";
+import { validatePlayerActionSurface } from "../content/goldrushPlayerActionSurface.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
-import { createTerrainColliderDescriptor, raycastTerrainDown, sampleTerrainCollider } from "../physics/terrainCollider.js";
+import {
+  TERRAIN_DEPTH,
+  TERRAIN_PATCH_SIZE,
+  TERRAIN_WIDTH,
+  createTerrainColliderDescriptor,
+  raycastTerrainDown,
+  sampleTerrainCollider,
+} from "../physics/terrainCollider.js";
 import { createGoldRushSceneKitLoader, validateGoldRushSceneKitLoaderSnapshot } from "../scenes/goldRushSceneKitLoader.js";
 import { getGoldRushSceneSite, validateGoldRushSceneSites } from "../scenes/goldRushSceneSites.js";
+import {
+  createGoldRushFirstSequenceController,
+  defaultFirstSequenceTimings,
+} from "../scenes/goldRushFirstSequence.js";
 
 const walkBounds = { minX: -88, maxX: 88, minZ: -54, maxZ: 56 };
 const centralMountainBlockers = [
@@ -37,11 +54,7 @@ const roomTypes = [
 const partyCapacity = 4;
 const massMatchPlayers = 20;
 const loadingYardBounds = { minX: -15, maxX: 15, minZ: -12, maxZ: 13 };
-const loadingTrainTiming = {
-  approachMs: 2800,
-  doorMs: 900,
-  departMs: 3300,
-};
+const loadingTrainTiming = defaultFirstSequenceTimings;
 
 export function createGoldRushApp(root) {
   const orchestrator = createNetworkOrchestrator();
@@ -56,12 +69,24 @@ export function createGoldRushApp(root) {
   let selectedRoom = roomTypes[2];
   let selectedLegacyMode = resolveLegacyMode("modernExtraction");
   const sceneKitLoader = createGoldRushSceneKitLoader();
+  const firstSequence = createGoldRushFirstSequenceController({ timings: loadingTrainTiming });
   const terrainColliderDescriptor = createTerrainColliderDescriptor();
   const terrainPhysicsDescriptor = createCannonTerrainPhysicsDescriptor(terrainColliderDescriptor);
   const physicsBackendDescriptor = createPhysicsBackendDecision({
     terrainColliderDescriptor,
     terrainPhysicsDescriptor,
   });
+  const objectAffordanceTerrain = createObjectAffordanceTerrainDescriptor();
+  const objectAffordanceEnvironment = createGoldRushEnvironmentSpace({ terrain: objectAffordanceTerrain });
+  const objectAffordanceDescriptor = createGoldRushObjectMicroKits({
+    terrain: objectAffordanceTerrain,
+    environmentSpace: objectAffordanceEnvironment,
+  });
+  let lastObjectInteraction = {
+    accepted: false,
+    reason: "not-used-yet",
+    selection: null,
+  };
   const movement = createMovementController({
     terrainSampler: sampleTerrainCollider,
     terrainRaycaster: raycastTerrainDown,
@@ -77,16 +102,17 @@ export function createGoldRushApp(root) {
   });
   let runLoopId = null;
   let loadingLoopId = null;
-  let pendingMatchPayload = null;
-  let trainSequenceStartedAt = 0;
-  let trainDeparting = false;
-  let trainDepartureStartedAt = 0;
-  let playerLockedToTrain = false;
   const loopInput = {
     interact: false,
     aim: false,
     fire: false,
+    cover: false,
+    peek: null,
   };
+  let resultsTransitionInFlight = false;
+  let simulatorNow = performance.now();
+  let pendingSimulatorCommand = null;
+  let interactionHoldGraceFrames = 0;
 
   root.innerHTML = `
     <main class="appShell" data-screen="start">
@@ -148,6 +174,25 @@ export function createGoldRushApp(root) {
                 <span>${massMatchPlayers} player match</span>
                 <small>leader launches mass room</small>
               </div>
+              <div class="frontierBriefing" data-frontier-condition-briefing>
+                <p class="briefingEyebrow">Frontier Condition</p>
+                <strong data-frontier-condition-label>Loading condition</strong>
+                <span data-frontier-condition-read>Reading the gold field.</span>
+                <dl>
+                  <div>
+                    <dt>Gold</dt>
+                    <dd data-frontier-condition-gold>1.00x</dd>
+                  </div>
+                  <div>
+                    <dt>Risk</dt>
+                    <dd data-frontier-condition-risk>1.00x</dd>
+                  </div>
+                  <div>
+                    <dt>Route</dt>
+                    <dd data-frontier-condition-route>standard</dd>
+                  </div>
+                </dl>
+              </div>
               <details class="advancedPanel">
                 <summary>Version Source</summary>
                 <label class="selectField compactSelect" for="legacy-mode">
@@ -194,6 +239,35 @@ export function createGoldRushApp(root) {
         <div id="goldrush-loading-canvas"></div>
         <div class="srOnly" aria-live="polite" data-loading-status></div>
       </section>
+
+      <section class="screen resultsScreen" data-screen-panel="results" aria-label="Gold Rush results" hidden>
+        <div class="resultsBlock">
+          <header class="resultsHeader">
+            <p class="kicker">Extraction Complete</p>
+            <h2 data-results-title>Claim Settled</h2>
+            <p data-results-subtitle>Finalizing receipts.</p>
+          </header>
+          <section class="resultsGrid" data-results-stats aria-label="Match result stats"></section>
+          <section class="resultsPanels" aria-label="Replay and awards">
+            <article class="resultsPanel">
+              <h3>Field Read</h3>
+              <dl data-results-field-read></dl>
+            </article>
+            <article class="resultsPanel">
+              <h3>Awards</h3>
+              <ul data-results-awards></ul>
+            </article>
+            <article class="resultsPanel">
+              <h3>Replay Moments</h3>
+              <ul data-results-replay></ul>
+            </article>
+          </section>
+          <div class="resultsActions">
+            <button class="button secondary" data-action="results-lobby">Lobby</button>
+            <button class="button primary" data-action="results-next-run">Run Another Claim</button>
+          </div>
+        </div>
+      </section>
     </main>
   `;
 
@@ -205,12 +279,23 @@ export function createGoldRushApp(root) {
   const loadingStage = root.querySelector('[data-screen-panel="loading"]');
   const status = root.querySelector("[data-status]");
   const loadingStatus = root.querySelector("[data-loading-status]");
+  const resultsTitle = root.querySelector("[data-results-title]");
+  const resultsSubtitle = root.querySelector("[data-results-subtitle]");
+  const resultsStats = root.querySelector("[data-results-stats]");
+  const resultsFieldRead = root.querySelector("[data-results-field-read]");
+  const resultsAwards = root.querySelector("[data-results-awards]");
+  const resultsReplay = root.querySelector("[data-results-replay]");
   const roomSelect = root.querySelector("[data-room-select]");
   const legacyModeSelect = root.querySelector("[data-legacy-mode-select]");
   const roomLabel = root.querySelector("[data-room-label]");
   const roomRole = root.querySelector("[data-room-role]");
   const legacyModeLabel = root.querySelector("[data-legacy-mode-label]");
   const legacyModeRole = root.querySelector("[data-legacy-mode-role]");
+  const frontierConditionLabel = root.querySelector("[data-frontier-condition-label]");
+  const frontierConditionRead = root.querySelector("[data-frontier-condition-read]");
+  const frontierConditionGold = root.querySelector("[data-frontier-condition-gold]");
+  const frontierConditionRisk = root.querySelector("[data-frontier-condition-risk]");
+  const frontierConditionRoute = root.querySelector("[data-frontier-condition-route]");
   const squadPanel = root.querySelector("[data-squad-panel]");
   const partyStatus = root.querySelector("[data-party-status]");
   const partyCode = root.querySelector("[data-party-code]");
@@ -243,7 +328,7 @@ export function createGoldRushApp(root) {
         return receipt;
       },
       interact: () => {
-        const receipt = runtime.holdExtractionLoopMine();
+        const receipt = dispatchNearestObjectAffordance({ localPlayer: movement.snapshot(), dt: 0.3 });
         renderRun();
         return receipt;
       },
@@ -257,9 +342,31 @@ export function createGoldRushApp(root) {
         renderRun();
         return receipt;
       },
+      engageCover: (options = {}) => {
+        loopInput.cover = true;
+        loopInput.peek = options.peekSide ?? loopInput.peek;
+        const state = runtime.engine.n.goldrushExtractionLoop.engageCover(options);
+        renderRun();
+        return state;
+      },
+      releaseCover: (options = {}) => {
+        loopInput.cover = false;
+        loopInput.peek = null;
+        const receipt = runtime.engine.n.goldrushExtractionLoop.releaseCover(options);
+        renderRun();
+        return receipt;
+      },
+      peekCover: (options = {}) => {
+        loopInput.cover = true;
+        loopInput.peek = options.side ?? options.peekSide ?? loopInput.peek ?? "right";
+        const state = runtime.engine.n.goldrushExtractionLoop.peekCover({ side: loopInput.peek });
+        renderRun();
+        return state;
+      },
       lobby: () => {
         void showScreen("lobby");
       },
+      leaveParty: () => party.leaveRoom({ reason: "local-player-left-party" }),
       publicSmokePlaceAtTrainDoor: () => {
         if (!isPublicSmokeProof()) return { accepted: false, reason: "public-smoke-disabled" };
         if (screen !== "loading") return { accepted: false, reason: "not-loading" };
@@ -271,8 +378,65 @@ export function createGoldRushApp(root) {
           loadingPlayer: loadingMovement.snapshot(),
         };
       },
+      publicSmokePlaceAtNearestObjectAffordance: ({ action = "mine-gold" } = {}) => {
+        if (!isPublicSmokeProof()) return { accepted: false, reason: "public-smoke-disabled" };
+        if (screen !== "run") return { accepted: false, reason: "not-run" };
+        const target = objectAffordanceDescriptor.kits
+          .filter((kit) => kit.interaction?.enabled && kit.interaction.action === action)
+          .sort((a, b) => a.id.localeCompare(b.id))[0] ?? null;
+        if (!target) return { accepted: false, reason: "no-object-affordance", action };
+        movement.reset({ x: target.position.x, z: target.position.z });
+        movement.clearKeys();
+        const localPlayer = movement.snapshot();
+        const selection = resolveNearestObjectAffordance({ localPlayer, actionFilter: action });
+        return {
+          accepted: Boolean(selection.selected),
+          reason: selection.reason,
+          action,
+          placedAt: target.id,
+          selection,
+          localPlayer,
+        };
+      },
+      publicSmokePlaceAtExtractionSetpiece: () => {
+        if (!isPublicSmokeProof()) return { accepted: false, reason: "public-smoke-disabled" };
+        if (screen !== "run") return { accepted: false, reason: "not-run" };
+        const loop = runtime.engine.n.goldrushExtractionLoop.getState();
+        const extraction = loop.extraction.sites["rail-depot-extract-01"] ?? Object.values(loop.extraction.sites)[0];
+        if (!extraction) return { accepted: false, reason: "no-extraction-site" };
+        const target = extraction.worldPosition;
+        const playerPosition = {
+          x: target.x - 1.8,
+          z: target.z - 4.2,
+        };
+        const lookYaw = Math.atan2(target.x - playerPosition.x, target.z - playerPosition.z);
+        movement.reset({ ...playerPosition, lookYaw, lookPitch: -0.16, heading: lookYaw });
+        movement.clearKeys();
+        const localPlayer = movement.snapshot();
+        runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+          position: localPlayer.position,
+          heading: localPlayer.heading,
+          look: localPlayer.look,
+        });
+        renderRun();
+        return {
+          accepted: true,
+          reason: "placed-at-extraction-setpiece",
+          siteId: extraction.id,
+          setpieceRole: "rail-depot-cashout-landmark",
+          localPlayer: movement.snapshot(),
+        };
+      },
+      publicSmokeCompleteRunToResults: async () => {
+        if (!isPublicSmokeProof()) return { accepted: false, reason: "public-smoke-disabled" };
+        if (screen !== "run") return { accepted: false, reason: "not-run" };
+        const receipt = completeExtractionLoopForProof();
+        await completeRunToResults("public-smoke-extraction-complete");
+        return { accepted: true, receipt, state: window.GoldRushHost.getState() };
+      },
     },
     getState: () => {
+      const actionSurface = syncPlayerActionSurface({ localPlayer: movement.snapshot() });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -288,18 +452,23 @@ export function createGoldRushApp(root) {
         scenario,
         realityStatus,
         realityValidation: runtime.engine.n.goldrushReality.validate({ sceneKitLoader: sceneKitSnapshot }),
+        renderer: renderer?.snapshot?.() ?? null,
         world: scenario.world,
         terrain: scenario.terrainState,
         towns: scenario.towns,
         paths: scenario.paths,
         goldZones: scenario.goldZones,
         loadingGates: scenario.loadingGates,
+        frontierConditions: scenario.frontierConditions,
+        frontierConditionEffects: scenario.frontierConditionEffects,
         audio: scenario.audioState,
         animation: scenario.animationState,
         camera: scenario.cameraState,
         match: scenario.match,
         protoKitBridge: scenario.protoKitBridge,
         extractionLoop: scenario.extractionLoop,
+        playerActionSurface: scenario.playerActionSurface,
+        playerActionSurfaceValidation: validatePlayerActionSurface(actionSurface),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -314,17 +483,27 @@ export function createGoldRushApp(root) {
         terrainCollider: terrainColliderDescriptor,
         terrainPhysics: terrainPhysicsDescriptor,
         physicsBackend: physicsBackendDescriptor,
+        runRenderer: renderer?.snapshot() ?? null,
         lobbyCharacter: lobbyCharacterRenderer?.snapshot() ?? null,
         loadingScene: loadingRenderer?.snapshot() ?? null,
         loadingPlayer: loadingMovement.snapshot(),
         localPlayer: movement.snapshot(),
+        objectInteraction: {
+          contract: "goldrush-object-interaction-host-v1",
+          nearest: resolveNearestObjectAffordance({ localPlayer: movement.snapshot() }),
+          last: structuredClone(lastObjectInteraction),
+          actionSurface,
+        },
         audioManager: audio.snapshot(),
+        firstSequence: firstSequence.snapshot(),
       };
     },
   };
+  window.GameHost = createNexusSimulatorGameHost();
 
   root.querySelector('[data-action="play-title"]').addEventListener("click", () => {
     audio.start();
+    firstSequence.startTitle();
     audio.sync({ screen: "start", scenario: runtime.snapshot() });
     void showScreen("lobby");
   });
@@ -343,6 +522,18 @@ export function createGoldRushApp(root) {
 
   launchButton.addEventListener("click", () => {
     party.startMatch({
+      players: resolveLaunchPlayers(),
+      groupType: selectedRoom.id,
+      legacyModeId: selectedLegacyMode.modeId,
+    });
+  });
+
+  root.querySelector('[data-action="results-lobby"]').addEventListener("click", () => {
+    void showScreen("lobby");
+  });
+
+  root.querySelector('[data-action="results-next-run"]').addEventListener("click", () => {
+    startLoadingYard({
       players: resolveLaunchPlayers(),
       groupType: selectedRoom.id,
       legacyModeId: selectedLegacyMode.modeId,
@@ -372,6 +563,11 @@ export function createGoldRushApp(root) {
       loopInput.interact = true;
       return;
     }
+    if (event.key === "q" || event.key === "Q") {
+      event.preventDefault();
+      loopInput.cover = true;
+      return;
+    }
     if (event.key === "m" || event.key === "M") window.GoldRushHost.actions.mine();
     if (event.key === "c" || event.key === "C") window.GoldRushHost.actions.cashOut();
     if (event.key === "f" || event.key === "F") window.GoldRushHost.actions.ambush();
@@ -384,6 +580,11 @@ export function createGoldRushApp(root) {
     if (event.key === "e" || event.key === "E") {
       event.preventDefault();
       loopInput.interact = false;
+    }
+    if (event.key === "q" || event.key === "Q") {
+      event.preventDefault();
+      loopInput.cover = false;
+      loopInput.peek = null;
     }
   });
 
@@ -454,8 +655,18 @@ export function createGoldRushApp(root) {
     const receipt = await sceneKitLoader.activate(nextScreen);
     if (screen !== nextScreen) return receipt;
     if (nextScreen === "lobby") await startLobbyCharacter();
+    if (nextScreen === "lobby") {
+      resultsTransitionInFlight = false;
+      renderFrontierConditionBriefing();
+      firstSequence.enterLobby({
+        groupType: selectedRoom.id,
+        modeId: selectedLegacyMode.modeId,
+        frontierConditionBriefing: createFrontierConditionBriefing(runtime.snapshot()),
+      });
+    }
     runtime.setSceneForScreen({ screen: nextScreen });
     audio.sync({ screen: nextScreen, scenario: runtime.snapshot() });
+    if (nextScreen === "results") renderResults();
     return receipt;
   }
 
@@ -485,24 +696,115 @@ export function createGoldRushApp(root) {
     const runModule = sceneKitLoader.getModule("procedural-terrain");
     if (!runModule) return;
     if (!renderer) renderer = runModule.createGoldRushRenderer(canvasRoot);
+    movement.setMovementModifiers({ cargo: resolveCargoMovementModifiers(runtime) });
     const localPlayer = movement.snapshot();
-    const extractionLoop = runtime.tickExtractionLoop({ localPlayer, input: loopInput, dt: 0.05 });
+    const tickInput = { ...loopInput };
+    if (loopInput.interact) {
+      dispatchNearestObjectAffordance({ localPlayer, dt: 0.05 });
+      tickInput.interact = false;
+    }
+    if (interactionHoldGraceFrames > 0) tickInput.holdActive = true;
+    const extractionLoop = runtime.tickExtractionLoop({ localPlayer, input: tickInput, dt: 0.05 });
+    if (interactionHoldGraceFrames > 0) interactionHoldGraceFrames -= 1;
+    movement.setMovementModifiers({ cargo: extractionLoop.player?.cargo?.mobility ?? extractionLoop.player?.cargo?.visual?.mobility ?? null });
     const fired = loopInput.fire;
     loopInput.fire = false;
+    const movementPlayer = movement.snapshot();
+    syncPlayerActionSurface({ localPlayer: movementPlayer });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
     const banked = state.cashout["player-1"] ?? 0;
-    status.textContent = `${state.match.phase}/${extractionLoop.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${localPlayer.ground.height.toFixed(1)}; ${localPlayer.isMoving ? "walking" : "idle"}`;
-    renderer.render({ ...state, localPlayer });
+    const loadRead = movementPlayer.movementModifiers?.cargoWeightClass && movementPlayer.movementModifiers.cargoWeightClass !== "empty"
+      ? `; load ${movementPlayer.movementModifiers.cargoWeightClass} ${movementPlayer.movementModifiers.speedMultiplier}x`
+      : "";
+    const affordance = resolveNearestObjectAffordance({ localPlayer: movementPlayer }).selected;
+    const affordanceRead = affordance ? `; ${affordance.prompt} ${affordance.distance.toFixed(1)}m` : "";
+    status.textContent = `${state.match.phase}/${extractionLoop.phase}; carried ${carried}; banked ${banked}; network ${state.network.status}; ground ${movementPlayer.ground.height.toFixed(1)}; ${movementPlayer.isMoving ? "walking" : "idle"}${loadRead}${affordanceRead}`;
+    renderer.render({ ...state, localPlayer: movementPlayer });
+    if (extractionLoop.receipt?.extracted && state.match.phase !== "results") {
+      void completeRunToResults("player-extracted");
+    }
+  }
+
+  function resolveCargoMovementModifiers(activeRuntime) {
+    const cargo = activeRuntime.engine.n.goldrushExtractionLoop?.getState?.().player?.cargo;
+    return cargo?.mobility ?? cargo?.visual?.mobility ?? null;
+  }
+
+  function resolveNearestObjectAffordance({ localPlayer = movement.snapshot(), actionFilter = null } = {}) {
+    return selectNearestGoldRushObjectAffordance({
+      descriptor: objectAffordanceDescriptor,
+      player: localPlayer?.position ?? localPlayer,
+      actionFilter,
+    });
+  }
+
+  function syncPlayerActionSurface({ localPlayer = movement.snapshot() } = {}) {
+    const objectInteraction = {
+      contract: "goldrush-object-interaction-host-v1",
+      nearest: resolveNearestObjectAffordance({ localPlayer }),
+      last: structuredClone(lastObjectInteraction),
+    };
+    return runtime.engine.n.goldrushPlayerActionSurface.update({
+      objectInteraction,
+      localPlayer,
+    });
+  }
+
+  function dispatchNearestObjectAffordance({ localPlayer = movement.snapshot(), dt = 0.2, actionFilter = null } = {}) {
+    const selection = resolveNearestObjectAffordance({ localPlayer, actionFilter });
+    const selected = selection.selected;
+    if (!selected) {
+      lastObjectInteraction = {
+        accepted: false,
+        reason: selection.reason,
+        selection,
+      };
+      return structuredClone(lastObjectInteraction);
+    }
+    runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+      position: localPlayer.position,
+      heading: localPlayer.heading,
+      look: localPlayer.look,
+    });
+    let receipt;
+    if (selected.action === "mine-gold") {
+      receipt = runtime.holdExtractionLoopMine({ siteId: selected.target?.siteId ?? null, dt });
+    } else if (selected.action === "take-cover") {
+      loopInput.cover = true;
+      receipt = runtime.engine.n.goldrushExtractionLoop.engageCover({});
+    } else {
+      receipt = {
+        accepted: true,
+        complete: true,
+        action: selected.action,
+        prompt: selected.prompt,
+        reason: "inspect-affordance",
+      };
+    }
+    lastObjectInteraction = {
+      accepted: receipt?.accepted !== false,
+      action: selected.action,
+      prompt: selected.prompt,
+      receipt,
+      selection,
+    };
+    interactionHoldGraceFrames = Math.max(interactionHoldGraceFrames, 1);
+    return structuredClone(lastObjectInteraction);
   }
 
   function startLoadingYard(payload = {}) {
-    pendingMatchPayload = payload;
-    trainSequenceStartedAt = 0;
-    trainDeparting = false;
-    trainDepartureStartedAt = 0;
-    playerLockedToTrain = false;
+    const partyState = party.snapshot();
+    const payloadWithBriefing = {
+      ...payload,
+      partyMembers: payload.partyMembers ?? partyState.members,
+      partyLeaderId: payload.partyLeaderId ?? partyState.members.find((member) => member.role === "Leader")?.id ?? partyState.localId,
+      localPlayerId: partyState.localId,
+      frontierConditionBriefing: payload.frontierConditionBriefing ?? createFrontierConditionBriefing(runtime.snapshot()),
+    };
+    party.resetBoardingSync({ launchId: payload.launchId ?? null });
+    firstSequence.startLoading({ payload: payloadWithBriefing, now: performance.now() });
     loadingMovement.reset({ x: 0, z: 10.2 });
     void showScreen("loading").then(() => {
       if (screen === "loading") startLoadingLoop();
@@ -535,47 +837,49 @@ export function createGoldRushApp(root) {
     const loadingModule = sceneKitLoader.getModule("loading-yard-terrain") ?? sceneKitLoader.getModule("train-departure");
     if (!loadingModule) return;
     if (!loadingRenderer) loadingRenderer = loadingModule.createLoadingTrainSceneRenderer(loadingCanvasRoot);
-    if (!trainSequenceStartedAt) trainSequenceStartedAt = now;
     const localPlayer = loadingMovement.snapshot();
-    const sequenceElapsed = Math.max(0, now - trainSequenceStartedAt);
-    const approachProgress = Math.min(1, sequenceElapsed / loadingTrainTiming.approachMs);
-    const doorProgress = approachProgress >= 1
-      ? Math.min(1, (sequenceElapsed - loadingTrainTiming.approachMs) / loadingTrainTiming.doorMs)
-      : 0;
-    const canBoardTrain = doorProgress >= 1 && loadingModule.isNearTrainBoardingZone(localPlayer.position);
-    if (!trainDeparting && canBoardTrain) {
-      trainDeparting = true;
-      trainDepartureStartedAt = now;
-      playerLockedToTrain = true;
+    const canBoardTrain = loadingModule.isNearTrainBoardingZone(localPlayer.position);
+    const currentParty = party.snapshot();
+    const sequence = firstSequence.updateLoading({
+      now,
+      canBoardTrain,
+      playerId: currentParty.localId,
+      peerBoardingSync: currentParty.boarding,
+    });
+    const partySnapshot = party.reportBoardingStatus({
+      phase: sequence.phase,
+      boardingStatus: sequence.boardingStatus,
+    });
+    if (sequence.lockedThisFrame) {
       loadingMovement.clearKeys();
     }
-    const departureProgress = trainDeparting
-      ? Math.min(1, (now - trainDepartureStartedAt) / loadingTrainTiming.departMs)
-      : 0;
-    const loadingPhase = trainDeparting
-      ? departureProgress >= 1 ? "handoff" : "departing"
-      : approachProgress < 1 ? "approaching"
-        : doorProgress < 1 ? "door-opening"
-          : "boarding";
-    loadingStatus.textContent = `${loadingPhase}; ${playerLockedToTrain ? "riding train" : "walk to open door"}`;
+    const loadingPhase = sequence.phase;
+    const boardingSync = partySnapshot.boarding;
+    const peerGate = sequence.peerHandoffGate;
+    const trainReadout = sequence.trainReadout;
+    loadingStatus.textContent = `${loadingPhase}; ${trainReadout?.playerCue ?? (sequence.playerLockedToTrain ? "riding train" : "walk to open door")}; party ${boardingSync.readyCount}/${boardingSync.expectedCount}; peer ${peerGate.ready ? "ready" : "waiting"}`;
     loadingRenderer.render({
       localPlayer,
-      party: party.snapshot(),
-      trainDeparting,
+      party: partySnapshot,
+      trainDeparting: sequence.playerLockedToTrain,
       loadingPhase,
-      approachProgress,
-      doorProgress,
-      departureProgress,
-      playerLockedToTrain,
+      approachProgress: sequence.approachProgress,
+      doorProgress: sequence.doorProgress,
+      departureProgress: sequence.departureProgress,
+      playerLockedToTrain: sequence.playerLockedToTrain,
+      trainReadout,
     });
-    audio.sync({ screen: "loading", scenario: runtime.snapshot(), loadingPhase });
-    if (departureProgress >= 1) startMassMatch(pendingMatchPayload ?? {});
+    audio.sync({ screen: "loading", scenario: runtime.snapshot(), loadingPhase, trainReadout });
+    const handoffPayload = firstSequence.consumeHandoffPayload();
+    if (handoffPayload) startMassMatch(handoffPayload);
   }
 
   function startMassMatch(payload = {}) {
+    resultsTransitionInFlight = false;
     const mode = resolveLegacyMode(payload.legacyModeId ?? selectedLegacyMode.modeId);
     runtime.generateMatch({ players: payload.players ?? resolveLaunchPlayers(mode), phase: mode.phaseHint });
     runtime.setLegacyMode({ modeId: mode.modeId });
+    firstSequence.enterRun({ players: payload.players ?? resolveLaunchPlayers(mode), modeId: mode.modeId });
     void showScreen("run").then(() => {
       if (screen === "run") startRunLoop();
     });
@@ -592,6 +896,7 @@ export function createGoldRushApp(root) {
   }
 
   function renderPartyState(nextParty = party.snapshot()) {
+    renderFrontierConditionBriefing();
     partyStatus.textContent = `${nextParty.status} / ${nextParty.members.length}/${nextParty.capacity}`;
     partyCode.textContent = nextParty.roomCode ?? "Local";
     partyMessage.textContent = nextParty.message;
@@ -610,12 +915,364 @@ export function createGoldRushApp(root) {
     }).join("");
   }
 
+  function renderFrontierConditionBriefing() {
+    const briefing = createFrontierConditionBriefing(runtime.snapshot());
+    frontierConditionLabel.textContent = briefing.label;
+    frontierConditionRead.textContent = briefing.playerRead;
+    frontierConditionGold.textContent = `${briefing.goldYield.toFixed(2)}x`;
+    frontierConditionRisk.textContent = `${briefing.extractionRisk.toFixed(2)}x`;
+    frontierConditionRoute.textContent = briefing.routeCue;
+    return briefing;
+  }
+
+  async function completeRunToResults(reason = "manual") {
+    if (resultsTransitionInFlight) return;
+    resultsTransitionInFlight = true;
+    stopRunLoop();
+    runtime.endMatch({ reason });
+    await showScreen("results");
+  }
+
+  function completeExtractionLoopForProof() {
+    runtime.engine.n.goldrushFrontierConditions.setCondition({
+      conditionId: "goldrush.condition.high-fever-seam",
+      reason: "results-screen-proof",
+    });
+    let loop = runtime.engine.n.goldrushExtractionLoop.getState();
+    const mine = loop.mining.sites["mine-seam-01"];
+    runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+      position: { x: mine.worldPosition.x, y: 0, z: mine.worldPosition.z },
+      heading: 0,
+    });
+    for (let index = 0; index < 8; index += 1) {
+      runtime.engine.n.goldrushExtractionLoop.holdMine({ siteId: mine.id, dt: 0.3 });
+    }
+    loop = runtime.engine.n.goldrushExtractionLoop.getState();
+    const extraction = loop.extraction.sites["rail-depot-extract-01"];
+    runtime.engine.n.goldrushExtractionLoop.setPlayerPose({
+      position: { x: extraction.worldPosition.x, y: 0, z: extraction.worldPosition.z },
+      heading: 0,
+    });
+    let receipt = null;
+    for (let index = 0; index < 14; index += 1) {
+      receipt = runtime.engine.n.goldrushExtractionLoop.holdExtraction({ siteId: extraction.id, dt: 0.3 });
+      if (receipt?.complete) break;
+    }
+    return receipt;
+  }
+
+  function renderResults() {
+    const state = runtime.snapshot();
+    const result = state.results ?? {};
+    const replay = state.replaySummary ?? {};
+    const contest = result.extractionContestSummary ?? replay.extractionContestSummary ?? {};
+    const combat = result.combatOutcomeSummary ?? replay.combatOutcomeSummary ?? {};
+    const condition = result.frontierConditionSummary ?? replay.frontierConditionSummary ?? {};
+    const finalRush = result.finalRushPressureSummary ?? replay.finalRushPressureSummary ?? {};
+    const winner = result.winner ?? {};
+    const placement = result.placements?.[0] ?? {};
+    const extractedGold = Number(placement.extractedGold ?? state.extractionReceipts?.totals?.extractedGold ?? 0);
+    const score = Number(winner.score ?? placement.score ?? 0);
+
+    resultsTitle.textContent = winner.id ? `${formatEntityLabel(winner.id)} Won The Claim` : "Claim Settled";
+    resultsSubtitle.textContent = `${escapeDisplay(condition.label ?? condition.conditionId ?? "Frontier")} / ${escapeDisplay(contest.mostSevereStatus ?? "clear")} extraction`;
+    resultsStats.innerHTML = [
+      resultStat("Placement", placement.rank ? `#${placement.rank}` : "#1", "team result"),
+      resultStat("Score", formatNumber(score), "final total"),
+      resultStat("Gold", formatNumber(extractedGold), "extracted"),
+      resultStat("Contest", formatContestLabel(contest), `${formatNumber(contest.highestPressure ?? 0)} pressure`),
+      resultStat("Rush", formatFinalRushLabel(finalRush), `${formatNumber(finalRush.maxMultiplier ?? 1)}x multiplier`),
+    ].join("");
+    resultsFieldRead.innerHTML = [
+      resultDefinition("Condition", condition.label ?? condition.conditionId ?? "Unknown"),
+      resultDefinition("Value", `${formatNumber(condition.conditionLinkedReceiptCount ?? 0)} linked receipts`),
+      resultDefinition("Threats", formatResultIdList(contest.calledThreatIds, "none called")),
+      resultDefinition("Collapse", finalRush.readout ?? "No collapse pressure"),
+      resultDefinition("Combat", `${formatNumber(combat.receiptCount ?? 0)} receipts / ${formatNumber(combat.damageTaken ?? 0)} damage / ${formatNumber(combat.damageMitigated ?? 0)} blocked`),
+      resultDefinition("Cashout", formatResultIdLabel(contest.primarySiteId ?? "standard site")),
+    ].join("");
+    resultsAwards.innerHTML = (result.awards ?? [])
+      .map((award) => `<li><strong>${escapeMarkup(formatAwardId(award.id))}</strong><span>${escapeMarkup(formatAwardValue(award))}</span></li>`)
+      .join("") || "<li><strong>No awards</strong><span>finish a run to earn claim awards</span></li>";
+    resultsReplay.innerHTML = selectResultReplayMoments(replay.keyMoments ?? [])
+      .map((moment) => `<li><strong>${escapeMarkup(formatMomentType(moment.type))}</strong><span>${escapeMarkup(formatReplayMomentContext(moment))}</span></li>`)
+      .join("") || "<li><strong>No replay</strong><span>receipts will appear here after a run</span></li>";
+  }
+
   renderPartyState();
   void showScreen("start");
+
+  function createNexusSimulatorGameHost() {
+    return {
+      getState: () => window.GoldRushHost.getState(),
+      getValidationState: () => window.GoldRushHost.getState().realityValidation,
+      heuristicInput: () => ({ keys: screen === "loading" ? ["w"] : [] }),
+      stop: () => {
+        stopRunLoop();
+        stopLoadingLoop();
+      },
+      setInput: (input = {}) => {
+        pendingSimulatorCommand = input.command ?? null;
+        applySimulatorInput(input, { runCommand: false });
+        return window.GoldRushHost.getState();
+      },
+      tick: (delta = 1 / 60, input = {}) => {
+        simulatorNow += Math.max(1, Math.min(250, Number(delta || 0) * 1000));
+        applySimulatorInput({ ...input, command: pendingSimulatorCommand ?? input.command }, { runCommand: true });
+        pendingSimulatorCommand = null;
+        if (screen === "loading") {
+          loadingMovement.update(simulatorNow);
+          renderLoading(simulatorNow);
+        }
+        if (screen === "run") {
+          movement.update(simulatorNow);
+          renderRun();
+        }
+        return window.GoldRushHost.getState();
+      },
+      render: () => {
+        if (screen === "loading") renderLoading(simulatorNow);
+        if (screen === "run") renderRun();
+        return window.GoldRushHost.getState();
+      },
+    };
+  }
+
+  function applySimulatorInput(input = {}, { runCommand = false } = {}) {
+    if (Array.isArray(input.keys)) {
+      syncSimulatorKeys(screen === "loading" ? loadingMovement : movement, input.keys);
+    }
+    if (input.lookDelta) {
+      const activeMovement = screen === "loading" ? loadingMovement : movement;
+      activeMovement.addLookDelta(Number(input.lookDelta.x ?? 0), Number(input.lookDelta.y ?? 0));
+    }
+    loopInput.interact = Boolean(input.interact);
+    loopInput.aim = Boolean(input.aim);
+    loopInput.fire = Boolean(input.fire);
+    loopInput.cover = Boolean(input.cover);
+    loopInput.peek = input.peek ?? null;
+    if (!runCommand) return;
+    if (input.command === "playTitle") {
+      audio.start();
+      firstSequence.startTitle();
+      void showScreen("lobby");
+    }
+    if (input.command === "startMatch") {
+      simulatorNow = performance.now();
+      party.startMatch({
+        players: Number(input.players ?? resolveLaunchPlayers()),
+        groupType: selectedRoom.id,
+        legacyModeId: input.legacyModeId ?? selectedLegacyMode.modeId,
+      });
+    }
+    if (input.command === "placeAtTrainDoor" && screen === "loading") {
+      loadingMovement.reset({ x: 0, z: -7.4 });
+      loadingMovement.clearKeys();
+    }
+    if (input.command === "mine") window.GoldRushHost.actions.mine();
+    if (input.command === "interact" || (input.interact && runCommand && screen === "run")) {
+      window.GoldRushHost.actions.interact();
+      loopInput.interact = false;
+    }
+    if (input.command === "cover") window.GoldRushHost.actions.engageCover({ threatId: input.threatId ?? null, coverId: input.coverId ?? null, peekSide: input.peek ?? null });
+    if (input.command === "peekCover") window.GoldRushHost.actions.peekCover({ side: input.peek ?? "right" });
+    if (input.command === "releaseCover") window.GoldRushHost.actions.releaseCover({ reason: "simulator-command" });
+    if (input.command === "extract") window.GoldRushHost.actions.extract();
+    if (input.command === "cashOut") window.GoldRushHost.actions.cashOut();
+  }
+
+  function syncSimulatorKeys(movementController, keys) {
+    const desired = new Set(keys);
+    ["w", "a", "s", "d", "Shift"].forEach((key) => {
+      movementController.setKey({ key, preventDefault() {} }, desired.has(key));
+    });
+  }
+}
+
+function createObjectAffordanceTerrainDescriptor() {
+  return {
+    bounds: {
+      minX: -TERRAIN_WIDTH / 2,
+      maxX: TERRAIN_WIDTH / 2,
+      minZ: -TERRAIN_DEPTH / 2,
+      maxZ: TERRAIN_DEPTH / 2,
+    },
+    width: TERRAIN_WIDTH,
+    depth: TERRAIN_DEPTH,
+    patchSize: TERRAIN_PATCH_SIZE,
+  };
 }
 
 function isPublicSmokeProof() {
   return new URLSearchParams(window.location.search).has("publicSmoke");
+}
+
+function createFrontierConditionBriefing(scenario) {
+  const active = scenario.frontierConditions?.active ?? {};
+  const effects = scenario.frontierConditionEffects ?? {};
+  return {
+    conditionId: effects.conditionId ?? active.id ?? null,
+    label: effects.label ?? active.label ?? "Unknown Frontier",
+    family: effects.family ?? active.family ?? "unknown",
+    playerRead: effects.playerRead ?? active.playerRead ?? "Scout the field before boarding.",
+    recommendedPlan: active.gameplay?.recommendedPlan ?? effects.gameplay?.recommendedPlan ?? "Confirm routes, cargo value, and extraction risk.",
+    routeCue: effects.render?.routeCue ?? active.world?.routeCue ?? "standard",
+    ambience: effects.audio?.ambience ?? active.audio?.ambience ?? "dry-wind-light",
+    lightingKey: effects.render?.lightingKey ?? active.lighting?.key ?? "warm-noon",
+    goldYield: Number(active.modifiers?.goldYield ?? effects.mining?.payoutScalar ?? 1),
+    extractionRisk: Number(active.modifiers?.extractionRisk ?? effects.extraction?.riskScalar ?? 1),
+    combatPressure: Number(active.modifiers?.ambushPressure ?? effects.combat?.pressureScalar ?? 1),
+  };
+}
+
+function resultStat(label, value, detail) {
+  return `
+    <article class="resultStat">
+      <span>${escapeMarkup(label)}</span>
+      <strong>${escapeMarkup(value)}</strong>
+      <small>${escapeMarkup(detail)}</small>
+    </article>
+  `;
+}
+
+function resultDefinition(label, value) {
+  return `
+    <div>
+      <dt>${escapeMarkup(label)}</dt>
+      <dd>${escapeMarkup(String(value ?? "none"))}</dd>
+    </div>
+  `;
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(Number(value ?? 0));
+}
+
+function formatContestLabel(contest = {}) {
+  if (contest.lockdownCount > 0) return "Lockdown";
+  if (contest.contestedCount > 0) return "Contested";
+  if (contest.watchedCount > 0) return "Watched";
+  return "Clear";
+}
+
+function formatFinalRushLabel(finalRush = {}) {
+  if ((finalRush.pressureLinkedReceiptCount ?? 0) > 0) return "Pressure";
+  return "Clear";
+}
+
+function selectResultReplayMoments(moments = []) {
+  const priorityTypes = new Set([
+    "combatDamageTaken",
+    "combatPressureResolved",
+    "extractionAccepted",
+    "extractionRejected",
+    "handoffAccepted",
+    "matchEnded",
+  ]);
+  const prioritized = moments.filter((moment) => priorityTypes.has(moment.type));
+  const filler = moments.filter((moment) => !priorityTypes.has(moment.type)).slice(-Math.max(0, 5 - prioritized.length));
+  const selected = prioritized.length >= 5 ? prioritized.slice(-5) : [...prioritized, ...filler];
+  return selected.sort((a, b) => Number(a.tick ?? 0) - Number(b.tick ?? 0) || String(a.type).localeCompare(String(b.type)));
+}
+
+function formatAwardId(id = "") {
+  return String(id)
+    .replace(/^award\./, "")
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function formatAwardValue(award = {}) {
+  const value = award.value ?? award.targetId ?? "";
+  if (award.id === "award.collapse-cashout") return `${formatNumber(value)}x`;
+  if (typeof value === "number") return formatNumber(value);
+  const text = String(value ?? "");
+  if (text.startsWith("goldrush.condition.")) return formatEntityLabel(text.replace("goldrush.condition.", ""));
+  return formatResultIdLabel(text);
+}
+
+function formatReplayMomentContext(moment = {}) {
+  const parts = [`tick ${formatNumber(moment.tick ?? 0)}`];
+  if (moment.contestStatus) parts.push(formatResultIdLabel(moment.contestStatus));
+  if (Number(moment.finalRushPressure ?? 0) > 0) parts.push(`rush ${formatNumber(moment.finalRushPressure)}`);
+  if (moment.laneId) parts.push(formatResultIdLabel(moment.laneId));
+  return parts.join(" / ");
+}
+
+function formatResultIdList(values = [], fallback = "none") {
+  const list = values.map((value) => formatResultIdLabel(value)).filter(Boolean);
+  return list.length ? list.join(", ") : fallback;
+}
+
+function formatResultIdLabel(value = "") {
+  const text = String(value ?? "");
+  if (!text || text === "standard site") return "Standard Site";
+  return formatEntityLabel(text
+    .replace(/^goldrush\.condition\./, "")
+    .replace(/^gold\.zone\./, "")
+    .replace(/^lane\./, "")
+    .replace(/^telegraph\./, "")
+    .replace(/\.committed$/, "")
+    .replace(/-extract-\d+$/, "")
+    .replace(/-\d+$/, ""));
+}
+
+function formatEntityLabel(value = "") {
+  return String(value ?? "")
+    .split(/[-_.]/)
+    .filter(Boolean)
+    .map((part) => {
+      if (/^\\d+$/.test(part)) return part;
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    })
+    .join(" ");
+}
+
+function formatMomentType(type = "") {
+  return String(type)
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/^./, (letter) => letter.toUpperCase());
+}
+
+function escapeDisplay(value) {
+  return String(value ?? "");
+}
+
+function createDefaultMovementModifiers() {
+  return {
+    contract: "goldrush-movement-modifiers-v1",
+    source: "base",
+    speedMultiplier: 1,
+    sprintMultiplier: 1,
+    staminaDrainScalar: 1,
+    noiseRadiusBonus: 0,
+    postureLean: 0,
+    turnDrag: 0,
+    cargoWeightClass: "empty",
+    cargo: null,
+  };
+}
+
+function normalizeMovementModifiers({ cargo = null } = {}) {
+  const normalized = createDefaultMovementModifiers();
+  if (!cargo || cargo.contract !== "goldrush-cargo-mobility-v1") return normalized;
+  return {
+    ...normalized,
+    source: "n:goldrush:gold-carrying",
+    speedMultiplier: roundMovementModifier(clamp(Number(cargo.speedMultiplier ?? 1), 0.35, 1.25)),
+    sprintMultiplier: roundMovementModifier(clamp(Number(cargo.sprintMultiplier ?? cargo.speedMultiplier ?? 1), 0.25, 1.25)),
+    staminaDrainScalar: roundMovementModifier(clamp(Number(cargo.staminaDrainScalar ?? 1), 1, 3)),
+    noiseRadiusBonus: roundMovementModifier(clamp(Number(cargo.noiseRadiusBonus ?? 0), 0, 32)),
+    postureLean: roundMovementModifier(clamp(Number(cargo.postureLean ?? 0), 0, 0.45)),
+    turnDrag: roundMovementModifier(clamp(Number(cargo.turnDrag ?? 0), 0, 0.5)),
+    cargoWeightClass: String(cargo.weightClass ?? "empty"),
+    cargo: structuredClone(cargo),
+  };
+}
+
+function roundMovementModifier(value) {
+  return Number(value.toFixed(3));
 }
 
 function createMovementController({
@@ -643,6 +1300,7 @@ function createMovementController({
   let moving = false;
   let currentSpeed = 0;
   let terrainBlocked = false;
+  let movementModifiers = createDefaultMovementModifiers();
 
   const bindings = {
     w: "forward",
@@ -674,7 +1332,9 @@ function createMovementController({
     const zAxis = Math.cos(lookYaw) * forwardAxis - Math.sin(lookYaw) * strafeAxis;
     const length = Math.hypot(xAxis, zAxis);
     moving = length > 0;
-    currentSpeed = moving ? (keys.has("sprint") ? 7.2 : 4.4) : 0;
+    const baseSpeed = keys.has("sprint") ? 7.2 : 4.4;
+    const speedMultiplier = keys.has("sprint") ? movementModifiers.sprintMultiplier : movementModifiers.speedMultiplier;
+    currentSpeed = moving ? roundMovementModifier(baseSpeed * speedMultiplier) : 0;
     if (moving && dt > 0) {
       const previous = { x: position.x, y: position.y, z: position.z };
       const previousGround = ground;
@@ -765,12 +1425,19 @@ function createMovementController({
           z: Number((Math.cos(lookYaw) * forwardSign).toFixed(4)),
         },
       },
+      movementModifiers: structuredClone(movementModifiers),
     };
+  }
+
+  function setMovementModifiers(modifiers = {}) {
+    movementModifiers = normalizeMovementModifiers(modifiers);
+    return snapshot();
   }
 
   return {
     setKey,
     update,
+    setMovementModifiers,
     addLookDelta,
     enableMouseLook() {
       mouseLookEnabled = true;
@@ -784,13 +1451,14 @@ function createMovementController({
       position.z = nextPosition.z;
       ground = sampleGround(position.x, position.z);
       position.y = ground.height;
-      heading = 0;
-      lookYaw = initialLookYaw;
-      lookPitch = initialLookPitch;
+      heading = Number.isFinite(nextPosition.heading) ? nextPosition.heading : 0;
+      lookYaw = Number.isFinite(nextPosition.lookYaw) ? normalizeAngle(nextPosition.lookYaw) : initialLookYaw;
+      lookPitch = Number.isFinite(nextPosition.lookPitch) ? clamp(nextPosition.lookPitch, -0.76, 0.58) : initialLookPitch;
       lastTime = 0;
       moving = false;
       currentSpeed = 0;
       terrainBlocked = false;
+      movementModifiers = createDefaultMovementModifiers();
       keys.clear();
     },
     clearKeys() {

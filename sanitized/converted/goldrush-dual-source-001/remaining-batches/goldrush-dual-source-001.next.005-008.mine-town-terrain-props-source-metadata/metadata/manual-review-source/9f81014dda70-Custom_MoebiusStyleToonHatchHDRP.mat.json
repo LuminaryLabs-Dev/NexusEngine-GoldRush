@@ -1,0 +1,37 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.review",
+  "role": "manual-review-source",
+  "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Custom_MoebiusStyleToonHatchHDRP.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Custom_MoebiusStyleToonHatchHDRP.mat",
+  "sourceHash": "sha256:9f81014dda70e7d6f3de67243597bb2874a84320b8e4d1775f01d1e3e3a52fdc",
+  "summary": {
+    "lineCount": 58,
+    "guidCount": 3,
+    "textureReferenceCount": 2,
+    "namedObjectCount": 1,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "3f92d48b9c397984e8f02360620e5392",
+      "6f3fea06e77a9434bb672aa6d8ae3c6b",
+      "bb0a1924c33141b48a7a2a7ef30122aa"
+    ],
+    "textureRefs": [
+      "6f3fea06e77a9434bb672aa6d8ae3c6b",
+      "bb0a1924c33141b48a7a2a7ef30122aa"
+    ],
+    "names": [
+      "Custom_MoebiusStyleToonHatchHDRP"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- _DarkHatchAngles: 4\n    - _DitherScale: 0.1\n    - _EdgeThreshold: -0.02\n    - _EnableCrossHatch: 1\n    - _EnableWobble: 0\n    - _HatchDensity: 25\n    - _HatchScale: 10\n    - _LineWidth: 5\n    - _MidHatchAngles: 2\n    - _PaperScale: 10\n    - _PaperStrength: 0.3\n    - _SeamThreshold: 0.03\n    - _ShadowThreshold: 0.3\n    - _ToonDarkThresh: 0.39\n    - _ToonMidThresh: 0.04\n    - _WobbleAmount: 0.06\n    - _WobbleScale: 0.1"
+    ]
+  }
+}

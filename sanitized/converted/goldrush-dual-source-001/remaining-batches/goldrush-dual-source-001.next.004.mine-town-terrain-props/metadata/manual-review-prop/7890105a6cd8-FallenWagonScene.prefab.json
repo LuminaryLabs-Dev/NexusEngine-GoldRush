@@ -1,0 +1,35 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/FallenWagonScene.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/FallenWagonScene.prefab",
+  "sourceHash": "sha256:7890105a6cd8fb367b5aed953fa08fc33cbbb741d6e5900f81532ca63c35755e",
+  "summary": {
+    "lineCount": 675,
+    "guidCount": 7,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "27e7ed4fa4c19a6498a38b37eec6e0ad",
+      "2d7bf058345e07f488af293ec7dec066",
+      "35986e7858bdf134cb284502fad2bea5",
+      "846edcecb228de449a39371d15993dc4",
+      "9210f739e2467864d973e462fbf0cf15",
+      "af199f7467eb2a246a98761dd2a5914d",
+      "e5c4d34b1b01f854cb2292d1cb215065"
+    ],
+    "names": [
+      "FallenWagonScene"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 11,
+      "1001": 10
+    }
+  }
+}

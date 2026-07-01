@@ -1,0 +1,153 @@
+Skip to content
+Chat history
+ChatGPT Pro
+New chat
+Search chats
+Library
+Scheduled
+Apps
+More
+Pinned
+Nexus Realtime
+Cloud Asset Integration Planning
+Asset Registry Implementation Steps
+Cloud Worker Checklist Request
+Playwright Game Test
+Playwright Game Review
+Show more
+Museum Multiverse
+Reboot Outreach
+Nexus Game Kit
+Nexus Agent
+Lightspeed
+Luminary Labs
+Nexus GitHub Manager
+Soft Strange Studio
+Projects
+SIGGRAPH Participants
+Charlies World
+Kickback
+Super Automation
+VendingBackpack
+Show more
+Chats
+Lane 06 core state update completed
+Lane 05 updated with followup 17
+Lane 04 update and repo sync completed
+Lane 03 update complete with Dev ledger refresh
+Lane 02 owner-map update complete
+Fixing experiments step-by-step
+Lane 01 registry intake refresh completed
+Lane 15 integration update blocked due to safety checks
+Lane 14 map update completed successfully
+Lane 13 triage update completed
+Lane 12 docs health and archive review updated
+Lane 11 workflow health update complete
+Mystical Forest Dragon Emblem
+Lane 09 state updated with latest follow-up
+Lane 10 Rust XR mobile build state refreshed
+Lane 08 update pushed to main
+Lane 07 state update complete
+CPD Playwright Mixamo Download
+Open-Source Terrain Repos
+Compare Names App Script
+NexusRealtime AI Perception
+The Open Above Game
+NexusEngine Editor Overview
+Updated Automations and Rule
+Starting Workflow Strategy
+Free App Access
+Lane 15 cycle summary and updates
+Lane 14 updated with product and dependency map
+Luminary Labs
+Personal account
+Nexus Realtime
+Share
+Use high thinking. Short answer only. We are inside NexusEngine-GoldRush. Current state: legacy Gold Rush Unity assets are not copied locally yet; a cloud transfer handoff manifest exists at manifests/import-jobs/goldrush-cloud-transfer-handoff.json. Current browser asset registry is placeholder-only in src/content/assetRegistry.js, with slots in goldrushAssetSlots.js and goldrushPresentationSlots.js. Proposed next local implementation: add src/content/goldrushApprovedAssets.js as a browser-safe approved runtime overlay, where approved records can replace placeholder slots only after sourceJobId, sourcePath, sourceHash, outputHash, provenance, approvalId, and runtimePath are present. Runtime paths must point only under public/assets via assets/... and must forbid raw/, sanitized/, quarantine/, http URLs, absolute paths, and public/ prefixes. Add a validator that passes empty pending import state now but fails unsafe approved records later. Is this the right next step before cloud assets arrive? Return: risks, required fields, validation edge cases, and whether this is aligned with the final goal. Use bullets.
+Show more
+Thought for 2m 18s
+
+Yes — this is the right next step before cloud assets arrive.
+
+Why
+
+It creates the trust boundary now: placeholders remain default, approved assets become an explicit overlay only after provenance, hashes, approval, and safe runtime path exist.
+
+It matches the NexusRealtime split: content/data can configure presentation, while renderer/runtime should not ingest raw cloud sources or own asset-validation logic.
+
+It gives you a clean “empty pending import passes / unsafe approved import fails” gate, which is exactly what you need before real assets land. 
+
+NexusRealtime-Ideology
+
+Risks
+
+Schema drift: goldrushApprovedAssets.js could diverge from goldrush-cloud-transfer-handoff.json unless field names and hash algorithms are fixed now.
+
+False approval: records could look approved without actual local asset existence unless runtimePath is later checked against copied files.
+
+Path escape: ../, URL-encoded traversal, backslashes, double slashes, %2e, symlinks, or case variants could bypass naive string checks.
+
+Premature replacement: overlay logic could replace a placeholder if only runtimePath exists but provenance or hashes are missing.
+
+Slot mismatch: an approved asset could target a nonexistent, duplicate, deprecated, or wrong-type slot.
+
+Hash ambiguity: sourceHash and outputHash need declared algorithm, encoding, and canonical byte basis.
+
+Browser leakage: approved overlay must not expose raw cloud paths, signed URLs, local absolute paths, or quarantine/sanitization internals to the client.
+
+Required fields
+
+slotId or equivalent registry target.
+
+sourceJobId
+
+sourcePath
+
+sourceHash
+
+outputHash
+
+provenance
+
+approvalId
+
+runtimePath
+
+Strongly recommended: assetType, mimeType, hashAlgorithm, approvedAt, approvedBy or approval authority, license/rights, dimensions/duration where relevant, and notes/rejectionReason for auditability.
+
+Validation edge cases
+
+Allow empty approved list and pending placeholder-only state.
+
+Reject missing, null, empty-string, or whitespace-only required fields.
+
+Reject runtimePath unless it is relative and starts with exactly assets/.
+
+Reject public/assets/...; runtime code should reference assets/..., not the filesystem/public prefix.
+
+Reject raw/, sanitized/, quarantine/ anywhere in normalized path segments.
+
+Reject http://, https://, //cdn..., data:, blob:, file:, absolute /..., Windows C:\..., backslashes, .., encoded traversal, and control characters.
+
+Reject querystrings/fragments in runtimePath.
+
+Reject duplicate slotId, duplicate approvalId, duplicate runtimePath unless explicitly allowed.
+
+Reject output hash equal to empty, placeholder hash, malformed hash, or wrong algorithm length.
+
+Reject approved records targeting unknown slot IDs or incompatible presentation/runtime slot types.
+
+Reject records where sourceHash exists but sourceJobId does not match the handoff manifest later.
+
+Later, after local copy: fail if the file under public/assets/... is missing or its computed outputHash does not match.
+
+Alignment with final goal
+
+Aligned. This keeps Gold Rush playable with placeholders now, blocks unsafe cloud/raw assets from the browser, and prepares a deterministic promotion path from “handoff manifest” to “approved runtime asset.”
+
+Best next implementation shape: goldrushApprovedAssets.js exports empty approvedAssets = [] plus validateGoldrushApprovedAssets() and applyGoldrushApprovedOverlay(baseRegistry, approvedAssets), with tests proving empty pass and unsafe approved records fail.
+
+Sources
+
+Pro Extended
+ChatGPT can make mistakes. Check important info.

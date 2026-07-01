@@ -1,0 +1,20 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.anim.player.aimJump",
+  "mediaKind": "animation",
+  "handling": "retarget-animation-clip",
+  "sourcePath": "GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump (1).fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Player/MixamoAnimations/Pistol Jump (1).fbx",
+  "sourceHash": "sha256:36f14c396757033b74f2ca51413b12e026a74eb7af763ddea96ca5dc368872bd",
+  "sourceBytes": 6357936,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "retargeted-animation-map",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw model/animation bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

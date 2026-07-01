@@ -1,0 +1,57 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/11_Rendering/URP-HighFidelity-Renderer.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/11_Rendering/URP-HighFidelity-Renderer.asset",
+  "sourceHash": "sha256:24afcb6f4d95ad759d13eed401f066eb89912073a2af9622af6f3d9bc3a87bfc",
+  "summary": {
+    "lineCount": 94,
+    "guidCount": 27,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [
+      "04c410c9937594faa893a11dceb85f7e",
+      "0849e84e3d62649e8882e9d6f056a017",
+      "3302065f671a8450b82c9ddf07426f3a",
+      "36f118343fc974119bee3d09e2111500",
+      "41439944d30ece34e96484bdb6645b55",
+      "4b7b083e6b6734e8bb2838b0b50a0bc8",
+      "56a77a3e8d64f47b6afe9e3c95cb57d5",
+      "573620ae32aec764abd4d728906d2587",
+      "5fd9a8feb75a4b5894c241777f519d4e",
+      "60e1133243b97e347b653163a8c01b64",
+      "6cda457ac28612740adb23da5d39ea92",
+      "7b3ede40266cd49a395def176e1bc486",
+      "7f888aff2ac86494babad1c2c5daeee2",
+      "93446b5c5339d4f00b85c159e1159b7c",
+      "a89bee29cffa951418fc1e2da94d1959",
+      "c06cc21c692f94f5fb5206247191eeee",
+      "c17132b1f77d20942aa75f8429c0f8bc",
+      "c56b7e0d4c7cb484e959caeeedae9bbf",
+      "cb76dd40fa7654f9587f6a344f125c9a",
+      "cf852408f2e174538bcd9b7fda1c5ae7",
+      "d104b2fc1ca6445babb8e90b0758136b",
+      "d6dae50ee9e1bfa4db75f19f99355220",
+      "de640fe3d0db1804a85f9fc8f5cadab6",
+      "e32226222ff144b24bf3a5a451de54bc",
+      "e6e9a19c3678ded42a3bc431ebef7dbd",
+      "e9155b26e1bc55942a41e518703fe304",
+      "f62c9c65cf3354c93be831c8bc075510"
+    ],
+    "textureRefs": [],
+    "names": [
+      "SSAO",
+      "URP-HighFidelity-Renderer"
+    ],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

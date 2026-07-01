@@ -1,0 +1,29 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/HayBales.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/HayBales.prefab",
+  "sourceHash": "sha256:67b9ff84d0662ea30574a68ea5608b1b2560337a9f79a5f500b5281a854f18e1",
+  "summary": {
+    "lineCount": 274,
+    "guidCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "964e2721afd4f244da5c39085c3bcef8"
+    ],
+    "names": [
+      "HayBales"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 4,
+      "1001": 3
+    }
+  }
+}

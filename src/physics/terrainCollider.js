@@ -7,18 +7,18 @@ export const TERRAIN_RAYCAST_FROM_Y = 80;
 export const TERRAIN_RAYCAST_TO_Y = -30;
 
 export const CENTRAL_MOUNTAIN_FORMS = [
-  { id: "central-mountain.north-spur", x: -7.5, z: 24, width: 18, depth: 20, height: 8.8, blockerRadius: 7.2, routeRole: "force-west-or-east-walkaround", color: 0xb8623d },
-  { id: "central-mountain.gold-spine", x: 9.2, z: 13.4, width: 18, depth: 16, height: 9.8, blockerRadius: 7.8, routeRole: "split-main-route", color: 0xc16c40 },
-  { id: "central-mountain.south-shoulder", x: -15.5, z: -0.4, width: 14, depth: 14, height: 6.8, blockerRadius: 6.6, routeRole: "force-canyon-detour", color: 0x9f5132 },
+  { id: "central-mountain.north-spur", x: -8.5, z: 29, width: 19, depth: 21, height: 8.4, blockerRadius: 7.1, routeRole: "force-west-or-east-walkaround", color: 0xb8623d },
+  { id: "central-mountain.gold-spine", x: 9.2, z: 17.4, width: 17.5, depth: 16.5, height: 9.2, blockerRadius: 7.6, routeRole: "split-main-route", color: 0xc16c40 },
+  { id: "central-mountain.south-shoulder", x: -17.5, z: 6.8, width: 14, depth: 14, height: 6.2, blockerRadius: 6.4, routeRole: "force-canyon-detour", color: 0x9f5132 },
 ];
 
 const MOUNTAIN_CLEARANCE_CORRIDORS = [
-  { id: "spawn-sightline-clearance", x: -4, z: -8.5, width: 26, depth: 21, strength: 0.64 },
-  { id: "west-walkaround-clearance", x: -26, z: 8, width: 13, depth: 44, strength: 0.82 },
-  { id: "east-walkaround-clearance", x: 25, z: 8, width: 14, depth: 42, strength: 0.78 },
+  { id: "spawn-sightline-clearance", x: -4, z: -7.5, width: 31, depth: 28, strength: 0.82 },
+  { id: "west-walkaround-clearance", x: -27, z: 10, width: 15, depth: 50, strength: 0.86 },
+  { id: "east-walkaround-clearance", x: 26, z: 10, width: 16, depth: 48, strength: 0.84 },
 ];
 
-export function terrainFieldHeight(x, z) {
+export function terrainFieldBaseHeight(x, z) {
   const rolling = Math.sin(x * 0.085) * 0.42 + Math.cos(z * 0.11) * 0.34;
   const wash = Math.sin((x + z) * 0.045) * 0.18 + Math.cos((x - z) * 0.033) * 0.14;
   const canyonLift = Math.pow(Math.max(0, Math.abs(x) - TERRAIN_WIDTH * 0.38) / 26, 1.35) * 4.6;
@@ -30,10 +30,15 @@ export function terrainFieldHeight(x, z) {
   const mineShelf = Math.max(0, 1 - Math.hypot((x + 8.8) / 7.8, (z - 7.2) / 4.7)) * 0.52;
   const townShelf = Math.max(0, 1 - Math.hypot((x - 8.3) / 9.2, (z - 8.6) / 4.8)) * 0.34;
   const goldFaceLift = Math.max(0, 1 - Math.hypot((x + 10.2) / 7.6, (z - 9.3) / 1.8)) * 0.7;
+  return rolling + wash + canyonLift + trailCut + trailBanks + basinBowl + mineShelf + townShelf + goldFaceLift;
+}
+
+export function terrainFieldHeight(x, z) {
+  const base = terrainFieldBaseHeight(x, z);
   const centralMountainLift = CENTRAL_MOUNTAIN_FORMS.reduce((total, mountain) => {
     return total + sampleCentralMountainHeight(x, z, mountain);
   }, 0);
-  return rolling + wash + canyonLift + trailCut + trailBanks + basinBowl + mineShelf + townShelf + goldFaceLift + centralMountainLift;
+  return base + centralMountainLift;
 }
 
 export function terrainFieldColor(x, z) {

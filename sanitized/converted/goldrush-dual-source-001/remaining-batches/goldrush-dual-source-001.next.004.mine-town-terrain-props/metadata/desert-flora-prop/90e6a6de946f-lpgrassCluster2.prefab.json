@@ -1,0 +1,32 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.desertFlora",
+  "role": "desert-flora-prop",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster2.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster2.prefab",
+  "sourceHash": "sha256:90e6a6de946f843283b30c21dae89d751ae099aaee522c24d88e587225ece879",
+  "summary": {
+    "lineCount": 613,
+    "guidCount": 4,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "0377259d9a50a1e43b7bd849af3ecd93",
+      "1a1b2b4233c6cb74192f0ba35b22a513",
+      "936082c66c8cef640b298b72e092a1ae",
+      "bcad2216257203641ac735a52f80ac30"
+    ],
+    "names": [
+      "lpgrassCluster2"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 10,
+      "1001": 9
+    }
+  }
+}

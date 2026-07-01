@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44690eff83d72bf4ab1c63cff1db2c79, type: 3}
+  m_Name: ArenaRocksConfig
+  m_EditorClassIdentifier: 
+  prefabPlacementDefinitions:
+  - isExpanded: 1
+    isEnabled: 1
+    prefabToPlace: {fileID: 5810646954120574072, guid: e2d719d2c998c664b806e24f163647d1, type: 3}
+    parent: {fileID: 0}
+    snapInterval: 1
+    placementOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    baseScale: {x: 1, y: 1, z: 1}
+    mouseButton: 0
+    randomizeRotationX: 1
+    randomRotationRangeX: {x: -15, y: 15}
+    randomizeRotationY: 1
+    randomRotationRangeY: {x: 0, y: 360}
+    randomizeRotationZ: 1
+    randomRotationRangeZ: {x: -15, y: 15}
+    uniformRandomScale: 1
+    uniformScaleRange: {x: 4, y: 3}
+    randomizeScaleX: 1
+    randomScaleRangeX: {x: 0.5, y: 1.5}
+    randomizeScaleY: 1
+    randomScaleRangeY: {x: 0.5, y: 1.5}
+    randomizeScaleZ: 1
+    randomScaleRangeZ: {x: 0.5, y: 1.5}

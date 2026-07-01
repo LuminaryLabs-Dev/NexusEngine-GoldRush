@@ -1,0 +1,79 @@
+# Change Log
+
+Status: active
+
+- 2026-06-30 06:25:58 America/New_York - Created lowercase agent-it control files to align the repo with the agent workspace workflow.
+- 2026-06-30 06:25:58 America/New_York - Added `.agent/research/aaa-extraction-gap-map-2026-06-30.md` with source-backed AAA extraction and battle royale kit gaps.
+- 2026-06-30 06:35:06 America/New_York - Implemented the BUG-002 central mountain readability pass with base-terrain visual placement and stricter validator coverage.
+- 2026-06-30 06:35:06 America/New_York - Captured browser proof for BUG-002 and marked central mountain scale/framing resolved locally.
+- 2026-06-30 06:49:15 America/New_York - Added `n:goldrush:frontier-conditions` as a deterministic match-condition kit with source-backed research, catalog docs, memory, and runtime validation.
+- 2026-06-30 07:02:44 America/New_York - Wired frontier condition effects into extraction payout/timers/value, combat pressure, audio ambience, renderer atmosphere, and forced-condition validators.
+- 2026-06-30 07:12:36 America/New_York - Made NexusSimulator CLI output sanitized by default across JSON output, help text, and error text so shared reports avoid absolute machine paths.
+- 2026-06-30 07:20:33 America/New_York - Added frontier condition context to extraction receipts, match results, replay summaries, kit contracts, and forced-condition validators.
+- 2026-06-30 07:36:46 America/New_York - Added a player-facing frontier condition briefing to lobby/loading scene sites and proved the condition carries into the train loading payload.
+- 2026-06-30 07:54:06 America/New_York - Added condition-linked contested extraction-site behavior with linked threat calls, marker status, receipt context, validation, browser proof, and research packet.
+- 2026-06-30 08:06:39 America/New_York - Made public smoke proof output sanitize retained report, markdown, console, and screenshot paths by default.
+- 2026-06-30 08:28:27 America/New_York - Added first-class results scene site, extraction-to-results handoff, player-facing result/replay summary UI, validation, browser proof, and research packet.
+- 2026-06-30 08:42:38 America/New_York - Promoted public artifact sanitization into a shared safety tool, sanitized retained report paths, and tightened the retained report/manifest safety validator.
+- 2026-06-30 08:54:32 America/New_York - Added readable local threat telegraphs, danger lanes, combat receipts, validator proof, and a source-backed research packet for ambush-pressure combat readability.
+- 2026-06-30 09:05:43 America/New_York - Rendered kit-owned threat lanes/telegraph pulses in the gold-field scene and added a Playwright proof for the readable-threat-lanes visual contract.
+- 2026-06-30 09:18:00 America/New_York - Added sanitized report writer helpers so retained proof JSON, Markdown, and console summaries use the sanitizer at the default write boundary.
+- 2026-06-30 09:23:00 America/New_York - Routed readable threat telegraph metadata into deduped audio-manager one-shots under the `readable-threat-audio-cues-v1` contract.
+- 2026-06-30 09:24:00 America/New_York - Added combat outcome summaries to GoldRush results/replay from extraction-loop combat receipts and documented the post-mission summary gap.
+- 2026-06-30 09:32:00 America/New_York - Added Playwright human-view proof for combat outcome results visibility and documented the browser proof gap.
+- 2026-06-30 09:45:00 America/New_York - Tightened sanitized-by-default output by routing NexusSimulator CLI through the shared sanitizer and adding Playwright output artifacts to the leak gate.
+- 2026-06-30 09:47:01 America/New_York - Connected final-rush zone pressure into the playable extraction loop and receipt scoring path.
+- 2026-06-30 09:55:27 America/New_York - Added final-rush pressure result/replay summaries so collapse scoring is visible and validator-backed.
+- 2026-06-30 10:09:05 America/New_York - Added final-rush results Playwright proof, fixed player-facing collapse readout labels, and corrected collapse cashout multiplier formatting.
+- 2026-06-30 10:17:01 America/New_York - Removed raw threat, lane, and cashout-site IDs from result-screen visible copy while keeping deterministic IDs in snapshots and proof reports.
+- 2026-06-30 10:51:00 America/New_York - Added a sanitized artifact boundary validator so proof and simulator tools must route public JSON, Markdown, console summaries, and screenshot paths through the shared sanitizer.
+- 2026-06-30 11:00:29 America/New_York - Added mining claim-pressure readability and deterministic mining receipts to the extraction-loop kit, validator, reality status, and playability docs.
+- 2026-06-30 10:27:52 America/New_York - Compact results layout so stats and next-run actions are first-viewport readable, with Playwright rectangle checks for visible actions and contained stat values.
+- 2026-06-30 10:38:15 America/New_York - Added mobile final-rush results proof at 390x844 with no-horizontal-overflow, no-stat-truncation, and first-viewport action checks.
+- 2026-06-30 11:13:41 America/New_York - Added train loading party boarding manifest receipts and documented the party-readiness transition contract.
+- 2026-06-30 11:21:51 America/New_York - Added PeerJS party boarding readiness fanout contract and validation for loading-yard sync state.
+- 2026-06-30 11:29:23 America/New_York - Added live two-tab PeerJS party boarding proof and documented latest 2/2 readiness evidence.
+- 2026-06-30 11:36:33 America/New_York - Added peer-gated train handoff so multi-member parties wait for ready PeerJS boarding sync before departure.
+- 2026-06-30 11:58:00 America/New_York - Tightened sanitized-by-default output to redact standalone account emails, file URLs, and secret query-string values while preserving safe asset filenames.
+- 2026-06-30 11:59:44 America/New_York - Added reduced-roster PeerJS disconnect handling for loading-yard boarding, docs, kit metadata, research, and browser proof.
+- 2026-06-30 12:09:33 America/New_York - Added batch-scoped sanitized conversion for the first 15 remaining legacy audio files with review-only reports, registry, validator, docs, and research.
+- 2026-06-30 12:23:09 America/New_York - Added pending human-review and license-provenance packets for the first 15 remaining legacy audio files and wired their validator into the default check chain.
+- 2026-06-30 12:36:59 America/New_York - Copied the second remaining player/combat character batch, generalized remaining-batch receipt validation, and added sanitized review conversion for textures, Unity metadata, and FBX conversion requests.
+- 2026-06-30 12:49:26 America/New_York - Copied the third remaining mine/town/terrain prop texture batch, generated append-only receipts, and tightened active import outputs to use shared sanitized sync writers.
+- 2026-06-30 13:02:05 America/New_York - Added sanitized review conversion, registry, validation, docs, and AAA material-pipeline research for the mine/town/terrain prop texture batch.
+- 2026-06-30 13:18:43 America/New_York - Documented the fourth remaining mine/town/terrain prop model batch with receipt status, review-only validation gate, durable memory, and AAA GLB pipeline research.
+- 2026-06-30 13:35:08 America/New_York - Copied and receipt-gated remaining batches 005-008, added grouped review-only material/terrain metadata conversion, validator wiring, docs, memory, and AAA source-review research.
+- 2026-06-30 13:42:57 America/New_York - Added grouped pending human-review and license-provenance packets for 722 non-audio remaining outputs with validation, docs, memory, and provenance research.
+- 2026-06-30 13:51:02 America/New_York - Added a prioritized remaining review-domain queue covering all 737 pending review items with owner lanes, validation, docs, memory, and AAA review-queue research.
+- 2026-06-30 13:59:08 America/New_York - Expanded sanitized-by-default enforcement across all import-sanitize scripts, routed legacy import JSON outputs through shared sanitizer helpers, and documented the public artifact boundary.
+- 2026-06-30 14:07:35 America/New_York - Added a guarded approved-runtime promotion planner and validation gate that blocks all pending review items until human/license approvals and matching approval ids exist.
+- 2026-06-30 14:21:48 America/New_York - Added pending-only approval decision packets for remaining review owner lanes with validation, docs, memory, and research.
+- 2026-06-30 14:31:26 America/New_York - Added approval decision application preflight reporting so filled owner packets can be validated before any review/provenance mutation.
+- 2026-06-30 14:42:13 America/New_York - Added approved-ready approval decision fixture validation without mutating canonical review/provenance packets.
+- 2026-06-30 14:52:17 America/New_York - Routed extraction-loop active threat pressure through the runtime combat camera/presentation boundary and documented the reset rule.
+- 2026-06-30 15:02:40 America/New_York - Made sanitization a default build invariant with `npm run sanitize`, `prebuild`, `postbuild`, and a `dist/` public artifact validator.
+- 2026-06-30 15:16:46 America/New_York - Added kit-owned combat cover descriptors, renderer cover markers, validation, browser proof, and research for readable ambush counterplay.
+- 2026-06-30 15:24:37 America/New_York - Extended sanitized-by-default enforcement to the live playtest doctor summary and documented the playtest output boundary.
+- 2026-06-30 15:37:20 America/New_York - Added kit-owned cover engagement, peeking, damage mitigation receipts, engaged cover rendering, result/replay mitigation summaries, validation, and research.
+- 2026-06-30 15:50:18 America/New_York - Added first-sequence train readout, in-world train-door boarding cue, validator gates, public proof checks, and research for the loading-yard train transition.
+- 2026-06-30 16:01:02 America/New_York - Extended default path/privacy sanitization to `.agent` packets and replaced local absolute paths with public-safe labels.
+- 2026-06-30 16:08:12 America/New_York - Wired first-sequence train readout into semantic audio cue-state, added validator/browser proof gates, and documented the train transition audio gap.
+- 2026-06-30 16:15:41 America/New_York - Made `.agent` and docs strict shareable artifact roots in the report-secret validator so path/profile leak scanning is sanitized by default.
+- 2026-06-30 16:22:28 America/New_York - Added distinct train transition fallback cue patterns and retained loading-time cue evidence in public smoke reports.
+- 2026-06-30 16:35:52 EDT - Added a sanitized train/title/run audio cue approval plan, validator, docs, and research packet while keeping all legacy audio runtime promotion blocked pending human/license approval.
+- 2026-06-30 16:50:47 EDT - Added carried-gold cargo visual snapshot proof, Playwright cargo visual proof harness, validator coverage, memory, and research for mine-to-carry readability.
+- 2026-06-30 17:06:36 EDT - Added carried-gold mobility modifiers, movement-controller consumption, renderer posture read, Playwright proof, validator coverage, memory, and research for load-bearing cargo.
+- 2026-06-30 17:15:18 EDT - Added carried-gold noise pressure, ambush-pressure detection/pressure consumption, Playwright proof, validator coverage, memory, and research for cargo-driven threat readability.
+- 2026-06-30 17:30:16 EDT - Converted procedural object generation into per-item GoldRush object protokit contracts with layered raycast placement, interaction affordances, renderer markers, validation, browser proof, memory, and research.
+- 2026-06-30 17:55:00 EDT - Added nearest-object affordance selection, routed app interaction through object protokit affordances, updated procedural validation, and moved cargo proof off direct hidden mining calls.
+- 2026-06-30 18:00:00 EDT - Added affordance marker readability policy so selected object markers stay readable while nearby candidates are capped and non-selected markers are hidden.
+- 2026-06-30 18:08:00 EDT - Added selected object affordance cue/progress contract with diegetic in-world claim feedback, renderer snapshot proof, validation, memory, and research.
+- 2026-06-30 18:18:00 EDT - Added object proximity readability compression so selected object interactions stay readable while dense procedural micro-kits remain domain-scoped and validated.
+- 2026-06-30 18:28:00 EDT - Added resource visual form contract and renderer geometry/material upgrades for readable nugget, ore-lode, gold-seam, and tailings micro-kits.
+- 2026-06-30 18:34:00 EDT - Moved resource visual form identity into object protokit descriptors and made the renderer consume `kit.visual.resourceForm` with validator coverage.
+- 2026-06-30 18:39:00 EDT - Added renderer-owned extraction cashout cue contract, visible cashout beacon geometry, Playwright proof checks, memory, and research packet.
+- 2026-06-30 18:46:20 EDT - Added renderer-owned extraction setpiece contract, rail-depot landmark geometry, proof checks, validator coverage, memory, and research packet.
+- 2026-06-30 18:56:51 EDT - Added extraction setpiece human-view proof, publicSmoke placement action, differentiated depot material roles, package script, validator coverage, memory, and research packet.
+- 2026-06-30 19:05:23 EDT - Added renderer-owned extraction interaction cue contract, in-world cashout hold prompt/progress geometry, proof assertions, validator coverage, memory, and research packet.
+- 2026-06-30 19:23:10 EDT - Added `n:goldrush:player-action-surface` engine kit, scenario/app snapshot wiring, validator, contract docs, memory, and research packet for unified player-facing interactions.
+- 2026-06-30 19:51:23 EDT - Tightened public smoke proof so train boarding must happen through natural camera-relative walking from the loading-yard spawn, with retained boarding-path evidence and BUG-005 research/docs updates.

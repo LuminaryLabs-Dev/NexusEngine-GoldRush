@@ -385,18 +385,22 @@ export function createGoldZoneDescriptors(world = createGoldRushWorldElements())
   }));
 }
 
-export function createAudioStateDescriptor({ phase = "lobby", combatActive = false, sceneState = null } = {}) {
+export function createAudioStateDescriptor({ phase = "lobby", combatActive = false, sceneState = null, frontierConditionEffects = null } = {}) {
   const sceneId = sceneState?.currentSceneId ?? null;
   const title = sceneId === "goldrush.scene.mainMenu" && phase === "lobby";
   const boss = phase === "results" && combatActive;
   const audioState = title ? "titleIntro" : boss ? "boss" : combatActive || phase === "combat" ? "combat" : "wandering";
+  const conditionBias = frontierConditionEffects?.audio?.musicBias ?? null;
+  const conditionMusicCueId = !title && !boss && !combatActive && phase !== "combat" && ["tense", "danger", "combat-ready", "high-risk"].includes(conditionBias)
+    ? "goldrush.audio.music.combat"
+    : null;
   const musicCueId = audioState === "boss"
     ? "goldrush.audio.music.boss"
     : audioState === "titleIntro"
       ? "goldrush.audio.music.titleIntro"
       : audioState === "combat"
       ? "goldrush.audio.music.combat"
-      : "goldrush.audio.music.wandering";
+      : conditionMusicCueId ?? "goldrush.audio.music.wandering";
   const oneShots = [];
   if (sceneState?.activeAudioCueId?.startsWith("goldrush.audio.sfx.")) {
     oneShots.push({
@@ -405,10 +409,24 @@ export function createAudioStateDescriptor({ phase = "lobby", combatActive = fal
       dedupeId: sceneState.lastTransition?.id ?? sceneState.activeAudioCueId,
     });
   }
+  if (frontierConditionEffects?.audio?.stinger?.startsWith("goldrush.audio.sfx.")) {
+    oneShots.push({
+      cueId: frontierConditionEffects.audio.stinger,
+      slotId: frontierConditionEffects.audio.stinger,
+      dedupeId: `${frontierConditionEffects.conditionId}.frontier-stinger`,
+    });
+  }
   return {
     audioState,
     musicCueId,
-    crossfadeSeconds: audioState === "wandering" ? 5 : 1.6,
+    condition: frontierConditionEffects ? {
+      conditionId: frontierConditionEffects.conditionId,
+      musicBias: frontierConditionEffects.audio.musicBias,
+      ambience: frontierConditionEffects.audio.ambience,
+      masking: frontierConditionEffects.audio.masking,
+    } : null,
+    ambienceCueId: frontierConditionEffects?.audio?.ambience ?? "dry-wind-light",
+    crossfadeSeconds: audioState === "wandering" && !conditionMusicCueId ? 5 : 1.6,
     oneShots,
   };
 }

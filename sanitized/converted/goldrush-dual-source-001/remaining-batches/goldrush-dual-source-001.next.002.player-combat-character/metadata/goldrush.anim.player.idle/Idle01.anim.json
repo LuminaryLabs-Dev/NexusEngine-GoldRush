@@ -1,0 +1,29 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.anim.player.idle",
+  "mediaKind": "animation",
+  "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Idle01.anim",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Animation/Idle01.anim",
+  "sourceHash": "sha256:cd20ac6d1265bad6b2a39ba23647a36ad7cd4bc74771f095c6dbebb191c1e8c4",
+  "summary": {
+    "lineCount": 79328,
+    "guidCount": 0,
+    "fileIdCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 1
+  },
+  "references": {
+    "guids": [],
+    "fileIds": [
+      "0"
+    ],
+    "names": [
+      "Idle01"
+    ],
+    "yamlTags": {
+      "74": 1
+    }
+  }
+}

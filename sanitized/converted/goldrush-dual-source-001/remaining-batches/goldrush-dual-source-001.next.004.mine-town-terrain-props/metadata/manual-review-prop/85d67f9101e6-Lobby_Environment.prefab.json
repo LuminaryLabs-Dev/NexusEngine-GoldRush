@@ -1,0 +1,45 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.review",
+  "role": "manual-review-prop",
+  "sourcePath": "GoldRush/Assets/Lobby/Environment/Lobby_Environment.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Lobby/Environment/Lobby_Environment.prefab",
+  "sourceHash": "sha256:85d67f9101e60d9e61a3ecdfbf6177d0e157e62ce9c3d07345d238eb465290c9",
+  "summary": {
+    "lineCount": 936,
+    "guidCount": 4,
+    "namedObjectCount": 9,
+    "yamlTagTypes": 8
+  },
+  "references": {
+    "guids": [
+      "0000000000000000e000000000000000",
+      "4fc5d54363febbc439e88d76b6cd8608",
+      "7a68c43fe1f2a47cfa234b5eeaa98012",
+      "8d11cc4fa39951b4197ef354cd0bc9b1"
+    ],
+    "names": [
+      "Plane",
+      "Plane (3)",
+      "Plane (1)",
+      "Platform",
+      "Lobby_Environment",
+      "Plane (2)",
+      "Plane (4)",
+      "Directional Light",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 8,
+      "4": 8,
+      "23": 6,
+      "33": 6,
+      "64": 5,
+      "108": 1,
+      "114": 1,
+      "136": 1
+    }
+  }
+}

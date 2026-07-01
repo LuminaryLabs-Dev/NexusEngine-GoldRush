@@ -1,0 +1,26 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.008.mine-town-terrain-props",
+  "slotId": "goldrush.world.terrainAsset",
+  "role": "terrain-source-asset",
+  "sourcePath": "GoldRush_Old/Assets/New Terrain 3.asset",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/New Terrain 3.asset",
+  "sourceHash": "sha256:265e5ddb9b2e0cbc178b7adbe41abf11e36e63e32de67e7a29e944378e195498",
+  "summary": {
+    "lineCount": 5,
+    "guidCount": 0,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 0,
+    "colorCount": 0,
+    "floatBlockCount": 0
+  },
+  "references": {
+    "guids": [],
+    "textureRefs": [],
+    "names": [],
+    "colors": [],
+    "floatBlocks": []
+  }
+}

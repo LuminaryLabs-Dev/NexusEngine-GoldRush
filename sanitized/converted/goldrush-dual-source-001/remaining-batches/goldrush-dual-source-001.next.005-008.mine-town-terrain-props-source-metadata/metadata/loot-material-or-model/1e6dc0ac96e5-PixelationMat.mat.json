@@ -1,0 +1,34 @@
+{
+  "schema": "nexusengine.goldrush.remaining-source-unity-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "conversionId": "goldrush-dual-source-001.next.005-008.mine-town-terrain-props-source-metadata",
+  "batchId": "goldrush-dual-source-001.next.005.mine-town-terrain-props",
+  "slotId": "goldrush.material.loot",
+  "role": "loot-material-or-model",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/03_Materials/PixelationMat.mat",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/03_Materials/PixelationMat.mat",
+  "sourceHash": "sha256:1e6dc0ac96e5de0e2c702a17ac522ba6e26af7e94d936acba624f2fe4ef592e8",
+  "summary": {
+    "lineCount": 129,
+    "guidCount": 2,
+    "textureReferenceCount": 0,
+    "namedObjectCount": 2,
+    "colorCount": 0,
+    "floatBlockCount": 1
+  },
+  "references": {
+    "guids": [
+      "7f06ab8aa8665d74784dc0ba378854d7",
+      "d0353a89b1f911e48b9e16bdc9f2e058"
+    ],
+    "textureRefs": [],
+    "names": [
+      "PixelationMat",
+      "m_EditorClassIdentifier:"
+    ],
+    "colors": [],
+    "floatBlocks": [
+      "- REQUIRE_DEPTH_TEXTURE: 0\n    - _BumpScale: 1\n    - _Cutoff: 0.5\n    - _DepthStrength: 2.23\n    - _DepthThickness: 3.72\n    - _DepthThreshold: 0.1\n    - _DetailNormalMapScale: 1\n    - _DstBlend: 0\n    - _GlossMapScale: 1\n    - _Glossiness: 0.5\n    - _GlossyReflections: 1\n    - _Metallic: 0\n    - _Mode: 0\n    - _OcclusionStrength: 1\n    - _Parallax: 0.02\n    - _PixelSize: 16\n    - _PixelationAmount: 17.9\n    - _QueueControl: 0\n    - _QueueOffset: 0\n    - _Scaling: 3.82\n    - _ScreenSize: 1\n    - _SmoothnessTextureChannel: 0\n    - _SpecularHighlights: 1\n    - _SrcBlend: 1\n    - _Thickness: 0.25\n    - _UNITYEDITOR: 1\n    - _UVSec: 0\n    - _ZWrite: 1\n    - _ph: 1\n    - _pixelResolution: 512\n    - _pw: 1"
+    ]
+  }
+}

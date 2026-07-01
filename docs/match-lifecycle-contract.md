@@ -35,5 +35,10 @@ The scenario helper methods call dedicated kits. They do not directly own scorin
 
 ## Browser Proof
 
-The browser HUD exposes match phase, pressure, extracted gold, leader score, receipt counts, result status, replay moments, world scale, patch count, and kit count. The renderer only draws snapshot state.
+The browser flow must expose the full local loop: title, lobby, loading-yard train, gold field, extraction, and results. The results screen presents `goldrushResults` and `goldrushReplaySummary` snapshots: placement, winner, score, extracted gold, frontier condition, extraction contest severity, combat outcome summary, awards, and replay moments. The DOM does not calculate scoring or replay facts.
 
+Combat result visibility is proven through:
+
+```bash
+npm run proof:combat-results -- --url http://127.0.0.1:5177/NexusEngine-GoldRush/
+```

@@ -57,6 +57,10 @@ Exploration, traversal, mining, and extraction use an over-the-shoulder travel c
 
 The camera system must be treated as a kit-owned playability proof surface, not one fixed angle. `engine.n.goldrushCamera` should expose a deterministic 1,000-pose perspective catalog across exploration, trail-follow, canyon-scout, mining-close, town-approach, combat-shoulder, cover-peek, extraction-run, spectate-crew, and replay-cinematic families. The renderer consumes the selected `threeDescriptor`; playability proof comes from sampling many families and verifying player silhouette, route, landmarks, cover, threats, gold, and terrain depth remain readable.
 
+Gameplay camera movement must not be driven by per-frame catalog reselection. Active gameplay uses a transition-latched descriptor plus mouse-look/player-follow motion so mode or scene transitions can reconfigure the camera once, while normal runtime ticks do not create back/forth camera pulsing.
+
+Live extraction-loop combat pressure now drives that same transition boundary: active readable threats, aim, fire, or damage switch `goldrushPerspective` and `goldrushCamera` into combat, while defeated threats return camera, animation posture, and scene intent to exploration. Ambient frontier/extraction risk may still bias music and scoring, but it must not keep the camera locked in combat without an active threat.
+
 ## World Understanding Rule
 
 The visual target is the space of a playable gold-rush canyon environment, not a one-to-one copy of a reference picture. Reference images provide vocabulary only. Composition must come from environment-space descriptors: canyon basin, wash-floor trail, ridge walls, mine shelf, town shelf, gold seam, and extraction sightline. Props and cameras must explain those spaces first.
@@ -69,6 +73,7 @@ The visual target is the space of a playable gold-rush canyon environment, not a
 - `BUG-005-loading-train-sideways-and-no-boarding-sequence.md` is in active fix: train motion must follow a path, open a door, lock the player to the train, and hand off after departure.
 - `BUG-006-physics-backend-and-terrain-mesh-reliability.md` is in active fix: use the current Cannon heightfield reliably, keep Rapier as a future adapter, and remove stacked terrain surfaces that cause flicker.
 - `BUG-002-central-mountain-scale-and-camera-framing.md` remains open and is the next visible terrain composition issue.
+- The first-sequence spine is now locally proven by tracked validators: `src/scenes/goldRushFirstSequence.js` owns title -> lobby -> loading-yard -> train handoff -> run, `tools/validation/validate-first-sequence.mjs` proves the phase/receipt contract, and `tools/validation/validate-nexus-runtime.mjs` proves camera pose/descriptor stability across same-phase runtime ticks. Generated `output/live-test-it/` captures are ignored scratch, not durable repo proof.
 
 ## Current Public Proof
 
@@ -105,10 +110,20 @@ This packet is ready for GPT/cloud workers to execute. It keeps local Codex out 
 
 ```txt
 src/content/goldrushApprovedAssets.js
+tools/import-sanitize/promote-approved-runtime-assets.mjs
+tools/validation/validate-approved-runtime-promotion.mjs
 tools/validation/validate-approved-asset-registry.mjs
 ```
 
 The approved registry is intentionally empty while cloud import is pending. Empty state passes validation and keeps runtime placeholders active. Future approved records must target existing slots, use `sourceJobId: goldrush-dual-source-001`, include source/output hashes and approval metadata, point to committed files under `public/assets/` through browser-relative `assets/...` paths, and match the runtime file hash.
+
+The approved promotion planner is now the required bridge between pending review packets and runtime assets. It discovers human-review packets and their linked license-provenance packets, requires both approval statuses plus a matching approval id, rejects metadata/external-conversion/review-only outputs, derives safe `assets/goldrush-approved/...` paths, and writes no runtime files unless `--write --confirm-approved-runtime-promotion` is provided. Current proof is `approved-runtime-promotion-gate-ready` with 0 approved records and 768 blocked review items.
+
+Owner-scoped approval decision packets now bridge the review queue to human/license approval authoring without promoting assets. `tools/import-sanitize/generate-approval-decision-packets.mjs --write` writes pending-only packets under `reports/approval-decisions/goldrush-dual-source-001/`, and `tools/validation/validate-approval-decision-packets.mjs` proves 5 owner packets, 43 review domains, 737 pending review items, no filled approval ids, no runtime paths, and no public/runtime promotion.
+
+Approval application is now a separate preflight layer before any canonical review/provenance mutation. `tools/import-sanitize/plan-approval-decision-application.mjs --write` writes `reports/approval-decisions/goldrush-dual-source-001/application-plan.json`, and `tools/validation/validate-approval-decision-application-plan.mjs` currently proves 737 pending decisions, 0 approved-ready items, 0 rejected-ready items, no filled approval ids, no runtime paths, and no public/runtime promotion.
+
+The approved-ready path is also fixture-proven without touching canonical packets: `tools/validation/validate-approval-decision-approved-fixture.mjs` creates a temporary approved audio decision, proves 1 approved-ready item and 736 pending items, routes the next gate to the approved runtime promotion planner, and still keeps public/runtime promotion false.
 
 ## Current Nexus Source Alignment Gate
 

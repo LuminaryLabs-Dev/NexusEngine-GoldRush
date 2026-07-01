@@ -8,10 +8,13 @@ export function createLoadingTrainSceneRenderer(root) {
   const trainPathKit = createTrainPathKit();
   const player = createSmallProspector(0x253b36);
   const partyGhosts = new THREE.Group();
+  const boardingCue = createBoardingCue();
   const trainBoardingTarget = new THREE.Vector3();
+  const boardingCueTarget = new THREE.Vector3();
   const state = {
     kitGroup: "loading-yard-train",
     domainPath: "n:goldrush:train-loading",
+    cueContract: "goldrush-train-boarding-cue-v1",
     loadingPhase: "approaching",
     trainDeparting: false,
     trainPosition: { x: 0, z: -50 },
@@ -19,6 +22,12 @@ export function createLoadingTrainSceneRenderer(root) {
     doorOpen: false,
     playerLockedToTrain: false,
     boardingRadius: 3.2,
+    boardingCue: {
+      contract: "goldrush-train-boarding-cue-v1",
+      visible: false,
+      status: "waiting-for-train",
+      anchor: { x: 0, z: -7.4 },
+    },
   };
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -36,6 +45,7 @@ export function createLoadingTrainSceneRenderer(root) {
   scene.add(sun);
 
   scene.add(createYard());
+  train.add(boardingCue);
   scene.add(train);
   scene.add(player);
   scene.add(partyGhosts);
@@ -58,14 +68,22 @@ export function createLoadingTrainSceneRenderer(root) {
     doorProgress = 0,
     departureProgress = 0,
     playerLockedToTrain = false,
+    trainReadout = null,
   }) {
     resize();
     const pathSample = trainPathKit.sample(trainDeparting ? "departure" : "approach", trainDeparting ? departureProgress : approachProgress);
     train.position.set(pathSample.position.x, 0, pathSample.position.z);
     train.rotation.y = pathSample.yaw;
     animateTrainDoor(train, doorProgress);
+    updateBoardingCue(boardingCue, {
+      doorProgress,
+      playerLockedToTrain,
+      trainReadout,
+      elapsedSeconds: performance.now() / 1000,
+    });
     train.updateMatrixWorld(true);
 
+    train.userData.boardingAnchor.getWorldPosition(boardingCueTarget);
     state.trainDeparting = trainDeparting;
     state.loadingPhase = loadingPhase;
     state.trainPosition = { x: Number(train.position.x.toFixed(2)), z: Number(train.position.z.toFixed(2)) };
@@ -74,6 +92,17 @@ export function createLoadingTrainSceneRenderer(root) {
     state.approachProgress = Number(approachProgress.toFixed(3));
     state.doorProgress = Number(doorProgress.toFixed(3));
     state.departureProgress = Number(departureProgress.toFixed(3));
+    state.boardingCue = {
+      contract: "goldrush-train-boarding-cue-v1",
+      visible: boardingCue.visible,
+      status: boardingCue.userData.status,
+      anchor: {
+        x: Number(boardingCueTarget.x.toFixed(2)),
+        z: Number(boardingCueTarget.z.toFixed(2)),
+      },
+      nextPlayerAction: trainReadout?.nextPlayerAction ?? null,
+      cameraDirective: trainReadout?.cameraDirective ?? null,
+    };
 
     const position = playerLockedToTrain
       ? train.userData.boardingAnchor.getWorldPosition(trainBoardingTarget)
@@ -230,6 +259,56 @@ function createTrain() {
   group.userData.doorClosed = door.position.clone();
   group.userData.boardingAnchor = boardingAnchor;
   return group;
+}
+
+function createBoardingCue() {
+  const group = new THREE.Group();
+  const ringMaterial = new THREE.MeshStandardMaterial({
+    color: 0xf1c24f,
+    emissive: 0x8a5a10,
+    emissiveIntensity: 0.45,
+    roughness: 0.48,
+    transparent: true,
+    opacity: 0.86,
+  });
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.82, 0.035, 8, 40), ringMaterial);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = 0.08;
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 1.45, 10), ringMaterial);
+  post.position.y = 0.78;
+  const cap = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.32, 4), ringMaterial);
+  cap.position.y = 1.62;
+  cap.rotation.y = Math.PI / 4;
+  group.add(ring, post, cap);
+  group.position.set(-1.68, 0, -3.72);
+  group.userData.status = "waiting-for-door";
+  group.visible = false;
+  return group;
+}
+
+function updateBoardingCue(cue, {
+  doorProgress = 0,
+  playerLockedToTrain = false,
+  trainReadout = null,
+  elapsedSeconds = 0,
+} = {}) {
+  const visible = Boolean(trainReadout?.boardingCueVisible ?? (doorProgress >= 0.25 && !playerLockedToTrain));
+  cue.visible = visible;
+  cue.userData.status = playerLockedToTrain
+    ? "riding-train"
+    : doorProgress >= 0.92
+      ? "board-now"
+      : doorProgress > 0
+        ? "door-opening"
+        : "waiting-for-door";
+  const pulse = visible ? 1 + Math.sin(elapsedSeconds * 5.8) * 0.08 : 1;
+  cue.scale.setScalar(pulse);
+  cue.children.forEach((child) => {
+    if (child.material) {
+      child.material.opacity = cue.userData.status === "board-now" ? 0.94 : 0.62;
+      child.material.emissiveIntensity = cue.userData.status === "board-now" ? 0.78 : 0.32;
+    }
+  });
 }
 
 function animateTrainDoor(train, progress = 0) {

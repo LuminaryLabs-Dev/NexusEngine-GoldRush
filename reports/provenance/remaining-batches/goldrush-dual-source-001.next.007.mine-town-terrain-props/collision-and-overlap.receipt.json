@@ -1,0 +1,15 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-collision-receipt.v1",
+  "receiptKind": "remaining-batch",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.007.mine-town-terrain-props",
+  "generatedAt": "2026-06-30T17:27:16.209Z",
+  "doesNotModifyFirst31Gate": true,
+  "first31PlanPath": "reports/provenance/goldrush-dual-source-001-raw-copy-plan.json",
+  "overlapsFirst31": [],
+  "targetPathCollisions": [],
+  "caseFoldCollisions": [],
+  "duplicateContent": [],
+  "duplicateSourceBlob": [],
+  "result": "pass"
+}

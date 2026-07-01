@@ -1,0 +1,19 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-model-external-conversion-request.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.trainRail",
+  "role": "train-rail-prop",
+  "sourcePath": "GoldRush/Assets/Imported/locomotive/source/lokomotive.fbx",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/locomotive/source/lokomotive.fbx",
+  "sourceHash": "sha256:b48307b9af0d1163ea63816ead0d270efb92f7c0d49a3e682b4f5af8fd408f1e",
+  "sourceBytes": 6183728,
+  "sourceExtension": ".fbx",
+  "requestedOutput": "browser-ready-glb-or-gltf",
+  "status": "requires-external-conversion",
+  "notes": [
+    "Raw FBX bytes remain under raw/imported.",
+    "This descriptor does not promote FBX bytes to runtime.",
+    "Promotion requires converted browser output, provenance, human review, approved runtime record, and public asset hash validation."
+  ]
+}

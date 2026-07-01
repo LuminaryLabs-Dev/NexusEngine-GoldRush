@@ -1,0 +1,29 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.legacyCharacterReference",
+  "role": "legacy-character-reference",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RailRoad/RailRoadStraight.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RailRoad/RailRoadStraight.prefab",
+  "sourceHash": "sha256:ef5f105d799ed031123cde526da92a91fb9b3c26000c660ad4e23dc59b87de2c",
+  "summary": {
+    "lineCount": 666,
+    "guidCount": 1,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "62824d16983629e4190869cb1c9884b5"
+    ],
+    "names": [
+      "RailRoadStraight"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 9,
+      "1001": 8
+    }
+  }
+}

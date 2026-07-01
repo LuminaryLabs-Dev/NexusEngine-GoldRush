@@ -1,0 +1,44 @@
+{
+  "schema": "nexusengine.goldrush.remaining-player-combat-unity-text-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.002.player-combat-character",
+  "slotId": "goldrush.weapon.revolver",
+  "mediaKind": "weapon",
+  "sourcePath": "GoldRush/Assets/Entities/Items/Gun_Base.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Items/Gun_Base.prefab",
+  "sourceHash": "sha256:ff240d15048636bb93909544c43cde73fd97f66fecfc887f9c24703eede1a423",
+  "summary": {
+    "lineCount": 105,
+    "guidCount": 3,
+    "fileIdCount": 10,
+    "namedObjectCount": 1,
+    "yamlTagTypes": 3
+  },
+  "references": {
+    "guids": [
+      "76a76d09f986a1042a8ce8e743bae18a",
+      "d61f752d7563d7640bdfedc43a4a8e66",
+      "e725a070cec140c4caffb81624c8c787"
+    ],
+    "fileIds": [
+      "0",
+      "1659785988202294896",
+      "2492464282923483060",
+      "3590767025532229041",
+      "2244020223596242431",
+      "100100000",
+      "6207694542632261252",
+      "4696858329502054644",
+      "11500000",
+      "-1552182283"
+    ],
+    "names": [
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "114": 2,
+      "1001": 1
+    }
+  }
+}

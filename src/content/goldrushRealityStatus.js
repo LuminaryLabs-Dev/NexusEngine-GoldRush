@@ -71,13 +71,13 @@ const domainContracts = [
     id: "mining-gold",
     domain: "Mining/Gold",
     targetEndState: "Players interact with gold nodes in-world, carry physical cargo, and cash out at extraction.",
-    requiredProof: ["world-node-interaction", "cargo-visual", "cashout-zone"],
+    requiredProof: ["claim-pressure-contract", "mining-receipts", "world-node-interaction", "cargo-visual", "cashout-zone"],
   },
   {
     id: "train-loading",
     domain: "Train Loading Scene",
     targetEndState: "The party walks in a staging yard, boards a train, and transitions into the gold field.",
-    requiredProof: ["walkable-loading-yard", "boarding-trigger", "train-departure-receipt"],
+    requiredProof: ["walkable-loading-yard", "party-boarding-manifest", "per-party-member-boarding-receipts", "train-departure-receipt"],
   },
   {
     id: "build-deploy",
@@ -240,9 +240,9 @@ function resolveDomainState(id, context) {
     case "combat":
       return prototype("Combat currently changes camera/audio/state and applies damage receipts, but lacks real aiming, projectiles, hit detection, and weapon assets.", "Build a weapon/combat kit with raycast or projectile hits, feedback, and promoted weapon/audio assets.");
     case "mining-gold":
-      return prototype("Mining/cashout is kit-owned state, but not yet physical interaction with world nodes and cargo visuals.", "Bind gold nodes to colliders, prompts, cargo display, and extraction-zone receipts.");
+      return prototype("Mining/cashout is kit-owned and now exposes claim-pressure readability, deterministic mining receipts, and a cargo visual contract, but not yet promoted node assets or physical gold-node colliders.", "Bind promoted gold nodes to colliders, prompts, cargo display, and extraction-zone receipts.");
     case "train-loading":
-      return prototype("The loading yard and train handoff exist as a scene flow, but multiplayer synchronization and boarding polish are incomplete.", "Add boarding receipts per party member and train departure sync state.");
+      return prototype("The loading yard and train handoff exist with party boarding manifests, per-member receipts, and a train handoff receipt, but multiplayer synchronization and boarding polish are still incomplete.", "Sync party boarding state across peers and add stronger in-world boarding feedback.");
     case "build-deploy":
       return realLocal("Build branch deploy workflow exists and the public Pages URL has a passing Playwright smoke proof.", ["deploy-build.yml", "npm run proof:public", "reports/public-smoke/public-smoke-2026-06-29T18-53-53-588Z.json"]);
     default:

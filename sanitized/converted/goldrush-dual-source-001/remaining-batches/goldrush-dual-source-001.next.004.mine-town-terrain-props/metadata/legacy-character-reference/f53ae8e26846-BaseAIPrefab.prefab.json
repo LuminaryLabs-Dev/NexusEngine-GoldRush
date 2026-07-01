@@ -1,0 +1,38 @@
+{
+  "schema": "nexusengine.goldrush.remaining-prop-prefab-metadata.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "slotId": "goldrush.prop.legacyCharacterReference",
+  "role": "legacy-character-reference",
+  "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/BaseAIPrefab.prefab",
+  "sourceRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/BaseAIPrefab.prefab",
+  "sourceHash": "sha256:f53ae8e26846d6b5d94ae8aba47ee068b050de73d6968c48313ecce0feef6103",
+  "summary": {
+    "lineCount": 260,
+    "guidCount": 6,
+    "namedObjectCount": 2,
+    "yamlTagTypes": 6
+  },
+  "references": {
+    "guids": [
+      "109128cc52b8a22499e55e029de52777",
+      "1900f482da198974aa48f9778e8160e6",
+      "3ed666bbea51447409e95a54cb138b84",
+      "5f5d871b6e9a4ad41ba7646e6453f999",
+      "95d207fd2a7b3b84787fcf87fdea5bec",
+      "e725a070cec140c4caffb81624c8c787"
+    ],
+    "names": [
+      "BaseAIPrefab",
+      "m_EditorClassIdentifier:"
+    ],
+    "yamlTags": {
+      "1": 1,
+      "4": 2,
+      "114": 6,
+      "135": 1,
+      "195": 1,
+      "1001": 1
+    }
+  }
+}

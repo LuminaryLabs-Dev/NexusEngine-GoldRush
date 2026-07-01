@@ -2,6 +2,10 @@ import {
   createGoldRushAssetIntakeReport,
   validateGoldRushAssetIntakeReport,
 } from "./goldrush-asset-intake-classifier.mjs";
+import {
+  sanitizedConsoleJson,
+  sanitizeTextForOutput,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const args = parseArgs(process.argv.slice(2));
 const importJobId = args.job ?? "goldrush-dual-source-001";
@@ -15,11 +19,11 @@ const report = createGoldRushAssetIntakeReport({
 const validation = validateGoldRushAssetIntakeReport(report);
 
 if (!validation.passed) {
-  console.error(`asset intake classifier failed: ${validation.failures.join(", ")}`);
+  console.error(sanitizeTextForOutput(`asset intake classifier failed: ${validation.failures.join(", ")}`));
   process.exit(1);
 }
 
-console.log(JSON.stringify(report, null, 2));
+console.log(sanitizedConsoleJson(report));
 
 if (report.status === "blocked") process.exit(2);
 

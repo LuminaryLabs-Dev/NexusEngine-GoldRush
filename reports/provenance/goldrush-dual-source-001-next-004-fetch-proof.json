@@ -1,0 +1,1417 @@
+{
+  "schema": "nexusengine.goldrush.remaining-batch-fetch-proof.v1",
+  "importJobId": "goldrush-dual-source-001",
+  "generatedAt": "2026-06-30T17:06:43.668Z",
+  "status": "remaining-batch-worker-fetched-batch",
+  "fetch": true,
+  "write": false,
+  "batchId": "goldrush-dual-source-001.next.004.mine-town-terrain-props",
+  "domainId": "mine-town-terrain-props",
+  "source": {
+    "nameWithOwner": "thecrimsondeveloper/Gold_Rush",
+    "branch": "development",
+    "commitSha": "144230e32b537336c83407b4ddae83cdc95c1c9e",
+    "treeTruncated": false
+  },
+  "targetRawRoot": "raw/imported/goldrush-dual-source-001/",
+  "itemCount": 125,
+  "totalBytes": 37057275,
+  "receiptRequirements": [
+    "source-discovery",
+    "deny-path-scan",
+    "secret-scan",
+    "copy-ledger",
+    "hash-manifest",
+    "classification"
+  ],
+  "promotionBlockedBy": [
+    "conversion-report",
+    "license-provenance",
+    "human-review",
+    "approved-runtime-record"
+  ],
+  "publicPromotion": false,
+  "runtimePromotion": false,
+  "copiedFiles": [
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Cloth_rough.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Cloth_rough.jpg",
+      "blobSha": "85dcc737f896170573ad143b34b8f32c026d7ebf",
+      "sourceHash": "sha256:6ad58613bd15663caf7e3ec2e550ea17b2a97e918d3388a7a74a4a2a50dbdfa9",
+      "sizeBytes": 822847,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_color.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_color.jpg",
+      "blobSha": "613c4ed34a7cd808a006e12457cb8c1f47ff0b5e",
+      "sourceHash": "sha256:ced6e1267b0ed67e017952985b88c3e029ba0121d9739e0e076bc67b256b0ce5",
+      "sizeBytes": 2087124,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_metalness.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_metalness.jpg",
+      "blobSha": "a23b8816d51fc94d7d4b86ea59222ce45778e1af",
+      "sourceHash": "sha256:9f45cce1ef700d0a08d4bc43ac45f06c5a946de9a5f7c77919c0bd6a922f2863",
+      "sizeBytes": 768730,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_nmap.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_nmap.jpg",
+      "blobSha": "c6e9ec4c27972a20372af7b3503719547ef7298c",
+      "sourceHash": "sha256:6bf9c6547e0ff193759d0862c05405688a54ebbe858483a78e5b1f93f9401a2d",
+      "sizeBytes": 1711040,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_rough.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Cart_C_Main_rough.jpg",
+      "blobSha": "7d7bd625e8a660c7a2ef3cd63c33f7f613aaef93",
+      "sourceHash": "sha256:8c75d72735cc1c95a2598e49c9cf1fa4a8dd2bd0ae77975a287182ea8415215a",
+      "sizeBytes": 989364,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/e2-tank-engine/textures/old-metal-texture-high-resolution-thumb33.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/e2-tank-engine/textures/old-metal-texture-high-resolution-thumb33.jpg",
+      "blobSha": "241b207f7f28ef59268b2d8f4b6a4179ea6dda76",
+      "sourceHash": "sha256:0baf6a4c50762c4a013be362605e0dd91a2f77ce15b6b13ef5c8147765b2d549",
+      "sizeBytes": 1262281,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/kalas.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/kalas.jpg",
+      "blobSha": "b1ad2b4b8d8c4f01d4d64733c53b24d7727de7fb",
+      "sourceHash": "sha256:8c965230679bf648a06881b056ff5d6255dfd43f701682478cd0aa2dc864b85f",
+      "sizeBytes": 113388,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/ray.JPG",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/ray.JPG",
+      "blobSha": "aedefa8e8fb6bde3f250ccb7c44a6c3b674d2e99",
+      "sourceHash": "sha256:ed7bea9da20a0344816b5e3d32d4ce958cc1703fee6707137b34d340ea4c77f6",
+      "sizeBytes": 1323587,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/rayCSurface_Color.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/rayCSurface_Color.jpg",
+      "blobSha": "eef2a048d1ac0f27d8655f818d31a89ea93264ea",
+      "sourceHash": "sha256:373c631dcc95396da0ec9062390623b8fe14cbefec9227e9b48923111587646d",
+      "sizeBytes": 88073,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/rayHSurface_Color.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/rayHSurface_Color.jpg",
+      "blobSha": "c3ef80757e2dd091ee170563f0005c3960ed43ef",
+      "sourceHash": "sha256:00ad25c2e04efc8784fa7487af99db97b127ff9800025a18352708a9a833e275",
+      "sizeBytes": 203647,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslar.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslar.jpg",
+      "blobSha": "8977451099505e04b9c7dde77bb1057d62ebcfd0",
+      "sourceHash": "sha256:29ed6a1b044a9352c757822cceb7413405ae909fa7e9efae2ba05aa5731a0b73",
+      "sizeBytes": 188797,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslarCSurface_Color.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslarCSurface_Color.jpg",
+      "blobSha": "95e9554ff2b5d7cc77a9a558df866a34e097e1d9",
+      "sourceHash": "sha256:69fc5de2020ec7a3d190a80ac5438ea30041e0bb661e15c36eb6176709ce7ec9",
+      "sizeBytes": 216327,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslarHSurface_Color.jpg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/textures/taslarHSurface_Color.jpg",
+      "blobSha": "135b9f36028c9cbbb0e65838cd28321433fabdf1",
+      "sourceHash": "sha256:10a90b106d959c061ac00f6afdf5a93b0b1f66742c026696b1c0308b9973478f",
+      "sizeBytes": 255831,
+      "extension": ".jpg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/xy-blue-metal-manequin-costume-rig-a-pose/textures/internal_ground_ao_texture.jpeg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/xy-blue-metal-manequin-costume-rig-a-pose/textures/internal_ground_ao_texture.jpeg",
+      "blobSha": "f9965b8a72c306881a0de303eed4859df203a4a2",
+      "sourceHash": "sha256:3cfee4ff2791b72c5c499aecfd5cac9360060b5eaaafddfcd9ae95b654610000",
+      "sizeBytes": 17233,
+      "extension": ".jpeg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/desert-rocks-stones-pack/textures/internal_ground_ao_texture.jpeg",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/desert-rocks-stones-pack/textures/internal_ground_ao_texture.jpeg",
+      "blobSha": "30c5a2a273bb8b1f4d8ed19284fbc97ce233f674",
+      "sourceHash": "sha256:ead64e33d36dda419855409eced56e370214bea3bdb454ce3f91313885698a73",
+      "sizeBytes": 17792,
+      "extension": ".jpeg",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/BaseAIPrefab.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/BaseAIPrefab.prefab",
+      "blobSha": "07ff76993f4461be45cc793c1e4fd4a203bd6086",
+      "sourceHash": "sha256:f53ae8e26846d6b5d94ae8aba47ee068b050de73d6968c48313ecce0feef6103",
+      "sizeBytes": 8575,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Areas/Boonesville/Boonesville.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Areas/Boonesville/Boonesville.prefab",
+      "blobSha": "23b40c0678434e7cd976dabe0c3287228d90b66d",
+      "sourceHash": "sha256:990f3133659791c86d43d93e041723773a971957632c98fb83b0f9f35e7b006c",
+      "sizeBytes": 493229,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/CactiCluster1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/CactiCluster1.prefab",
+      "blobSha": "01e6f988ab2dd6daf42d9b32e4fa51f1634ddaf8",
+      "sourceHash": "sha256:2bd5d75e1914eaf0367613533b40a78222652292fe50bf411b2ac0fefdef9b30",
+      "sizeBytes": 21364,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass01 (4).prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass01 (4).prefab",
+      "blobSha": "a1730703787b57746020ce2c2114d4634c7597da",
+      "sourceHash": "sha256:6a5e664861eade0886e8f38e21de0409956eed185b14127474ffea4791cf9729",
+      "sizeBytes": 4382,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass02.prefab",
+      "blobSha": "b76582c1e197ff3a6ab180d465208aa1c5242f1d",
+      "sourceHash": "sha256:25eb15873c44a546e46ce66876be11326713631bbb29b6a49084c8bdd29b2a06",
+      "sizeBytes": 4375,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass03 1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrass03 1.prefab",
+      "blobSha": "dbcad55dc37c605d328ad2f10e75b324b824c830",
+      "sourceHash": "sha256:e25e58550a76492e0775b184be9d360fd8d19c4fb379014354d4b3b73dbbeacf",
+      "sizeBytes": 4382,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster1.prefab",
+      "blobSha": "18440c02f1be60cd548874c5621bf136fd252ef5",
+      "sourceHash": "sha256:86fd305a7f9c91b368ba97488db13ef19e2544fa3c33d76baaf0ff1ae313a464",
+      "sizeBytes": 20016,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster2.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/lpgrassCluster2.prefab",
+      "blobSha": "3f2f9a78b734075c78e0a88a4b24c02c46eeb6bf",
+      "sourceHash": "sha256:90e6a6de946f843283b30c21dae89d751ae099aaee522c24d88e587225ece879",
+      "sizeBytes": 25975,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster.prefab",
+      "blobSha": "4cdac78656cdab40fbfbcd82b39f2d3a735bc72e",
+      "sourceHash": "sha256:144af2b31681d2c28ae14216f7397f68f84d1ca762207e6fa5ddf7dedff28b50",
+      "sizeBytes": 22036,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster2.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Flora/NaturalCluster2.prefab",
+      "blobSha": "d97080c63e3e1f6998efbe7b002efa19c15ae6d4",
+      "sourceHash": "sha256:6155e121d31353967081931af61e68c61ce4a02899243cb351f38edcc935f2c1",
+      "sizeBytes": 29056,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/FenceSegment (1).prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/FenceSegment (1).prefab",
+      "blobSha": "72536fe9bfcfca87ad2b6a40982e02e829001163",
+      "sourceHash": "sha256:cc9d2b1c6573cfc3755528bb67d95fe511a6512934b61a0a88a2f117c9ef8b0d",
+      "sizeBytes": 12083,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/HayBales.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/misc/HayBales.prefab",
+      "blobSha": "46c9edc7527a0745404ba0399d2d34ad2aa5540b",
+      "sourceHash": "sha256:67b9ff84d0662ea30574a68ea5608b1b2560337a9f79a5f500b5281a854f18e1",
+      "sizeBytes": 11569,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RailRoad/RailRoadStraight.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RailRoad/RailRoadStraight.prefab",
+      "blobSha": "50901b83140c3de3aefeefe9339e43809a392a49",
+      "sourceHash": "sha256:ef5f105d799ed031123cde526da92a91fb9b3c26000c660ad4e23dc59b87de2c",
+      "sizeBytes": 28611,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderFormation.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderFormation.prefab",
+      "blobSha": "2c6350b2d8cdd559f0fb945a73549aecde6a01fc",
+      "sourceHash": "sha256:ff75075c9eef33b9d2ee1ba9c9c8b75e5ffedbc72ada6d5f6fc838305ac70dd7",
+      "sizeBytes": 21803,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderRock2.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/BorderRock2.prefab",
+      "blobSha": "b8b97443cec144b2bf7e1a3784a1d4e887fa7373",
+      "sourceHash": "sha256:9eca2374938bd5513299626a3f0a06897496b30e6d7f45bf711c7ad9c9c27312",
+      "sizeBytes": 11446,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/Mine.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/Mine.prefab",
+      "blobSha": "3aa3ba2814d08c7abe7082e7be0a40f6f2010661",
+      "sourceHash": "sha256:c7e76737905c05d5bdbba1d952ad725f3be1fa845981a19ead455c92f171ee4f",
+      "sizeBytes": 63061,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation1.prefab",
+      "blobSha": "edc203ed25151c2f59a5f326bfc2bd1a33a75cbc",
+      "sourceHash": "sha256:d0409c9355699b7789da7ce92570bfa1435e6764f70599462cf5d835ceedf0d9",
+      "sizeBytes": 14820,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation2.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation2.prefab",
+      "blobSha": "24d7ee90ca68b40375ad74525b998c9c1c2c101c",
+      "sourceHash": "sha256:ea934ad12707621a41b97182a9bb7821dabdb4b64bb034f35aed32674bf2af1e",
+      "sizeBytes": 25212,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation3 1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation3 1.prefab",
+      "blobSha": "b3d4586c19bdc7846517374d76ebebd6db3bd87e",
+      "sourceHash": "sha256:9976a92be1a5293d6ab74131e514a0dd411bba5f7a4ed24897c4bf1e9bff0376",
+      "sizeBytes": 913,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation3.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/RockFormations/RockFormation3.prefab",
+      "blobSha": "0ff6e1500be781dda6a3c971fdfce8e512e99a9e",
+      "sourceHash": "sha256:4cb2087648e7503731d2cbede86d60330ea8b4683ebc2aac2436b64510c22af5",
+      "sizeBytes": 42714,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChapelWithTombs.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChapelWithTombs.prefab",
+      "blobSha": "76750e6d6879c7422dde75fe9839c5f730e9183f",
+      "sourceHash": "sha256:cec1ed3ab69b3ce71671cd9dbef015ba7066879ef8a5725e222b1be6532e4b3f",
+      "sizeBytes": 24574,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChurchWithCemetary.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/ChurchWithCemetary.prefab",
+      "blobSha": "ebc9e34a7d6de97db82beb89b6b16a0e297cd9fd",
+      "sourceHash": "sha256:a837e3491b9adb5fdd5f8e980a143983ccc60b3e5708fb12a6357df225713dd8",
+      "sizeBytes": 83673,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/FallenWagonScene.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/FallenWagonScene.prefab",
+      "blobSha": "ac6fc830537c6738108d198e1c10e6adb36c6458",
+      "sourceHash": "sha256:7890105a6cd8fb367b5aed953fa08fc33cbbb741d6e5900f81532ca63c35755e",
+      "sizeBytes": 29191,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Farm1.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Farm1.prefab",
+      "blobSha": "c2c15c408936dc98d7b00687984629ab285b6e79",
+      "sourceHash": "sha256:4081a6efe7544c52e814b5bf253439b5426a7592b5ec14dbb4050147b84f9934",
+      "sizeBytes": 95260,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/HouseWithTreeAndTombs.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/HouseWithTreeAndTombs.prefab",
+      "blobSha": "dc096d780f67158767037ce65239c8e91c9f3342",
+      "sourceHash": "sha256:5f07702edd43345fb7362f1203b7b19251ec3ad023f8a95e3586d0118631de65",
+      "sizeBytes": 16938,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Town-1-Layout.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Town-1-Layout.prefab",
+      "blobSha": "d1aa8a84f45f6cf21db5f59f5ddf5353f14ee6c9",
+      "sourceHash": "sha256:20e1a1fbd52e94a4b4a19330762f935860cb3ce9e512e4f4553b2da663fa2329",
+      "sizeBytes": 35142,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Town-2-Layout.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/Sets/Town-2-Layout.prefab",
+      "blobSha": "1fc6d344241f04b3ac175f8c953d18bcd9b30218",
+      "sourceHash": "sha256:0ca6a680ed7a5212a64334197f4ab026e93c8a353cf6dfbdb020e2d126fe7f28",
+      "sizeBytes": 30753,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/World.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/Environment/World.prefab",
+      "blobSha": "e57180e23c880ab69390cfeb73ab2707e0622e3a",
+      "sourceHash": "sha256:02e98c5ee41b61ec033dfebc093841d3b4446e451378631fca23ab924b624a0e",
+      "sizeBytes": 1805614,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/GoldBar.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/GoldBar.prefab",
+      "blobSha": "7164fef7ab1ab82f9d014750e7559740df4d3d2b",
+      "sourceHash": "sha256:d249e27ae80d21162f7eb76737d063f4e90586b2e90453f6bafd035bf67b64c8",
+      "sizeBytes": 2423,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/HUD.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/HUD.prefab",
+      "blobSha": "1ff6543e07487b2b75b48926564f69a6afe64a2f",
+      "sourceHash": "sha256:4b883b63939b0f962d83e376b2735917f0463a16be1c10ce180c2c995d713215",
+      "sizeBytes": 19028,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/MusicManager.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/MusicManager.prefab",
+      "blobSha": "c29802b19789763a3150dc228550e883f97c2d51",
+      "sourceHash": "sha256:0e00cd6172375f4c149228db07020f3617aee00fc7be1e190831feb8bd0757e3",
+      "sizeBytes": 4602,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/NetworkEntityManager.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/NetworkEntityManager.prefab",
+      "blobSha": "02d84df85edc3f96f04245519b087f861d8d8be6",
+      "sourceHash": "sha256:c3231a0f898d6abca834a26336a2c563667b1f9d0111cb9e8958875d1860acf0",
+      "sizeBytes": 2870,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/08_Terrain/Terrain.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/08_Terrain/Terrain.prefab",
+      "blobSha": "6effb803c838081fa2c6dbe72e0d0ad6b6a2accc",
+      "sourceHash": "sha256:aca493c6a340a31c63f3fc0a8547222c9e92351f94cbe69c5e7acf4ac1503523",
+      "sizeBytes": 5625,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Prefab/deb_Goblin01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Prefab/deb_Goblin01.prefab",
+      "blobSha": "2589dcedad2d084fac1bf1242add891ab9a71b34",
+      "sourceHash": "sha256:00e65c45456e516a67aacd484fca386a05dcdabdc1398bc0aaff1a171c4b4e48",
+      "sizeBytes": 46381,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Entity_Base.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Entity_Base.prefab",
+      "blobSha": "cd5eb3940648719491fe097b78ba13723d571aa4",
+      "sourceHash": "sha256:9a90f229cd63777e54928e3ff380022aa45d43c60c7ae1c21f50137477d783f4",
+      "sizeBytes": 908,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/Items/Item_Base.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/Items/Item_Base.prefab",
+      "blobSha": "4d3fce6b9ae2dea4a8f4f76acb92e8981efa537e",
+      "sourceHash": "sha256:2b22062c4328d04eb0a1137e87560ad8434b38e1b5c2ec50c481d9874788346c",
+      "sizeBytes": 2443,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/LobbyTrain.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/LobbyTrain.prefab",
+      "blobSha": "521763b87dce60ab429f2aaed9457bb57741d8bc",
+      "sourceHash": "sha256:2918a9c17d6662e60cf23ce117dbbda4a6ae08547d874ec32388a75afb57fb68",
+      "sizeBytes": 28576,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Entities/MatchmakingTrigger.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Entities/MatchmakingTrigger.prefab",
+      "blobSha": "03c95ca91412300c280bd8e56fb5ce24927ab8a9",
+      "sourceHash": "sha256:cdda941944ec576269695a391357feaaa6cd9106c63da182c0cee5eb3ccc8143",
+      "sizeBytes": 10050,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Gameplay/WorldHandler/WorldArea.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Gameplay/WorldHandler/WorldArea.prefab",
+      "blobSha": "ca72da0748751a9cdf9f7d99b67eb4a47e4b83cb",
+      "sourceHash": "sha256:5dfe1a0bb1d7927b530e1b83ab6066c3ed1451610f4f021da1d787634d752ba3",
+      "sizeBytes": 5038,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Gameplay/WorldHandler/WorldHandler.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Gameplay/WorldHandler/WorldHandler.prefab",
+      "blobSha": "5995d69a9682c4e7b9d4f562ea890c5eb836af9f",
+      "sourceHash": "sha256:a037bd980885f51aa12c31852b938698027dfdf9e5d6f2c990e11b7d397db98b",
+      "sizeBytes": 1432,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Lobby/Environment/Lobby_Environment.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Lobby/Environment/Lobby_Environment.prefab",
+      "blobSha": "ea233bc1fd097ecd66fb9bbedc9be9f460b8a6b9",
+      "sourceHash": "sha256:85d67f9101e60d9e61a3ecdfbf6177d0e157e62ce9c3d07345d238eb465290c9",
+      "sizeBytes": 26307,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Bank.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Bank.prefab",
+      "blobSha": "3745e7adc87dde9b332d9e0845e94f1dc815f355",
+      "sourceHash": "sha256:b1477c396bcfa240b5fb1742a876b45887cbf972496207f71de212d5e00d1940",
+      "sizeBytes": 5511,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Barn01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Barn01.prefab",
+      "blobSha": "79410b1986133f2521eed7a98c56b6fd885446c8",
+      "sourceHash": "sha256:9c5cd869420fd5f610faad307b1ca2b24e57fc31a8f811f4adbd13ad896b4552",
+      "sizeBytes": 5517,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Barn02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Barn02.prefab",
+      "blobSha": "600dcd7b6c94b4742b5d9ab11f11168e2597f293",
+      "sourceHash": "sha256:c9ebbf07929edf5218017e66a520e914c4aeeb6deaaccc6fc9ccc730bc7b6933",
+      "sizeBytes": 5519,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Chapel.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Chapel.prefab",
+      "blobSha": "3236bc18e27ae4ff7c3b90b273be705b67f64a66",
+      "sourceHash": "sha256:c035dd88435ab4f16d5e5351cb0f099f26afdb2e0b1e3c866dd1dc7033150d5b",
+      "sizeBytes": 5518,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Church.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Church.prefab",
+      "blobSha": "d1fe8d0b4b45de09d11c582385bc85cc0ebe5e37",
+      "sourceHash": "sha256:95aa73b4bfacefa0468884956f46649c21c492027ef6a348fe39e99b80a22cba",
+      "sizeBytes": 5518,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Fence02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Fence02.prefab",
+      "blobSha": "901373559e64018edbe3e72ba8b73649129d6baa",
+      "sourceHash": "sha256:35d186b1d7b8d58a1a94f8c5904671361350da18d65b08c9a8f5309f8a697f08",
+      "sizeBytes": 2435,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Fence03.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Fence03.prefab",
+      "blobSha": "901373559e64018edbe3e72ba8b73649129d6baa",
+      "sourceHash": "sha256:35d186b1d7b8d58a1a94f8c5904671361350da18d65b08c9a8f5309f8a697f08",
+      "sizeBytes": 2435,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/House01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/House01.prefab",
+      "blobSha": "5ec0428df0318d1a99e0c785ae62f662a27c8797",
+      "sourceHash": "sha256:dcf12fe44dfd5797bfea96cd3f5e6ce6f55c212ad3764d630f64555d46804855",
+      "sizeBytes": 5530,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/House02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/House02.prefab",
+      "blobSha": "5e28b10c251cbbb395a9b864797bb966a9778b5b",
+      "sourceHash": "sha256:79e7a9265e1dfff2d65d80f4e49a6b877d00482878b42bfbbfaee1e5dbb6554d",
+      "sizeBytes": 5530,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/House03.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/House03.prefab",
+      "blobSha": "7f499a6aa81d845fbb070494c789783d095957b4",
+      "sourceHash": "sha256:de9889989e9e19e429a7272783cecef1a6c8d4b080e9f487ee3dcfcbaeae76c2",
+      "sizeBytes": 5530,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/House04.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/House04.prefab",
+      "blobSha": "571c158bc21ddf623c9006e859003284b14e1d80",
+      "sourceHash": "sha256:e3509ea3907c205123784d8ad4831d051a395ea34ef60d3b64bebac33f0fdfc7",
+      "sizeBytes": 5530,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Saloon.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Saloon.prefab",
+      "blobSha": "8a6be5949fde689362531be6d8b791a037c5a059",
+      "sourceHash": "sha256:44e7f160bfa9d8af759b23f74e39cf9d16ee3644835cacbec4358329a7f4e2b7",
+      "sizeBytes": 5516,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Structure_Base.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Structure_Base.prefab",
+      "blobSha": "5f58942638824c7597f59c67ba34809938ab6555",
+      "sourceHash": "sha256:bc61bd6d3672d9899ba0fc6d2037ae0c3935bef794ef9f7931a502d5348366fc",
+      "sizeBytes": 1328,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Well.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Well.prefab",
+      "blobSha": "743d885bf2b4dcaf6b85360fc05800f14bc95d72",
+      "sourceHash": "sha256:f4de509551b83ab917718ee63dc637277f2e82cd82ce16faf0bb0f4954d989a0",
+      "sizeBytes": 5514,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Buildings/Windmill.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Buildings/Windmill.prefab",
+      "blobSha": "40b7476ffb26d7a7ae4aeb28f53301631d700fd7",
+      "sourceHash": "sha256:4b1a43ab08113b9696e8d5728879be2f7c6051fb3993c2fb4c822fad86c6b148",
+      "sizeBytes": 5522,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock01.prefab",
+      "blobSha": "e980bbdfbd1f608d61394964a61689a2f26160db",
+      "sourceHash": "sha256:cf39ea3898d445c802669bd6971456c0549bec22d31824030eb9f414ee7d472a",
+      "sizeBytes": 7984,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock02.prefab",
+      "blobSha": "16bb6d4aee969144fee57bd00fcdf775b989a316",
+      "sourceHash": "sha256:24cbb69175c3d195b242bcd28db1aac88999cefc79110960543694e72f50b78b",
+      "sizeBytes": 8155,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock03.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock03.prefab",
+      "blobSha": "7fdd344a00a171fdc58d9cd22ec413b9bb76740f",
+      "sourceHash": "sha256:c4939dd4e663797d61d478a482b63cbbf16d90e9994e70e6dfe3e090cc9dc4e8",
+      "sizeBytes": 8159,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock04.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock04.prefab",
+      "blobSha": "6d1152236aa62725bb8bae354a7a3eeec9fee88a",
+      "sourceHash": "sha256:43d2257c8393d2ce184d3fc0b854cd389a0d9b75e76035b732563dc36b14bc6d",
+      "sizeBytes": 8154,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock05.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock05.prefab",
+      "blobSha": "a357eedff7eeb231f105f542d383265f5cc058e2",
+      "sourceHash": "sha256:1f42f16f28b053df910a53141a3da81634cfc2662f74078d0c0c9462f971bdab",
+      "sizeBytes": 8158,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock06.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock06.prefab",
+      "blobSha": "bd5d183bb4adc33f06332128d71b362257f10fc0",
+      "sourceHash": "sha256:534f6b89975cbbf636cd9a07b22fe657d3d8b94b4af6f46ed24eec6629f9cf27",
+      "sizeBytes": 8159,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock07.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock07.prefab",
+      "blobSha": "040be2f58cc5e67ea261f9a93d98f3e9e768f5db",
+      "sourceHash": "sha256:914a45a36eeb0aa6d4e7f3a8ca302c91e9ac5a6f8248da9fca849e098bc3c28e",
+      "sizeBytes": 8159,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock08.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock08.prefab",
+      "blobSha": "c819cb2c309dbc4246f743e5957e8dfedab13ab4",
+      "sourceHash": "sha256:098ef9cf71b77f6137cbd06c42d54c80e4e5b3c8196efb275bf3d82a46ca4c69",
+      "sizeBytes": 8159,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock09.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock09.prefab",
+      "blobSha": "92335766cbe4b72ee9a38c1e3196b08f52b99e3a",
+      "sourceHash": "sha256:e2a19eff1a2c2320c0a233b8b71307c4b38bca3f368d735918798be3cec12532",
+      "sizeBytes": 8066,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock10.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock10.prefab",
+      "blobSha": "a64a231c59573d4c96868219826f963da13b994c",
+      "sourceHash": "sha256:5f23d779cc94a44e20a0a5fb96041f6038d87bcde60b3789b3d9f288a4404276",
+      "sizeBytes": 8155,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock11.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock11.prefab",
+      "blobSha": "2b626f79ff018e2030d671b8f76a5e25d6386339",
+      "sourceHash": "sha256:f5285921b52d1a6dc116ce7765cf74709da0aca33f662d1ed39d9329d2ef18ed",
+      "sizeBytes": 8158,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock12.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock12.prefab",
+      "blobSha": "ec2be4394e8085629109a054a08dbca2b9e570b4",
+      "sourceHash": "sha256:fb1c9b81638f0fdbffe2dda25c99ad4c0ece721f451c37a128f6bd8beafd1ae4",
+      "sizeBytes": 8155,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock13.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock13.prefab",
+      "blobSha": "2aacfb647605bada74f865ad42595890e1523d5d",
+      "sourceHash": "sha256:d7bd040bd4cea8ecea11b505fc9795cc978c5b890327a0110dbb095bdddc1e7d",
+      "sizeBytes": 8159,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Environment/Rock14.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Environment/Rock14.prefab",
+      "blobSha": "4095cc8918ff3a287cb92aa70115da69cec71a92",
+      "sourceHash": "sha256:002ea9040defb839f7955da1c3f8ad59681a392047d597d303f828e508a87f1c",
+      "sizeBytes": 7984,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Foliage/DeadTree01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Foliage/DeadTree01.prefab",
+      "blobSha": "094f3b12bd6edf07e41a35164e86509ae51655ef",
+      "sourceHash": "sha256:fceb9fbc4dc03e7dac2a7e8ea85fdb8024034904de13f1777dfd4440bc1f8985",
+      "sizeBytes": 5523,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Foliage/DeadTree02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Foliage/DeadTree02.prefab",
+      "blobSha": "83088b1498218b74b4fdb88c43a03882704c7d3d",
+      "sourceHash": "sha256:c464d2dcac8ac59521b0ad52734ada7aceb51e9daa3147f2ee40b9b699c4eec9",
+      "sizeBytes": 5523,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Foliage/DeadTree03.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Foliage/DeadTree03.prefab",
+      "blobSha": "34f1e18cab45e78a24a7118f4e832bd8ceab583c",
+      "sourceHash": "sha256:0cc890950cb72ee0a07222ca705f595282cd1901815307e436e2d3c6c8a898d2",
+      "sizeBytes": 5523,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Location/Farm.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Farm.prefab",
+      "blobSha": "9317a621711e5e4573036b2dfd085b1d9931a33a",
+      "sourceHash": "sha256:fb142d3bf3bd32ba14e4b153e5fa19f3957f9a3f62cb4511f82a3b530edd56e1",
+      "sizeBytes": 184920,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Location/Town01.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Town01.prefab",
+      "blobSha": "b7a3b57c2d196dd5ab9d0d30ad6e7fd4deb069d6",
+      "sourceHash": "sha256:21d9024dfaa8fc6fe5b123d8c5a68b67c1b7887863b903af8765f1dcddfee350",
+      "sizeBytes": 48826,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Location/Town02.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Town02.prefab",
+      "blobSha": "f3f25f692c4f2a5dd09b7d67224942cf385206a4",
+      "sourceHash": "sha256:cd1c28e41f5582da7dc9dea8c5ff11891a5109a2830857e8f2016cca2f5cd6df",
+      "sizeBytes": 186691,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Location/Town03.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Location/Town03.prefab",
+      "blobSha": "a50058e54212a9d56c7160f20092ba7aa9959e00",
+      "sourceHash": "sha256:f0018a6c8f4eee948c99fb0bbc802f39d097d56f895ddbcdbe75139d98527037",
+      "sizeBytes": 31532,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/Props/TrainTrack_Straight.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/Props/TrainTrack_Straight.prefab",
+      "blobSha": "dd5c9d20455bd935901238395fb0af7dd17cfba8",
+      "sourceHash": "sha256:66c656d8df87f6979378555e16c1c46026a6ffde1f588ede826b2bc6be5a6922",
+      "sizeBytes": 6987,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/WorldObject_Base.prefab",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/WorldObject_Base.prefab",
+      "blobSha": "c983792c3d2986f45cc3e9987c93b3ee7ebb14aa",
+      "sourceHash": "sha256:6f9ee63b8dc98ab621953904ae5955a25b6a562926d987b0eb26bad584a34b5d",
+      "sizeBytes": 4442,
+      "extension": ".prefab",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/xy-blue-metal-manequin-costume-rig-a-pose/source/XY Mannequin A-Pose (with leaf bones)_512/XY Mannequin A-Pose (with leaf bones)_512.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/02_Prefabs/AI/xy-blue-metal-manequin-costume-rig-a-pose/source/XY Mannequin A-Pose (with leaf bones)_512/XY Mannequin A-Pose (with leaf bones)_512.fbx",
+      "blobSha": "d69c312515148fcdba14b3fd25d0a561bdb8559e",
+      "sourceHash": "sha256:e41d68406a591e88fefa4d9495478857cd8a25f309d81071a67ef4021ce3791b",
+      "sizeBytes": 1830908,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass01.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass01.fbx",
+      "blobSha": "8c3d9914c8b3cfd6886eb4ef4e67616aa51a2a3b",
+      "sourceHash": "sha256:038704d5e7aed62d5b317acee4b0a01993807ae6eaaf2dda17b9359421e4ec61",
+      "sizeBytes": 42156,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass02.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass02.fbx",
+      "blobSha": "49bbc406c5d3ab0e73e43eba949a6baac336c3d6",
+      "sourceHash": "sha256:4f6f9f65f16457aff08548f401290fd6d3c53d266eaf24a49240eba6aa1aa96d",
+      "sizeBytes": 42284,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass03.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass03.fbx",
+      "blobSha": "05706f1a718754a1120a6e5c0a54abb88c38686e",
+      "sourceHash": "sha256:38cfc324ab8e09918300943dff7e92b41b7cec7d005666def45dfdd3b5d711ec",
+      "sizeBytes": 31660,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass04.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass04.fbx",
+      "blobSha": "1ade489c14b1cccd4248d016af0acc5e225bde08",
+      "sourceHash": "sha256:f3307a75569b97aafebe07af6fb2c5c3a84cf069b2c282381af44d5be676513a",
+      "sizeBytes": 26860,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass05.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass05.fbx",
+      "blobSha": "47f7755fbc1b43f3d94abf60fd997b8ffeb7d6e1",
+      "sourceHash": "sha256:aa17110270544651491a43f52d9bdb39adcc4c0c70497d3d75a92deb734320d4",
+      "sizeBytes": 41756,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass06.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass06.fbx",
+      "blobSha": "7e6fa086a4f6104a3762e6a7faf91d742688d610",
+      "sourceHash": "sha256:96e6738870879c05570b22ce8d74f1b705fe8233804f075469608a803e23cfd7",
+      "sizeBytes": 31596,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass07.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass07.fbx",
+      "blobSha": "b270b31367565eddb9e79bd117fc67741474d4c5",
+      "sourceHash": "sha256:f6024b8c1d5d66ce2f92447c8d0c361a9c206f53146028acd246a21842c78e42",
+      "sizeBytes": 32620,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass08.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass08.fbx",
+      "blobSha": "a6aeaba0dd050b8c7c9b1cac13916b52e9067e00",
+      "sourceHash": "sha256:4c619004db93c269eb64217bf41a5a0fc89f7792e3c5a1aa1cb7dcca9eaf0775",
+      "sizeBytes": 44412,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass09.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/GrassModels/lpgrass09.fbx",
+      "blobSha": "a92861bba35fb3f98a23f0a14d01e83dd759eaed",
+      "sourceHash": "sha256:c741432b09aa41b18dba7677ee36d333421215d214fef1c5fc633c5e0851e1b1",
+      "sizeBytes": 41852,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/LowPolyCowboy.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/LowPolyCowboy.fbx",
+      "blobSha": "f6d3d9bd3ac190d4a2d6fcc41a743a9268e33cc2",
+      "sourceHash": "sha256:cd7af0f484452f98ddad4958b8c009aef81a881c7ce5b0049ca49cd86d7c9f14",
+      "sizeBytes": 351820,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/_GOLDRUSH/07_Models/WireFence_V2.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/_GOLDRUSH/07_Models/WireFence_V2.fbx",
+      "blobSha": "86424f392a586b018b529d16a221115b5fcf3206",
+      "sourceHash": "sha256:35c890e9b293c9d5bb3fc6bcca4355f1af777ea52db8c656996f27f97c7c04ad",
+      "sizeBytes": 38672,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Mesh/deb_Goblin01.FBX",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush_Old/Assets/DacingEyebrows/deb_Goblin01/Mesh/deb_Goblin01.FBX",
+      "blobSha": "a25c69b90d0a4abd3e533b94e293b3d156292bf4",
+      "sourceHash": "sha256:8fe8b43dd335cb8e2081f5abd58cbbe560e597f500fa846836f09676a62fa063",
+      "sizeBytes": 199648,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Carts.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/CrossHatchUniversal/Carts/Carts.fbx",
+      "blobSha": "fa96646f1973a30e25f5012b930c02101e104b27",
+      "sourceHash": "sha256:ee26746af1bed80eebcaf2ebb73c7b813f27409410c56be3fc8cd0e7a9517725",
+      "sizeBytes": 3421296,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Graphics/WildWestAssets/cactus-2/source/Cactus 2.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Graphics/WildWestAssets/cactus-2/source/Cactus 2.fbx",
+      "blobSha": "589f6ff3903c63bf4c5210f7eb05921967530cd3",
+      "sourceHash": "sha256:c25b6f3536e397ed63b006f3086172a7feab166996960dc68d3f27fdafe334f1",
+      "sizeBytes": 3692272,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/freight-train-car/source/vagon.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/freight-train-car/source/vagon.fbx",
+      "blobSha": "1bea7413b71d6d79d1e96c632fdb28bb36e49a21",
+      "sourceHash": "sha256:477c7b78d0c4b33e2b3311242f986223742fc07a6c712892a64514f2cc69bc80",
+      "sizeBytes": 505756,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/Imported/locomotive/source/lokomotive.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/Imported/locomotive/source/lokomotive.fbx",
+      "blobSha": "9f78ee04c7afb6285d1f00beff03224649e1ad11",
+      "sourceHash": "sha256:b48307b9af0d1163ea63816ead0d270efb92f7c0d49a3e682b4f5af8fd408f1e",
+      "sizeBytes": 6183728,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/aloe-plant-set/source/AloePflanzen.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/aloe-plant-set/source/AloePflanzen.fbx",
+      "blobSha": "d1339b48c87e6bd6787ac0b8f90bf384fc89635a",
+      "sourceHash": "sha256:f1412147d6e10b5c286bde9b46d645652978d68209cfe7b8b23572515d74523b",
+      "sizeBytes": 1644828,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/desert-rocks-stones-pack/source/Desert Rocks Pack.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/desert-rocks-stones-pack/source/Desert Rocks Pack.fbx",
+      "blobSha": "ab255fcd057d590cfa1b075871a25232ba9c3868",
+      "sourceHash": "sha256:8579831274fcdd7c3545e96a0aa99d7e4eb3e373c9275aa367e7969baf78bf8f",
+      "sizeBytes": 449660,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/low-poly-western/source/LowPolyWestern.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/low-poly-western/source/LowPolyWestern.fbx",
+      "blobSha": "df25312b5e0e9fe0ce862ccfbc56f81183bc0720",
+      "sourceHash": "sha256:bb875278dd79b139091a5d4bf9e26c75f0908533a11f90ee935de030d9b835a6",
+      "sizeBytes": 609180,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/TrainTracks/source/uploads_files_841511_rails(formats).fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/TrainTracks/source/uploads_files_841511_rails(formats).fbx",
+      "blobSha": "1c31ea64ccd0ee8fb92aab35fd0471b1ad885643",
+      "sourceHash": "sha256:8569a636c420bee22b29041464fb25df2e9691c4c5f13e76519ec79333ad972c",
+      "sizeBytes": 1895232,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Bank.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Bank.fbx",
+      "blobSha": "94eddf067331f3ac8cd04d10fed4368585df87bf",
+      "sourceHash": "sha256:07522534aaa8e5f28bcfe1cbc4901ce1a3d8feb33bcf6d3213a720dba526c083",
+      "sizeBytes": 282694,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barn_01.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barn_01.fbx",
+      "blobSha": "16cb05af354fe5676704a725a4471992c981ef80",
+      "sourceHash": "sha256:4c4044d4a22e397460dafc5c04dd125d7e685ce8ec2413abd5a9acdd3e3acb50",
+      "sizeBytes": 240040,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barn_02.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barn_02.fbx",
+      "blobSha": "06a2fc2f6042e10680dd025a3c7ce9e6d6ccf856",
+      "sourceHash": "sha256:1247e4e977789041b1902c0abc8c7ee897db7a38a8310830023e556dae03698a",
+      "sizeBytes": 145447,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barrel.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Barrel.fbx",
+      "blobSha": "c589e13a3a54b88b144759570cb9ec02670d59a8",
+      "sourceHash": "sha256:c7a3c1480ad4ddbfe2bffcbd1fc18188f8798b444df4fbab69f10bce9897e919",
+      "sizeBytes": 56801,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Box_Simple.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Box_Simple.fbx",
+      "blobSha": "a95971220af769203ecc47a1b565fa235b74bccb",
+      "sourceHash": "sha256:0456e4584e35ed8acd16782fe9f0373c4f95011f15dde900c2aa1f35088b396e",
+      "sizeBytes": 51571,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Bridge.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Bridge.fbx",
+      "blobSha": "e8357ef316f37ab6714760b168b7951cd17a18a3",
+      "sourceHash": "sha256:a261c485f8c651bb91f163f7524bf81693c185a85bfd94b173f99d399f856881",
+      "sizeBytes": 146201,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_03.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_03.fbx",
+      "blobSha": "01a77c4ce7c19f929cd31b980ef8d28c4269a673",
+      "sourceHash": "sha256:100243c57372a0fdbf903a1d4350d65e514d3daf281e49a7d8b0fe568e763500",
+      "sizeBytes": 103808,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_04.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Cactus_04.fbx",
+      "blobSha": "fdba1713227db136ecb0a5016bbb8f029f37e50e",
+      "sourceHash": "sha256:dc114f491ee1756b9b0c518bf8463d980979d41c3ac83bb829aec334637e39d9",
+      "sizeBytes": 310609,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Chapel.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Chapel.fbx",
+      "blobSha": "5090592547494a6acfe678102a1b37ab17814025",
+      "sourceHash": "sha256:9f8b3156d7f78c87a0ec9e408fd37f3e26f1730a01eb0b9a53cc76da2fac5c73",
+      "sizeBytes": 374920,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    },
+    {
+      "sourcePath": "GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Church.fbx",
+      "targetRawPath": "raw/imported/goldrush-dual-source-001/GoldRush/Assets/World/ImportedModels/Wild West Western/Models/Church.fbx",
+      "blobSha": "6332f04944a0706709c25a8c244b9a6e8c245a8f",
+      "sourceHash": "sha256:2a617778fc803c22d4513f84749353202dc2ded866611d4bd3d5aa5c2e10c5f1",
+      "sizeBytes": 312293,
+      "extension": ".fbx",
+      "referencedByDomains": [
+        "mine-town-terrain-props"
+      ]
+    }
+  ],
+  "receiptCounts": {
+    "copiedFiles": 125,
+    "hashFiles": 125,
+    "secretFindings": 0
+  }
+}

@@ -30,6 +30,12 @@ export const goldRushSceneSlots = [
     placeholder: { band: "terrain-patch-field", color: "#9b7a45" },
   },
   {
+    id: "goldrush.scene.results",
+    legacyRole: "modern post-extraction results and replay summary",
+    browserRole: "winner, score, extraction contest, and replay digest",
+    placeholder: { band: "results-summary", color: "#191f20" },
+  },
+  {
     id: "goldrush.scene.playerTest",
     legacyRole: "GoldRush/Assets/Entities/Player/PlayerTest.unity",
     browserRole: "player controller and animation validation scene",
@@ -108,8 +114,8 @@ export const goldRushTransitionSlots = [
   },
   {
     id: "goldrush.transition.cashoutComplete",
-    from: "goldrush.scene.legacyGame",
-    to: "goldrush.scene.arena",
+    from: "goldrush.scene.arena",
+    to: "goldrush.scene.results",
     audioCueId: "goldrush.audio.sfx.cashout",
     animationCueId: "goldrush.anim.player.idle",
   },

@@ -13,6 +13,10 @@ const kitManifest = {
     kind: "runtime-state",
     purpose: "Crew, Posse, and Outfit room setup controls.",
   },
+  "frontier-condition-briefing": {
+    kind: "runtime-state",
+    purpose: "Player-facing run condition read before train boarding and match handoff.",
+  },
   "three-lobby-character": {
     kind: "three-renderer",
     purpose: "Draggable Three.js skeleton prospector lobby preview.",
@@ -53,6 +57,14 @@ const kitManifest = {
   "network-orchestration": {
     kind: "nexus-runtime",
     purpose: "Incremental 50-player room partition orchestration.",
+  },
+  "results-summary": {
+    kind: "runtime-state",
+    purpose: "Player-facing winner, placement, score, condition, and extraction contest result summary.",
+  },
+  "replay-summary": {
+    kind: "runtime-state",
+    purpose: "Compact deterministic replay key moments from receipt ledgers.",
   },
 };
 

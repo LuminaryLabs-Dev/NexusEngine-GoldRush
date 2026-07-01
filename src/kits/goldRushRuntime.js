@@ -19,6 +19,7 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function setCameraMode(cameraMode) {
     engine.n.goldrushPerspective.set(cameraMode);
+    engine.n.goldrushCamera.set(cameraMode);
     engine.n.goldrushMatch.tick({ dt: 1 });
     engine.tick();
   }
@@ -91,19 +92,14 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function tickExtractionLoop({ localPlayer = null, input = {}, dt = 0.1 } = {}) {
     const snapshot = engine.n.goldrushExtractionLoop.tick({ localPlayer, input, dt });
-    const legacyMode = engine.n.goldrushLegacyModes.snapshot().activeMode;
-    engine.n.goldrushPerspective.set(
-      legacyMode.cameraMode === "combat" || snapshot.player.aimMode || snapshot.phase === "combat"
-        ? "combat"
-        : "exploration"
-    );
+    syncExtractionLoopCombatPresentation({ snapshot, reason: "extraction-loop.tick" });
     engine.n.goldrushMatch.tick({ dt });
     engine.tick();
     return snapshot;
   }
 
-  function holdExtractionLoopMine({ dt = 0.3 } = {}) {
-    const receipt = engine.n.goldrushExtractionLoop.holdMine({ dt });
+  function holdExtractionLoopMine({ siteId = null, dt = 0.3 } = {}) {
+    const receipt = engine.n.goldrushExtractionLoop.holdMine({ siteId, dt });
     if (receipt.accepted && receipt.complete) {
       syncProtoKitMine({ amount: receipt.payout, sourceId: receipt.siteId });
     }
@@ -128,7 +124,11 @@ export function createGoldRushRuntime({ orchestrator }) {
   function fireExtractionLoop() {
     const receipt = engine.n.goldrushExtractionLoop.fire();
     if (receipt.hit) syncProtoKitPressure({ amount: -8, sourceId: receipt.threatId ?? "threat" });
-    engine.n.goldrushPerspective.set("combat");
+    syncExtractionLoopCombatPresentation({
+      snapshot: engine.n.goldrushExtractionLoop.getState(),
+      reason: "extraction-loop.fire",
+      forceCombat: true,
+    });
     engine.n.goldrushMatch.tick({ dt: 0.1 });
     engine.tick();
     return receipt;
@@ -142,10 +142,18 @@ export function createGoldRushRuntime({ orchestrator }) {
   }
 
   function setSceneForScreen({ screen }) {
-    const transition = screenTransition(screen);
+    const legacyMode = engine.n.goldrushLegacyModes.snapshot().activeMode;
+    const transition = screenTransition(screen, { legacyMode });
     if (!transition) return snapshot();
     engine.n.goldrushScenes.transition({
       ...transition,
+      reason: `screen:${screen}`,
+    });
+    const transitionPhase = screen === "run" && legacyMode?.cameraMode === "combat"
+      ? "combat"
+      : phaseForScreen(screen);
+    engine.n.goldrushCamera.resetForTransition({
+      phase: transitionPhase,
       reason: `screen:${screen}`,
     });
     engine.n.goldrushMatch.tick({ dt: 0 });
@@ -155,6 +163,11 @@ export function createGoldRushRuntime({ orchestrator }) {
 
   function setLegacyMode({ modeId }) {
     const receipt = engine.n.goldrushLegacyModes.set({ modeId, reason: "runtime-control" });
+    engine.n.goldrushCamera.set(receipt.cameraMode);
+    engine.n.goldrushCamera.resetForTransition({
+      phase: receipt.cameraMode === "combat" ? "combat" : "prospect",
+      reason: `legacy-mode:${modeId}`,
+    });
     engine.n.goldrushReplaySummary.appendEvent({
       type: "legacyModeChanged",
       tick: engine.clock.frame,
@@ -227,6 +240,48 @@ export function createGoldRushRuntime({ orchestrator }) {
     });
   }
 
+  function syncExtractionLoopCombatPresentation({ snapshot, reason = "extraction-loop", forceCombat = false } = {}) {
+    const loop = snapshot ?? engine.n.goldrushExtractionLoop.getState();
+    const legacyMode = engine.n.goldrushLegacyModes.snapshot().activeMode;
+    const activeThreatCount = Number(loop?.combat?.activeThreatCount ?? 0);
+    const combatPressure = Number(loop?.combat?.pressure ?? 0);
+    const readableThreatActive = Object.values(loop?.combat?.readability?.threats ?? {})
+      .some((threat) => threat.status === "active" || threat.telegraph?.readableBeforeDamage === true);
+    const combatWanted = forceCombat
+      || legacyMode.cameraMode === "combat"
+      || loop?.player?.aimMode === true
+      || loop?.phase === "combat"
+      || activeThreatCount > 0
+      || readableThreatActive;
+
+    engine.n.goldrushPerspective.set(combatWanted ? "combat" : "exploration");
+    engine.n.goldrushCamera.set(combatWanted ? "combat" : "exploration");
+    engine.n.goldrushCamera.resetForTransition({
+      phase: combatWanted ? "combat" : "prospect",
+      reason,
+    });
+    if (combatWanted) {
+      engine.n.goldrushScenes.phase("combat");
+      return {
+        mode: "combat",
+        reason,
+        activeThreatCount,
+        combatPressure,
+        readableThreatActive,
+      };
+    }
+    if (engine.n.goldrushScenario.snapshot().phase !== "results") {
+      engine.n.goldrushScenes.phase("prospect");
+    }
+    return {
+      mode: "exploration",
+      reason,
+      activeThreatCount,
+      combatPressure,
+      readableThreatActive,
+    };
+  }
+
   function completeProtoKitCheckpointOnce(checkpointId, commandId) {
     const completedIds = engine.n.goldrushProtoKitBridge.snapshot().protoSnapshot?.route?.completedIds ?? [];
     if (completedIds.includes(checkpointId)) return;
@@ -251,11 +306,12 @@ export function createGoldRushRuntime({ orchestrator }) {
     advanceCollapse,
     requestHandoff,
     endMatch,
+    syncExtractionLoopCombatPresentation,
     snapshot,
   };
 }
 
-function screenTransition(screen) {
+function screenTransition(screen, { legacyMode = null } = {}) {
   if (screen === "start") {
     return {
       toSceneId: "goldrush.scene.mainMenu",
@@ -275,10 +331,32 @@ function screenTransition(screen) {
     };
   }
   if (screen === "run") {
+    if (legacyMode?.sceneId && legacyMode.sceneId !== "goldrush.scene.arena") {
+      return {
+        toSceneId: legacyMode.sceneId,
+        transitionId: legacyMode.modeId === "classicCombat"
+          ? "goldrush.transition.explorationToCombat"
+          : "goldrush.transition.direct",
+      };
+    }
     return {
       toSceneId: "goldrush.scene.arena",
       transitionId: "goldrush.transition.lobbyToArena",
     };
   }
+  if (screen === "results") {
+    return {
+      toSceneId: "goldrush.scene.results",
+      transitionId: "goldrush.transition.cashoutComplete",
+    };
+  }
   return null;
+}
+
+function phaseForScreen(screen) {
+  if (screen === "results") return "results";
+  if (screen === "run") return "prospect";
+  if (screen === "loading") return "loading";
+  if (screen === "lobby") return "lobby";
+  return "title";
 }
