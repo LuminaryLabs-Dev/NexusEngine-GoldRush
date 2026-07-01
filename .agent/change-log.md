@@ -80,3 +80,5 @@ Status: active
 - 2026-06-30 20:10:00 EDT - Made NexusSimulator CLI validation CI-safe by treating the sibling simulator checkout as an optional CI dependency while keeping local discovery strict when available.
 - 2026-06-30 20:16:00 EDT - Updated public smoke walking proof to steer toward the train boarding cue through camera-relative WASD instead of assuming a fixed loading-yard camera yaw.
 - 2026-06-30 20:21:00 EDT - Extended public smoke boarding proof for CI by holding sprint during camera-relative train approach and allowing a longer Actions browser boarding window.
+- 2026-06-30 20:34:00 EDT - Captured local/public live-test videos, strict local/public smoke screenshots, NexusSimulator proof, and added a durable local/public live-state audit packet.
+- 2026-06-30 20:46:00 EDT - Added camera/ground stability research, a long-run Playwright proof harness, package script, and memory/audit updates for camera pulsing diagnosis.

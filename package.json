@@ -18,6 +18,7 @@
     "proof:peer-party-disconnect": "node tools/proof/peer-party-boarding-proof.mjs --scenario disconnect",
     "proof:threat-lanes": "node tools/proof/threat-lane-render-proof.mjs",
     "proof:combat-results": "node tools/proof/combat-results-proof.mjs",
+    "proof:camera-ground-stability": "node tools/proof/camera-ground-stability-proof.mjs",
     "proof:final-rush-results": "node tools/proof/final-rush-results-proof.mjs",
     "proof:final-rush-results:mobile": "node tools/proof/final-rush-results-proof.mjs --viewport 390x844",
     "proof:cargo-visual": "node tools/proof/cargo-visual-proof.mjs",

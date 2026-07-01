@@ -1,0 +1,347 @@
+{
+  "status": "passed",
+  "url": "http://127.0.0.1:5177/NexusEngine-GoldRush/?publicSmoke=mr1cba4k",
+  "startedAt": "2026-07-01T00:31:21.095Z",
+  "steps": [
+    {
+      "name": "load-public-url",
+      "status": "passed",
+      "durationMs": 1243
+    },
+    {
+      "name": "enter-lobby",
+      "status": "passed",
+      "durationMs": 1589
+    },
+    {
+      "name": "select-classic-combat-version",
+      "status": "passed",
+      "durationMs": 631
+    },
+    {
+      "name": "start-loading-yard",
+      "status": "passed",
+      "durationMs": 2064
+    },
+    {
+      "name": "board-train-and-enter-match",
+      "status": "passed",
+      "durationMs": 21659
+    },
+    {
+      "name": "validate-runtime-state",
+      "status": "passed",
+      "durationMs": 1251
+    },
+    {
+      "name": "complete-extraction-and-results",
+      "status": "passed",
+      "durationMs": 4414
+    }
+  ],
+  "screenshots": [
+    "screenshots/local-smoke-audit/01-title-2026-07-01T00-31-21-093Z.png",
+    "screenshots/local-smoke-audit/02-lobby-2026-07-01T00-31-21-093Z.png",
+    "screenshots/local-smoke-audit/03-loading-yard-2026-07-01T00-31-21-093Z.png",
+    "screenshots/local-smoke-audit/04-gold-field-2026-07-01T00-31-21-093Z.png",
+    "screenshots/local-smoke-audit/05-results-2026-07-01T00-31-21-093Z.png"
+  ],
+  "consoleErrors": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c005c2600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c005c2600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c005c2600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c005c2600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+  ],
+  "pageErrors": [],
+  "loadingCheckpoint": {
+    "screen": "loading",
+    "activeSite": "site.loading-yard",
+    "players": 2,
+    "legacyMode": {
+      "activeModeId": "classicCombat",
+      "sourceVersionRole": "classic-menu-game-and-solo-source",
+      "oneGame": true,
+      "perspectiveSwitchesInCombat": true
+    },
+    "cameraMode": "combat",
+    "sceneState": {
+      "currentSceneId": "goldrush.scene.loading",
+      "activeAudioCueId": "goldrush.audio.music.wandering"
+    },
+    "loadedKitGroups": [
+      "loading-yard-terrain",
+      "party-presence",
+      "walkable-player",
+      "train-departure",
+      "frontier-condition-briefing"
+    ],
+    "party": {
+      "status": "local",
+      "members": 1,
+      "capacity": 4,
+      "isLeader": true
+    },
+    "loadingScene": {
+      "loadingPhase": "boarding-open",
+      "trainDeparting": false,
+      "playerLockedToTrain": false,
+      "trainPosition": {
+        "x": 0,
+        "z": -9.1
+      },
+      "trainReadout": {
+        "contract": "goldrush-train-sequence-readout-v1",
+        "currentBeat": "player-boarding",
+        "nextPlayerAction": "board-train"
+      }
+    },
+    "audioManager": {
+      "status": "started",
+      "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+      "lastTrainCueShots": [
+        {
+          "source": "train-transition",
+          "contract": "goldrush-train-transition-audio-cues-v1",
+          "cueId": "goldrush.audio.sfx.goldPickup",
+          "cueName": "board-now-marker",
+          "fallbackPattern": "train-board",
+          "trainBeat": "player-boarding",
+          "nextPlayerAction": "board-train",
+          "dedupeId": "train-transition.train-sequence-0003.player-boarding"
+        }
+      ]
+    },
+    "loadingPlayer": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10.2
+      },
+      "controls": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "sprint": false
+      }
+    },
+    "localPlayer": {
+      "position": {
+        "x": -12,
+        "y": -0.8682768377371267,
+        "z": -20
+      },
+      "inputModel": {
+        "id": "camera-relative-wasd",
+        "mouseLookDrivesCamera": true,
+        "wasdFollowsCameraYaw": true,
+        "forwardSign": 1,
+        "forwardOnGround": {
+          "x": 0,
+          "z": 1
+        }
+      },
+      "ground": {
+        "height": -0.8682768377371267,
+        "placement": "downward-triangle-raycast",
+        "walkable": true
+      }
+    },
+    "terrainCollider": {
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "raycastPlacement": "highest-visible-banded-triangle-hit"
+    },
+    "terrainPhysics": {
+      "engine": "cannon-es",
+      "bodyShape": "Heightfield"
+    },
+    "physicsBackend": {
+      "activeBackend": "cannon-es",
+      "recommendation": "keep-cannon-now-incubate-rapier-later"
+    },
+    "realityValidation": {
+      "passed": true,
+      "failures": []
+    },
+    "results": {
+      "status": "pending",
+      "winner": {
+        "kind": "none",
+        "id": null,
+        "score": 0
+      },
+      "placementCount": 0,
+      "contest": null,
+      "finalRushPressure": null,
+      "awards": []
+    },
+    "replaySummary": {
+      "resultStatus": "pending",
+      "keyMoments": 1,
+      "contest": {
+        "lockdownCount": 0,
+        "calledThreatIds": []
+      }
+    }
+  },
+  "boardingPath": {
+    "method": "natural-walk-from-loading-yard-spawn",
+    "screen": "run",
+    "loadingPhase": "handoff-ready",
+    "trainDeparting": true,
+    "playerLockedToTrain": true,
+    "nextPlayerAction": "continue",
+    "loadingPlayerPosition": {
+      "x": 0.11132689163001323,
+      "y": 0,
+      "z": -1.282166891630013
+    }
+  },
+  "finalState": {
+    "screen": "results",
+    "activeSite": "site.results",
+    "players": 20,
+    "legacyMode": {
+      "activeModeId": "classicCombat",
+      "sourceVersionRole": "classic-menu-game-and-solo-source",
+      "oneGame": true,
+      "perspectiveSwitchesInCombat": true
+    },
+    "cameraMode": "combat",
+    "sceneState": {
+      "currentSceneId": "goldrush.scene.results",
+      "activeAudioCueId": "goldrush.audio.sfx.cashout"
+    },
+    "loadedKitGroups": [
+      "goldrush-runtime",
+      "results-summary",
+      "replay-summary"
+    ],
+    "party": {
+      "status": "local",
+      "members": 1,
+      "capacity": 4,
+      "isLeader": true
+    },
+    "loadingScene": {
+      "loadingPhase": "handoff-ready",
+      "trainDeparting": true,
+      "playerLockedToTrain": true,
+      "trainPosition": {
+        "x": 0,
+        "z": 45
+      },
+      "trainReadout": {
+        "contract": "goldrush-train-sequence-readout-v1",
+        "currentBeat": "gold-field-runtime",
+        "nextPlayerAction": "continue"
+      }
+    },
+    "audioManager": {
+      "status": "started",
+      "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+      "lastTrainCueShots": []
+    },
+    "loadingPlayer": {
+      "position": {
+        "x": 0.11132689163001323,
+        "y": 0,
+        "z": -1.282166891630013
+      },
+      "controls": {
+        "forward": false,
+        "back": false,
+        "left": false,
+        "right": false,
+        "sprint": false
+      }
+    },
+    "localPlayer": {
+      "position": {
+        "x": -12,
+        "y": -0.8682768377371267,
+        "z": -20
+      },
+      "inputModel": {
+        "id": "camera-relative-wasd",
+        "mouseLookDrivesCamera": true,
+        "wasdFollowsCameraYaw": true,
+        "forwardSign": 1,
+        "forwardOnGround": {
+          "x": 0,
+          "z": 1
+        }
+      },
+      "ground": {
+        "height": -0.8682768377371267,
+        "placement": "downward-triangle-raycast",
+        "walkable": true
+      }
+    },
+    "terrainCollider": {
+      "algorithm": "single-banded-triangle-terrain-v1",
+      "raycastPlacement": "highest-visible-banded-triangle-hit"
+    },
+    "terrainPhysics": {
+      "engine": "cannon-es",
+      "bodyShape": "Heightfield"
+    },
+    "physicsBackend": {
+      "activeBackend": "cannon-es",
+      "recommendation": "keep-cannon-now-incubate-rapier-later"
+    },
+    "realityValidation": {
+      "passed": true,
+      "failures": []
+    },
+    "results": {
+      "status": "final",
+      "winner": {
+        "kind": "team",
+        "id": "team-01",
+        "score": 541
+      },
+      "placementCount": 1,
+      "contest": {
+        "lockdownCount": 1,
+        "calledThreatIds": [
+          "claim-jumper-01"
+        ],
+        "highestPressure": 0.921
+      },
+      "finalRushPressure": {
+        "pressureLinkedReceiptCount": 0,
+        "highestPressure": 0,
+        "maxMultiplier": 1
+      },
+      "awards": [
+        "award.richest-haul",
+        "award.frontier-condition-mastered",
+        "award.lockdown-extractor"
+      ]
+    },
+    "replaySummary": {
+      "resultStatus": "final",
+      "keyMoments": 8,
+      "contest": {
+        "lockdownCount": 1,
+        "calledThreatIds": [
+          "claim-jumper-01"
+        ]
+      }
+    }
+  },
+  "finishedAt": "2026-07-01T00:31:55.050Z"
+}
