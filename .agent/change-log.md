@@ -97,3 +97,4 @@ Status: active
 - 2026-07-01 02:11:36 EDT - Added `n:goldrush:player-loop-readiness`, six-stage human-view loop matrix, CLI/browser proof gates, runtime exposure, and source-backed objective-clarity research.
 - 2026-07-01 02:30:26 EDT - Added `n:goldrush:combat-loop-readiness`, six-stage battle-readiness matrix, CLI/browser proof gates, runtime exposure, and source-backed combat readability research.
 - 2026-07-01 03:04:48 EDT - Added `n:goldrush:combat-route-guidance`, internal stable cover-route memory, CLI/browser proof gates, runtime exposure, and source-backed combat route research.
+- 2026-07-01 03:22:18 EDT - Imported Kenney CC0 toon model/audio candidates, added free-toon candidate manifest and validator, and documented source-only protokit promotion boundaries.

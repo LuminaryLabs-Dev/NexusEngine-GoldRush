@@ -1,0 +1,590 @@
+{
+  "manifestId": "goldrush.free-toon-candidates",
+  "schema": "nexusengine.goldrush.free-toon-candidates.v1",
+  "created": "2026-07-01",
+  "status": "source-candidates-only",
+  "styleDirection": "high-fidelity toon-shaded wild west",
+  "policy": {
+    "runtimePromotion": false,
+    "publicPromotion": false,
+    "rule": "These imported files are source-reviewed protokit candidates. They are not runtime assets until a later approval and promotion pass writes approved assets/... records."
+  },
+  "packs": [
+    {
+      "packId": "kenney.platformer-kit.4-1",
+      "title": "Platformer Kit",
+      "creator": "Kenney",
+      "sourcePage": "https://kenney.nl/assets/platformer-kit",
+      "downloadUrl": "https://kenney.nl/media/pages/assets/platformer-kit/1585cf62b4-1775122253/kenney_platformer-kit.zip",
+      "sourceZipSha256": "899605d237367688c6b42e41fff2206c0fb8d626163158294556353f7baa7c1b",
+      "license": "CC0-1.0",
+      "licenseEvidencePath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/license/License.txt",
+      "gameDesignRole": "toon-prop seed pack for readable frontier objects, resource cues, player preview, and claim dressing"
+    },
+    {
+      "packId": "kenney.impact-sounds.1-0",
+      "title": "Impact Sounds",
+      "creator": "Kenney",
+      "sourcePage": "https://kenney.nl/assets/impact-sounds",
+      "downloadUrl": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+      "sourceZipSha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8",
+      "license": "CC0-1.0",
+      "licenseEvidencePath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/license/License.txt",
+      "gameDesignRole": "short one-shot feedback for footsteps, mining, impacts, metal, wood, and train/bell state cues"
+    }
+  ],
+  "modelCandidates": [
+    {
+      "id": "kenney.platformer.barrel",
+      "title": "barrel",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/barrel.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/barrel.glb",
+      "sha256": "a65835b830699e58810f4f9afdd54ddff9537fd6d23f6f2bd3af1a59bbdff149",
+      "bytes": 14092,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "frontier-storage",
+        "placementStrategy": "raycast-down",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.character-oobi",
+      "title": "character-oobi",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/character-oobi.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/character-oobi.glb",
+      "sha256": "42cb1889e1ef6404f3d6b5d5ac6b79c9d9a60bc54fd82df83c63c664705873e4",
+      "bytes": 236392,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "character-model-candidate",
+        "targetDomain": "n:render:character-preview",
+        "itemDomain": "toon-prospector-preview",
+        "placementStrategy": "pedestal-preview",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.chest",
+      "title": "chest",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/chest.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/chest.glb",
+      "sha256": "ba92d21be71649e608de4c76859f04e83308efc699508b2ddb1221678102e274",
+      "bytes": 28012,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:gameplay:extraction",
+        "itemDomain": "cashout-container",
+        "placementStrategy": "raycast-down",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.coin-gold",
+      "title": "coin-gold",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/coin-gold.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/coin-gold.glb",
+      "sha256": "cf2179e57721b943d88283d38678c4b1b8422e9a4dd44f631acfb35007c223a8",
+      "bytes": 10608,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "resource-model-candidate",
+        "targetDomain": "n:gameplay:cargo",
+        "itemDomain": "gold-carrying",
+        "placementStrategy": "attach-to-cargo-visual",
+        "shaderIntent": "toon-metal-ramp-highlight",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.crate",
+      "title": "crate",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/crate.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/crate.glb",
+      "sha256": "5eb6b633b71d7459c7ef9b0bf6e138a719175e107d4d52faca8fc7d0a059a45a",
+      "bytes": 14336,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "frontier-storage",
+        "placementStrategy": "raycast-down",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.fence-rope",
+      "title": "fence-rope",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/fence-rope.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/fence-rope.glb",
+      "sha256": "589a777cd88bd301dfc86de01fa7821ebbd4c6aff82f3c59e2c09076506ccd37",
+      "bytes": 18584,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:world:placement-raycast",
+        "itemDomain": "claims-boundary",
+        "placementStrategy": "raycast-down-chain",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.fence-straight",
+      "title": "fence-straight",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/fence-straight.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/fence-straight.glb",
+      "sha256": "008d1895b4ac463bb7438d7ba4b34d66548cdb547130b228cc3526e575291f0a",
+      "bytes": 6468,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:world:placement-raycast",
+        "itemDomain": "claims-boundary",
+        "placementStrategy": "raycast-down-chain",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.flag",
+      "title": "flag",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/flag.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/flag.glb",
+      "sha256": "41dc8355080ed9f73adeefa7befaec44b6956ba1353c23bc9ff73d97a53fc143",
+      "bytes": 11396,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "claim-marker",
+        "placementStrategy": "raycast-down",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.grass",
+      "title": "grass",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/grass.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/grass.glb",
+      "sha256": "601ae2a507f4bccbe93c08433479c07ccaea0fcd8a3769264505a9cfeec4baa5",
+      "bytes": 8964,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "terrain-dressing",
+        "placementStrategy": "raycast-down-scatter",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.ladder",
+      "title": "ladder",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/ladder.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/ladder.glb",
+      "sha256": "64620d7fc0fb770bda241a1aa7f64c583c2ee10a31cf0b81231e8ac97e34305d",
+      "bytes": 7228,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:gameplay:interaction-hold",
+        "itemDomain": "climb-affordance",
+        "placementStrategy": "raycast-down-against-wall",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.plant",
+      "title": "plant",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/plant.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/plant.glb",
+      "sha256": "0881669528fcc01038a104a89c5290d1cbe0cb4aa90c4f78e78ebe1de2281d7a",
+      "bytes": 13124,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "desert-flora",
+        "placementStrategy": "raycast-down-scatter",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.platform",
+      "title": "platform",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/platform.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/platform.glb",
+      "sha256": "59edd84481a20b91587dfb35afef7b3e5b2f20081e6af4fc641a51655d7db2c8",
+      "bytes": 9968,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:physics:collider",
+        "itemDomain": "walkable-setpiece",
+        "placementStrategy": "raycast-down-with-collider",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.rocks",
+      "title": "rocks",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/rocks.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/rocks.glb",
+      "sha256": "40a7cb558466510ca1976b0e007e351e53c89ac6b61f0b6a277b3226026c3326",
+      "bytes": 9556,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "terrain-dressing",
+        "placementStrategy": "raycast-down-scatter",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.sign",
+      "title": "sign",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/sign.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/sign.glb",
+      "sha256": "657a32a0d4585ffc1d85ccdf83bc6615890b9d4ec37d190248692ad3ae25c1b1",
+      "bytes": 8844,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:goldrush:player-guidance-cue",
+        "itemDomain": "diegetic-wayfinding",
+        "placementStrategy": "raycast-down-near-path",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.stones",
+      "title": "stones",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/stones.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/stones.glb",
+      "sha256": "0468bd937ffe5a7bcaa4cddb08e4660533df4c2079e885da2c3d32df07ff77d6",
+      "bytes": 13752,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "terrain-dressing",
+        "placementStrategy": "raycast-down-scatter",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.platformer.tree-pine",
+      "title": "tree-pine",
+      "packId": "kenney.platformer-kit.4-1",
+      "sourcePath": "Models/GLB format/tree-pine.glb",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-platformer-kit/glb/tree-pine.glb",
+      "sha256": "520ddf910ae7904871fc906169d5e76364d5ff643a92cb983563c1a24d995ebb",
+      "bytes": 22396,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "object-model-candidate",
+        "targetDomain": "n:render:micro-object-instancing",
+        "itemDomain": "distant-vegetation",
+        "placementStrategy": "raycast-down-biome-band",
+        "shaderIntent": "toon-flat-ramp-outline",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    }
+  ],
+  "audioCandidates": [
+    {
+      "id": "kenney.impact.footstep-grass-000",
+      "title": "footstep_grass_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/footstep_grass_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/footstep_grass_000.ogg",
+      "sha256": "9d49497777405d78d7cf7f2888e28277f3a23192300cfd1d79d54876b20f479f",
+      "bytes": 8290,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "footstep-dirt-grass",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.footstepDirt",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.impact.footstep-wood-000",
+      "title": "footstep_wood_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/footstep_wood_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/footstep_wood_000.ogg",
+      "sha256": "5f1c252942a220d658121bd9417448cd19649ded9fff2ff15f6e50899373ce8e",
+      "bytes": 5949,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "footstep-wood",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.footstepWood",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.impact.bell-heavy-000",
+      "title": "impactBell_heavy_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/impactBell_heavy_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/impactBell_heavy_000.ogg",
+      "sha256": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+      "bytes": 13915,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "train-bell",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.trainBell",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.impact.metal-medium-000",
+      "title": "impactMetal_medium_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/impactMetal_medium_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/impactMetal_medium_000.ogg",
+      "sha256": "a96f879fec0864a8938e0c745b6996a6c5679c16a234ce31a01cc995e8401003",
+      "bytes": 7117,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "metal-impact",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.metalImpact",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.impact.mining-000",
+      "title": "impactMining_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/impactMining_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/impactMining_000.ogg",
+      "sha256": "36b4ea107222d073c67ca64dde26944975609202d5090b2f2021213c1a7e35cd",
+      "bytes": 12035,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "mining-hit",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.mineHit",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    },
+    {
+      "id": "kenney.impact.wood-medium-000",
+      "title": "impactWood_medium_000",
+      "packId": "kenney.impact-sounds.1-0",
+      "sourcePath": "Audio/impactWood_medium_000.ogg",
+      "localPath": "external/free-toon-candidates/goldrush-free-toon-001/kenney-impact-sounds/audio/impactWood_medium_000.ogg",
+      "sha256": "1723a9fd25103ed41af06054814e84e65f4a772bac86ab2dc927da93d9592ff5",
+      "bytes": 6575,
+      "license": "CC0-1.0",
+      "protokit": {
+        "domainPath": "n:goldrush:free-toon-candidate-protokit",
+        "kitType": "audio-cue-candidate",
+        "targetDomain": "n:audio:cue-state",
+        "itemDomain": "wood-impact",
+        "placementStrategy": "semantic-cue-state",
+        "cueSlot": "goldrush.audio.sfx.woodImpact",
+        "promotionState": "candidate-only"
+      },
+      "promotion": {
+        "runtimePromotion": false,
+        "publicPromotion": false,
+        "approvedRuntimePath": null
+      }
+    }
+  ],
+  "deferredCandidates": [
+    {
+      "id": "quaternius.ultimate-stylized-nature",
+      "sourcePage": "https://quaternius.com/packs/ultimatestylizednature.html",
+      "reason": "Strong toon-nature fit with CC0 license and glTF support, but download routing is not a direct small asset import for this pass."
+    },
+    {
+      "id": "quaternius.modular-train",
+      "sourcePage": "https://quaternius.com/packs/modulartrain.html",
+      "reason": "Strong train-set fit for the boarding sequence, but should be imported as a separate vehicle/protokit approval pass."
+    },
+    {
+      "id": "quaternius.universal-base-characters",
+      "sourcePage": "https://quaternius.com/packs/universalbasecharacters.html",
+      "reason": "Strong character and animation direction, but needs a dedicated rig/animation review before replacing the current procedural character."
+    },
+    {
+      "id": "harvey-carman.wild-west-music",
+      "sourcePage": "https://composercarman.itch.io/wild-west-music",
+      "reason": "Strong western music fit, but the pack is large and attribution/license handling should be reviewed before runtime promotion."
+    }
+  ]
+}
