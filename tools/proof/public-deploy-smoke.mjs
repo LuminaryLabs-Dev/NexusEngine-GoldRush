@@ -104,7 +104,7 @@ try {
         && shot.trainBeat === "player-boarding"
         && shot.fallbackPattern === "train-board";
     }), "loading checkpoint should retain the train boarding audio fallback cue");
-    const walkedToRun = await walkForwardUntilRun(page, 12000);
+    const walkedToRun = await walkToTrainUntilRun(page, 14000);
     const screenAfterWalk = await getHostState(page);
     report.boardingPath = summarizeBoardingPath(screenAfterWalk, { walkedToRun });
     assert(walkedToRun || screenAfterWalk?.screen === "run", "public smoke must board the train through natural camera-relative walking from the loading-yard spawn");
@@ -236,37 +236,86 @@ async function waitForActiveSite(page, siteId, timeout) {
   }, siteId, { timeout });
 }
 
-async function walkForwardUntilRun(page, durationMs) {
+async function walkToTrainUntilRun(page, durationMs) {
   const startedAt = Date.now();
-  await sendForwardKey(page, "keydown");
+  let pressedKeys = new Set();
   try {
     while (Date.now() - startedAt < durationMs) {
-      await sendForwardKey(page, "keydown");
       const state = await getHostState(page);
       if (state?.screen === "run") return true;
+      const nextKeys = chooseCameraRelativeKeysTowardTrain(state);
+      await syncMovementKeys(page, pressedKeys, nextKeys);
+      pressedKeys = nextKeys;
       await page.waitForTimeout(250);
     }
     return false;
   } finally {
-    await sendForwardKey(page, "keyup");
+    await syncMovementKeys(page, pressedKeys, new Set());
   }
 }
 
-async function sendForwardKey(page, type) {
+function chooseCameraRelativeKeysTowardTrain(state) {
+  const position = state?.loadingPlayer?.position;
+  const anchor = state?.loadingScene?.boardingCue?.anchor ?? { x: 0, z: -7.4 };
+  const inputModel = state?.loadingPlayer?.inputModel;
+  const forward = inputModel?.forwardOnGround ?? { x: 0, z: -1 };
+  if (!position || !Number.isFinite(position.x) || !Number.isFinite(position.z)) return new Set(["w"]);
+
+  const toTarget = {
+    x: anchor.x - position.x,
+    z: anchor.z - position.z,
+  };
+  const distance = Math.hypot(toTarget.x, toTarget.z);
+  if (distance <= 0.15) return new Set();
+
+  const desired = {
+    x: toTarget.x / distance,
+    z: toTarget.z / distance,
+  };
+  const forwardLength = Math.hypot(forward.x, forward.z) || 1;
+  const fwd = {
+    x: forward.x / forwardLength,
+    z: forward.z / forwardLength,
+  };
+  const right = { x: fwd.z, z: -fwd.x };
+  const forwardDot = desired.x * fwd.x + desired.z * fwd.z;
+  const rightDot = desired.x * right.x + desired.z * right.z;
+  const keys = new Set();
+  if (forwardDot >= 0.22) keys.add("w");
+  if (forwardDot <= -0.22) keys.add("s");
+  if (rightDot >= 0.22) keys.add("d");
+  if (rightDot <= -0.22) keys.add("a");
+  if (!keys.size) keys.add(forwardDot >= 0 ? "w" : "s");
+  return keys;
+}
+
+async function syncMovementKeys(page, previousKeys, nextKeys) {
+  for (const key of previousKeys) {
+    if (!nextKeys.has(key)) await sendMovementKey(page, key, "keyup");
+  }
+  for (const key of nextKeys) {
+    if (!previousKeys.has(key)) await sendMovementKey(page, key, "keydown");
+  }
+}
+
+async function sendMovementKey(page, key, type) {
+  const code = {
+    w: "KeyW",
+    a: "KeyA",
+    s: "KeyS",
+    d: "KeyD",
+  }[key];
   const isDown = type === "keydown";
-  await page.evaluate((eventType) => {
-    ["w", "ArrowUp"].forEach((key) => {
-      window.dispatchEvent(new KeyboardEvent(eventType, {
-        key,
-        code: key === "w" ? "KeyW" : "ArrowUp",
-        bubbles: true,
-        cancelable: true,
-      }));
-    });
-  }, type);
+  await page.evaluate(({ eventType, keyValue, codeValue }) => {
+    window.dispatchEvent(new KeyboardEvent(eventType, {
+      key: keyValue,
+      code: codeValue,
+      bubbles: true,
+      cancelable: true,
+    }));
+  }, { eventType: type, keyValue: key, codeValue: code });
   const operation = isDown ? "down" : "up";
-  await page.keyboard[operation]("w").catch(() => {});
-  await page.keyboard[operation]("ArrowUp").catch(() => {});
+  await page.keyboard[operation](key).catch(() => {});
 }
 
 async function getHostState(page) {
