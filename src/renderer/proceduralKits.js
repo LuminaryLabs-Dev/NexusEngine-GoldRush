@@ -188,6 +188,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
   const networkPresenceKit = mountNetworkPresenceKit(scene, descriptors.networkPresence);
   const thirdPersonKit = mountThirdPersonPlayerKit(scene, descriptors.playerRig);
   const playerActionSurfacePromptKit = mountPlayerActionSurfacePromptKit(scene);
+  const playerGuidanceCueKit = mountPlayerGuidanceCueKit(scene);
   const extractionLoopMarkerKit = mountExtractionLoopMarkerKit(scene);
   const lightingKit = mountLightingCameraKit(scene, descriptors.lighting, root);
 
@@ -204,6 +205,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       networkPresenceKit.update(state);
       thirdPersonKit.update(state, elapsedSeconds);
       playerActionSurfacePromptKit.update(state, elapsedSeconds);
+      playerGuidanceCueKit.update(state, elapsedSeconds);
       extractionLoopMarkerKit.update(state, elapsedSeconds);
       goldGroup.rotation.y += state.cameraMode === "combat" ? 0.004 : 0.0015;
       routeGroup.children.forEach((child, index) => {
@@ -230,6 +232,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
         gameplay: {
           extractionLoopMarkers: extractionLoopMarkerKit.snapshot(),
           playerActionSurfacePrompt: playerActionSurfacePromptKit.snapshot(),
+          playerGuidanceCue: playerGuidanceCueKit.snapshot(),
         },
         objectMicroKits: microObjectKit.snapshot(),
         playerRig: thirdPersonKit.snapshot(),
@@ -2126,6 +2129,150 @@ function createPlayerActionSurfaceVisualSnapshot(surface, group) {
     availableActionCount: surface?.availableActions?.length ?? 0,
     risk: surface?.risk ? structuredClone(surface.risk) : null,
   };
+}
+
+function mountPlayerGuidanceCueKit(scene) {
+  const group = new THREE.Group();
+  group.name = "goldrush.procGameplay.playerGuidanceCue";
+  group.visible = false;
+  group.userData.visualContract = "goldrush-player-guidance-cue-visual-v1";
+  group.userData.domainPath = "n:render:micro-object-instancing";
+  group.userData.consumes = ["n:goldrush:player-guidance-cue"];
+
+  const materials = {
+    resource: new THREE.MeshBasicMaterial({ color: 0xf2bd45, transparent: true, opacity: 0.86, depthWrite: false }),
+    cashout: new THREE.MeshBasicMaterial({ color: 0x74d0c2, transparent: true, opacity: 0.86, depthWrite: false }),
+    neutral: new THREE.MeshBasicMaterial({ color: 0xf7f0df, transparent: true, opacity: 0.72, depthWrite: false }),
+    shadow: new THREE.MeshBasicMaterial({ color: 0x141916, transparent: true, opacity: 0.36, depthWrite: false }),
+  };
+
+  const groundRing = new THREE.Mesh(new THREE.RingGeometry(0.52, 0.66, 20), materials.neutral.clone());
+  groundRing.name = "player-guidance-ground-ring";
+  groundRing.rotation.x = -Math.PI / 2;
+
+  const arrowBase = new THREE.Mesh(createCuboidGeometry(0.16, 0.06, 0.92), materials.neutral.clone());
+  arrowBase.name = "player-guidance-route-arrow-body";
+  arrowBase.position.set(0, 0.18, 0.1);
+
+  const arrowHead = new THREE.Mesh(createPrismGeometry(0.24, 0.18, 3), materials.neutral.clone());
+  arrowHead.name = "player-guidance-route-arrow-head";
+  arrowHead.position.set(0, 0.22, 0.67);
+  arrowHead.rotation.x = Math.PI / 2;
+
+  const holdPost = new THREE.Mesh(createCuboidGeometry(0.08, 0.74, 0.08), materials.neutral.clone());
+  holdPost.name = "player-guidance-hold-post";
+  holdPost.position.set(0, 0.47, 0);
+
+  const holdTop = new THREE.Mesh(createPrismGeometry(0.2, 0.08, 12), materials.neutral.clone());
+  holdTop.name = "player-guidance-hold-top";
+  holdTop.position.set(0, 0.88, 0);
+  holdTop.rotation.x = Math.PI / 2;
+
+  const distancePips = Array.from({ length: 3 }, (_, index) => {
+    const pip = new THREE.Mesh(createCuboidGeometry(0.09, 0.045, 0.18), materials.neutral.clone());
+    pip.name = `player-guidance-distance-pip-${index + 1}`;
+    pip.position.set(0, 0.11 + index * 0.035, -0.34 - index * 0.22);
+    return pip;
+  });
+
+  group.add(groundRing, arrowBase, arrowHead, holdPost, holdTop, ...distancePips);
+  scene.add(group);
+
+  let lastSnapshot = createPlayerGuidanceCueVisualSnapshot(null, group, distancePips);
+
+  return {
+    update(state, elapsedSeconds = 0) {
+      const cue = state.playerGuidanceCue ?? null;
+      const visible = Boolean(cue?.visible && cue?.cue?.worldPosition);
+      group.visible = visible;
+      const targetKind = cue?.target?.kind ?? null;
+      const materialColor = playerGuidanceCueColor(targetKind);
+      [groundRing, arrowBase, arrowHead, holdPost, holdTop, ...distancePips].forEach((mesh) => {
+        mesh.material.color.set(materialColor);
+      });
+      if (visible) {
+        const cuePosition = cue.cue.worldPosition;
+        const localPlayer = state.localPlayer ?? {};
+        const groundY = terrainGroundHeight(localPlayer, cuePosition.x ?? 0, cuePosition.z ?? 0);
+        group.position.set(cuePosition.x ?? 0, groundY + Number(cue.cue.markerHeight ?? 0.2), cuePosition.z ?? 0);
+        group.rotation.y = Number(cue.cue.directionYaw ?? 0);
+      }
+      const holdReady = cue?.cue?.role === "hold-readiness";
+      const cueScale = holdReady ? 1.15 : 1;
+      const pulse = 1 + Math.max(0, Math.sin(elapsedSeconds * (holdReady ? 3.5 : 2.2))) * (holdReady ? 0.08 : 0.04);
+      group.scale.setScalar(visible ? cueScale * pulse : 1);
+      groundRing.visible = visible;
+      groundRing.scale.setScalar(holdReady ? 1.22 : 0.92);
+      arrowBase.visible = visible && !holdReady;
+      arrowHead.visible = visible && !holdReady;
+      holdPost.visible = visible && holdReady;
+      holdTop.visible = visible && holdReady;
+      distancePips.forEach((pip, index) => {
+        pip.visible = visible && !holdReady && index < playerGuidancePipCount(cue?.target?.distanceBand);
+        pip.material.opacity = pip.visible ? 0.42 + index * 0.14 : 0;
+      });
+      groundRing.material.opacity = visible ? holdReady ? 0.9 : 0.48 : 0;
+      arrowBase.material.opacity = visible ? 0.72 : 0;
+      arrowHead.material.opacity = visible ? 0.9 : 0;
+      holdPost.material.opacity = visible ? 0.78 : 0;
+      holdTop.material.opacity = visible ? 0.94 : 0;
+      group.userData.sourceContract = cue?.contract ?? null;
+      group.userData.targetKind = targetKind;
+      group.userData.targetId = cue?.target?.id ?? null;
+      group.userData.cueRole = cue?.cue?.role ?? null;
+      group.userData.distanceBand = cue?.target?.distanceBand ?? null;
+      lastSnapshot = createPlayerGuidanceCueVisualSnapshot(cue, group, distancePips);
+    },
+    snapshot() {
+      return structuredClone(lastSnapshot);
+    },
+  };
+}
+
+function createPlayerGuidanceCueVisualSnapshot(cue, group, distancePips = []) {
+  return {
+    contract: "goldrush-player-guidance-cue-visual-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: ["n:goldrush:player-guidance-cue"],
+    visualRole: "diegetic-route-cue-render",
+    visible: Boolean(group?.visible),
+    sourceContract: cue?.contract ?? null,
+    sourceDomainPath: cue?.domainPath ?? null,
+    target: cue?.target ? {
+      kind: cue.target.kind,
+      id: cue.target.id,
+      distance: cue.target.distance,
+      distanceBand: cue.target.distanceBand,
+      inRange: Boolean(cue.target.inRange),
+      actionInRange: Boolean(cue.target.actionInRange),
+    } : null,
+    cue: cue?.cue ? {
+      role: cue.cue.role,
+      shape: cue.cue.shape,
+      colorOnly: cue.cue.colorOnly,
+      directionYaw: cue.cue.directionYaw,
+      primaryInput: cue.cue.primaryInput,
+      suggestedKeys: cue.cue.suggestedKeys,
+    } : null,
+    markerCount: {
+      visibleDistancePips: distancePips.filter((pip) => pip.visible).length,
+      hasRing: Boolean(group?.visible),
+    },
+    readability: cue?.readability ? structuredClone(cue.readability) : null,
+  };
+}
+
+function playerGuidanceCueColor(kind) {
+  if (kind === "cashout") return 0x74d0c2;
+  if (kind === "resource") return 0xf2bd45;
+  return 0xf7f0df;
+}
+
+function playerGuidancePipCount(distanceBand) {
+  if (distanceBand === "far") return 3;
+  if (distanceBand === "mid") return 2;
+  if (distanceBand === "near") return 1;
+  return 0;
 }
 
 function playerActionColor(action) {

@@ -667,6 +667,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-player-route-guidance.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:player-guidance-cue",
+    purpose: "Convert route guidance and action-surface state into one diegetic player-facing world cue.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["resolveCueRole", "resolveDistanceBand", "resolveCueWorldPosition"],
+    events: ["goldrush.playerGuidanceCueChanged"],
+    snapshot: ["visible", "target", "cue", "action", "readability"],
+    dataExposed: ["target kind", "distance band", "cue role", "shape", "input", "readability policy"],
+    validator: "tools/validation/validate-player-guidance-cue.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],

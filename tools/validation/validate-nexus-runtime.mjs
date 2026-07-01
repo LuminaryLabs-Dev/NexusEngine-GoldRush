@@ -25,6 +25,7 @@ const requiredApis = [
   "goldrushPlayerActionSurface",
   "goldrushPlayerDrivenExtractionRoute",
   "goldrushPlayerRouteGuidance",
+  "goldrushPlayerGuidanceCue",
   "goldrushCamera",
   "goldrushPerspective",
   "goldrushScenes",
@@ -116,6 +117,10 @@ assert(runtime.engine.n.goldrushPlayerDrivenExtractionRoute.validate().passed, "
 assert(prospect.playerRouteGuidance?.contract === "goldrush-player-route-guidance-v1", "scenario snapshot should expose player route guidance contract");
 assert(prospect.playerRouteGuidance.domainPath === "n:goldrush:player-route-guidance", "player route guidance should stay in the GoldRush custom domain");
 assert(runtime.engine.n.goldrushPlayerRouteGuidance.validate().passed, "player route guidance kit should validate inside the runtime");
+assert(prospect.playerGuidanceCue?.contract === "goldrush-player-guidance-cue-v1", "scenario snapshot should expose player guidance cue contract");
+assert(prospect.playerGuidanceCue.domainPath === "n:goldrush:player-guidance-cue", "player guidance cue should stay in the GoldRush custom domain");
+assert(prospect.playerGuidanceCue.noDebugOverlay === true, "player guidance cue must not depend on a debug overlay");
+assert(runtime.engine.n.goldrushPlayerGuidanceCue.validate().passed, "player guidance cue kit should validate inside the runtime");
 assert(prospect.realityStatus.summary.placeholderSlots >= 30, "reality status should expose placeholder debt");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "legacy-assets" && domain.status === "blocked-cloud-import"), "legacy assets should stay cloud-blocked until promoted");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "audio-music" && domain.status === "blocked-cloud-import"), "actual audio should stay cloud-blocked until promoted");

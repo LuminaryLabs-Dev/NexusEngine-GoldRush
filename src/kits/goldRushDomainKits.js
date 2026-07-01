@@ -40,6 +40,10 @@ import {
   validatePlayerRouteGuidance,
 } from "../content/goldrushPlayerRouteGuidance.js";
 import {
+  createPlayerGuidanceCueSnapshot,
+  validatePlayerGuidanceCue,
+} from "../content/goldrushPlayerGuidanceCue.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -86,6 +90,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createPlayerActionSurfaceKit(),
     createPlayerDrivenExtractionRouteKit(),
     createPlayerRouteGuidanceKit(),
+    createPlayerGuidanceCueKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1375,6 +1380,58 @@ function createPlayerRouteGuidanceKit() {
   });
 }
 
+function createPlayerGuidanceCueKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-player-guidance-cue-kit",
+    domain: "goldrush-player-guidance-cue",
+    apiName: "goldrushPlayerGuidanceCue",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-player-route-guidance",
+      "n:goldrush-player-action-surface",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose one player-facing world cue from route guidance and action-surface state without moving rendering rules into gameplay.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        localPlayer: null,
+      };
+      let state = createPlayerGuidanceCueSnapshot({
+        playerRouteGuidance: null,
+        playerActionSurface: null,
+        localPlayer: externalFacts.localPlayer,
+      });
+
+      function recompute() {
+        state = createPlayerGuidanceCueSnapshot({
+          playerRouteGuidance: engine.n.goldrushPlayerRouteGuidance?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          localPlayer: externalFacts.localPlayer,
+        });
+        return state;
+      }
+
+      return {
+        update({ localPlayer = externalFacts.localPlayer } = {}) {
+          externalFacts = {
+            localPlayer: structuredClone(localPlayer),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validatePlayerGuidanceCue(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1399,6 +1456,7 @@ function createScenarioKit() {
       "n:goldrush-player-action-surface",
       "n:goldrush-player-driven-extraction-route",
       "n:goldrush-player-route-guidance",
+      "n:goldrush-player-guidance-cue",
       "n:goldrush-camera-descriptor",
       "n:goldrush-perspective",
       "n:goldrush-world-elements",
@@ -1568,6 +1626,7 @@ function createScenarioKit() {
           const playerActionSurface = engine.n.goldrushPlayerActionSurface.snapshot();
           const playerDrivenExtractionRoute = engine.n.goldrushPlayerDrivenExtractionRoute.snapshot();
           const playerRouteGuidance = engine.n.goldrushPlayerRouteGuidance.snapshot();
+          const playerGuidanceCue = engine.n.goldrushPlayerGuidanceCue.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1619,6 +1678,7 @@ function createScenarioKit() {
             playerActionSurface,
             playerDrivenExtractionRoute,
             playerRouteGuidance,
+            playerGuidanceCue,
             sceneState,
             world,
             terrainState,

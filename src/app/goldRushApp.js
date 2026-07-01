@@ -9,6 +9,7 @@ import {
   selectNearestGoldRushObjectAffordance,
 } from "../content/goldrushObjectMicroKits.js";
 import { validatePlayerActionSurface } from "../content/goldrushPlayerActionSurface.js";
+import { validatePlayerGuidanceCue } from "../content/goldrushPlayerGuidanceCue.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
 import {
@@ -439,6 +440,7 @@ export function createGoldRushApp(root) {
       const actionSurface = syncPlayerActionSurface({ localPlayer: movement.snapshot() });
       const playerDrivenExtractionRoute = syncPlayerDrivenExtractionRoute({ localPlayer: movement.snapshot() });
       const playerRouteGuidance = syncPlayerRouteGuidance({ localPlayer: movement.snapshot() });
+      const playerGuidanceCue = syncPlayerGuidanceCue({ localPlayer: movement.snapshot() });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -475,6 +477,8 @@ export function createGoldRushApp(root) {
         playerDrivenExtractionRouteValidation: runtime.engine.n.goldrushPlayerDrivenExtractionRoute.validate(),
         playerRouteGuidance: scenario.playerRouteGuidance ?? playerRouteGuidance,
         playerRouteGuidanceValidation: runtime.engine.n.goldrushPlayerRouteGuidance.validate(),
+        playerGuidanceCue: scenario.playerGuidanceCue ?? playerGuidanceCue,
+        playerGuidanceCueValidation: validatePlayerGuidanceCue(scenario.playerGuidanceCue ?? playerGuidanceCue),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -723,6 +727,7 @@ export function createGoldRushApp(root) {
     syncPlayerActionSurface({ localPlayer: movementPlayer });
     syncPlayerDrivenExtractionRoute({ localPlayer: movementPlayer });
     syncPlayerRouteGuidance({ localPlayer: movementPlayer });
+    syncPlayerGuidanceCue({ localPlayer: movementPlayer });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
@@ -790,6 +795,14 @@ export function createGoldRushApp(root) {
     };
     return runtime.engine.n.goldrushPlayerRouteGuidance.update({
       objectInteraction,
+      localPlayer,
+    });
+  }
+
+  function syncPlayerGuidanceCue({
+    localPlayer = movement.snapshot(),
+  } = {}) {
+    return runtime.engine.n.goldrushPlayerGuidanceCue.update({
       localPlayer,
     });
   }

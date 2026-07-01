@@ -165,6 +165,7 @@ const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.j
 const appSource = readFileSync(new URL("../../src/app/goldRushApp.js", import.meta.url), "utf8");
 const extractionLoopSource = readFileSync(new URL("../../src/kits/goldRushExtractionLoopKit.js", import.meta.url), "utf8");
 const playerActionSurfaceSource = readFileSync(new URL("../../src/content/goldrushPlayerActionSurface.js", import.meta.url), "utf8");
+const playerGuidanceCueSource = readFileSync(new URL("../../src/content/goldrushPlayerGuidanceCue.js", import.meta.url), "utf8");
 const extractionSetpieceProofSource = readFileSync(new URL("../proof/extraction-setpiece-proof.mjs", import.meta.url), "utf8");
 assert(!rendererSource.includes("CircleGeometry"), "renderer must not use circular arena primitive");
 assert(!rendererSource.includes("BoxGeometry"), "renderer must not use box markers as the core player field");
@@ -247,6 +248,22 @@ assert(
     && proceduralSource.includes("state.playerActionSurface")
     && proceduralSource.includes("playerActionSurfacePrompt: playerActionSurfacePromptKit.snapshot()"),
   "renderer must consume player action surface through one diegetic in-world prompt contract"
+);
+assert(
+  appSource.includes("goldrushPlayerGuidanceCue")
+    && appSource.includes("playerGuidanceCueValidation")
+    && playerGuidanceCueSource.includes("goldrush-player-guidance-cue-v1")
+    && playerGuidanceCueSource.includes("n:goldrush:player-guidance-cue")
+    && playerGuidanceCueSource.includes("one-active-world-cue"),
+  "app state must expose a GoldRush player guidance cue that composes route guidance and action surface"
+);
+assert(
+  proceduralSource.includes("mountPlayerGuidanceCueKit")
+    && proceduralSource.includes("goldrush-player-guidance-cue-visual-v1")
+    && proceduralSource.includes("diegetic-route-cue-render")
+    && proceduralSource.includes("state.playerGuidanceCue")
+    && proceduralSource.includes("playerGuidanceCue: playerGuidanceCueKit.snapshot()"),
+  "renderer must consume player guidance cue through one diegetic in-world route/action cue contract"
 );
 assert(appSource.includes("publicSmokePlaceAtNearestObjectAffordance"), "public smoke proof must be able to place the player by object affordance");
 assert(appSource.includes("dispatchNearestObjectAffordance") && appSource.includes("holdExtractionLoopMine({ siteId"), "app interaction must dispatch selected object affordances into domain runtime actions");

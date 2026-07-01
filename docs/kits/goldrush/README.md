@@ -63,6 +63,7 @@ Each kit contract has the same 10 documented points: `domainPath`, `purpose`, `p
 - `n:goldrush:player-action-surface`
 - `n:goldrush:player-driven-extraction-route`
 - `n:goldrush:player-route-guidance`
+- `n:goldrush:player-guidance-cue`
 - `n:goldrush:match-loop`
 - `n:goldrush:extraction-receipts`
 - `n:goldrush:gold-rush-scoring`
