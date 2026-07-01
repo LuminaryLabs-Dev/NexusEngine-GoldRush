@@ -32,6 +32,10 @@ import {
   validatePlayerActionSurface,
 } from "../content/goldrushPlayerActionSurface.js";
 import {
+  createPlayerDrivenExtractionRouteSnapshot,
+  validatePlayerDrivenExtractionRoute,
+} from "../content/goldrushPlayerDrivenExtractionRoute.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -76,6 +80,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createCombatKit(),
     createGoldRushExtractionLoopKit(),
     createPlayerActionSurfaceKit(),
+    createPlayerDrivenExtractionRouteKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1236,6 +1241,75 @@ function createPlayerActionSurfaceKit() {
   });
 }
 
+function createPlayerDrivenExtractionRouteKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-player-driven-extraction-route-kit",
+    domain: "goldrush-player-driven-extraction-route",
+    apiName: "goldrushPlayerDrivenExtractionRoute",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-extraction-loop",
+      "n:goldrush-player-action-surface",
+      "n:goldrush-extraction-receipts",
+      "n:goldrush-scoring",
+      "n:goldrush-match-results",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose a player-driven mine-carry-cashout route matrix so proofs cannot hide direct helper shortcuts.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        objectInteraction: null,
+        localPlayer: null,
+        proofTelemetry: null,
+      };
+      let state = createPlayerDrivenExtractionRouteSnapshot({
+        extractionLoop: null,
+        playerActionSurface: null,
+        objectInteraction: externalFacts.objectInteraction,
+        localPlayer: externalFacts.localPlayer,
+        proofTelemetry: externalFacts.proofTelemetry,
+      });
+
+      function recompute() {
+        state = createPlayerDrivenExtractionRouteSnapshot({
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          objectInteraction: externalFacts.objectInteraction,
+          localPlayer: externalFacts.localPlayer,
+          match: engine.n.goldrushMatch?.snapshot?.() ?? null,
+          results: engine.n.goldrushResults?.snapshot?.() ?? null,
+          proofTelemetry: externalFacts.proofTelemetry,
+        });
+        return state;
+      }
+
+      return {
+        update({
+          objectInteraction = externalFacts.objectInteraction,
+          localPlayer = externalFacts.localPlayer,
+          proofTelemetry = externalFacts.proofTelemetry,
+        } = {}) {
+          externalFacts = {
+            objectInteraction: structuredClone(objectInteraction),
+            localPlayer: structuredClone(localPlayer),
+            proofTelemetry: structuredClone(proofTelemetry),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validatePlayerDrivenExtractionRoute(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1258,6 +1332,7 @@ function createScenarioKit() {
       "n:goldrush-combat",
       "n:goldrush-extraction-loop",
       "n:goldrush-player-action-surface",
+      "n:goldrush-player-driven-extraction-route",
       "n:goldrush-camera-descriptor",
       "n:goldrush-perspective",
       "n:goldrush-world-elements",
@@ -1425,6 +1500,7 @@ function createScenarioKit() {
           const combat = engine.n.goldrushCombat.snapshot();
           const extractionLoop = engine.n.goldrushExtractionLoop.snapshot();
           const playerActionSurface = engine.n.goldrushPlayerActionSurface.snapshot();
+          const playerDrivenExtractionRoute = engine.n.goldrushPlayerDrivenExtractionRoute.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1474,6 +1550,7 @@ function createScenarioKit() {
             combat,
             extractionLoop,
             playerActionSurface,
+            playerDrivenExtractionRoute,
             sceneState,
             world,
             terrainState,

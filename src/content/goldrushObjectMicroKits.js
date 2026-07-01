@@ -103,7 +103,7 @@ export function createGoldRushObjectMicroKits({ terrain, environmentSpace = null
         },
         rotation: transform.yaw,
         scale: transform.scale,
-        color: MATERIAL_COLORS[blueprint.materialRole],
+        color: visual.tintColor,
         lod: visual.lod,
       });
     }
@@ -139,6 +139,10 @@ export function validateGoldRushObjectMicroKits(descriptor) {
     && kit.id.startsWith("goldrush.micro.")
     && kit.protoKit?.kind === "goldrush-procedural-object-protokit"
     && kit.protoKit?.domainPath?.startsWith("n:goldrush:object:")
+    && kit.visual?.fidelity?.contract === "goldrush-object-visual-fidelity-v1"
+    && kit.visual?.fidelity?.domainPath === "n:render:micro-object-instancing"
+    && kit.visual?.fidelity?.groundContact === "raycast-locked"
+    && Number.isFinite(kit.visual?.tintColor)
     && (kit.visual?.resourceForm == null || ["gold-nugget-cluster", "ore-lode-chip", "gold-seam-lode", "tailings-fan"].includes(kit.visual.resourceForm))
     && kit.generationLayers?.some((layer) => layer.id === "raycast-placement" && ["resolved", "fallback"].includes(layer.status))
     && kit.placement?.raycast?.mode === "downward-triangle-raycast"
@@ -475,15 +479,69 @@ function createVisualMetadata({ blueprint, archetype, seed }) {
     : blueprint.zone === "canyon-wall" || blueprint.role === "landmark-dressing"
       ? "medium"
       : "low";
+  const tint = resolveMaterialTint(blueprint.materialRole, seed);
   return {
     batchKey: `${blueprint.geometryRole}.${blueprint.materialRole}.${archetype}`,
     materialKey: blueprint.materialRole,
+    tintColor: tint.color,
+    tintStrength: tint.strength,
     resourceForm: blueprint.visualForm ?? null,
     lod: (seed % 7) < 5 ? "near" : "far",
     silhouette,
     paletteGroup: paletteForMaterial(blueprint.materialRole),
     impostorEligible: silhouette !== "high",
+    fidelity: {
+      contract: "goldrush-object-visual-fidelity-v1",
+      domainPath: "n:render:micro-object-instancing",
+      materialBreakup: tint.materialBreakup,
+      shapeLanguage: shapeLanguageForGeometry(blueprint.geometryRole),
+      playerRead: playerReadForBlueprint(blueprint),
+      densityRole: blueprint.placementRole ?? "dressing",
+      groundContact: "raycast-locked",
+    },
   };
+}
+
+function resolveMaterialTint(materialRole, seed) {
+  const base = MATERIAL_COLORS[materialRole] ?? 0x92703d;
+  const variant = (((seed >>> 6) % 100) / 100 - 0.5) * 0.18;
+  const warmShift = materialRole === "gold" ? 0.14 : materialRole.includes("rock") || materialRole === "ore" ? 0.08 : 0.03;
+  const color = varyHexColor(base, variant + warmShift * ((((seed >>> 11) % 100) / 100) - 0.5));
+  return {
+    color,
+    strength: Number(Math.abs(variant).toFixed(3)),
+    materialBreakup: materialRole === "gold"
+      ? "emissive-glint-variation"
+      : materialRole === "red-rock" || materialRole === "red-rock-dark" || materialRole === "ore"
+        ? "strata-oxide-variation"
+        : materialRole === "wood" || materialRole === "canvas" || materialRole === "metal"
+          ? "settlement-wear-variation"
+          : "desert-dust-variation",
+  };
+}
+
+function varyHexColor(hex, amount) {
+  const r = Math.max(0, Math.min(255, ((hex >> 16) & 255) + Math.round(255 * amount)));
+  const g = Math.max(0, Math.min(255, ((hex >> 8) & 255) + Math.round(180 * amount)));
+  const b = Math.max(0, Math.min(255, (hex & 255) + Math.round(120 * amount)));
+  return (r << 16) | (g << 8) | b;
+}
+
+function shapeLanguageForGeometry(geometryRole) {
+  if (geometryRole.includes("gold") || geometryRole.includes("ore") || geometryRole.includes("tailings")) return "reward-mineral-read";
+  if (geometryRole.includes("wall") || geometryRole.includes("strata") || geometryRole.includes("mesa")) return "layered-canyon-read";
+  if (geometryRole.includes("mine") || geometryRole.includes("cart") || geometryRole.includes("timber")) return "working-mine-read";
+  if (geometryRole.includes("town") || geometryRole.includes("tower") || geometryRole.includes("frontage")) return "settlement-silhouette-read";
+  if (geometryRole.includes("grass") || geometryRole.includes("cactus") || geometryRole.includes("scrub")) return "desert-life-read";
+  return "ground-dressing-read";
+}
+
+function playerReadForBlueprint(blueprint) {
+  if (blueprint.role === "reward-readability") return "gold-or-ore-can-be-read-before-interaction";
+  if (blueprint.role === "cover") return "combat-cover-shape-is-readable-at-player-height";
+  if (blueprint.role === "navigation") return "trail-and-route-edge-supports-wasd-camera-movement";
+  if (blueprint.placementRole === "landmark") return "landmark-breaks-flat-field-and-orients-player";
+  return "background-dressing-compresses-below-interaction-priority";
 }
 
 function avoidTagsForZone(zone) {

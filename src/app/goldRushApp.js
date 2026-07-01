@@ -437,6 +437,7 @@ export function createGoldRushApp(root) {
     },
     getState: () => {
       const actionSurface = syncPlayerActionSurface({ localPlayer: movement.snapshot() });
+      const playerDrivenExtractionRoute = syncPlayerDrivenExtractionRoute({ localPlayer: movement.snapshot() });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -469,6 +470,8 @@ export function createGoldRushApp(root) {
         extractionLoop: scenario.extractionLoop,
         playerActionSurface: scenario.playerActionSurface,
         playerActionSurfaceValidation: validatePlayerActionSurface(actionSurface),
+        playerDrivenExtractionRoute: scenario.playerDrivenExtractionRoute ?? playerDrivenExtractionRoute,
+        playerDrivenExtractionRouteValidation: runtime.engine.n.goldrushPlayerDrivenExtractionRoute.validate(),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -700,8 +703,12 @@ export function createGoldRushApp(root) {
     const localPlayer = movement.snapshot();
     const tickInput = { ...loopInput };
     if (loopInput.interact) {
-      dispatchNearestObjectAffordance({ localPlayer, dt: 0.05 });
-      tickInput.interact = false;
+      if (shouldRouteInteractToExtraction(localPlayer)) {
+        tickInput.interact = true;
+      } else {
+        const affordanceReceipt = dispatchNearestObjectAffordance({ localPlayer, dt: 0.05 });
+        tickInput.interact = affordanceReceipt?.accepted !== true;
+      }
     }
     if (interactionHoldGraceFrames > 0) tickInput.holdActive = true;
     const extractionLoop = runtime.tickExtractionLoop({ localPlayer, input: tickInput, dt: 0.05 });
@@ -711,6 +718,7 @@ export function createGoldRushApp(root) {
     loopInput.fire = false;
     const movementPlayer = movement.snapshot();
     syncPlayerActionSurface({ localPlayer: movementPlayer });
+    syncPlayerDrivenExtractionRoute({ localPlayer: movementPlayer });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
@@ -749,6 +757,22 @@ export function createGoldRushApp(root) {
     return runtime.engine.n.goldrushPlayerActionSurface.update({
       objectInteraction,
       localPlayer,
+    });
+  }
+
+  function syncPlayerDrivenExtractionRoute({
+    localPlayer = movement.snapshot(),
+    proofTelemetry = null,
+  } = {}) {
+    const objectInteraction = {
+      contract: "goldrush-object-interaction-host-v1",
+      nearest: resolveNearestObjectAffordance({ localPlayer }),
+      last: structuredClone(lastObjectInteraction),
+    };
+    return runtime.engine.n.goldrushPlayerDrivenExtractionRoute.update({
+      objectInteraction,
+      localPlayer,
+      proofTelemetry,
     });
   }
 
@@ -792,6 +816,20 @@ export function createGoldRushApp(root) {
     };
     interactionHoldGraceFrames = Math.max(interactionHoldGraceFrames, 1);
     return structuredClone(lastObjectInteraction);
+  }
+
+  function shouldRouteInteractToExtraction(localPlayer = movement.snapshot()) {
+    const loop = runtime.engine.n.goldrushExtractionLoop.getState();
+    const cargoAmount = Number(loop.player?.cargo?.goldDust ?? loop.player?.cargo?.totalValue ?? 0);
+    const zeroCargoAllowed = Boolean(loop.scenario?.cashoutRules?.zeroCargoAllowed);
+    if (cargoAmount <= 0 && !zeroCargoAllowed) return false;
+    const playerPosition = localPlayer?.position ?? localPlayer;
+    if (!playerPosition) return false;
+    return Object.values(loop.extraction?.sites ?? {}).some((site) => {
+      const dx = Number(playerPosition.x ?? 0) - Number(site.worldPosition?.x ?? 0);
+      const dz = Number(playerPosition.z ?? 0) - Number(site.worldPosition?.z ?? 0);
+      return Math.hypot(dx, dz) <= Number(site.radius ?? 0);
+    });
   }
 
   function startLoadingYard(payload = {}) {
@@ -1070,9 +1108,12 @@ export function createGoldRushApp(root) {
       loadingMovement.clearKeys();
     }
     if (input.command === "mine") window.GoldRushHost.actions.mine();
-    if (input.command === "interact" || (input.interact && runCommand && screen === "run")) {
+    if (input.command === "interact") {
       window.GoldRushHost.actions.interact();
       loopInput.interact = false;
+    }
+    if (input.interact && input.command !== "interact" && runCommand && screen === "run") {
+      loopInput.interact = true;
     }
     if (input.command === "cover") window.GoldRushHost.actions.engageCover({ threatId: input.threatId ?? null, coverId: input.coverId ?? null, peekSide: input.peek ?? null });
     if (input.command === "peekCover") window.GoldRushHost.actions.peekCover({ side: input.peek ?? "right" });

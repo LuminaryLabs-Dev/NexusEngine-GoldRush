@@ -82,3 +82,12 @@ Status: active
 - 2026-06-30 20:21:00 EDT - Extended public smoke boarding proof for CI by holding sprint during camera-relative train approach and allowing a longer Actions browser boarding window.
 - 2026-06-30 20:34:00 EDT - Captured local/public live-test videos, strict local/public smoke screenshots, NexusSimulator proof, and added a durable local/public live-state audit packet.
 - 2026-06-30 20:46:00 EDT - Added camera/ground stability research, a long-run Playwright proof harness, package script, and memory/audit updates for camera pulsing diagnosis.
+- 2026-06-30 21:05:00 EDT - Added `proof:live-state-audit` to compare local and public with scene screenshots, movement video capture, domain metrics, and sanitized local/public reports.
+- 2026-06-30 22:10:00 EDT - Hardened `proof:live-state-audit` with simulator-driven train boarding, bounded step/report cleanup, resilient screenshot capture, and local/public comparison proof `reports/live-state-audit/local-public-live-audit-2026-07-01T02-07-25-910Z.json`.
+- 2026-06-30 22:35:00 EDT - Fixed run-scene proof capture by rendering a synchronous frame, enabling WebGL drawing-buffer preservation only in `publicSmoke` mode, rejecting blank canvas fallback captures, and retaining matched local/public proof `reports/live-state-audit/local-public-live-audit-2026-07-01T02-33-16-207Z.json`.
+- 2026-06-30 22:58:32 EDT - Added screenshot-first `proof:live-state-audit --recordVideo=false`, top-level `--hardTimeout` failure reporting, and audit notes after fresh Playwright/Chrome proof control hung while existing retained proof and CLI/build validation still passed.
+- 2026-06-30 23:18:00 EDT - Added `proof:browser-doctor`, fixed proof timeout handle cleanup, restored key-driven train boarding in live-state audit, and captured fresh passing local/public screenshot-first proofs.
+- 2026-06-30 23:42:41 EDT - Filled the repo `.agent` workspace from the chat review with refreshed entrypoint, workflow, intention, memory, goal slices, and focused feedback packets.
+- 2026-07-01 00:39:33 EDT - Added `n:goldrush:player-driven-extraction-route` to track mine, carry, cashout, and receipt/results stages as a route matrix.
+- 2026-07-01 00:39:33 EDT - Documented AAA extraction-route gaps and source-backed research in `.agent/research/player-driven-extraction-route-2026-07-01.md`.
+- 2026-07-01 00:59:13 EDT - Resolved the player-driven extraction route matrix in CLI and browser proof, added `agent-it/` index, and re-ran full validation plus production build.

@@ -166,12 +166,23 @@ export function isNearTrainBoardingZone(position) {
 function createYard() {
   const group = new THREE.Group();
   const sand = new THREE.MeshStandardMaterial({ color: 0x9f6f2b, roughness: 1 });
+  const paleSand = new THREE.MeshStandardMaterial({ color: 0xc08a46, roughness: 1, flatShading: true });
+  const redSand = new THREE.MeshStandardMaterial({ color: 0x9b4c26, roughness: 1, flatShading: true });
   const rail = new THREE.MeshStandardMaterial({ color: 0x2a211a, roughness: 0.72 });
   const metal = new THREE.MeshStandardMaterial({ color: 0x8b8071, roughness: 0.55 });
+  const wood = new THREE.MeshStandardMaterial({ color: 0x6d4328, roughness: 0.88, flatShading: true });
+  const canvas = new THREE.MeshStandardMaterial({ color: 0xd0b487, roughness: 0.86, flatShading: true });
+  const darkRock = new THREE.MeshStandardMaterial({ color: 0x5a2817, roughness: 0.98, flatShading: true });
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(70, 48, 10, 10), sand);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   group.add(ground);
+
+  group.add(createLoadingYardFidelityBand({ width: 68, depth: 7.5, x: 0, z: -3.2, material: paleSand, opacity: 0.44 }));
+  group.add(createLoadingYardFidelityBand({ width: 62, depth: 4.4, x: 0, z: -10.2, material: redSand, opacity: 0.36 }));
+  group.add(createRailBallastBed());
+  group.add(createDistantLoadingMesa(-22, -19, 11, darkRock));
+  group.add(createDistantLoadingMesa(23, -21, 8.5, darkRock));
 
   [-0.48, 0.48].forEach((x) => {
     const line = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 96), metal);
@@ -191,6 +202,9 @@ function createYard() {
   platform.castShadow = true;
   platform.receiveShadow = true;
   group.add(platform);
+  group.add(createPlatformAwning({ wood, canvas }));
+  group.add(createTelegraphLine({ wood, metal }));
+  group.add(createStopMarker({ wood, metal }));
 
   Array.from({ length: 8 }, (_, index) => {
     const crate = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.55, 0.75), rail);
@@ -201,6 +215,140 @@ function createYard() {
   });
 
   return group;
+}
+
+function createLoadingYardFidelityBand({ width, depth, x, z, material, opacity }) {
+  const bandMaterial = material.clone();
+  bandMaterial.transparent = true;
+  bandMaterial.opacity = opacity;
+  bandMaterial.depthWrite = false;
+  const band = new THREE.Mesh(new THREE.PlaneGeometry(width, depth, 5, 1), bandMaterial);
+  band.name = "goldrush.loading-yard.fidelity-ground-band";
+  band.rotation.x = -Math.PI / 2;
+  band.position.set(x, 0.022, z);
+  band.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  return band;
+}
+
+function createRailBallastBed() {
+  const group = new THREE.Group();
+  group.name = "goldrush.loading-yard.rail-ballast-bed";
+  group.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  const ballastMaterial = new THREE.MeshStandardMaterial({ color: 0x5d5140, roughness: 0.96, flatShading: true });
+  Array.from({ length: 48 }, (_, index) => {
+    const chip = new THREE.Mesh(createLowPolyChipGeometry(0.16 + (index % 4) * 0.025), ballastMaterial);
+    const side = index % 2 === 0 ? -1 : 1;
+    chip.position.set(side * (0.86 + (index % 3) * 0.2), 0.055, 34 - index * 1.85);
+    chip.rotation.set(index * 0.17, index * 0.41, index * 0.09);
+    chip.castShadow = true;
+    group.add(chip);
+  });
+  return group;
+}
+
+function createDistantLoadingMesa(x, z, height, material) {
+  const mesa = new THREE.Mesh(createLoadingMesaGeometry(height), material);
+  mesa.name = "goldrush.loading-yard.distant-mesa";
+  mesa.position.set(x, height * 0.18, z);
+  mesa.rotation.y = x < 0 ? -0.22 : 0.24;
+  mesa.scale.set(1.65, 1, 0.72);
+  mesa.castShadow = true;
+  mesa.receiveShadow = true;
+  mesa.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  return mesa;
+}
+
+function createPlatformAwning({ wood, canvas }) {
+  const group = new THREE.Group();
+  group.name = "goldrush.loading-yard.platform-awning";
+  group.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  [-1, 1].forEach((side) => {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.35, 0.12), wood);
+    post.position.set(4.8 + side * 3.35, 0.86, -6.25);
+    post.castShadow = true;
+    group.add(post);
+  });
+  const beam = new THREE.Mesh(new THREE.BoxGeometry(7.1, 0.12, 0.14), wood);
+  beam.position.set(4.8, 1.52, -6.25);
+  beam.castShadow = true;
+  group.add(beam);
+  const tarp = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.08, 1.2), canvas);
+  tarp.position.set(4.8, 1.62, -5.85);
+  tarp.rotation.x = -0.08;
+  tarp.castShadow = true;
+  group.add(tarp);
+  return group;
+}
+
+function createTelegraphLine({ wood, metal }) {
+  const group = new THREE.Group();
+  group.name = "goldrush.loading-yard.telegraph-line";
+  group.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  [-11, 12].forEach((x, index) => {
+    const pole = new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.3, 0.12), wood);
+    pole.position.set(x, 1.15, -1.4 - index * 3.2);
+    pole.castShadow = true;
+    group.add(pole);
+    const cross = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.07, 0.07), wood);
+    cross.position.set(x, 2.06, -1.4 - index * 3.2);
+    cross.castShadow = true;
+    group.add(cross);
+  });
+  const wire = new THREE.Mesh(new THREE.BoxGeometry(23.3, 0.025, 0.025), metal);
+  wire.position.set(0.5, 2.08, -3.0);
+  wire.rotation.y = -0.14;
+  group.add(wire);
+  return group;
+}
+
+function createStopMarker({ wood, metal }) {
+  const group = new THREE.Group();
+  group.name = "goldrush.loading-yard.boarding-stop-marker";
+  group.userData.visualContract = "goldrush-loading-yard-fidelity-v1";
+  const post = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.1, 0.1), wood);
+  post.position.set(-2.2, 0.58, -7.35);
+  const sign = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.32, 0.08), metal);
+  sign.position.set(-2.2, 1.08, -7.35);
+  sign.rotation.y = 0.08;
+  group.add(post, sign);
+  return group;
+}
+
+function createLowPolyChipGeometry(radius) {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
+    -radius, 0, -radius * 0.55,
+    radius * 0.85, 0, -radius * 0.45,
+    radius * 0.55, radius * 0.35, radius * 0.38,
+    -radius * 0.62, radius * 0.18, radius * 0.52,
+    -radius, 0, -radius * 0.55,
+    radius * 0.55, radius * 0.35, radius * 0.38,
+    -radius * 0.62, radius * 0.18, radius * 0.52,
+  ]), 3));
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function createLoadingMesaGeometry(height) {
+  const width = height * 1.25;
+  const depth = height * 0.54;
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
+    -width, 0, -depth,
+    width, 0, -depth * 0.85,
+    width * 0.62, height * 0.44, 0,
+    -width, 0, -depth,
+    width * 0.62, height * 0.44, 0,
+    -width * 0.42, height * 0.58, depth * 0.2,
+    -width * 0.55, 0, depth,
+    width * 0.82, 0, depth * 0.8,
+    width * 0.62, height * 0.44, 0,
+    -width * 0.55, 0, depth,
+    width * 0.62, height * 0.44, 0,
+    -width * 0.42, height * 0.58, depth * 0.2,
+  ]), 3));
+  geometry.computeVertexNormals();
+  return geometry;
 }
 
 function createTrain() {

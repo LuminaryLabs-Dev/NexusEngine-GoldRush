@@ -4,7 +4,8 @@ import { mountGoldRushProceduralScene } from "./proceduralKits.js";
 export function createGoldRushRenderer(root) {
   const scene = new THREE.Scene();
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const proofCaptureMode = new URLSearchParams(window.location.search).has("publicSmoke");
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: proofCaptureMode });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -23,17 +24,22 @@ export function createGoldRushRenderer(root) {
     renderer.setSize(width, height, false);
   }
 
-  function draw(time = 0) {
+  function renderFrame(time = performance.now()) {
     if (!currentState) return;
     resize();
     proceduralScene.update(currentState, time / 1000);
     renderer.render(scene, proceduralScene.getCamera());
     frameCount += 1;
+  }
+
+  function draw(time = 0) {
+    renderFrame(time);
     window.requestAnimationFrame(draw);
   }
 
   function render(state) {
     currentState = state;
+    renderFrame(performance.now());
     if (!started) {
       started = true;
       window.requestAnimationFrame(draw);

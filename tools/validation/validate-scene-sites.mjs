@@ -85,6 +85,10 @@ assert(loadingRendererSource.includes("animateTrainDoor"), "loading-yard train m
 assert(loadingRendererSource.includes("playerLockedToTrain"), "loading-yard scene must support locking the player to the train");
 assert(loadingRendererSource.includes("createBoardingCue"), "loading-yard scene must create an in-world train boarding cue");
 assert(loadingRendererSource.includes("goldrush-train-boarding-cue-v1"), "loading-yard boarding cue must expose a stable snapshot contract");
+assert(loadingRendererSource.includes("goldrush-loading-yard-fidelity-v1"), "loading-yard renderer must expose a visual fidelity contract for non-blockout yard detail");
+assert(loadingRendererSource.includes("createRailBallastBed"), "loading-yard renderer must add rail ballast detail instead of a naked rail plane");
+assert(loadingRendererSource.includes("createPlatformAwning"), "loading-yard renderer must add platform staging detail around the boarding point");
+assert(loadingRendererSource.includes("createDistantLoadingMesa"), "loading-yard renderer must stage distant mesas so the loading scene does not read as a flat test yard");
 assert(loadingRendererSource.includes("trainReadout"), "loading-yard renderer must consume the first-sequence train readout");
 assert(!loadingRendererSource.includes("train.position.x = departureProgress * 30"), "train must not depart with sideways linear drift");
 assert(loadingRendererSource.includes("isNearTrainBoardingZone"), "loading-yard scene must expose a train boarding trigger");

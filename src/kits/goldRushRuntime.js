@@ -91,7 +91,18 @@ export function createGoldRushRuntime({ orchestrator }) {
   }
 
   function tickExtractionLoop({ localPlayer = null, input = {}, dt = 0.1 } = {}) {
+    const beforeLoop = engine.n.goldrushExtractionLoop.getState();
+    const previousMiningReceipts = new Set((beforeLoop.mining?.receipts ?? []).map((receipt) => receipt.receiptId));
+    const previousExtractionReceiptId = beforeLoop.receipt?.receiptId ?? null;
     const snapshot = engine.n.goldrushExtractionLoop.tick({ localPlayer, input, dt });
+    const newMiningReceipt = (snapshot.mining?.receipts ?? [])
+      .find((receipt) => !previousMiningReceipts.has(receipt.receiptId) && Number(receipt.payout ?? 0) > 0);
+    if (newMiningReceipt) {
+      syncProtoKitMine({ amount: newMiningReceipt.payout, sourceId: newMiningReceipt.siteId ?? newMiningReceipt.receiptId });
+    }
+    if (snapshot.receipt?.extracted && snapshot.receipt.receiptId !== previousExtractionReceiptId) {
+      syncProtoKitCashout({ amount: snapshot.receipt.depositedGold, sourceId: snapshot.receipt.receiptId });
+    }
     syncExtractionLoopCombatPresentation({ snapshot, reason: "extraction-loop.tick" });
     engine.n.goldrushMatch.tick({ dt });
     engine.tick();

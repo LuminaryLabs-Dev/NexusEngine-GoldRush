@@ -81,6 +81,19 @@ assert(
   "every generated object protokit must be placed by downward terrain raycast"
 );
 assert(
+  descriptors.objectMicroKits.kits.every((kit) => (
+    kit.visual?.fidelity?.contract === "goldrush-object-visual-fidelity-v1"
+    && kit.visual.fidelity.domainPath === "n:render:micro-object-instancing"
+    && kit.visual.fidelity.groundContact === "raycast-locked"
+    && Number.isFinite(kit.visual.tintColor)
+  )),
+  "every generated object protokit must expose a renderer-consumable visual fidelity contract"
+);
+assert(
+  new Set(descriptors.objectMicroKits.kits.map((kit) => kit.visual.tintColor)).size >= 24,
+  "object protokit visual fidelity must provide enough material tint variation to break up blockout flatness"
+);
+assert(
   descriptors.objectMicroKits.kits.every((kit) => Math.abs(kit.position.y - kit.placement.raycast.surfaceY) < 0.2),
   "object y placement must stay close to the raycast terrain surface"
 );
@@ -174,6 +187,12 @@ assert(proceduralSource.includes("goldrush-affordance-marker-readability-v1") &&
 assert(proceduralSource.includes("goldrush-selected-affordance-cue-v1") && proceduralSource.includes("createSelectedAffordanceCueSnapshot") && proceduralSource.includes("selected-in-world-claim-cue"), "selected object affordances must expose an in-world cue/progress contract");
 assert(proceduralSource.includes("goldrush-object-proximity-readability-v1") && proceduralSource.includes("updateMicroObjectVisualDensity") && proceduralSource.includes("clutterScale"), "renderer must compress nearby nonselected object clutter around the selected affordance");
 assert(proceduralSource.includes("goldrush-resource-visual-forms-v1") && proceduralSource.includes("createGoldNuggetClusterGeometry") && proceduralSource.includes("createOreLodeChipGeometry") && proceduralSource.includes("createTailingsFanGeometry"), "resource micro-kits must render as readable nugget, ore-lode, seam, and tailings forms");
+assert(
+  proceduralSource.includes("goldrush-object-visual-fidelity-v1")
+    && proceduralSource.includes("createObjectVisualFidelitySnapshot")
+    && proceduralSource.includes("visualFidelity: structuredClone(visualFidelity)"),
+  "renderer snapshot must expose object visual fidelity proof from object protokits"
+);
 assert(proceduralSource.includes("goldrush-extraction-cashout-cue-v1") && proceduralSource.includes("createExtractionCashoutCueSnapshot") && proceduralSource.includes("diegetic-cashout-beacon"), "extraction markers must expose a diegetic cashout cue contract");
 assert(
   proceduralSource.includes("goldrush-extraction-setpiece-v1")

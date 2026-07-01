@@ -853,6 +853,13 @@ function mountMicroObjectKit(scene, descriptor) {
     purpose: "make mineable resources read as seams, nuggets, ore lodes, and tailings fans instead of black lump clutter",
     requiredForms: ["gold-nugget-cluster", "ore-lode-chip", "gold-seam-lode", "tailings-fan"],
   };
+  const visualFidelityPolicy = {
+    contract: "goldrush-object-visual-fidelity-v1",
+    domainPath: "n:render:micro-object-instancing",
+    consumes: "goldrush-procedural-object-protokit",
+    purpose: "layer material tint, silhouette language, and density role on each procedural object without replacing approved asset promotion",
+    requiredReads: ["materialBreakup", "shapeLanguage", "playerRead", "groundContact"],
+  };
 
   descriptor.kits.forEach((kit) => {
     const key = `${kit.geometryRole}:${kit.materialRole}`;
@@ -868,6 +875,7 @@ function mountMicroObjectKit(scene, descriptor) {
   let lastSelectedAffordanceCue = createSelectedAffordanceCueSnapshot(selectedAffordanceCuePolicy, lastAffordanceSelection, null);
   let lastProximityReadability = createObjectProximityReadabilitySnapshot(proximityReadabilityPolicy, lastAffordanceSelection, null, []);
   const resourceVisualForms = createResourceVisualFormSnapshot(resourceVisualFormPolicy, descriptor);
+  const visualFidelity = createObjectVisualFidelitySnapshot(visualFidelityPolicy, descriptor);
   for (const [key, kits] of buckets.entries()) {
     const [geometryRole, materialRole] = key.split(":");
     const mesh = new THREE.InstancedMesh(
@@ -940,8 +948,32 @@ function mountMicroObjectKit(scene, descriptor) {
         selectedAffordanceCue: structuredClone(lastSelectedAffordanceCue),
         proximityReadability: structuredClone(lastProximityReadability),
         resourceVisualForms: structuredClone(resourceVisualForms),
+        visualFidelity: structuredClone(visualFidelity),
       };
     },
+  };
+}
+
+function createObjectVisualFidelitySnapshot(policy, descriptor) {
+  const fidelityKits = descriptor.kits.filter((kit) => kit.visual?.fidelity?.contract === policy.contract);
+  const materialBreakup = {};
+  const shapeLanguage = {};
+  const densityRoles = {};
+  fidelityKits.forEach((kit) => {
+    materialBreakup[kit.visual.fidelity.materialBreakup] = (materialBreakup[kit.visual.fidelity.materialBreakup] ?? 0) + 1;
+    shapeLanguage[kit.visual.fidelity.shapeLanguage] = (shapeLanguage[kit.visual.fidelity.shapeLanguage] ?? 0) + 1;
+    densityRoles[kit.visual.fidelity.densityRole] = (densityRoles[kit.visual.fidelity.densityRole] ?? 0) + 1;
+  });
+  const tintCount = new Set(fidelityKits.map((kit) => kit.visual.tintColor)).size;
+  return {
+    ...policy,
+    fidelityKitCount: fidelityKits.length,
+    materialBreakup,
+    shapeLanguage,
+    densityRoles,
+    tintCount,
+    allGroundContactRaycastLocked: fidelityKits.every((kit) => kit.visual.fidelity.groundContact === "raycast-locked"),
+    allRequiredReadsPresent: fidelityKits.every((kit) => policy.requiredReads.every((field) => kit.visual.fidelity[field])),
   };
 }
 

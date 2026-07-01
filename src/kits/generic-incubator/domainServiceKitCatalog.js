@@ -647,6 +647,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-player-action-surface.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:player-driven-extraction-route",
+    purpose: "Track whether mine, carry, cashout, receipt, and results stages are truly player-driven and domain-owned.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["resolveStageStatus", "countHelperDebt", "rankNextPlayableGap"],
+    events: ["goldrush.playerDrivenRouteChanged"],
+    snapshot: ["stageOrder", "stages", "resolvedStages", "playerDrivenStages", "helperDebt"],
+    dataExposed: ["stage id", "status", "domain path", "evidence", "gaps", "helper debt"],
+    validator: "tools/validation/validate-player-driven-extraction-route.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],
