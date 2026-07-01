@@ -28,6 +28,7 @@ const requiredApis = [
   "goldrushPlayerGuidanceCue",
   "goldrushPlayerLoopReadiness",
   "goldrushCombatLoopReadiness",
+  "goldrushCombatRouteGuidance",
   "goldrushCamera",
   "goldrushPerspective",
   "goldrushScenes",
@@ -133,6 +134,11 @@ assert(prospect.combatLoopReadiness.domainPath === "n:goldrush:combat-loop-readi
 assert(prospect.combatLoopReadiness.consumes.includes("n:goldrush:ambush-pressure"), "combat loop readiness should consume ambush pressure");
 assert(prospect.combatLoopReadiness.consumes.includes("n:match:results"), "combat loop readiness should consume match results");
 assert(runtime.engine.n.goldrushCombatLoopReadiness.validate().passed, "combat loop readiness kit should validate inside the runtime");
+assert(prospect.combatRouteGuidance?.contract === "goldrush-combat-route-guidance-v1", "scenario snapshot should expose combat route guidance contract");
+assert(prospect.combatRouteGuidance.domainPath === "n:goldrush:combat-route-guidance", "combat route guidance should stay in the GoldRush custom domain");
+assert(prospect.combatRouteGuidance.consumes.includes("n:control:character-movement"), "combat route guidance should consume character movement");
+assert(prospect.combatRouteGuidance.consumes.includes("n:goldrush:ambush-pressure"), "combat route guidance should consume ambush pressure");
+assert(runtime.engine.n.goldrushCombatRouteGuidance.validate().passed, "combat route guidance kit should validate inside the runtime");
 assert(prospect.realityStatus.summary.placeholderSlots >= 30, "reality status should expose placeholder debt");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "legacy-assets" && domain.status === "blocked-cloud-import"), "legacy assets should stay cloud-blocked until promoted");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "audio-music" && domain.status === "blocked-cloud-import"), "actual audio should stay cloud-blocked until promoted");
@@ -222,6 +228,20 @@ assert(pressureCombat.cameraState.mode === "combat", "active threat pressure sho
 assert(pressureCombat.audioState.musicCueId === "goldrush.audio.music.combat", "active threat pressure should switch audio to combat music");
 assert(pressureCombat.animationState.params.isAiming === true, "active threat pressure should switch animation into aiming posture");
 assert(pressureCombat.sceneState.currentSceneId === "goldrush.scene.legacyGame", "active threat pressure should route scene state to combat scene intent");
+const combatRouteDuringPressure = runtime.engine.n.goldrushCombatRouteGuidance.update({
+  localPlayer: {
+    position: { x: -9.5, y: 0, z: -13.4 },
+    heading: 0,
+    look: { yaw: 0, pitch: 0, movementRelativeToCamera: true },
+    inputModel: { id: "camera-relative-wasd", wasdFollowsCameraYaw: true },
+    ground: { grounded: true, height: 0 },
+    terrainCollider: { blocked: false },
+  },
+  renderer: null,
+});
+assert(combatRouteDuringPressure.target?.kind === "cover", "active threat pressure should expose a cover route target");
+assert(combatRouteDuringPressure.combatInputHint.aim === true, "active threat pressure should ask combat route input to aim");
+assert(combatRouteDuringPressure.cameraRelativeInput.keys.includes("w") || combatRouteDuringPressure.cameraRelativeInput.mode === "arrived", "combat route should expose camera-relative cover movement");
 
 runtime.fireExtractionLoop();
 runtime.fireExtractionLoop();

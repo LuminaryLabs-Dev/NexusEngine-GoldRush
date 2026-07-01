@@ -52,6 +52,10 @@ import {
   validateCombatLoopReadiness,
 } from "../content/goldrushCombatLoopReadiness.js";
 import {
+  createCombatRouteGuidanceSnapshot,
+  validateCombatRouteGuidance,
+} from "../content/goldrushCombatRouteGuidance.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -101,6 +105,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createPlayerGuidanceCueKit(),
     createPlayerLoopReadinessKit(),
     createCombatLoopReadinessKit(),
+    createCombatRouteGuidanceKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1578,6 +1583,98 @@ function createCombatLoopReadinessKit() {
   });
 }
 
+function createCombatRouteGuidanceKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-combat-route-guidance-kit",
+    domain: "goldrush-combat-route-guidance",
+    apiName: "goldrushCombatRouteGuidance",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-extraction-loop",
+      "n:goldrush-player-action-surface",
+      "n:goldrush-combat-loop-readiness",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose camera-relative combat route targets so carried-gold ambush setup can be proven through walking, aiming, and cover input.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        localPlayer: null,
+        renderer: null,
+        proofTelemetry: null,
+        routeMemory: null,
+      };
+      let state = createCombatRouteGuidanceSnapshot({
+        extractionLoop: null,
+        playerActionSurface: null,
+        combatLoopReadiness: null,
+        renderer: externalFacts.renderer,
+        localPlayer: externalFacts.localPlayer,
+        proofTelemetry: externalFacts.proofTelemetry,
+        routeMemory: externalFacts.routeMemory,
+      });
+
+      function recompute() {
+        state = createCombatRouteGuidanceSnapshot({
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          combatLoopReadiness: engine.n.goldrushCombatLoopReadiness?.snapshot?.() ?? null,
+          renderer: externalFacts.renderer,
+          localPlayer: externalFacts.localPlayer,
+          proofTelemetry: externalFacts.proofTelemetry,
+          routeMemory: externalFacts.routeMemory,
+        });
+        if (state.nextAction === "mine-gold-first" || !state.threatTarget) {
+          externalFacts.routeMemory = null;
+        } else if (
+          state.coverTarget
+          && state.coverTarget.meta?.threatId
+          && (!state.routeMemory?.latched || state.routeMemory.threatId !== state.coverTarget.meta.threatId)
+        ) {
+          externalFacts.routeMemory = {
+            threatId: state.coverTarget.meta.threatId,
+            coverTarget: structuredClone(state.coverTarget),
+          };
+          state = createCombatRouteGuidanceSnapshot({
+            extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+            playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+            combatLoopReadiness: engine.n.goldrushCombatLoopReadiness?.snapshot?.() ?? null,
+            renderer: externalFacts.renderer,
+            localPlayer: externalFacts.localPlayer,
+            proofTelemetry: externalFacts.proofTelemetry,
+            routeMemory: externalFacts.routeMemory,
+          });
+        }
+        return state;
+      }
+
+      return {
+        update({
+          localPlayer = externalFacts.localPlayer,
+          renderer = externalFacts.renderer,
+          proofTelemetry = externalFacts.proofTelemetry,
+        } = {}) {
+          externalFacts = {
+            localPlayer: structuredClone(localPlayer),
+            renderer: structuredClone(renderer),
+            proofTelemetry: structuredClone(proofTelemetry),
+            routeMemory: externalFacts.routeMemory,
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validateCombatRouteGuidance(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1775,6 +1872,7 @@ function createScenarioKit() {
           const playerGuidanceCue = engine.n.goldrushPlayerGuidanceCue.snapshot();
           const playerLoopReadiness = engine.n.goldrushPlayerLoopReadiness.snapshot();
           const combatLoopReadiness = engine.n.goldrushCombatLoopReadiness.snapshot();
+          const combatRouteGuidance = engine.n.goldrushCombatRouteGuidance.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1829,6 +1927,7 @@ function createScenarioKit() {
             playerGuidanceCue,
             playerLoopReadiness,
             combatLoopReadiness,
+            combatRouteGuidance,
             sceneState,
             world,
             terrainState,

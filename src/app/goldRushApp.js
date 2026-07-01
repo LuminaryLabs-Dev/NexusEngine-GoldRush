@@ -12,6 +12,7 @@ import { validatePlayerActionSurface } from "../content/goldrushPlayerActionSurf
 import { validatePlayerGuidanceCue } from "../content/goldrushPlayerGuidanceCue.js";
 import { validatePlayerLoopReadiness } from "../content/goldrushPlayerLoopReadiness.js";
 import { validateCombatLoopReadiness } from "../content/goldrushCombatLoopReadiness.js";
+import { validateCombatRouteGuidance } from "../content/goldrushCombatRouteGuidance.js";
 import { createCannonTerrainPhysicsDescriptor } from "../physics/cannonTerrainPhysics.js";
 import { createPhysicsBackendDecision } from "../physics/physicsBackendKit.js";
 import {
@@ -449,6 +450,10 @@ export function createGoldRushApp(root) {
       const combatLoopReadiness = syncCombatLoopReadiness({
         renderer: renderer?.snapshot?.() ?? null,
       });
+      const combatRouteGuidance = syncCombatRouteGuidance({
+        localPlayer: movement.snapshot(),
+        renderer: renderer?.snapshot?.() ?? null,
+      });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -491,6 +496,8 @@ export function createGoldRushApp(root) {
         playerLoopReadinessValidation: validatePlayerLoopReadiness(scenario.playerLoopReadiness ?? playerLoopReadiness),
         combatLoopReadiness: scenario.combatLoopReadiness ?? combatLoopReadiness,
         combatLoopReadinessValidation: validateCombatLoopReadiness(scenario.combatLoopReadiness ?? combatLoopReadiness),
+        combatRouteGuidance: scenario.combatRouteGuidance ?? combatRouteGuidance,
+        combatRouteGuidanceValidation: validateCombatRouteGuidance(scenario.combatRouteGuidance ?? combatRouteGuidance),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -742,6 +749,10 @@ export function createGoldRushApp(root) {
     syncPlayerGuidanceCue({ localPlayer: movementPlayer });
     syncPlayerLoopReadiness({ renderer: renderer?.snapshot?.() ?? null });
     syncCombatLoopReadiness({ renderer: renderer?.snapshot?.() ?? null });
+    syncCombatRouteGuidance({
+      localPlayer: movementPlayer,
+      renderer: renderer?.snapshot?.() ?? null,
+    });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
@@ -838,6 +849,18 @@ export function createGoldRushApp(root) {
     proofTelemetry = null,
   } = {}) {
     return runtime.engine.n.goldrushCombatLoopReadiness.update({
+      renderer: rendererSnapshot,
+      proofTelemetry,
+    });
+  }
+
+  function syncCombatRouteGuidance({
+    localPlayer = movement.snapshot(),
+    renderer: rendererSnapshot = renderer?.snapshot?.() ?? null,
+    proofTelemetry = null,
+  } = {}) {
+    return runtime.engine.n.goldrushCombatRouteGuidance.update({
+      localPlayer,
       renderer: rendererSnapshot,
       proofTelemetry,
     });

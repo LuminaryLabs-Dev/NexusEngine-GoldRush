@@ -49,4 +49,5 @@ Replace direct result-completion helpers with a human-view path that proves:
 - `engine.n.goldrushPlayerLoopReadiness` now tracks resource cue, mine hold, cargo visual, cashout cue, cashout hold, and receipt-backed results.
 - `npm run proof:player-loop-readiness` proves the loop without run placement helpers or direct result-completion helpers.
 - `engine.n.goldrushCombatLoopReadiness` now tracks cargo threat activation, threat telegraph readability, cover counterplay, cover engagement, shot/damage receipts, and combat results.
-- The next playable-loop gap is a natural route-to-threat/cover encounter and higher-fidelity interaction feel, not basic route completion or hidden combat result data.
+- `engine.n.goldrushCombatRouteGuidance` now tracks carried cargo -> threat activation -> stable cover route -> cover action -> cover engagement -> combat receipt readiness, and `npm run proof:combat-route-guidance` proves it through natural train boarding, route-guided mining, camera-relative combat walking, and tick-input cover engagement.
+- The next playable-loop gap is higher-fidelity authored/protokit cover, toon-shaded imported models/audio with clear provenance, and interaction feel, not basic natural combat route setup.

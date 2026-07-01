@@ -697,6 +697,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-combat-loop-readiness.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:combat-route-guidance",
+    purpose: "Route carried-gold players into readable threat cover through camera-relative movement and cover input hints.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["selectThreat", "selectCover", "createCombatInputHint", "rankRouteGap"],
+    events: ["goldrush.combatRouteGuidanceChanged"],
+    snapshot: ["currentLegId", "target", "threatTarget", "coverTarget", "cameraRelativeInput", "combatInputHint", "legs"],
+    dataExposed: ["target id", "target position", "distance", "keys", "look delta", "cover input", "leg status"],
+    validator: "tools/validation/validate-combat-route-guidance.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],
