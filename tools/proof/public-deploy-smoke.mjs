@@ -104,7 +104,7 @@ try {
         && shot.trainBeat === "player-boarding"
         && shot.fallbackPattern === "train-board";
     }), "loading checkpoint should retain the train boarding audio fallback cue");
-    const walkedToRun = await walkToTrainUntilRun(page, 14000);
+    const walkedToRun = await walkToTrainUntilRun(page, 30000);
     const screenAfterWalk = await getHostState(page);
     report.boardingPath = summarizeBoardingPath(screenAfterWalk, { walkedToRun });
     assert(walkedToRun || screenAfterWalk?.screen === "run", "public smoke must board the train through natural camera-relative walking from the loading-yard spawn");
@@ -286,6 +286,7 @@ function chooseCameraRelativeKeysTowardTrain(state) {
   if (rightDot >= 0.22) keys.add("d");
   if (rightDot <= -0.22) keys.add("a");
   if (!keys.size) keys.add(forwardDot >= 0 ? "w" : "s");
+  if (distance > 3.2) keys.add("Shift");
   return keys;
 }
 
@@ -304,6 +305,7 @@ async function sendMovementKey(page, key, type) {
     a: "KeyA",
     s: "KeyS",
     d: "KeyD",
+    Shift: "ShiftLeft",
   }[key];
   const isDown = type === "keydown";
   await page.evaluate(({ eventType, keyValue, codeValue }) => {

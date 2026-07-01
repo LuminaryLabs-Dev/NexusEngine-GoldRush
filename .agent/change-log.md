@@ -79,3 +79,4 @@ Status: active
 - 2026-06-30 19:51:23 EDT - Tightened public smoke proof so train boarding must happen through natural camera-relative walking from the loading-yard spawn, with retained boarding-path evidence and BUG-005 research/docs updates.
 - 2026-06-30 20:10:00 EDT - Made NexusSimulator CLI validation CI-safe by treating the sibling simulator checkout as an optional CI dependency while keeping local discovery strict when available.
 - 2026-06-30 20:16:00 EDT - Updated public smoke walking proof to steer toward the train boarding cue through camera-relative WASD instead of assuming a fixed loading-yard camera yaw.
+- 2026-06-30 20:21:00 EDT - Extended public smoke boarding proof for CI by holding sprint during camera-relative train approach and allowing a longer Actions browser boarding window.
