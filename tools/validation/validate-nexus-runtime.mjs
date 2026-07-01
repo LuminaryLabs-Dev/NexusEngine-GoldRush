@@ -27,6 +27,7 @@ const requiredApis = [
   "goldrushPlayerRouteGuidance",
   "goldrushPlayerGuidanceCue",
   "goldrushPlayerLoopReadiness",
+  "goldrushCombatLoopReadiness",
   "goldrushCamera",
   "goldrushPerspective",
   "goldrushScenes",
@@ -127,6 +128,11 @@ assert(prospect.playerLoopReadiness.domainPath === "n:goldrush:player-loop-readi
 assert(prospect.playerLoopReadiness.consumes.includes("n:goldrush:player-guidance-cue"), "player loop readiness should consume guidance cue");
 assert(prospect.playerLoopReadiness.consumes.includes("n:match:results"), "player loop readiness should consume match results");
 assert(runtime.engine.n.goldrushPlayerLoopReadiness.validate().passed, "player loop readiness kit should validate inside the runtime");
+assert(prospect.combatLoopReadiness?.contract === "goldrush-combat-loop-readiness-v1", "scenario snapshot should expose combat loop readiness contract");
+assert(prospect.combatLoopReadiness.domainPath === "n:goldrush:combat-loop-readiness", "combat loop readiness should stay in the GoldRush custom domain");
+assert(prospect.combatLoopReadiness.consumes.includes("n:goldrush:ambush-pressure"), "combat loop readiness should consume ambush pressure");
+assert(prospect.combatLoopReadiness.consumes.includes("n:match:results"), "combat loop readiness should consume match results");
+assert(runtime.engine.n.goldrushCombatLoopReadiness.validate().passed, "combat loop readiness kit should validate inside the runtime");
 assert(prospect.realityStatus.summary.placeholderSlots >= 30, "reality status should expose placeholder debt");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "legacy-assets" && domain.status === "blocked-cloud-import"), "legacy assets should stay cloud-blocked until promoted");
 assert(prospect.realityStatus.domains.some((domain) => domain.id === "audio-music" && domain.status === "blocked-cloud-import"), "actual audio should stay cloud-blocked until promoted");

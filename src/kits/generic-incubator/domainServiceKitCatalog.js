@@ -687,6 +687,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-player-loop-readiness.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:combat-loop-readiness",
+    purpose: "Expose a battle-readiness matrix proving ambush telegraph, cover counterplay, combat receipts, and results integration.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["composeThreatReadability", "composeCoverEvidence", "composeReceiptEvidence", "rankCombatGap"],
+    events: ["goldrush.combatLoopReadinessChanged"],
+    snapshot: ["stageOrder", "stages", "resolvedStages", "blockedStages", "proofPolicy", "helperDebt"],
+    dataExposed: ["stage id", "status", "domain path", "threat cue evidence", "cover evidence", "receipt evidence", "helper debt"],
+    validator: "tools/validation/validate-combat-loop-readiness.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],

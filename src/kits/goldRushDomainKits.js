@@ -48,6 +48,10 @@ import {
   validatePlayerLoopReadiness,
 } from "../content/goldrushPlayerLoopReadiness.js";
 import {
+  createCombatLoopReadinessSnapshot,
+  validateCombatLoopReadiness,
+} from "../content/goldrushCombatLoopReadiness.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -96,6 +100,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createPlayerRouteGuidanceKit(),
     createPlayerGuidanceCueKit(),
     createPlayerLoopReadinessKit(),
+    createCombatLoopReadinessKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1508,6 +1513,71 @@ function createPlayerLoopReadinessKit() {
   });
 }
 
+function createCombatLoopReadinessKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-combat-loop-readiness-kit",
+    domain: "goldrush-combat-loop-readiness",
+    apiName: "goldrushCombatLoopReadiness",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-extraction-loop",
+      "n:goldrush-player-action-surface",
+      "n:goldrush-match-results",
+      "n:goldrush-replay-summary",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose a combat-loop readiness matrix so threat, cover, receipts, and results proof stays domain-owned.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        renderer: null,
+        proofTelemetry: null,
+      };
+      let state = createCombatLoopReadinessSnapshot({
+        extractionLoop: null,
+        playerActionSurface: null,
+        renderer: externalFacts.renderer,
+        results: null,
+        replaySummary: null,
+        proofTelemetry: externalFacts.proofTelemetry,
+      });
+
+      function recompute() {
+        state = createCombatLoopReadinessSnapshot({
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          renderer: externalFacts.renderer,
+          results: engine.n.goldrushResults?.snapshot?.() ?? null,
+          replaySummary: engine.n.goldrushReplaySummary?.snapshot?.() ?? null,
+          proofTelemetry: externalFacts.proofTelemetry,
+        });
+        return state;
+      }
+
+      return {
+        update({
+          renderer = externalFacts.renderer,
+          proofTelemetry = externalFacts.proofTelemetry,
+        } = {}) {
+          externalFacts = {
+            renderer: structuredClone(renderer),
+            proofTelemetry: structuredClone(proofTelemetry),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validateCombatLoopReadiness(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1704,6 +1774,7 @@ function createScenarioKit() {
           const playerRouteGuidance = engine.n.goldrushPlayerRouteGuidance.snapshot();
           const playerGuidanceCue = engine.n.goldrushPlayerGuidanceCue.snapshot();
           const playerLoopReadiness = engine.n.goldrushPlayerLoopReadiness.snapshot();
+          const combatLoopReadiness = engine.n.goldrushCombatLoopReadiness.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1757,6 +1828,7 @@ function createScenarioKit() {
             playerRouteGuidance,
             playerGuidanceCue,
             playerLoopReadiness,
+            combatLoopReadiness,
             sceneState,
             world,
             terrainState,

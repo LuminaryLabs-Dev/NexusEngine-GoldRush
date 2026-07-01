@@ -95,3 +95,4 @@ Status: active
 - 2026-07-01 01:29:28 EDT - Added `n:goldrush:player-route-guidance`, separated route approach radius from action range, and proved title -> train -> gold-object walk -> mine hold -> cashout walk -> results without resource/cashout placement helpers.
 - 2026-07-01 01:39:45 EDT - Added `n:goldrush:player-guidance-cue`, renderer world cue consumption, CLI/Playwright proof gates, and source-backed AAA guidance/readability research.
 - 2026-07-01 02:11:36 EDT - Added `n:goldrush:player-loop-readiness`, six-stage human-view loop matrix, CLI/browser proof gates, runtime exposure, and source-backed objective-clarity research.
+- 2026-07-01 02:30:26 EDT - Added `n:goldrush:combat-loop-readiness`, six-stage battle-readiness matrix, CLI/browser proof gates, runtime exposure, and source-backed combat readability research.
