@@ -36,6 +36,10 @@ import {
   validatePlayerDrivenExtractionRoute,
 } from "../content/goldrushPlayerDrivenExtractionRoute.js";
 import {
+  createPlayerRouteGuidanceSnapshot,
+  validatePlayerRouteGuidance,
+} from "../content/goldrushPlayerRouteGuidance.js";
+import {
   createGoldRushCameraPerspectives,
   selectGoldRushCameraPerspective,
   validateGoldRushCameraPerspectives,
@@ -81,6 +85,7 @@ export function createGoldRushDomainKits({ orchestrator, assetRegistry }) {
     createGoldRushExtractionLoopKit(),
     createPlayerActionSurfaceKit(),
     createPlayerDrivenExtractionRouteKit(),
+    createPlayerRouteGuidanceKit(),
     createCameraDescriptorKit(),
     createPerspectiveKit(),
     createSceneTransitionKit(),
@@ -1310,6 +1315,66 @@ function createPlayerDrivenExtractionRouteKit() {
   });
 }
 
+function createPlayerRouteGuidanceKit() {
+  return defineDomainServiceKit({
+    id: "n-goldrush-player-route-guidance-kit",
+    domain: "goldrush-player-route-guidance",
+    apiName: "goldrushPlayerRouteGuidance",
+    stability,
+    version,
+    requires: [
+      "n:goldrush-extraction-loop",
+      "n:goldrush-player-action-surface",
+      "n:goldrush-player-driven-extraction-route",
+      "n:goldrush-cashout",
+    ],
+    services: ["update", "snapshot", "validate"],
+    metadata: {
+      purpose: "Expose walkable route targets and camera-relative input hints for the player-driven mine-carry-cashout loop.",
+    },
+    createApi({ engine }) {
+      let externalFacts = {
+        objectInteraction: null,
+        localPlayer: null,
+      };
+      let state = createPlayerRouteGuidanceSnapshot({
+        extractionLoop: null,
+        playerActionSurface: null,
+        objectInteraction: externalFacts.objectInteraction,
+        localPlayer: externalFacts.localPlayer,
+      });
+
+      function recompute() {
+        state = createPlayerRouteGuidanceSnapshot({
+          extractionLoop: engine.n.goldrushExtractionLoop?.snapshot?.() ?? null,
+          playerActionSurface: engine.n.goldrushPlayerActionSurface?.snapshot?.() ?? null,
+          objectInteraction: externalFacts.objectInteraction,
+          localPlayer: externalFacts.localPlayer,
+          match: engine.n.goldrushMatch?.snapshot?.() ?? null,
+          results: engine.n.goldrushResults?.snapshot?.() ?? null,
+        });
+        return state;
+      }
+
+      return {
+        update({ objectInteraction = externalFacts.objectInteraction, localPlayer = externalFacts.localPlayer } = {}) {
+          externalFacts = {
+            objectInteraction: structuredClone(objectInteraction),
+            localPlayer: structuredClone(localPlayer),
+          };
+          return structuredClone(recompute());
+        },
+        snapshot() {
+          return structuredClone(recompute());
+        },
+        validate() {
+          return validatePlayerRouteGuidance(recompute());
+        },
+      };
+    },
+  });
+}
+
 function createScenarioKit() {
   return defineDomainServiceKit({
     id: "n-goldrush-scenario-kit",
@@ -1333,6 +1398,7 @@ function createScenarioKit() {
       "n:goldrush-extraction-loop",
       "n:goldrush-player-action-surface",
       "n:goldrush-player-driven-extraction-route",
+      "n:goldrush-player-route-guidance",
       "n:goldrush-camera-descriptor",
       "n:goldrush-perspective",
       "n:goldrush-world-elements",
@@ -1501,6 +1567,7 @@ function createScenarioKit() {
           const extractionLoop = engine.n.goldrushExtractionLoop.snapshot();
           const playerActionSurface = engine.n.goldrushPlayerActionSurface.snapshot();
           const playerDrivenExtractionRoute = engine.n.goldrushPlayerDrivenExtractionRoute.snapshot();
+          const playerRouteGuidance = engine.n.goldrushPlayerRouteGuidance.snapshot();
           const sceneState = engine.n.goldrushScenes.snapshot();
           const world = engine.n.goldrushWorld.snapshot({ phase: state.phase });
           const terrainState = engine.n.goldrushTerrain.snapshot({ phase: state.phase });
@@ -1551,6 +1618,7 @@ function createScenarioKit() {
             extractionLoop,
             playerActionSurface,
             playerDrivenExtractionRoute,
+            playerRouteGuidance,
             sceneState,
             world,
             terrainState,

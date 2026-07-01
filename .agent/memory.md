@@ -16,3 +16,4 @@ Status: active
 - Procedural world content is allowed, but each meaningful object should have a stable protokit descriptor and renderer batching should consume those descriptors rather than own rules.
 - Major unresolved product debt: approved legacy asset promotion, actual audio/music promotion, character rig/animation fidelity, combat feel, physical object interaction, and human-view extraction flow without direct completion helpers.
 - `engine.n.goldrushPlayerDrivenExtractionRoute` owns the five-stage player-driven extraction matrix for resource affordance, mine hold, carry gold, cashout hold, and receipt/results. Use it to separate resolved gameplay from proof-helper debt.
+- `engine.n.goldrushPlayerRouteGuidance` owns player route targets, target approach radius, action range, route-leg status, and camera-relative input hints for walking the mine -> carry -> cashout loop without proof placement helpers.

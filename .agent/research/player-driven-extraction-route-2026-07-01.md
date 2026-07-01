@@ -34,18 +34,16 @@ Track the shift from helper-driven extraction proof toward a player-facing, doma
 
 ## Still Fake Or Prototype
 
-- Browser proof still uses proof placement helpers for starting near a resource or cashout setpiece.
-- The headless validator proves the real input/tick path, but it does not prove a full visual walk from spawn to mine to depot.
+- Superseded route-helper note: `n:goldrush:player-route-guidance` now proves the full visual route from spawn to a gold object and then to the depot without resource/cashout placement helpers.
 - Combat pressure is receipt/telegraph-backed, but the weapon feel, enemy AI, hit reactions, and readable combat traversal are still prototype debt.
 - High-fidelity character animation, approved legacy assets, and approved actual audio remain blocked by review/promotion gates.
 
 ## Next Proof Target
 
-Create or update a Playwright proof that:
+Create the next player-facing guidance cue so the same route is readable to a human without debug overlays:
 
-1. Enters the run scene through the normal title/lobby/loading flow.
-2. Uses camera-relative WASD to approach a gold object protokit, not proof placement.
-3. Holds `E` until the mining receipt exists.
-4. Uses camera-relative movement or route autopilot to reach `rail-depot-extract-01`, not direct extraction.
-5. Holds `E` until `playerDrivenExtractionRoute.matrix.routeStatus === "resolved"`.
-6. Captures screenshot proof plus sanitized route matrix evidence.
+1. Consume `n:goldrush:player-route-guidance` for target, distance, and ready action.
+2. Show a diegetic in-world cue instead of a floating debug overlay.
+3. Keep `n:goldrush:player-action-surface` as the prompt/action authority.
+4. Keep mining/cashout receipts as the only route completion authority.
+5. Capture screenshot proof plus sanitized route matrix evidence.

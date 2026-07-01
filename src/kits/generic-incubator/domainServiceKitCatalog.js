@@ -657,6 +657,16 @@ export const goldRushKitContracts = Object.freeze([
     validator: "tools/validation/validate-player-driven-extraction-route.mjs",
   }),
   createGoldRushContract({
+    domainPath: "n:goldrush:player-route-guidance",
+    purpose: "Expose walkable route targets and camera-relative input hints for mine, carry, and cashout traversal.",
+    publicApi: ["update", "snapshot", "validate"],
+    internalApi: ["resolveMineTarget", "resolveCashoutTarget", "createCameraRelativeInputHint"],
+    events: ["goldrush.playerRouteGuidanceChanged"],
+    snapshot: ["currentLegId", "target", "cameraRelativeInput", "legs", "routeStatus"],
+    dataExposed: ["target id", "target position", "distance", "keys", "look delta", "leg status"],
+    validator: "tools/validation/validate-player-route-guidance.mjs",
+  }),
+  createGoldRushContract({
     domainPath: "n:goldrush:match-loop",
     purpose: "Own the linear GoldRush phase order from lobby through results.",
     publicApi: ["start", "advancePhase", "tick", "requestEnd", "snapshot"],

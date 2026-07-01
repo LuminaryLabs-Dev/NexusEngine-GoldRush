@@ -438,6 +438,7 @@ export function createGoldRushApp(root) {
     getState: () => {
       const actionSurface = syncPlayerActionSurface({ localPlayer: movement.snapshot() });
       const playerDrivenExtractionRoute = syncPlayerDrivenExtractionRoute({ localPlayer: movement.snapshot() });
+      const playerRouteGuidance = syncPlayerRouteGuidance({ localPlayer: movement.snapshot() });
       const scenario = runtime.snapshot();
       const sceneKitSnapshot = sceneKitLoader.snapshot();
       const realityStatus = runtime.engine.n.goldrushReality.snapshot({ sceneKitLoader: sceneKitSnapshot });
@@ -472,6 +473,8 @@ export function createGoldRushApp(root) {
         playerActionSurfaceValidation: validatePlayerActionSurface(actionSurface),
         playerDrivenExtractionRoute: scenario.playerDrivenExtractionRoute ?? playerDrivenExtractionRoute,
         playerDrivenExtractionRouteValidation: runtime.engine.n.goldrushPlayerDrivenExtractionRoute.validate(),
+        playerRouteGuidance: scenario.playerRouteGuidance ?? playerRouteGuidance,
+        playerRouteGuidanceValidation: runtime.engine.n.goldrushPlayerRouteGuidance.validate(),
         finalRush: scenario.finalRush,
         extractionReceipts: scenario.extractionReceipts,
         handoffReceipts: scenario.handoffReceipts,
@@ -719,6 +722,7 @@ export function createGoldRushApp(root) {
     const movementPlayer = movement.snapshot();
     syncPlayerActionSurface({ localPlayer: movementPlayer });
     syncPlayerDrivenExtractionRoute({ localPlayer: movementPlayer });
+    syncPlayerRouteGuidance({ localPlayer: movementPlayer });
     const state = runtime.snapshot();
     audio.sync({ screen: "run", scenario: state, fired });
     const carried = state.cargo["player-1"] ?? 0;
@@ -773,6 +777,20 @@ export function createGoldRushApp(root) {
       objectInteraction,
       localPlayer,
       proofTelemetry,
+    });
+  }
+
+  function syncPlayerRouteGuidance({
+    localPlayer = movement.snapshot(),
+  } = {}) {
+    const objectInteraction = {
+      contract: "goldrush-object-interaction-host-v1",
+      nearest: resolveNearestObjectAffordance({ localPlayer }),
+      last: structuredClone(lastObjectInteraction),
+    };
+    return runtime.engine.n.goldrushPlayerRouteGuidance.update({
+      objectInteraction,
+      localPlayer,
     });
   }
 
