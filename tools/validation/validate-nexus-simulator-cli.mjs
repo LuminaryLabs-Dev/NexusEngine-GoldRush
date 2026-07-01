@@ -10,18 +10,19 @@ const gitignorePath = path.join(repoRoot, ".gitignore");
 
 assert(existsSync(cliPath), "goldrush nexus simulator CLI is missing");
 
-const discoveryRaw = execFileSync(process.execPath, [cliPath, "discover"], {
-  cwd: repoRoot,
-  encoding: "utf8",
-});
-const discovery = JSON.parse(discoveryRaw);
+const discovery = discoverOptionalSimulator();
 
-assert(discovery.status === "found", "NexusSimulator discovery should pass");
-assert(discovery.packageName === "nexus-simulator", "discovered package should be nexus-simulator");
-assert(discovery.cliPath.endsWith("src/cli.js"), "sanitized simulator CLI label should point at src/cli.js");
-assert(!discoveryRaw.includes("/Users/"), "discover output should not expose absolute user paths");
-assert(!discoveryRaw.includes(repoRoot), "discover output should not expose the absolute repo root");
-assert(discovery.root.startsWith("<github>/") || !path.isAbsolute(discovery.root), "discover root should be a label, not an absolute path");
+if (discovery.available) {
+  assert(discovery.result.status === "found", "NexusSimulator discovery should pass");
+  assert(discovery.result.packageName === "nexus-simulator", "discovered package should be nexus-simulator");
+  assert(discovery.result.cliPath.endsWith("src/cli.js"), "sanitized simulator CLI label should point at src/cli.js");
+  assert(!discovery.raw.includes("/Users/"), "discover output should not expose absolute user paths");
+  assert(!discovery.raw.includes(repoRoot), "discover output should not expose the absolute repo root");
+  assert(discovery.result.root.startsWith("<github>/") || !path.isAbsolute(discovery.result.root), "discover root should be a label, not an absolute path");
+} else {
+  assert(process.env.CI === "true", "NexusSimulator discovery should only be optional in CI");
+  assert(discovery.message.includes("NexusSimulator not found"), "missing simulator should report the expected optional dependency");
+}
 
 const cliSource = readFileSync(cliPath, "utf8");
 assert(cliSource.includes("scenario check"), "CLI should check simulator scenario compatibility before running");
@@ -53,7 +54,8 @@ assert(gitignore.includes(".nexus-simulator/"), ".nexus-simulator state should b
 
 console.log(JSON.stringify({
   status: "nexus-simulator-cli-ready",
-  simulatorRoot: discovery.root,
+  simulatorRoot: discovery.available ? discovery.result.root : "<optional-in-ci>",
+  simulatorAvailability: discovery.available ? "found" : "optional-ci-missing",
   outputPolicy: "sanitized-run-output",
   scripts: ["sim:discover", "sim:test"],
   scenarioState: ".nexus-simulator/",
@@ -62,4 +64,25 @@ console.log(JSON.stringify({
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+function discoverOptionalSimulator() {
+  try {
+    const raw = execFileSync(process.execPath, [cliPath, "discover"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    return {
+      available: true,
+      raw,
+      result: JSON.parse(raw),
+    };
+  } catch (error) {
+    const message = `${error.stdout ?? ""}${error.stderr ?? ""}${error.message ?? ""}`;
+    return {
+      available: false,
+      message,
+    };
+  }
 }
