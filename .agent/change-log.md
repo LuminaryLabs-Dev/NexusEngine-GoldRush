@@ -91,3 +91,4 @@ Status: active
 - 2026-07-01 00:39:33 EDT - Added `n:goldrush:player-driven-extraction-route` to track mine, carry, cashout, and receipt/results stages as a route matrix.
 - 2026-07-01 00:39:33 EDT - Documented AAA extraction-route gaps and source-backed research in `.agent/research/player-driven-extraction-route-2026-07-01.md`.
 - 2026-07-01 00:59:13 EDT - Resolved the player-driven extraction route matrix in CLI and browser proof, added `agent-it/` index, and re-ran full validation plus production build.
+- 2026-07-01 01:05:28 EDT - Pushed `development` and `Build`, confirmed the Build deploy workflow passed, and verified the public Pages link with player-driven route proof.
