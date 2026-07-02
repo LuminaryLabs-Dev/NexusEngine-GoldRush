@@ -1,0 +1,70 @@
+# Audit Matrix
+
+Status: active docs-only
+
+| Audit | Atom | Hardening question | Required evidence |
+| --- | --- | --- | --- |
+| 01-01 | 01-01-source-revision-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 01-02 | 01-02-source-revision-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 01-03 | 01-03-source-revision-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 01-04 | 01-04-source-revision-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 02-01 | 02-01-macro-silhouette-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 02-02 | 02-02-macro-silhouette-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 02-03 | 02-03-macro-silhouette-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 02-04 | 02-04-macro-silhouette-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 03-01 | 03-01-heightfield-form-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 03-02 | 03-02-heightfield-form-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 03-03 | 03-03-heightfield-form-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 03-04 | 03-04-heightfield-form-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 04-01 | 04-01-mask-stack-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 04-02 | 04-02-mask-stack-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 04-03 | 04-03-mask-stack-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 04-04 | 04-04-mask-stack-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 05-01 | 05-01-lod-cells-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 05-02 | 05-02-lod-cells-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 05-03 | 05-03-lod-cells-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 05-04 | 05-04-lod-cells-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 06-01 | 06-01-collider-parity-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 06-02 | 06-02-collider-parity-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 06-03 | 06-03-collider-parity-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 06-04 | 06-04-collider-parity-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 07-01 | 07-01-raycast-placement-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 07-02 | 07-02-raycast-placement-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 07-03 | 07-03-raycast-placement-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 07-04 | 07-04-raycast-placement-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 08-01 | 08-01-asset-family-anchors-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 08-02 | 08-02-asset-family-anchors-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 08-03 | 08-03-asset-family-anchors-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 08-04 | 08-04-asset-family-anchors-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 09-01 | 09-01-route-risk-web-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 09-02 | 09-02-route-risk-web-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 09-03 | 09-03-route-risk-web-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 09-04 | 09-04-route-risk-web-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 10-01 | 10-01-player-scale-readability-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 10-02 | 10-02-player-scale-readability-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 10-03 | 10-03-player-scale-readability-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 10-04 | 10-04-player-scale-readability-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 11-01 | 11-01-combat-cover-space-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 11-02 | 11-02-combat-cover-space-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 11-03 | 11-03-combat-cover-space-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 11-04 | 11-04-combat-cover-space-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 12-01 | 12-01-single-player-staging-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 12-02 | 12-02-single-player-staging-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 12-03 | 12-03-single-player-staging-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 12-04 | 12-04-single-player-staging-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 13-01 | 13-01-sixty-player-scale-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 13-02 | 13-02-sixty-player-scale-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 13-03 | 13-03-sixty-player-scale-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 13-04 | 13-04-sixty-player-scale-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 14-01 | 14-01-toon-style-materials-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 14-02 | 14-02-toon-style-materials-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 14-03 | 14-03-toon-style-materials-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 14-04 | 14-04-toon-style-materials-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 15-01 | 15-01-proof-and-restart-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 15-02 | 15-02-proof-and-restart-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 15-03 | 15-03-proof-and-restart-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 15-04 | 15-04-proof-and-restart-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 16-01 | 16-01-implementation-slicing-intent | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 16-02 | 16-02-implementation-slicing-data | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 16-03 | 16-03-implementation-slicing-consumer | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |
+| 16-04 | 16-04-implementation-slicing-proof | What would make this look resolved while still being fake? | Current-state file, validator, screenshot, or public proof tied to this atom. |

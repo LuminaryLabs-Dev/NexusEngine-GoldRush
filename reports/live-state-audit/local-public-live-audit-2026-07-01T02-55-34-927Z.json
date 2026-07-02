@@ -1,0 +1,62 @@
+{
+  "schema": "nexusengine.goldrush.local-public-live-audit.v1",
+  "status": "failed",
+  "startedAt": "2026-07-01T02:55:34.929Z",
+  "runId": "2026-07-01T02-55-34-927Z",
+  "proofOptions": {
+    "recordVideo": false,
+    "hardTimeoutMs": 1000
+  },
+  "targets": [
+    {
+      "name": "local",
+      "status": "failed",
+      "url": "http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-55-34-927Z",
+      "startedAt": "2026-07-01T02:55:35.789Z",
+      "steps": [
+        {
+          "name": "load-title",
+          "status": "failed",
+          "durationMs": 735,
+          "error": "locator.waitFor: Target page, context or browser has been closed"
+        }
+      ],
+      "screenshots": [],
+      "screenshotCaptures": [],
+      "videos": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "samples": [],
+      "states": {},
+      "domains": {},
+      "issues": [
+        {
+          "severity": "fail",
+          "domain": "proof",
+          "issue": "locator.waitFor: Target page, context or browser has been closed"
+        }
+      ],
+      "proofOptions": {
+        "recordVideo": false
+      },
+      "error": {
+        "message": "locator.waitFor: Target page, context or browser has been closed",
+        "stack": "locator.waitFor: Target page, context or browser has been closed\n    at tools/proof/local-public-live-audit.mjs:135:56\n    at async step (tools/proof/local-public-live-audit.mjs:234:5)\n    at async auditTarget (tools/proof/local-public-live-audit.mjs:132:5)\n    at async file://tools/proof/local-public-live-audit.mjs:50:27"
+      },
+      "captureError": "page.evaluate: Target page, context or browser has been closed",
+      "videoSkipped": "recordVideo=false",
+      "finishedAt": "2026-07-01T02:55:36.526Z"
+    }
+  ],
+  "comparison": {
+    "status": "single-target",
+    "notes": [
+      "comparison requires both local and public"
+    ]
+  },
+  "error": {
+    "message": "live-state-audit hard timeout timed out after 1000ms",
+    "stack": "Error: live-state-audit hard timeout timed out after 1000ms\n    at Timeout._onTimeout (file://tools/proof/local-public-live-audit.mjs:226:31)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  },
+  "finishedAt": "2026-07-01T02:55:36.492Z"
+}

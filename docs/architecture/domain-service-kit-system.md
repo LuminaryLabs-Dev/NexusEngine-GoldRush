@@ -34,6 +34,7 @@ createGoldRushRuntime
    │  ├─ n:world:terrain-heightfield
    │  ├─ n:world:terrain-raycast
    │  ├─ n:world:terrain-patches
+   │  ├─ n:world:authored-terrain-mesh
    │  ├─ n:world:placement-raycast
    │  ├─ n:physics:world
    │  ├─ n:physics:collider
@@ -84,7 +85,7 @@ The canonical machine-readable catalog is `src/kits/generic-incubator/domainServ
 n:runtime:*   -> n:goldrush:runtime/replay/match-snapshot/reality-status
 n:scene:*     -> n:goldrush:scene-flow/train-loading
 n:network:*   -> n:goldrush:party-lobby/room-orchestration
-n:world:*     -> n:goldrush:desert-terrain/player-grounding/terrain-patch-windows/prop-placement
+n:world:*     -> n:goldrush:desert-terrain/player-grounding/terrain-patch-windows/desert-world-map/prop-placement
 n:physics:*   -> n:goldrush:terrain-physics/mountain-blockers/ground-probes
 n:control:*   -> n:goldrush:exploration-camera/prospector-movement
 n:render:*    -> n:goldrush:three-scene-renderer/gold-field-renderer/desert-prop-kits/lobby-character-preview

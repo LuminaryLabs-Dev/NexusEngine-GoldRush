@@ -1,0 +1,62 @@
+{
+  "schema": "nexusengine.goldrush.local-public-live-audit.v1",
+  "status": "failed",
+  "startedAt": "2026-07-01T02:54:48.852Z",
+  "runId": "2026-07-01T02-54-48-849Z",
+  "proofOptions": {
+    "recordVideo": false,
+    "hardTimeoutMs": 1000
+  },
+  "targets": [
+    {
+      "name": "local",
+      "status": "failed",
+      "url": "http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-54-48-849Z",
+      "startedAt": "2026-07-01T02:54:50.279Z",
+      "steps": [
+        {
+          "name": "load-title",
+          "status": "failed",
+          "durationMs": 537,
+          "error": "page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-54-48-849Z\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "screenshots": [],
+      "screenshotCaptures": [],
+      "videos": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "samples": [],
+      "states": {},
+      "domains": {},
+      "issues": [
+        {
+          "severity": "fail",
+          "domain": "proof",
+          "issue": "page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-54-48-849Z\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "proofOptions": {
+        "recordVideo": false
+      },
+      "error": {
+        "message": "page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-54-48-849Z\", waiting until \"domcontentloaded\"\u001b[22m\n",
+        "stack": "page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T02-54-48-849Z\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at tools/proof/local-public-live-audit.mjs:128:18\n    at step (tools/proof/local-public-live-audit.mjs:229:23)\n    at auditTarget (tools/proof/local-public-live-audit.mjs:127:11)\n    at async file://tools/proof/local-public-live-audit.mjs:49:27\n    at async file://tools/proof/local-public-live-audit.mjs:47:3"
+      },
+      "captureError": "page.evaluate: Target page, context or browser has been closed",
+      "videoSkipped": "recordVideo=false",
+      "finishedAt": "2026-07-01T02:54:50.827Z"
+    }
+  ],
+  "comparison": {
+    "status": "single-target",
+    "notes": [
+      "comparison requires both local and public"
+    ]
+  },
+  "error": {
+    "message": "live-state-audit hard timeout timed out after 1000ms",
+    "stack": "Error: live-state-audit hard timeout timed out after 1000ms\n    at Timeout._onTimeout (file://tools/proof/local-public-live-audit.mjs:221:31)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  },
+  "finishedAt": "2026-07-01T02:54:50.794Z"
+}

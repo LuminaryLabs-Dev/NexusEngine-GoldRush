@@ -1,7 +1,0 @@
-- main [ref=e3]:
-  - region "Gold Rush start" [ref=e4]:
-    - generic [ref=e5]:
-      - paragraph [ref=e6]: NexusEngine
-      - heading "Gold Rush" [level=1] [ref=e7]
-      - paragraph [ref=e8]: Stake a claim, ride into the field, and fight your way out with the gold.
-      - button "Play" [ref=e9] [cursor=pointer]

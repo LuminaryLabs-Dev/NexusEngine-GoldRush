@@ -1,0 +1,69 @@
+{
+  "schema": "nexusengine.goldrush.browser-session-doctor.v1",
+  "status": "passed",
+  "startedAt": "2026-07-01T03:05:12.596Z",
+  "runId": "2026-07-01T03-05-12-592Z",
+  "targetUrl": null,
+  "proofOptions": {
+    "timeoutMs": 10000,
+    "hardTimeoutMs": 45000,
+    "recordVideo": false,
+    "headed": false
+  },
+  "steps": [
+    {
+      "name": "launch-browser",
+      "status": "passed",
+      "durationMs": 5681
+    },
+    {
+      "name": "create-context",
+      "status": "passed",
+      "durationMs": 58
+    },
+    {
+      "name": "create-page",
+      "status": "passed",
+      "durationMs": 1883
+    },
+    {
+      "name": "local-data-url-screenshot",
+      "status": "passed",
+      "durationMs": 289
+    },
+    {
+      "name": "target-url-screenshot",
+      "status": "skipped",
+      "durationMs": 0,
+      "reason": "no --url provided"
+    },
+    {
+      "name": "close-context",
+      "status": "passed",
+      "durationMs": 21
+    },
+    {
+      "name": "close-browser",
+      "status": "passed",
+      "durationMs": 106
+    }
+  ],
+  "screenshots": [
+    "screenshots/browser-session-doctor/01-local-data-url-2026-07-01T03-05-12-592Z.png"
+  ],
+  "videos": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "diagnostics": {
+    "browserConnectedAfterLaunch": true,
+    "localDataUrl": {
+      "title": "GoldRush Browser Doctor",
+      "width": 960,
+      "height": 540,
+      "readyText": "GoldRush browser doctor ready"
+    },
+    "videoSkipped": "recordVideo=false",
+    "browserConnectedAfterClose": false
+  },
+  "finishedAt": "2026-07-01T03:05:20.634Z"
+}

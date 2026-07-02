@@ -98,3 +98,60 @@ Status: active
 - 2026-07-01 02:30:26 EDT - Added `n:goldrush:combat-loop-readiness`, six-stage battle-readiness matrix, CLI/browser proof gates, runtime exposure, and source-backed combat readability research.
 - 2026-07-01 03:04:48 EDT - Added `n:goldrush:combat-route-guidance`, internal stable cover-route memory, CLI/browser proof gates, runtime exposure, and source-backed combat route research.
 - 2026-07-01 03:22:18 EDT - Imported Kenney CC0 toon model/audio candidates, added free-toon candidate manifest and validator, and documented source-only protokit promotion boundaries.
+- 2026-07-01 08:23:51 EDT - Added docs-only AAA 100-step roadmap, current-state audit, research index, simulation audit, and goal packet for the authored terrain/map-source production shift.
+- 2026-07-01 08:30:54 EDT - Expanded the AAA roadmap into `.agent/research/aaa-100/` with 100 research packets, a data matrix, and a continuous audit index.
+- 2026-07-01 08:30:54 EDT - Added `.agent/research/aaa-100/lessons-matrix.md` to track durable lessons and resolved boundaries for roadmap restarts.
+- 2026-07-01 08:35:16 EDT - Expanded the authored-map production cluster into child packets for terrain intention, source plate, masks, LOD, collider parity, and prop protokits.
+- 2026-07-01 08:43:34 EDT - Added 90 authored-map atomic planning packets and wired them into the AAA roadmap matrices for the next docs-only terrain source pass.
+- 2026-07-01 08:49:33 EDT - Added 360 authored-map atomic research packets covering source research, domain implication, data/proof, and edge-case audit for each map atom.
+- 2026-07-01 08:58:17 EDT - Added 100 roadmap implementation simulation packets and 100 matching hardening audit packets, then wired them into the AAA roadmap indices.
+- 2026-07-01 09:02:32 EDT - Added continuous audit wave 001 with 12 cross-domain plateau/deploy/fake-progress packets, edge-case matrix, deployment issue register, and roadmap index links.
+- 2026-07-01 09:13:45 EDT - Added authored terrain kit spec docs for the neutral source-data kit, GoldRush desert map kit, schema, LOD, collider parity, placement, gameplay zones, consumer flow, gates, failure modes, and proof/deploy plan.
+- 2026-07-01 09:17:54 EDT - Added authored terrain implementation batch 001 with 24 docs-only source-fixture, consumer, proof, deploy, sanitization, restart, and stop-condition packets.
+- 2026-07-01 09:24:28 EDT - Added continuous audit wave 002 with 12 docs-only reference-parity packets for battle-royale, extraction, staging, content, progression, and versioning gaps.
+- 2026-07-01 09:31:14 EDT - Expanded continuous audit wave 002 into 72 atomic audit packets and 72 paired research packets for implementation-sized reference-parity planning.
+- 2026-07-01 09:35:13 EDT - Added a docs-only goal completion gap audit with 20 requirement packets, evidence matrix, and restart links to prevent premature completion claims.
+- 2026-07-01 09:38:05 EDT - Expanded the completion gap audit into 120 evidence atoms and 120 paired research packets across contract, evidence, missing proof, implementation, human-view, and public-deploy layers.
+- 2026-07-01 09:41:39 EDT - Added a minute interaction atlas with 120 player-facing interaction packets and 120 paired research notes for the full title-to-results loop.
+- 2026-07-01 09:47:22 EDT - Added a docs-only drawn terrain source packet explaining the current plateau and defining source-asset, LOD, asset-family, consumer-domain, research, and atomic-next-step contracts.
+- 2026-07-01 09:54:59 EDT - Expanded the drawn terrain source packet into 48 implementation-sized terrain atoms and 48 paired research notes, then wired the atom matrices into the AAA indexes.
+- 2026-07-01 09:58:06 EDT - Added a docs-only source fixture authoring packet for `goldrush.desert.fixture.001` with schema, layer matrix, technical notes, validator plan, consumer proof matrix, restart policy, and first map-slice simulation.
+- 2026-07-01 10:03:19 EDT - Added a docs-only digital asset family atlas with 64 terrain-grounded asset-family protokit packets, 64 paired research notes, and a candidate source ledger.
+- 2026-07-01 10:12:43 EDT - Added docs-only asset-promotion-gates packet set with 15 phases, 60 gate packets, and 60 paired research notes.
+- 2026-07-01 10:19:12 EDT - Added docs-only end-to-end-kit-assembly runway with 20 kit slices, 80 slice packets, and 80 paired research notes.
+- 2026-07-01 10:24:39 EDT - Added docs-only staging-simulation-lab packet set with 18 scenarios, 72 scenario packets, and 72 paired research notes.
+- 2026-07-01 10:34:48 EDT - Added `.agent/research/aaa-100/player-feel-polish-lab/` docs-only audit packets for tactile AAA player-feel polish, research, proof, and kit gaps.
+- 2026-07-01 10:41:17 EDT - Added `.agent/research/aaa-100/match-economy-retention-lab/` docs-only audit packets for reward, economy, progression, replay, tuning, fairness, and release-version planning.
+- 2026-07-01 10:52:33 EDT - Added `.agent/research/aaa-100/bot-ai-encounter-lab/` docs-only audit packets for bot roles, route behavior, encounter direction, combat staging, survivor density, and proof boundaries.
+- 2026-07-01 11:06:30 EDT - Added docs-only source-first terrain production gate packets and indexed the live network authority lab in the AAA audit matrices.
+- 2026-07-01 11:38:20 EDT - Added docs-only massive desert map blueprint packets for macro terrain shape, POIs, route/risk web, LOD cells, asset anchors, source data, and proof gates.
+- 2026-07-01 11:44:43 EDT - Expanded the massive desert map blueprint into 48 implementation atoms and 48 paired research notes for map-source family planning.
+- 2026-07-01 11:50:35 EDT - Added 48 implementation simulations and 48 hardening audits for the massive desert map blueprint atoms.
+- 2026-07-01 11:56:33 EDT - Added docs-only free toon asset candidate expansion with source sets, license risks, style gates, and import-readiness audit.
+- 2026-07-01 12:03:58 EDT - Added 48 free-toon asset candidate atoms and 48 paired research packets for source, license, format, style, protokit, and proof gates.
+- 2026-07-01 12:08:30 EDT - Added 48 implementation simulations and 48 hardening audits for the free-toon asset candidate atoms.
+- 2026-07-01 12:16:29 EDT - Added docs-only plateau breakthrough terrain kit packets with 64 drawn-terrain atoms, 64 research notes, 64 simulations, and 64 hardening audits.
+- 2026-07-01 12:19:53 EDT - Added docs-only source artboard production workbook for drawn terrain scale, layers, composition, masks, LOD, asset stamps, gameplay annotations, proof shots, and implementation gates.
+- 2026-07-01 12:25:33 EDT - Expanded the source artboard workbook into 48 atoms, 48 research notes, 48 implementation simulations, and 48 hardening audits.
+- 2026-07-01 12:31:48 EDT - Added docs-only source artboard fixture preflight 001 for `goldrush.desert.artboard.fixture.001` with fields, queries, consumers, validators, human/public proof, restart, simulation, and audit gates.
+- 2026-07-01 12:42:47 EDT - Expanded source artboard fixture preflight 001 into 24 fixture atoms with paired research notes, implementation simulations, and hardening audits.
+- 2026-07-01 12:53:17 EDT - Indexed the docs-only source id and revision micro-runway for `goldrush.desert.artboard.fixture.001` across AAA terrain planning packets.
+- 2026-07-01 13:00:17 EDT - Added and indexed the docs-only bounds, scale, and origin micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:06:18 EDT - Added and indexed the docs-only height sample contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:11:37 EDT - Added and indexed the docs-only normal and slope contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:17:20 EDT - Added and indexed the docs-only material and biome mask contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:27:03 EDT - Added and indexed the docs-only walkable and blocker mask contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:47:45 EDT - Added and indexed the docs-only route annotation contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 13:56:17 EDT - Added and indexed the docs-only mine and gold annotation contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 14:04:36 EDT - Added and indexed the docs-only cover and pressure annotation contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 14:14:56 EDT - Added and indexed the docs-only cashout and extraction annotation contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 14:22:32 EDT - Added and indexed the docs-only rail and train reference contract micro-runway for `goldrush.desert.artboard.fixture.001`.
+- 2026-07-01 19:25:17 EDT - Updated `.agent` routing and version-rebuild-loop docs so future agent-it runs follow the strict full-version rebuild loop before implementation.
+- 2026-07-01 19:32:57 EDT - Added the `v0.0.1` baseline audit, recorded `continue with limits`, and set the next atomic slice to source-id/revision for the authored terrain fixture.
+- 2026-07-01 19:39:28 EDT - Added `AGENTS.md` and `.agent/agent-it-operating-contract.md`, then linked them into agent-it routing so future runs follow the version rebuild loop, proof boundaries, and UX validation rules.
+- 2026-07-01 19:50:26 EDT - Implemented the `v0.0.1` source-id/revision authored terrain fixture slice with `n:world:authored-terrain-mesh`, `n:goldrush:desert-world-map`, default validator wiring, local validation, build proof, and next pointer to bounds/scale.
+- 2026-07-01 19:59:06 EDT - Implemented the `v0.0.1` bounds/scale/origin authored terrain fixture slice with coordinate system, unit scale, world bounds, origin anchors, route budgets, scale echoes, stale-proof validation, local validation, build proof, and next pointer to height samples.
+- 2026-07-01 20:09:03 EDT - Implemented the `v0.0.1` height sample authored terrain fixture slice with finite source height grid, sampleHeight query, proof points, height parity echoes, negative fixture validation, stale-proof validation, local validation, build proof, and next pointer to normal/slope.
+- 2026-07-01 20:15:11 EDT - Tightened `AGENTS.md`, `.agent/start-here.md`, and `.agent/agent-it-operating-contract.md` so future "follow agent-it" runs follow the strict full-version rebuild loop, required read list, version update fields, and repeat-until completion gate.
+- 2026-07-01 20:39:25 EDT - Clarified the repo handoff wording so "follow agent-it" now explicitly means read the repo-local `.agent` workspace, audit the newest version packet, and continue or increment the live rebuild loop instead of inventing a separate plan.
+- 2026-07-01 21:14:06 EDT - Implemented the `v0.0.1` material-and-biome mask authored terrain fixture slice with source-owned surface taxonomies, blend policy, consumer parity, source snapshot coverage, local validation, build proof, and next pointer to walkable/blocker masks.

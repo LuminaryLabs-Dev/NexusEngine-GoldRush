@@ -41,6 +41,7 @@ Each kit contract has the same 10 documented points: `domainPath`, `purpose`, `p
 - `n:world:terrain-heightfield`
 - `n:world:terrain-raycast`
 - `n:world:terrain-patches`
+- `n:world:authored-terrain-mesh`
 - `n:world:placement-raycast`
 
 ## Physics

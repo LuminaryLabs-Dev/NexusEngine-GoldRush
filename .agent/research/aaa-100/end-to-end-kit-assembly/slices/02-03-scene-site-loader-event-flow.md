@@ -1,0 +1,52 @@
+# Scene Site Loader And Flow - Event Flow
+
+Status: planned docs-only
+Slice: 02 Scene Site Loader And Flow
+Domain: scene/runtime
+Scene/site: site.start/site.lobby-character/site.loading-yard/site.gold-field/site.results
+Generic kit: n:scene:site-loader
+GoldRush kit: n:goldrush:scene-flow
+
+## Purpose
+
+Define the upstream facts, downstream subscribers, failure events, and restart behavior for the slice.
+
+## Slice Intention
+
+Load different kit groups per scene site so title, lobby, train, run, and results do not share accidental hidden state.
+
+## Atomic Substeps
+
+1. Confirm this slice is owned by `n:goldrush:scene-flow` and not by renderer-only logic.
+2. Confirm the generic kit dependency remains neutral and promotable when applicable.
+3. Define the smallest public API command or query the next slice needs.
+4. Define the private work the kit may do behind the API.
+5. Define the event payload emitted when the slice changes.
+6. Define the serializable snapshot for browser and simulator proof.
+7. Define reset behavior for scene changes, match restart, and failed proof.
+8. Define the main negative fixture or fakeout case.
+9. Define one human-view acceptance check when the slice is player-facing.
+10. Define the next slice that consumes this output.
+
+## Event And Snapshot
+
+- Event: `scene.site.activated`
+- Snapshot: `sceneSiteLoader`
+- Reset rule: clear transient scene state, retain durable receipts only when the match lifecycle owns them.
+
+## Validator Seed
+
+`validate-scene-sites`
+
+## Human-View Proof Seed
+
+browser can move title to lobby to train to field to results with expected kit groups mounted
+
+## Known Fakeout
+
+The DOM changes screens while runtime sites and kit groups do not actually change.
+
+## Implementation Boundary
+
+This is docs-only. Runtime code changes, new local kits, asset movement, deployment, and proof execution are deferred until implementation mode resumes.
+

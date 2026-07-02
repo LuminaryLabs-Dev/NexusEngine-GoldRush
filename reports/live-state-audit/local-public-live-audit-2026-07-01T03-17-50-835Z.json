@@ -1,0 +1,1234 @@
+{
+  "schema": "nexusengine.goldrush.local-public-live-audit.v1",
+  "status": "passed",
+  "startedAt": "2026-07-01T03:17:50.837Z",
+  "runId": "2026-07-01T03-17-50-835Z",
+  "proofOptions": {
+    "recordVideo": false,
+    "hardTimeoutMs": 210000,
+    "boardingTimeoutMs": 90000,
+    "sampleCount": 5,
+    "sampleTimeoutMs": 45000
+  },
+  "targets": [
+    {
+      "name": "public",
+      "status": "passed",
+      "url": "https://luminarylabs-dev.github.io/NexusEngine-GoldRush/?publicSmoke=2026-07-01T03-17-50-835Z",
+      "startedAt": "2026-07-01T03:17:51.965Z",
+      "steps": [
+        {
+          "name": "load-title",
+          "status": "passed",
+          "durationMs": 1491
+        },
+        {
+          "name": "enter-lobby",
+          "status": "passed",
+          "durationMs": 2821
+        },
+        {
+          "name": "start-loading-yard",
+          "status": "passed",
+          "durationMs": 5739
+        },
+        {
+          "name": "walk-board-train",
+          "status": "passed",
+          "durationMs": 22475
+        },
+        {
+          "name": "sample-camera-ground-motion",
+          "status": "passed",
+          "durationMs": 2713
+        },
+        {
+          "name": "complete-results",
+          "status": "passed",
+          "durationMs": 4359
+        }
+      ],
+      "screenshots": [
+        "screenshots/live-state-audit/public/01-title-2026-07-01T03-17-50-835Z.png",
+        "screenshots/live-state-audit/public/02-lobby-2026-07-01T03-17-50-835Z.png",
+        "screenshots/live-state-audit/public/03-loading-yard-2026-07-01T03-17-50-835Z.png",
+        "screenshots/live-state-audit/public/04-gold-field-2026-07-01T03-17-50-835Z.png",
+        "screenshots/live-state-audit/public/05-motion-sampled-2026-07-01T03-17-50-835Z.png",
+        "screenshots/live-state-audit/public/06-results-2026-07-01T03-17-50-835Z.png"
+      ],
+      "screenshotCaptures": [
+        {
+          "file": "screenshots/live-state-audit/public/01-title-2026-07-01T03-17-50-835Z.png",
+          "name": "01-title",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/02-lobby-2026-07-01T03-17-50-835Z.png",
+          "name": "02-lobby",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/03-loading-yard-2026-07-01T03-17-50-835Z.png",
+          "name": "03-loading-yard",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/04-gold-field-2026-07-01T03-17-50-835Z.png",
+          "name": "04-gold-field",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/05-motion-sampled-2026-07-01T03-17-50-835Z.png",
+          "name": "05-motion-sampled",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/06-results-2026-07-01T03-17-50-835Z.png",
+          "name": "06-results",
+          "method": "playwright-page"
+        }
+      ],
+      "videos": [],
+      "consoleErrors": [
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x11c0061e400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x11c0061e400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x11c0061e400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x11c0061e400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+        }
+      ],
+      "pageErrors": [],
+      "samples": [
+        {
+          "index": 0,
+          "phase": "idle",
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "motionAuthority": "transition-latched-player-follow",
+          "selectedPerspectiveId": "goldrush.camera.pose.0094",
+          "cameraMode": "exploration",
+          "descriptorPosition": [
+            0.858,
+            2.501,
+            -4.637
+          ],
+          "rendererCamera": {
+            "mode": "exploration",
+            "controllerContract": "goldrush-linear-camera-controller-v1",
+            "controlPipeline": [
+              "transition-latched-camera-descriptor",
+              "local-player-mouse-look-yaw-pitch",
+              "over-shoulder-player-follow",
+              "single-three-camera-render"
+            ],
+            "decoupledFrom": [
+              "object-protokit-generation",
+              "micro-object-interaction-markers",
+              "per-frame-camera-catalog-selection"
+            ],
+            "fov": 63,
+            "position": {
+              "x": -11.28,
+              "y": 1.9517,
+              "z": -23.6777
+            },
+            "lookAt": {
+              "x": -12,
+              "y": 0.2518,
+              "z": -16.6
+            },
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectionKey": "exploration:prospect:room-window-west-basin",
+            "motionAuthority": "transition-latched-player-follow",
+            "playerPosition": {
+              "x": -12,
+              "y": -0.8683,
+              "z": -20
+            }
+          },
+          "playerPosition": {
+            "x": -12,
+            "y": -0.8682768377371267,
+            "z": -20
+          },
+          "playerLook": {
+            "yaw": 0,
+            "pitch": -0.04,
+            "mouseLookEnabled": true,
+            "movementRelativeToCamera": true
+          },
+          "playerGround": {
+            "height": -0.8682768377371267,
+            "slopeGrade": 0.031830748034371636,
+            "normal": {
+              "x": -0.0168,
+              "y": 0.9995,
+              "z": -0.027
+            },
+            "walkable": true,
+            "blockingFeatureId": null,
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "placement": "downward-triangle-raycast",
+            "hit": {
+              "kind": "downward-triangle-raycast",
+              "bandId": "near-play-band",
+              "triangleIndex": 0,
+              "point": {
+                "x": -12,
+                "y": -0.8682768377371267,
+                "z": -20
+              },
+              "barycentric": {
+                "a": 0.2911627906976808,
+                "b": 0.6827906976744202,
+                "c": 0.026046511627898946
+              }
+            }
+          },
+          "playerRenderGround": {
+            "height": -0.8682768377371267,
+            "source": "cached-movement-ground",
+            "sampleSequence": 24,
+            "stableForFrame": true
+          },
+          "inputModel": {
+            "id": "camera-relative-wasd",
+            "mouseLookDrivesCamera": true,
+            "wasdFollowsCameraYaw": true,
+            "forwardSign": 1,
+            "forwardOnGround": {
+              "x": 0,
+              "z": 1
+            }
+          }
+        },
+        {
+          "index": 1,
+          "phase": "idle",
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "motionAuthority": "transition-latched-player-follow",
+          "selectedPerspectiveId": "goldrush.camera.pose.0094",
+          "cameraMode": "exploration",
+          "descriptorPosition": [
+            0.858,
+            2.501,
+            -4.637
+          ],
+          "rendererCamera": {
+            "mode": "exploration",
+            "controllerContract": "goldrush-linear-camera-controller-v1",
+            "controlPipeline": [
+              "transition-latched-camera-descriptor",
+              "local-player-mouse-look-yaw-pitch",
+              "over-shoulder-player-follow",
+              "single-three-camera-render"
+            ],
+            "decoupledFrom": [
+              "object-protokit-generation",
+              "micro-object-interaction-markers",
+              "per-frame-camera-catalog-selection"
+            ],
+            "fov": 63,
+            "position": {
+              "x": -11.28,
+              "y": 1.9517,
+              "z": -23.6777
+            },
+            "lookAt": {
+              "x": -12,
+              "y": 0.2518,
+              "z": -16.6
+            },
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectionKey": "exploration:prospect:room-window-west-basin",
+            "motionAuthority": "transition-latched-player-follow",
+            "playerPosition": {
+              "x": -12,
+              "y": -0.8683,
+              "z": -20
+            }
+          },
+          "playerPosition": {
+            "x": -12,
+            "y": -0.8682768377371267,
+            "z": -20
+          },
+          "playerLook": {
+            "yaw": 0,
+            "pitch": -0.04,
+            "mouseLookEnabled": true,
+            "movementRelativeToCamera": true
+          },
+          "playerGround": {
+            "height": -0.8682768377371267,
+            "slopeGrade": 0.031830748034371636,
+            "normal": {
+              "x": -0.0168,
+              "y": 0.9995,
+              "z": -0.027
+            },
+            "walkable": true,
+            "blockingFeatureId": null,
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "placement": "downward-triangle-raycast",
+            "hit": {
+              "kind": "downward-triangle-raycast",
+              "bandId": "near-play-band",
+              "triangleIndex": 0,
+              "point": {
+                "x": -12,
+                "y": -0.8682768377371267,
+                "z": -20
+              },
+              "barycentric": {
+                "a": 0.2911627906976808,
+                "b": 0.6827906976744202,
+                "c": 0.026046511627898946
+              }
+            }
+          },
+          "playerRenderGround": {
+            "height": -0.8682768377371267,
+            "source": "cached-movement-ground",
+            "sampleSequence": 25,
+            "stableForFrame": true
+          },
+          "inputModel": {
+            "id": "camera-relative-wasd",
+            "mouseLookDrivesCamera": true,
+            "wasdFollowsCameraYaw": true,
+            "forwardSign": 1,
+            "forwardOnGround": {
+              "x": 0,
+              "z": 1
+            }
+          }
+        },
+        {
+          "index": 2,
+          "phase": "move-look",
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "motionAuthority": "transition-latched-player-follow",
+          "selectedPerspectiveId": "goldrush.camera.pose.0094",
+          "cameraMode": "exploration",
+          "descriptorPosition": [
+            0.858,
+            2.501,
+            -4.637
+          ],
+          "rendererCamera": {
+            "mode": "exploration",
+            "controllerContract": "goldrush-linear-camera-controller-v1",
+            "controlPipeline": [
+              "transition-latched-camera-descriptor",
+              "local-player-mouse-look-yaw-pitch",
+              "over-shoulder-player-follow",
+              "single-three-camera-render"
+            ],
+            "decoupledFrom": [
+              "object-protokit-generation",
+              "micro-object-interaction-markers",
+              "per-frame-camera-catalog-selection"
+            ],
+            "fov": 63,
+            "position": {
+              "x": -11.28,
+              "y": 1.9517,
+              "z": -23.6777
+            },
+            "lookAt": {
+              "x": -12,
+              "y": 0.2518,
+              "z": -16.6
+            },
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectionKey": "exploration:prospect:room-window-west-basin",
+            "motionAuthority": "transition-latched-player-follow",
+            "playerPosition": {
+              "x": -12,
+              "y": -0.8683,
+              "z": -20
+            }
+          },
+          "playerPosition": {
+            "x": -12.000953326620293,
+            "y": -0.8643468502887091,
+            "z": -19.85333643165576
+          },
+          "playerLook": {
+            "yaw": -0.006499999999999062,
+            "pitch": -0.04,
+            "mouseLookEnabled": true,
+            "movementRelativeToCamera": true
+          },
+          "playerGround": {
+            "height": -0.8643468502887091,
+            "slopeGrade": 0.03217417997179236,
+            "normal": {
+              "x": -0.0169,
+              "y": 0.9995,
+              "z": -0.0274
+            },
+            "walkable": true,
+            "blockingFeatureId": null,
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "placement": "downward-triangle-raycast",
+            "hit": {
+              "kind": "downward-triangle-raycast",
+              "bandId": "near-play-band",
+              "triangleIndex": 0,
+              "point": {
+                "x": -12.000953326620293,
+                "y": -0.8643468502887091,
+                "z": -19.85333643165576
+              },
+              "barycentric": {
+                "a": 0.08784617433868375,
+                "b": 0.47681363493321016,
+                "c": 0.4353401907281061
+              }
+            }
+          },
+          "playerRenderGround": {
+            "height": -0.8643468502887091,
+            "source": "cached-movement-ground",
+            "sampleSequence": 26,
+            "stableForFrame": true
+          },
+          "inputModel": {
+            "id": "camera-relative-wasd",
+            "mouseLookDrivesCamera": true,
+            "wasdFollowsCameraYaw": true,
+            "forwardSign": 1,
+            "forwardOnGround": {
+              "x": -0.0065,
+              "z": 1
+            }
+          }
+        },
+        {
+          "index": 3,
+          "phase": "move-look",
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "motionAuthority": "transition-latched-player-follow",
+          "selectedPerspectiveId": "goldrush.camera.pose.0094",
+          "cameraMode": "exploration",
+          "descriptorPosition": [
+            0.858,
+            2.501,
+            -4.637
+          ],
+          "rendererCamera": {
+            "mode": "exploration",
+            "controllerContract": "goldrush-linear-camera-controller-v1",
+            "controlPipeline": [
+              "transition-latched-camera-descriptor",
+              "local-player-mouse-look-yaw-pitch",
+              "over-shoulder-player-follow",
+              "single-three-camera-render"
+            ],
+            "decoupledFrom": [
+              "object-protokit-generation",
+              "micro-object-interaction-markers",
+              "per-frame-camera-catalog-selection"
+            ],
+            "fov": 63,
+            "position": {
+              "x": -11.28,
+              "y": 1.9517,
+              "z": -23.6777
+            },
+            "lookAt": {
+              "x": -12,
+              "y": 0.2518,
+              "z": -16.6
+            },
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectionKey": "exploration:prospect:room-window-west-basin",
+            "motionAuthority": "transition-latched-player-follow",
+            "playerPosition": {
+              "x": -12,
+              "y": -0.8683,
+              "z": -20
+            }
+          },
+          "playerPosition": {
+            "x": -12.001429992447827,
+            "y": -0.8603141600322622,
+            "z": -19.706670539571743
+          },
+          "playerLook": {
+            "yaw": -0.003249999999999531,
+            "pitch": -0.04,
+            "mouseLookEnabled": true,
+            "movementRelativeToCamera": true
+          },
+          "playerGround": {
+            "height": -0.8603141600322622,
+            "slopeGrade": 0.032582900970075955,
+            "normal": {
+              "x": -0.017,
+              "y": 0.9995,
+              "z": -0.0278
+            },
+            "walkable": true,
+            "blockingFeatureId": null,
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "placement": "downward-triangle-raycast",
+            "hit": {
+              "kind": "downward-triangle-raycast",
+              "bandId": "near-play-band",
+              "triangleIndex": 1,
+              "point": {
+                "x": -12.001429992447827,
+                "y": -0.8603141600322622,
+                "z": -19.706670539571743
+              },
+              "barycentric": {
+                "a": 0.27149843784732575,
+                "b": 0.11613879253082542,
+                "c": 0.6123627696218489
+              }
+            }
+          },
+          "playerRenderGround": {
+            "height": -0.8603141600322622,
+            "source": "cached-movement-ground",
+            "sampleSequence": 27,
+            "stableForFrame": true
+          },
+          "inputModel": {
+            "id": "camera-relative-wasd",
+            "mouseLookDrivesCamera": true,
+            "wasdFollowsCameraYaw": true,
+            "forwardSign": 1,
+            "forwardOnGround": {
+              "x": -0.0032,
+              "z": 1
+            }
+          }
+        },
+        {
+          "index": 4,
+          "phase": "settle",
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "motionAuthority": "transition-latched-player-follow",
+          "selectedPerspectiveId": "goldrush.camera.pose.0094",
+          "cameraMode": "exploration",
+          "descriptorPosition": [
+            0.858,
+            2.501,
+            -4.637
+          ],
+          "rendererCamera": {
+            "mode": "exploration",
+            "controllerContract": "goldrush-linear-camera-controller-v1",
+            "controlPipeline": [
+              "transition-latched-camera-descriptor",
+              "local-player-mouse-look-yaw-pitch",
+              "over-shoulder-player-follow",
+              "single-three-camera-render"
+            ],
+            "decoupledFrom": [
+              "object-protokit-generation",
+              "micro-object-interaction-markers",
+              "per-frame-camera-catalog-selection"
+            ],
+            "fov": 63,
+            "position": {
+              "x": -11.28,
+              "y": 1.9517,
+              "z": -23.6777
+            },
+            "lookAt": {
+              "x": -12,
+              "y": 0.2518,
+              "z": -16.6
+            },
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectionKey": "exploration:prospect:room-window-west-basin",
+            "motionAuthority": "transition-latched-player-follow",
+            "playerPosition": {
+              "x": -12,
+              "y": -0.8683,
+              "z": -20
+            }
+          },
+          "playerPosition": {
+            "x": -12.001429992447827,
+            "y": -0.8603141600322622,
+            "z": -19.706670539571743
+          },
+          "playerLook": {
+            "yaw": -0.003249999999999531,
+            "pitch": -0.04,
+            "mouseLookEnabled": true,
+            "movementRelativeToCamera": true
+          },
+          "playerGround": {
+            "height": -0.8603141600322622,
+            "slopeGrade": 0.032582900970075955,
+            "normal": {
+              "x": -0.017,
+              "y": 0.9995,
+              "z": -0.0278
+            },
+            "walkable": true,
+            "blockingFeatureId": null,
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "placement": "downward-triangle-raycast",
+            "hit": {
+              "kind": "downward-triangle-raycast",
+              "bandId": "near-play-band",
+              "triangleIndex": 1,
+              "point": {
+                "x": -12.001429992447827,
+                "y": -0.8603141600322622,
+                "z": -19.706670539571743
+              },
+              "barycentric": {
+                "a": 0.27149843784732575,
+                "b": 0.11613879253082542,
+                "c": 0.6123627696218489
+              }
+            }
+          },
+          "playerRenderGround": {
+            "height": -0.8603141600322622,
+            "source": "cached-movement-ground",
+            "sampleSequence": 28,
+            "stableForFrame": true
+          },
+          "inputModel": {
+            "id": "camera-relative-wasd",
+            "mouseLookDrivesCamera": true,
+            "wasdFollowsCameraYaw": true,
+            "forwardSign": 1,
+            "forwardOnGround": {
+              "x": -0.0032,
+              "z": 1
+            }
+          }
+        }
+      ],
+      "states": {
+        "title": {
+          "screen": "start",
+          "activeSite": "site.start",
+          "players": 2,
+          "loadedKitGroups": [
+            "title-audio"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "title",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "locked",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "lobby": {
+          "screen": "lobby",
+          "activeSite": "site.lobby-character",
+          "players": 2,
+          "loadedKitGroups": [
+            "peer-party-room",
+            "three-lobby-character",
+            "room-selection",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "lobby",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "loading": {
+          "screen": "loading",
+          "activeSite": "site.loading-yard",
+          "players": 2,
+          "loadedKitGroups": [
+            "loading-yard-terrain",
+            "party-presence",
+            "walkable-player",
+            "train-departure",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "boarding-open",
+            "trainDeparting": false,
+            "playerLockedToTrain": false,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "player-boarding",
+            "nextPlayerAction": "board-train"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": [
+              {
+                "source": "train-transition",
+                "contract": "goldrush-train-transition-audio-cues-v1",
+                "cueId": "goldrush.audio.sfx.goldPickup",
+                "cueName": "board-now-marker",
+                "fallbackPattern": "train-board",
+                "trainBeat": "player-boarding",
+                "nextPlayerAction": "board-train",
+                "dedupeId": "train-transition.train-sequence-0003.player-boarding"
+              }
+            ]
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "run": {
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "players": 20,
+          "loadedKitGroups": [
+            "goldrush-runtime",
+            "procedural-terrain",
+            "object-micro-kits",
+            "network-orchestration"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectedPerspectiveFamily": "mining-close"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "handoff-ready",
+            "trainDeparting": true,
+            "playerLockedToTrain": true,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "gold-field-runtime",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 16,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "results": {
+          "screen": "results",
+          "activeSite": "site.results",
+          "players": 20,
+          "loadedKitGroups": [
+            "goldrush-runtime",
+            "results-summary",
+            "replay-summary"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0451",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "handoff-ready",
+            "trainDeparting": true,
+            "playerLockedToTrain": true,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "gold-field-runtime",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12.001429992447827,
+              "y": -0.8603141600322622,
+              "z": -19.706670539571743
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": -0.0032,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8603141600322622,
+              "slopeGrade": 0.032582900970075955,
+              "normal": {
+                "x": -0.017,
+                "y": 0.9995,
+                "z": -0.0278
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 1,
+                "point": {
+                  "x": -12.001429992447827,
+                  "y": -0.8603141600322622,
+                  "z": -19.706670539571743
+                },
+                "barycentric": {
+                  "a": 0.27149843784732575,
+                  "b": 0.11613879253082542,
+                  "c": 0.6123627696218489
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8603141600322622,
+              "source": "cached-movement-ground",
+              "sampleSequence": 35,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "final",
+            "winner": {
+              "kind": "team",
+              "id": "team-01",
+              "score": 541
+            },
+            "placementCount": 1
+          }
+        }
+      },
+      "domains": {
+        "sceneFlow": {
+          "title": "start",
+          "lobby": "lobby",
+          "loading": "loading",
+          "run": "run",
+          "results": "results",
+          "activeSites": [
+            "site.loading-yard",
+            "site.gold-field",
+            "site.results"
+          ]
+        },
+        "camera": {
+          "motionAuthoritySet": [
+            "transition-latched-player-follow"
+          ],
+          "perspectiveSet": [
+            "goldrush.camera.pose.0094"
+          ],
+          "maxOneFrameCameraJump": 0,
+          "yawDelta": 0.0065,
+          "cameraRelativeWasd": true,
+          "mouseLookDrivesCamera": true
+        },
+        "terrain": {
+          "maxGroundMismatch": 0,
+          "maxRenderGroundMismatch": 0,
+          "maxOneFrameGroundDelta": 0.004,
+          "placement": "downward-triangle-raycast",
+          "colliderPlacement": "highest-visible-banded-triangle-hit",
+          "physicsEngine": "cannon-es"
+        },
+        "interaction": {
+          "trainBoardingAction": "board-train",
+          "playerLockedToTrain": false,
+          "finalScreen": "results",
+          "resultStatus": "final"
+        },
+        "network": {
+          "partyStatus": "local",
+          "capacity": 4,
+          "members": 1,
+          "launchedPlayers": 20
+        },
+        "audio": {
+          "managerStatus": "started",
+          "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1"
+        }
+      },
+      "issues": [
+        {
+          "severity": "warn",
+          "domain": "runtime",
+          "issue": "4 console warnings/errors captured"
+        }
+      ],
+      "proofOptions": {
+        "recordVideo": false
+      },
+      "videoSkipped": "recordVideo=false",
+      "finishedAt": "2026-07-01T03:18:31.619Z"
+    }
+  ],
+  "comparison": {
+    "status": "single-target",
+    "notes": [
+      "comparison requires both local and public"
+    ]
+  },
+  "finishedAt": "2026-07-01T03:18:31.627Z"
+}

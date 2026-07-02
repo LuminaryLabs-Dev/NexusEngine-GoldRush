@@ -1,0 +1,30 @@
+# 010 - Render Collider Height Parity Audit
+
+Status: planned docs-only
+Parent atom: `003-height-sample-contract`
+
+## Finding
+
+The height sample pass can fake completion if `heightConsumerParity` exists but consumers do not use it.
+
+## Why It Matters
+
+visual terrain and physical terrain diverge even though each has valid height samples.
+
+## Long-Term Impact
+
+- Terrain fidelity work becomes hard to debug because screenshots, colliders, raycasts, and route markers describe different heights.
+- Player movement and camera proof can pass locally while future map revisions create floating or sinking behavior.
+- Prop placement, mining affordances, cashout zones, and cover can appear grounded while gameplay receipts use different vertical facts.
+
+## Hardening
+
+- Require source fixture schema proof.
+- Require negative validator proof.
+- Require at least one consumer echo.
+- Require stale-proof behavior after source height changes.
+- Require human-view or state proof that can compare source height, rendered height, collider height, and player grounding when this becomes runtime work.
+
+## Audit Rewrite
+
+Do not mark this micro-step resolved until render, collider, raycast, and movement snapshots echo matching height values for the same proof points and the validator catches the opposite failure.

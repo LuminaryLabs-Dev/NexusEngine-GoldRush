@@ -1,0 +1,70 @@
+# Simulation Matrix
+
+Status: active docs-only
+
+| Simulation | Atom | Likely failure | Recovery gate |
+| --- | --- | --- | --- |
+| 01-01 | 01-01-source-revision-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 01-02 | 01-02-source-revision-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 01-03 | 01-03-source-revision-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 01-04 | 01-04-source-revision-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 02-01 | 02-01-macro-silhouette-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 02-02 | 02-02-macro-silhouette-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 02-03 | 02-03-macro-silhouette-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 02-04 | 02-04-macro-silhouette-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 03-01 | 03-01-heightfield-form-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 03-02 | 03-02-heightfield-form-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 03-03 | 03-03-heightfield-form-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 03-04 | 03-04-heightfield-form-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 04-01 | 04-01-mask-stack-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 04-02 | 04-02-mask-stack-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 04-03 | 04-03-mask-stack-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 04-04 | 04-04-mask-stack-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 05-01 | 05-01-lod-cells-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 05-02 | 05-02-lod-cells-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 05-03 | 05-03-lod-cells-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 05-04 | 05-04-lod-cells-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 06-01 | 06-01-collider-parity-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 06-02 | 06-02-collider-parity-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 06-03 | 06-03-collider-parity-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 06-04 | 06-04-collider-parity-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 07-01 | 07-01-raycast-placement-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 07-02 | 07-02-raycast-placement-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 07-03 | 07-03-raycast-placement-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 07-04 | 07-04-raycast-placement-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 08-01 | 08-01-asset-family-anchors-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 08-02 | 08-02-asset-family-anchors-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 08-03 | 08-03-asset-family-anchors-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 08-04 | 08-04-asset-family-anchors-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 09-01 | 09-01-route-risk-web-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 09-02 | 09-02-route-risk-web-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 09-03 | 09-03-route-risk-web-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 09-04 | 09-04-route-risk-web-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 10-01 | 10-01-player-scale-readability-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 10-02 | 10-02-player-scale-readability-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 10-03 | 10-03-player-scale-readability-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 10-04 | 10-04-player-scale-readability-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 11-01 | 11-01-combat-cover-space-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 11-02 | 11-02-combat-cover-space-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 11-03 | 11-03-combat-cover-space-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 11-04 | 11-04-combat-cover-space-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 12-01 | 12-01-single-player-staging-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 12-02 | 12-02-single-player-staging-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 12-03 | 12-03-single-player-staging-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 12-04 | 12-04-single-player-staging-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 13-01 | 13-01-sixty-player-scale-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 13-02 | 13-02-sixty-player-scale-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 13-03 | 13-03-sixty-player-scale-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 13-04 | 13-04-sixty-player-scale-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 14-01 | 14-01-toon-style-materials-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 14-02 | 14-02-toon-style-materials-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 14-03 | 14-03-toon-style-materials-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 14-04 | 14-04-toon-style-materials-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 15-01 | 15-01-proof-and-restart-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 15-02 | 15-02-proof-and-restart-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 15-03 | 15-03-proof-and-restart-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 15-04 | 15-04-proof-and-restart-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 16-01 | 16-01-implementation-slicing-intent | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 16-02 | 16-02-implementation-slicing-data | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 16-03 | 16-03-implementation-slicing-consumer | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |
+| 16-04 | 16-04-implementation-slicing-proof | Local implementation drifts from source contract. | Stop and restore source-consumer parity before broadening scope. |

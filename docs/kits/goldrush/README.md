@@ -37,6 +37,7 @@ Each kit contract has the same 10 documented points: `domainPath`, `purpose`, `p
 - `n:goldrush:desert-terrain`
 - `n:goldrush:player-grounding`
 - `n:goldrush:terrain-patch-windows`
+- `n:goldrush:desert-world-map`
 - `n:goldrush:prop-placement`
 - `n:goldrush:frontier-conditions`
 - `n:goldrush:terrain-physics`

@@ -1,0 +1,943 @@
+{
+  "schema": "nexusengine.goldrush.local-public-live-audit.v1",
+  "status": "failed",
+  "startedAt": "2026-07-01T03:05:52.947Z",
+  "runId": "2026-07-01T03-05-52-939Z",
+  "proofOptions": {
+    "recordVideo": false,
+    "hardTimeoutMs": 180000
+  },
+  "targets": [
+    {
+      "name": "local",
+      "status": "failed",
+      "url": "http://127.0.0.1:5173/NexusEngine-GoldRush/?publicSmoke=2026-07-01T03-05-52-939Z",
+      "startedAt": "2026-07-01T03:05:53.909Z",
+      "steps": [
+        {
+          "name": "load-title",
+          "status": "passed",
+          "durationMs": 2027
+        },
+        {
+          "name": "enter-lobby",
+          "status": "passed",
+          "durationMs": 2888
+        },
+        {
+          "name": "start-loading-yard",
+          "status": "passed",
+          "durationMs": 7685
+        },
+        {
+          "name": "walk-board-train",
+          "status": "failed",
+          "durationMs": 60841,
+          "error": "page.waitForFunction: Timeout 45000ms exceeded."
+        }
+      ],
+      "screenshots": [
+        "screenshots/live-state-audit/local/01-title-2026-07-01T03-05-52-939Z.png",
+        "screenshots/live-state-audit/local/02-lobby-2026-07-01T03-05-52-939Z.png",
+        "screenshots/live-state-audit/local/03-loading-yard-2026-07-01T03-05-52-939Z.png",
+        "screenshots/live-state-audit/local/99-failure-2026-07-01T03-05-52-939Z.png"
+      ],
+      "screenshotCaptures": [
+        {
+          "file": "screenshots/live-state-audit/local/01-title-2026-07-01T03-05-52-939Z.png",
+          "name": "01-title",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/local/02-lobby-2026-07-01T03-05-52-939Z.png",
+          "name": "02-lobby",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/local/03-loading-yard-2026-07-01T03-05-52-939Z.png",
+          "name": "03-loading-yard",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/local/99-failure-2026-07-01T03-05-52-939Z.png",
+          "name": "99-failure",
+          "method": "playwright-page"
+        }
+      ],
+      "videos": [],
+      "consoleErrors": [
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x12c0053b400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x12c0053b400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x12c0053b400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x12c0053b400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+        }
+      ],
+      "pageErrors": [],
+      "samples": [],
+      "states": {
+        "title": {
+          "screen": "start",
+          "activeSite": "site.start",
+          "players": 2,
+          "loadedKitGroups": [
+            "title-audio"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "title",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "locked",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "lobby": {
+          "screen": "lobby",
+          "activeSite": "site.lobby-character",
+          "players": 2,
+          "loadedKitGroups": [
+            "peer-party-room",
+            "three-lobby-character",
+            "room-selection",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "lobby",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "loading": {
+          "screen": "loading",
+          "activeSite": "site.loading-yard",
+          "players": 2,
+          "loadedKitGroups": [
+            "loading-yard-terrain",
+            "party-presence",
+            "walkable-player",
+            "train-departure",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "boarding-open",
+            "trainDeparting": false,
+            "playerLockedToTrain": false,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "player-boarding",
+            "nextPlayerAction": "board-train"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": [
+              {
+                "source": "train-transition",
+                "contract": "goldrush-train-transition-audio-cues-v1",
+                "cueId": "goldrush.audio.sfx.goldPickup",
+                "cueName": "board-now-marker",
+                "fallbackPattern": "train-board",
+                "trainBeat": "player-boarding",
+                "nextPlayerAction": "board-train",
+                "dedupeId": "train-transition.train-sequence-0003.player-boarding"
+              }
+            ]
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "failure": {
+          "screen": "run",
+          "activeSite": "site.gold-field",
+          "players": 20,
+          "loadedKitGroups": [
+            "goldrush-runtime",
+            "procedural-terrain",
+            "object-micro-kits",
+            "network-orchestration"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0094",
+            "selectedPerspectiveFamily": "mining-close"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "handoff-ready",
+            "trainDeparting": true,
+            "playerLockedToTrain": true,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "gold-field-runtime",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 5,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        }
+      },
+      "domains": {},
+      "issues": [
+        {
+          "severity": "fail",
+          "domain": "proof",
+          "issue": "page.waitForFunction: Timeout 45000ms exceeded."
+        }
+      ],
+      "proofOptions": {
+        "recordVideo": false
+      },
+      "error": {
+        "message": "page.waitForFunction: Timeout 45000ms exceeded.",
+        "stack": "page.waitForFunction: Timeout 45000ms exceeded.\n    at waitForActiveSite (tools/proof/local-public-live-audit.mjs:644:14)\n    at tools/proof/local-public-live-audit.mjs:162:13\n    at async step (tools/proof/local-public-live-audit.mjs:234:5)\n    at async auditTarget (tools/proof/local-public-live-audit.mjs:158:5)\n    at async file://tools/proof/local-public-live-audit.mjs:50:27\n    at async file://tools/proof/local-public-live-audit.mjs:48:3"
+      },
+      "videoSkipped": "recordVideo=false",
+      "finishedAt": "2026-07-01T03:07:17.373Z"
+    },
+    {
+      "name": "public",
+      "status": "failed",
+      "url": "https://luminarylabs-dev.github.io/NexusEngine-GoldRush/?publicSmoke=2026-07-01T03-05-52-939Z",
+      "startedAt": "2026-07-01T03:07:18.468Z",
+      "steps": [
+        {
+          "name": "load-title",
+          "status": "passed",
+          "durationMs": 2235
+        },
+        {
+          "name": "enter-lobby",
+          "status": "passed",
+          "durationMs": 8845
+        },
+        {
+          "name": "start-loading-yard",
+          "status": "passed",
+          "durationMs": 9013
+        },
+        {
+          "name": "walk-board-train",
+          "status": "failed",
+          "durationMs": 65268,
+          "error": "step:walk-board-train timed out after 65000ms"
+        }
+      ],
+      "screenshots": [
+        "screenshots/live-state-audit/public/01-title-2026-07-01T03-05-52-939Z.png",
+        "screenshots/live-state-audit/public/02-lobby-2026-07-01T03-05-52-939Z.png",
+        "screenshots/live-state-audit/public/03-loading-yard-2026-07-01T03-05-52-939Z.png"
+      ],
+      "screenshotCaptures": [
+        {
+          "file": "screenshots/live-state-audit/public/01-title-2026-07-01T03-05-52-939Z.png",
+          "name": "01-title",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/02-lobby-2026-07-01T03-05-52-939Z.png",
+          "name": "02-lobby",
+          "method": "playwright-page"
+        },
+        {
+          "file": "screenshots/live-state-audit/public/03-loading-yard-2026-07-01T03-05-52-939Z.png",
+          "name": "03-loading-yard",
+          "method": "playwright-page"
+        }
+      ],
+      "videos": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "samples": [],
+      "states": {
+        "title": {
+          "screen": "start",
+          "activeSite": "site.start",
+          "players": 2,
+          "loadedKitGroups": [
+            "title-audio"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "title",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "locked",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "lobby": {
+          "screen": "lobby",
+          "activeSite": "site.lobby-character",
+          "players": 2,
+          "loadedKitGroups": [
+            "peer-party-room",
+            "three-lobby-character",
+            "room-selection",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": null,
+          "trainReadout": {
+            "currentBeat": "lobby",
+            "nextPlayerAction": "continue"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": []
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        },
+        "loading": {
+          "screen": "loading",
+          "activeSite": "site.loading-yard",
+          "players": 2,
+          "loadedKitGroups": [
+            "loading-yard-terrain",
+            "party-presence",
+            "walkable-player",
+            "train-departure",
+            "frontier-condition-briefing"
+          ],
+          "selectedLegacyMode": "modernExtraction",
+          "cameraMode": "exploration",
+          "camera": {
+            "motionAuthority": "transition-latched-player-follow",
+            "selectedPerspectiveId": "goldrush.camera.pose.0271",
+            "selectedPerspectiveFamily": "exploration-over-shoulder"
+          },
+          "party": {
+            "status": "local",
+            "members": 1,
+            "capacity": 4,
+            "isLeader": true
+          },
+          "loadingScene": {
+            "loadingPhase": "boarding-open",
+            "trainDeparting": false,
+            "playerLockedToTrain": false,
+            "doorOpen": true
+          },
+          "trainReadout": {
+            "currentBeat": "player-boarding",
+            "nextPlayerAction": "board-train"
+          },
+          "localPlayer": {
+            "position": {
+              "x": -12,
+              "y": -0.8682768377371267,
+              "z": -20
+            },
+            "inputModel": {
+              "id": "camera-relative-wasd",
+              "mouseLookDrivesCamera": true,
+              "wasdFollowsCameraYaw": true,
+              "forwardSign": 1,
+              "forwardOnGround": {
+                "x": 0,
+                "z": 1
+              }
+            },
+            "ground": {
+              "height": -0.8682768377371267,
+              "slopeGrade": 0.031830748034371636,
+              "normal": {
+                "x": -0.0168,
+                "y": 0.9995,
+                "z": -0.027
+              },
+              "walkable": true,
+              "blockingFeatureId": null,
+              "algorithm": "single-banded-triangle-terrain-v1",
+              "placement": "downward-triangle-raycast",
+              "hit": {
+                "kind": "downward-triangle-raycast",
+                "bandId": "near-play-band",
+                "triangleIndex": 0,
+                "point": {
+                  "x": -12,
+                  "y": -0.8682768377371267,
+                  "z": -20
+                },
+                "barycentric": {
+                  "a": 0.2911627906976808,
+                  "b": 0.6827906976744202,
+                  "c": 0.026046511627898946
+                }
+              }
+            },
+            "renderGround": {
+              "height": -0.8682768377371267,
+              "source": "cached-movement-ground",
+              "sampleSequence": 1,
+              "stableForFrame": true
+            }
+          },
+          "terrainCollider": {
+            "algorithm": "single-banded-triangle-terrain-v1",
+            "raycastPlacement": "highest-visible-banded-triangle-hit"
+          },
+          "terrainPhysics": {
+            "engine": "cannon-es",
+            "shape": "Heightfield"
+          },
+          "audioManager": {
+            "status": "started",
+            "trainTransitionAudioContract": "goldrush-train-transition-audio-cues-v1",
+            "lastTrainCueShots": [
+              {
+                "source": "train-transition",
+                "contract": "goldrush-train-transition-audio-cues-v1",
+                "cueId": "goldrush.audio.sfx.goldPickup",
+                "cueName": "board-now-marker",
+                "fallbackPattern": "train-board",
+                "trainBeat": "player-boarding",
+                "nextPlayerAction": "board-train",
+                "dedupeId": "train-transition.train-sequence-0003.player-boarding"
+              }
+            ]
+          },
+          "results": {
+            "status": "pending",
+            "winner": {
+              "kind": "none",
+              "id": null,
+              "score": 0
+            },
+            "placementCount": 0
+          }
+        }
+      },
+      "domains": {},
+      "issues": [
+        {
+          "severity": "fail",
+          "domain": "proof",
+          "issue": "step:walk-board-train timed out after 65000ms"
+        }
+      ],
+      "proofOptions": {
+        "recordVideo": false
+      },
+      "error": {
+        "message": "step:walk-board-train timed out after 65000ms",
+        "stack": "Error: step:walk-board-train timed out after 65000ms\n    at Timeout.<anonymous> (file://tools/proof/local-public-live-audit.mjs:225:37)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+      },
+      "captureError": "page.evaluate: Target page, context or browser has been closed",
+      "videoError": "browserContext.close: Protocol error (Target.disposeBrowserContext): Failed to find context with id 389BE42A66E8DCADF881BF42BF58F001",
+      "videoSkipped": "recordVideo=false",
+      "finishedAt": "2026-07-01T03:08:54.851Z"
+    }
+  ],
+  "comparison": {
+    "status": "matched",
+    "mismatches": [],
+    "localStatus": "failed",
+    "publicStatus": "failed"
+  },
+  "error": {
+    "message": "live-state-audit hard timeout timed out after 180000ms",
+    "stack": "Error: live-state-audit hard timeout timed out after 180000ms\n    at Timeout.<anonymous> (file://tools/proof/local-public-live-audit.mjs:225:37)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+  },
+  "finishedAt": "2026-07-01T03:08:53.593Z"
+}

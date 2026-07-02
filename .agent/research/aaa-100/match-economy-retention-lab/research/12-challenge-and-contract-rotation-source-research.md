@@ -1,0 +1,14 @@
+# Challenge And Contract Rotation - Source Research
+
+Status: planned docs-only
+System: 12
+Source: GitHub JavaScript game engine collection
+URL: https://github.com/collections/javascript-game-engines
+
+## Signal
+
+The JavaScript collection highlights browser game runtime concerns: rendering, physics, WebGL/WebGPU, glTF, and web delivery. GoldRush economy/progression data must stay browser-safe, serializable, and proofable in local/public builds.
+
+## GoldRush Reading
+
+Apex and other battle royales use challenges and limited-time modes; GoldRush should plan this as optional live-ops, not core MVP.

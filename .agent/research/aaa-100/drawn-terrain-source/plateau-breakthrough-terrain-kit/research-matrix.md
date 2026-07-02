@@ -1,0 +1,70 @@
+# Research Matrix
+
+Status: active docs-only
+
+| Research | Atom | Focus | Source implication |
+| --- | --- | --- | --- |
+| 01-01 | 01-01-source-revision-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 01-02 | 01-02-source-revision-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 01-03 | 01-03-source-revision-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 01-04 | 01-04-source-revision-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 02-01 | 02-01-macro-silhouette-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 02-02 | 02-02-macro-silhouette-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 02-03 | 02-03-macro-silhouette-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 02-04 | 02-04-macro-silhouette-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 03-01 | 03-01-heightfield-form-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 03-02 | 03-02-heightfield-form-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 03-03 | 03-03-heightfield-form-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 03-04 | 03-04-heightfield-form-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 04-01 | 04-01-mask-stack-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 04-02 | 04-02-mask-stack-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 04-03 | 04-03-mask-stack-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 04-04 | 04-04-mask-stack-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 05-01 | 05-01-lod-cells-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 05-02 | 05-02-lod-cells-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 05-03 | 05-03-lod-cells-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 05-04 | 05-04-lod-cells-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 06-01 | 06-01-collider-parity-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 06-02 | 06-02-collider-parity-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 06-03 | 06-03-collider-parity-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 06-04 | 06-04-collider-parity-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 07-01 | 07-01-raycast-placement-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 07-02 | 07-02-raycast-placement-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 07-03 | 07-03-raycast-placement-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 07-04 | 07-04-raycast-placement-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 08-01 | 08-01-asset-family-anchors-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 08-02 | 08-02-asset-family-anchors-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 08-03 | 08-03-asset-family-anchors-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 08-04 | 08-04-asset-family-anchors-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 09-01 | 09-01-route-risk-web-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 09-02 | 09-02-route-risk-web-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 09-03 | 09-03-route-risk-web-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 09-04 | 09-04-route-risk-web-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 10-01 | 10-01-player-scale-readability-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 10-02 | 10-02-player-scale-readability-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 10-03 | 10-03-player-scale-readability-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 10-04 | 10-04-player-scale-readability-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 11-01 | 11-01-combat-cover-space-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 11-02 | 11-02-combat-cover-space-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 11-03 | 11-03-combat-cover-space-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 11-04 | 11-04-combat-cover-space-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 12-01 | 12-01-single-player-staging-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 12-02 | 12-02-single-player-staging-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 12-03 | 12-03-single-player-staging-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 12-04 | 12-04-single-player-staging-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 13-01 | 13-01-sixty-player-scale-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 13-02 | 13-02-sixty-player-scale-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 13-03 | 13-03-sixty-player-scale-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 13-04 | 13-04-sixty-player-scale-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 14-01 | 14-01-toon-style-materials-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 14-02 | 14-02-toon-style-materials-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 14-03 | 14-03-toon-style-materials-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 14-04 | 14-04-toon-style-materials-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 15-01 | 15-01-proof-and-restart-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 15-02 | 15-02-proof-and-restart-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 15-03 | 15-03-proof-and-restart-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 15-04 | 15-04-proof-and-restart-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 16-01 | 16-01-implementation-slicing-intent | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 16-02 | 16-02-implementation-slicing-data | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 16-03 | 16-03-implementation-slicing-consumer | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
+| 16-04 | 16-04-implementation-slicing-proof | Reference and source-data check. | Convert external/reference signal into a local kit/proof requirement. |
