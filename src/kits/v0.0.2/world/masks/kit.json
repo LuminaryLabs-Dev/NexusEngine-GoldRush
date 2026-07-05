@@ -1,0 +1,69 @@
+{
+  "id": "v002-world-masks",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "masks",
+  "domainPath": "n:world:masks",
+  "apiName": "v002WorldMasks",
+  "kind": "domain-service",
+  "purpose": "Masks kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:world:terrain-source"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.masks.installed",
+    "world.masks.reset",
+    "world.masks.snapshotted",
+    "world.masks.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:masks",
+      "upstreamSnapshots": [
+        "n:world:terrain-source"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:masks",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "masks",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

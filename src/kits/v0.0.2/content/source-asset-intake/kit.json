@@ -1,0 +1,78 @@
+{
+  "id": "v002-content-source-asset-intake",
+  "version": "v0.0.2",
+  "domain": "content",
+  "subdomain": "source-asset-intake",
+  "domainPath": "n:content:source-asset-intake",
+  "apiName": "v002ContentSourceAssetIntake",
+  "kind": "host-support",
+  "purpose": "Source Asset Intake kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+  "dependencies": [
+    "n:runtime:registry",
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "content.source-asset-intake.installed",
+    "content.source-asset-intake.reset",
+    "content.source-asset-intake.snapshotted",
+    "content.source-asset-intake.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "content",
+  "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "register-source-pack",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "sourceUrl": "https://quaternius.com/packs/modulartrain.html",
+      "mirrorUrl": "https://poly.pizza/bundle/Modular-Train-Pack-jYEybkFVr1",
+      "stagingRoot": "external/asset-intake/quaternius-modular-train-pack",
+      "assetKinds": [
+        "blend",
+        "fbx",
+        "obj"
+      ],
+      "importJobId": "goldrush-train-import-001"
+    },
+    "output": {
+      "domainPath": "n:content:source-asset-intake",
+      "health": "registered",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "fileCount": 59
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "source-asset-intake",
+      "installed": false,
+      "resetCount": 1,
+      "sourcePackId": null
+    }
+  }
+}

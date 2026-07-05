@@ -1,0 +1,71 @@
+{
+  "id": "v002-render-diegetic-cues",
+  "version": "v0.0.2",
+  "domain": "render",
+  "subdomain": "diegetic-cues",
+  "domainPath": "n:render:diegetic-cues",
+  "apiName": "v002RenderDiegeticCues",
+  "kind": "renderer-adapter",
+  "purpose": "Diegetic Cues kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+  "dependencies": [
+    "n:gameplay:interaction-hold",
+    "n:scene:transition"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "render.diegetic-cues.installed",
+    "render.diegetic-cues.reset",
+    "render.diegetic-cues.snapshotted",
+    "render.diegetic-cues.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "render",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-graphics-kit",
+    "core-camera-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:render:diegetic-cues",
+      "upstreamSnapshots": [
+        "n:gameplay:interaction-hold",
+        "n:scene:transition"
+      ]
+    },
+    "output": {
+      "domainPath": "n:render:diegetic-cues",
+      "health": "registered",
+      "proofGroup": "render"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "diegetic-cues",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "v002-behavior-combat-posture",
+  "version": "v0.0.2",
+  "domain": "behavior",
+  "subdomain": "combat-posture",
+  "domainPath": "n:behavior:combat-posture",
+  "apiName": "v002BehaviorCombatPosture",
+  "kind": "system-controller",
+  "purpose": "Combat Posture kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+  "dependencies": [
+    "n:behavior:body-state",
+    "n:gameplay:combat-pressure"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "behavior.combat-posture.installed",
+    "behavior.combat-posture.reset",
+    "behavior.combat-posture.snapshotted",
+    "behavior.combat-posture.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-simulation-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": "system-controller",
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:behavior:combat-posture",
+      "upstreamSnapshots": [
+        "n:behavior:body-state",
+        "n:gameplay:combat-pressure"
+      ]
+    },
+    "output": {
+      "domainPath": "n:behavior:combat-posture",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "combat-posture",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

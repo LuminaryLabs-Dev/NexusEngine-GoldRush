@@ -1,0 +1,69 @@
+{
+  "id": "v002-network-local-simulation",
+  "version": "v0.0.2",
+  "domain": "network",
+  "subdomain": "local-simulation",
+  "domainPath": "n:network:local-simulation",
+  "apiName": "v002NetworkLocalSimulation",
+  "kind": "scoped-domain",
+  "purpose": "Local Simulation kit for party, partition, staging, and handoff contracts.",
+  "dependencies": [
+    "n:network:room-partitions"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "network.local-simulation.installed",
+    "network.local-simulation.reset",
+    "network.local-simulation.snapshotted",
+    "network.local-simulation.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "network",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-network-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:network:local-simulation",
+      "upstreamSnapshots": [
+        "n:network:room-partitions"
+      ]
+    },
+    "output": {
+      "domainPath": "n:network:local-simulation",
+      "health": "registered",
+      "proofGroup": "network"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "local-simulation",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

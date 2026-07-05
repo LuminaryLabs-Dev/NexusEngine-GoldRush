@@ -1,0 +1,71 @@
+{
+  "id": "v002-goldrush-ambush-pressure",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "ambush-pressure",
+  "domainPath": "n:goldrush:ambush-pressure",
+  "apiName": "v002GoldrushAmbushPressure",
+  "kind": "composite-domain",
+  "purpose": "Ambush Pressure kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+  "dependencies": [
+    "n:gameplay:combat-pressure",
+    "n:behavior:combat-posture"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.ambush-pressure.installed",
+    "goldrush.ambush-pressure.reset",
+    "goldrush.ambush-pressure.snapshotted",
+    "goldrush.ambush-pressure.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:goldrush:ambush-pressure",
+      "upstreamSnapshots": [
+        "n:gameplay:combat-pressure",
+        "n:behavior:combat-posture"
+      ]
+    },
+    "output": {
+      "domainPath": "n:goldrush:ambush-pressure",
+      "health": "registered",
+      "proofGroup": "goldrush-integrated"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "ambush-pressure",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

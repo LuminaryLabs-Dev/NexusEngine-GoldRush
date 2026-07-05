@@ -1,0 +1,78 @@
+{
+  "id": "v002-content-source-file-inventory",
+  "version": "v0.0.2",
+  "domain": "content",
+  "subdomain": "source-file-inventory",
+  "domainPath": "n:content:source-file-inventory",
+  "apiName": "v002ContentSourceFileInventory",
+  "kind": "host-support",
+  "purpose": "Source File Inventory kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+  "dependencies": [
+    "n:content:source-asset-intake",
+    "n:content:license-provenance"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "content.source-file-inventory.installed",
+    "content.source-file-inventory.reset",
+    "content.source-file-inventory.snapshotted",
+    "content.source-file-inventory.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "content",
+  "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "inventory-source-files",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "stagingRoot": "external/asset-intake/quaternius-modular-train-pack",
+      "trackedExtensions": [
+        "blend",
+        "fbx",
+        "obj",
+        "mtl",
+        "txt",
+        "png"
+      ]
+    },
+    "output": {
+      "domainPath": "n:content:source-file-inventory",
+      "health": "registered",
+      "fileCount": 59,
+      "extensionCount": 6
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "source-file-inventory",
+      "installed": false,
+      "resetCount": 1,
+      "fileCount": 0
+    }
+  }
+}

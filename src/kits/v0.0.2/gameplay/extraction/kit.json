@@ -1,0 +1,71 @@
+{
+  "id": "v002-gameplay-extraction",
+  "version": "v0.0.2",
+  "domain": "gameplay",
+  "subdomain": "extraction",
+  "domainPath": "n:gameplay:extraction",
+  "apiName": "v002GameplayExtraction",
+  "kind": "scoped-domain",
+  "purpose": "Extraction kit for player-facing gameplay rules and actions.",
+  "dependencies": [
+    "n:gameplay:cargo",
+    "n:world:routes"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "gameplay.extraction.installed",
+    "gameplay.extraction.reset",
+    "gameplay.extraction.snapshotted",
+    "gameplay.extraction.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-interaction-kit",
+    "core-simulation-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:gameplay:extraction",
+      "upstreamSnapshots": [
+        "n:gameplay:cargo",
+        "n:world:routes"
+      ]
+    },
+    "output": {
+      "domainPath": "n:gameplay:extraction",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "extraction",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

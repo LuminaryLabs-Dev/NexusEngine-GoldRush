@@ -1,0 +1,71 @@
+{
+  "id": "v002-world-landmarks",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "landmarks",
+  "domainPath": "n:world:landmarks",
+  "apiName": "v002WorldLandmarks",
+  "kind": "domain-service",
+  "purpose": "Landmarks kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:world:terrain-source",
+    "n:world:masks"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.landmarks.installed",
+    "world.landmarks.reset",
+    "world.landmarks.snapshotted",
+    "world.landmarks.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:landmarks",
+      "upstreamSnapshots": [
+        "n:world:terrain-source",
+        "n:world:masks"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:landmarks",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "landmarks",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

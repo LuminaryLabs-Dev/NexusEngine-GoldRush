@@ -1,0 +1,70 @@
+{
+  "id": "v002-control-input-context",
+  "version": "v0.0.2",
+  "domain": "control",
+  "subdomain": "input-context",
+  "domainPath": "n:control:input-context",
+  "apiName": "v002ControlInputContext",
+  "kind": "domain-service",
+  "purpose": "Input Context kit for input, camera, grounding, and interaction input.",
+  "dependencies": [
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "control.input-context.installed",
+    "control.input-context.reset",
+    "control.input-context.snapshotted",
+    "control.input-context.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-input-kit",
+    "core-camera-kit",
+    "core-motion-kit",
+    "core-physics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:control:input-context",
+      "upstreamSnapshots": [
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:control:input-context",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "input-context",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

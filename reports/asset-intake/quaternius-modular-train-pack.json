@@ -1,0 +1,46 @@
+{
+  "schema": "nexusengine.goldrush.asset-intake.source-catalog.v1",
+  "sourcePackId": "quaternius-modular-train-pack",
+  "sourceName": "Quaternius Modular Train Pack",
+  "sourcePageUrl": "https://quaternius.com/packs/modulartrain.html",
+  "mirrorUrl": "https://poly.pizza/bundle/Modular-Train-Pack-jYEybkFVr1",
+  "license": {
+    "licenseId": "CC0-1.0",
+    "licenseLabel": "CC0 1.0 Universal",
+    "runtimePromotion": false
+  },
+  "status": "source-only",
+  "stagingRoot": "external/asset-intake/quaternius-modular-train-pack",
+  "inventory": {
+    "files": 59,
+    "extensions": {
+      "blend": 15,
+      "fbx": 14,
+      "obj": 14,
+      "mtl": 14,
+      "txt": 1,
+      "png": 1
+    },
+    "modelFamilies": [
+      "CargoTrain_CoalContainer",
+      "CargoTrain_Container",
+      "CargoTrain_Front",
+      "CargoTrain_Wagon",
+      "CargoTrain_WagonEmpty",
+      "CargoTrain_WagonOpenContainer",
+      "Container",
+      "HighSpeed_Front",
+      "HighSpeed_Wagon",
+      "Locomotive_CoalTender",
+      "Locomotive_Front",
+      "Locomotive_PassengerWagon",
+      "Locomotive_Wagon",
+      "RailwayTrack_Curve",
+      "RailwayTrack_Straight"
+    ]
+  },
+  "notes": [
+    "Source assets stay source-only until FBX inventory, conversion output, review, and promotion gates pass.",
+    "Raw FBX/OBJ/BLEND files are not runtime assets."
+  ]
+}

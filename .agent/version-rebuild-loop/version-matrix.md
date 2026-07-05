@@ -12,8 +12,9 @@ Versions are allocated only when the newest version is no longer the best base. 
 
 | Version | Role | Source base | Decision state | Required proof before next turn |
 | --- | --- | --- | --- | --- |
-| `v0.0.1` | Current prototype baseline | current repo state | continue with limits | next atomic authored-terrain-source slice must update `v0.0.1-audit.md` or create a new version audit |
-| `v0.0.2+` | Future ground-up rebuild attempt | created only when newest version is stuck or structurally wrong | allocate only when needed | new version packet proving inherited validated parts and rejected stale/fake parts |
+| `v0.0.1` | Prototype baseline and reference | current repo state | update-ready reference | `v0.0.1-update-ready.md` proves exactly what can and cannot be inherited |
+| `v0.0.2` | Active kit-by-kit rebuild layer | `v0.0.1` validated contracts and lessons only | architecture scaffold | `v0.0.2-audit.md` must prove registry, domains, proof groups, validators, and app state surface |
+| `v0.0.3+` | Future ground-up rebuild attempt | created only when newest version is stuck/structurally wrong | allocate only when needed | new version packet proving inherited validated parts and rejected stale/fake parts |
 
 ## Version Allocation Rule
 

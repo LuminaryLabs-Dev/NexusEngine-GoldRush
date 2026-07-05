@@ -1,0 +1,71 @@
+{
+  "id": "v002-animation-knee-bend",
+  "version": "v0.0.2",
+  "domain": "animation",
+  "subdomain": "knee-bend",
+  "domainPath": "n:animation:knee-bend",
+  "apiName": "v002AnimationKneeBend",
+  "kind": "execution",
+  "purpose": "Knee Bend kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+  "dependencies": [
+    "n:behavior:body-state",
+    "n:animation:animation-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "animation.knee-bend.installed",
+    "animation.knee-bend.reset",
+    "animation.knee-bend.snapshotted",
+    "animation.knee-bend.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-animation-kit",
+    "core-motion-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:animation:knee-bend",
+      "upstreamSnapshots": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:animation:knee-bend",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "knee-bend",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

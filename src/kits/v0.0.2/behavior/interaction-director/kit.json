@@ -1,0 +1,71 @@
+{
+  "id": "v002-behavior-interaction-director",
+  "version": "v0.0.2",
+  "domain": "behavior",
+  "subdomain": "interaction-director",
+  "domainPath": "n:behavior:interaction-director",
+  "apiName": "v002BehaviorInteractionDirector",
+  "kind": "system-controller",
+  "purpose": "Interaction Director kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+  "dependencies": [
+    "n:behavior:player-intent",
+    "n:gameplay:interaction-hold"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "behavior.interaction-director.installed",
+    "behavior.interaction-director.reset",
+    "behavior.interaction-director.snapshotted",
+    "behavior.interaction-director.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-simulation-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": "system-controller",
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:behavior:interaction-director",
+      "upstreamSnapshots": [
+        "n:behavior:player-intent",
+        "n:gameplay:interaction-hold"
+      ]
+    },
+    "output": {
+      "domainPath": "n:behavior:interaction-director",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "interaction-director",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

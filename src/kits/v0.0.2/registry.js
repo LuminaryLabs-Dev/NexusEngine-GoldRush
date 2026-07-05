@@ -1,0 +1,4402 @@
+export const V002_VERSION = "v0.0.2";
+
+export const v002Registry = Object.freeze({
+  "version": "v0.0.2",
+  "architecture": "domain-subdomain-top-level-kits",
+  "rule": "domain = broad system area; subdomain = focused capability; kit = one owned testable unit",
+  "domains": [
+    {
+      "domain": "runtime",
+      "purpose": "runtime composition and evidence flow",
+      "subdomains": [
+        "registry",
+        "events",
+        "snapshots",
+        "validation"
+      ]
+    },
+    {
+      "domain": "scene",
+      "purpose": "scene site loading and transitions",
+      "subdomains": [
+        "site-loader",
+        "transition",
+        "title",
+        "lobby",
+        "train-loading",
+        "gold-field",
+        "results"
+      ]
+    },
+    {
+      "domain": "world",
+      "purpose": "authored world data and terrain queries",
+      "subdomains": [
+        "terrain-source",
+        "heightfield",
+        "masks",
+        "raycast",
+        "placement",
+        "landmarks",
+        "routes"
+      ]
+    },
+    {
+      "domain": "physics",
+      "purpose": "physics world, colliders, and queries",
+      "subdomains": [
+        "world",
+        "terrain-collider",
+        "character-collider",
+        "blocker-collider",
+        "queries"
+      ]
+    },
+    {
+      "domain": "control",
+      "purpose": "input, camera, grounding, and interaction input",
+      "subdomains": [
+        "input-context",
+        "camera-relative-movement",
+        "third-person-camera",
+        "foot-grounding",
+        "interaction-input"
+      ]
+    },
+    {
+      "domain": "behavior",
+      "purpose": "outside-perspective system controllers that decide intent",
+      "subdomains": [
+        "player-intent",
+        "body-state",
+        "interaction-director",
+        "combat-posture",
+        "train-sequence"
+      ]
+    },
+    {
+      "domain": "animation",
+      "purpose": "narrow execution kits for body and tool motion",
+      "subdomains": [
+        "arm-motion",
+        "leg-stride",
+        "knee-bend",
+        "head-look",
+        "tool-swing",
+        "cargo-sway",
+        "animation-state"
+      ]
+    },
+    {
+      "domain": "render",
+      "purpose": "renderer descriptors and presentation adapters",
+      "subdomains": [
+        "three-scene",
+        "terrain-renderer",
+        "character-renderer",
+        "object-instancing",
+        "toon-materials",
+        "diegetic-cues"
+      ]
+    },
+    {
+      "domain": "gameplay",
+      "purpose": "player-facing gameplay rules and actions",
+      "subdomains": [
+        "interaction-hold",
+        "mining",
+        "cargo",
+        "extraction",
+        "combat-pressure",
+        "scoring-actions"
+      ]
+    },
+    {
+      "domain": "network",
+      "purpose": "party, partition, staging, and handoff contracts",
+      "subdomains": [
+        "party-room",
+        "room-partitions",
+        "local-simulation",
+        "handoff"
+      ]
+    },
+    {
+      "domain": "audio",
+      "purpose": "music, cue, one-shot, and fallback audio state",
+      "subdomains": [
+        "cue-state",
+        "music-state",
+        "one-shots",
+        "fallback-synthesis"
+      ]
+    },
+    {
+      "domain": "content",
+      "purpose": "source-asset intake, inventory, provenance, and conversion requests",
+      "subdomains": [
+        "source-asset-intake",
+        "license-provenance",
+        "source-file-inventory",
+        "fbx-conversion-request"
+      ]
+    },
+    {
+      "domain": "match",
+      "purpose": "match lifecycle, receipts, scoring, replay, and results",
+      "subdomains": [
+        "lifecycle",
+        "receipts",
+        "scoring",
+        "replay-summary",
+        "results"
+      ]
+    },
+    {
+      "domain": "goldrush",
+      "purpose": "GoldRush-specific orchestration, content, and rules",
+      "subdomains": [
+        "prospector",
+        "desert-map",
+        "train-asset-set",
+        "train-route",
+        "train-boarding",
+        "train-boarding-cue",
+        "train-ride-attach",
+        "train-departure-handoff",
+        "mine-carry-cashout",
+        "ambush-pressure",
+        "match-orchestration"
+      ]
+    }
+  ],
+  "proofGroups": [
+    {
+      "id": "runtime",
+      "label": "Runtime",
+      "domains": [
+        "runtime"
+      ],
+      "page": "runtime.html"
+    },
+    {
+      "id": "scene",
+      "label": "Scene",
+      "domains": [
+        "scene"
+      ],
+      "page": "scene.html"
+    },
+    {
+      "id": "world-physics",
+      "label": "World + Physics",
+      "domains": [
+        "world",
+        "physics"
+      ],
+      "page": "world-physics.html"
+    },
+    {
+      "id": "control-behavior-animation",
+      "label": "Control + Behavior + Animation",
+      "domains": [
+        "control",
+        "behavior",
+        "animation"
+      ],
+      "page": "control-behavior-animation.html"
+    },
+    {
+      "id": "render",
+      "label": "Render",
+      "domains": [
+        "render"
+      ],
+      "page": "render.html"
+    },
+    {
+      "id": "gameplay-match",
+      "label": "Gameplay + Match",
+      "domains": [
+        "gameplay",
+        "match"
+      ],
+      "page": "gameplay-match.html"
+    },
+    {
+      "id": "network",
+      "label": "Network",
+      "domains": [
+        "network"
+      ],
+      "page": "network.html"
+    },
+    {
+      "id": "audio",
+      "label": "Audio",
+      "domains": [
+        "audio"
+      ],
+      "page": "audio.html"
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "domains": [
+        "content"
+      ],
+      "page": "content.html"
+    },
+    {
+      "id": "goldrush-integrated",
+      "label": "GoldRush Integrated",
+      "domains": [
+        "goldrush",
+        "scene",
+        "world",
+        "control",
+        "behavior",
+        "gameplay",
+        "match"
+      ],
+      "page": "goldrush-integrated.html"
+    }
+  ],
+  "kits": [
+    {
+      "id": "v002-runtime-registry",
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "registry",
+      "domainPath": "n:runtime:registry",
+      "apiName": "v002RuntimeRegistry",
+      "kind": "runtime",
+      "purpose": "Registry kit for runtime composition and evidence flow.",
+      "dependencies": [],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "runtime.registry.installed",
+        "runtime.registry.reset",
+        "runtime.registry.snapshotted",
+        "runtime.registry.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "runtime",
+      "validator": "tools/validation/validate-v002-kit-registry.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-runtime-events",
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "events",
+      "domainPath": "n:runtime:events",
+      "apiName": "v002RuntimeEvents",
+      "kind": "runtime",
+      "purpose": "Events kit for runtime composition and evidence flow.",
+      "dependencies": [
+        "n:runtime:registry"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "runtime.events.installed",
+        "runtime.events.reset",
+        "runtime.events.snapshotted",
+        "runtime.events.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "runtime",
+      "validator": "tools/validation/validate-v002-kit-registry.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-runtime-snapshots",
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "snapshots",
+      "domainPath": "n:runtime:snapshots",
+      "apiName": "v002RuntimeSnapshots",
+      "kind": "runtime",
+      "purpose": "Snapshots kit for runtime composition and evidence flow.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "runtime.snapshots.installed",
+        "runtime.snapshots.reset",
+        "runtime.snapshots.snapshotted",
+        "runtime.snapshots.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "runtime",
+      "validator": "tools/validation/validate-v002-kit-registry.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-runtime-validation",
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "validation",
+      "domainPath": "n:runtime:validation",
+      "apiName": "v002RuntimeValidation",
+      "kind": "runtime",
+      "purpose": "Validation kit for runtime composition and evidence flow.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:snapshots"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "runtime.validation.installed",
+        "runtime.validation.reset",
+        "runtime.validation.snapshotted",
+        "runtime.validation.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "runtime",
+      "validator": "tools/validation/validate-v002-kit-registry.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-site-loader",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "site-loader",
+      "domainPath": "n:scene:site-loader",
+      "apiName": "v002SceneSiteLoader",
+      "kind": "scoped-domain",
+      "purpose": "Site Loader kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.site-loader.installed",
+        "scene.site-loader.reset",
+        "scene.site-loader.snapshotted",
+        "scene.site-loader.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-transition",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "transition",
+      "domainPath": "n:scene:transition",
+      "apiName": "v002SceneTransition",
+      "kind": "scoped-domain",
+      "purpose": "Transition kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.transition.installed",
+        "scene.transition.reset",
+        "scene.transition.snapshotted",
+        "scene.transition.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-title",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "title",
+      "domainPath": "n:scene:title",
+      "apiName": "v002SceneTitle",
+      "kind": "scoped-domain",
+      "purpose": "Title kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.title.installed",
+        "scene.title.reset",
+        "scene.title.snapshotted",
+        "scene.title.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-lobby",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "lobby",
+      "domainPath": "n:scene:lobby",
+      "apiName": "v002SceneLobby",
+      "kind": "scoped-domain",
+      "purpose": "Lobby kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.lobby.installed",
+        "scene.lobby.reset",
+        "scene.lobby.snapshotted",
+        "scene.lobby.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-train-loading",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "train-loading",
+      "domainPath": "n:scene:train-loading",
+      "apiName": "v002SceneTrainLoading",
+      "kind": "scoped-domain",
+      "purpose": "Train Loading kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.train-loading.installed",
+        "scene.train-loading.reset",
+        "scene.train-loading.snapshotted",
+        "scene.train-loading.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-gold-field",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "gold-field",
+      "domainPath": "n:scene:gold-field",
+      "apiName": "v002SceneGoldField",
+      "kind": "scoped-domain",
+      "purpose": "Gold Field kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.gold-field.installed",
+        "scene.gold-field.reset",
+        "scene.gold-field.snapshotted",
+        "scene.gold-field.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-scene-results",
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "results",
+      "domainPath": "n:scene:results",
+      "apiName": "v002SceneResults",
+      "kind": "scoped-domain",
+      "purpose": "Results kit for scene site loading and transitions.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "scene.results.installed",
+        "scene.results.reset",
+        "scene.results.snapshotted",
+        "scene.results.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "scene",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-scene-kit",
+        "core-composition-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-terrain-source",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "terrain-source",
+      "domainPath": "n:world:terrain-source",
+      "apiName": "v002WorldTerrainSource",
+      "kind": "domain-service",
+      "purpose": "Terrain Source kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:runtime:snapshots"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.terrain-source.installed",
+        "world.terrain-source.reset",
+        "world.terrain-source.snapshotted",
+        "world.terrain-source.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-heightfield",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "heightfield",
+      "domainPath": "n:world:heightfield",
+      "apiName": "v002WorldHeightfield",
+      "kind": "domain-service",
+      "purpose": "Heightfield kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:terrain-source"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.heightfield.installed",
+        "world.heightfield.reset",
+        "world.heightfield.snapshotted",
+        "world.heightfield.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-masks",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "masks",
+      "domainPath": "n:world:masks",
+      "apiName": "v002WorldMasks",
+      "kind": "domain-service",
+      "purpose": "Masks kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:terrain-source"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.masks.installed",
+        "world.masks.reset",
+        "world.masks.snapshotted",
+        "world.masks.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-raycast",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "raycast",
+      "domainPath": "n:world:raycast",
+      "apiName": "v002WorldRaycast",
+      "kind": "domain-service",
+      "purpose": "Raycast kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:heightfield",
+        "n:world:masks"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.raycast.installed",
+        "world.raycast.reset",
+        "world.raycast.snapshotted",
+        "world.raycast.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-placement",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "placement",
+      "domainPath": "n:world:placement",
+      "apiName": "v002WorldPlacement",
+      "kind": "domain-service",
+      "purpose": "Placement kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:raycast"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.placement.installed",
+        "world.placement.reset",
+        "world.placement.snapshotted",
+        "world.placement.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-landmarks",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "landmarks",
+      "domainPath": "n:world:landmarks",
+      "apiName": "v002WorldLandmarks",
+      "kind": "domain-service",
+      "purpose": "Landmarks kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:terrain-source",
+        "n:world:masks"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.landmarks.installed",
+        "world.landmarks.reset",
+        "world.landmarks.snapshotted",
+        "world.landmarks.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-world-routes",
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "routes",
+      "domainPath": "n:world:routes",
+      "apiName": "v002WorldRoutes",
+      "kind": "domain-service",
+      "purpose": "Routes kit for authored world data and terrain queries.",
+      "dependencies": [
+        "n:world:terrain-source",
+        "n:world:masks"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "world.routes.installed",
+        "world.routes.reset",
+        "world.routes.snapshotted",
+        "world.routes.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-spatial-kit",
+        "core-scene-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-physics-world",
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "world",
+      "domainPath": "n:physics:world",
+      "apiName": "v002PhysicsWorld",
+      "kind": "domain-service",
+      "purpose": "World kit for physics world, colliders, and queries.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "physics.world.installed",
+        "physics.world.reset",
+        "physics.world.snapshotted",
+        "physics.world.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-physics-kit",
+        "core-spatial-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-physics-terrain-collider",
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "terrain-collider",
+      "domainPath": "n:physics:terrain-collider",
+      "apiName": "v002PhysicsTerrainCollider",
+      "kind": "domain-service",
+      "purpose": "Terrain Collider kit for physics world, colliders, and queries.",
+      "dependencies": [
+        "n:physics:world",
+        "n:world:heightfield",
+        "n:world:masks"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "physics.terrain-collider.installed",
+        "physics.terrain-collider.reset",
+        "physics.terrain-collider.snapshotted",
+        "physics.terrain-collider.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-physics-kit",
+        "core-spatial-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-physics-character-collider",
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "character-collider",
+      "domainPath": "n:physics:character-collider",
+      "apiName": "v002PhysicsCharacterCollider",
+      "kind": "domain-service",
+      "purpose": "Character Collider kit for physics world, colliders, and queries.",
+      "dependencies": [
+        "n:physics:world"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "physics.character-collider.installed",
+        "physics.character-collider.reset",
+        "physics.character-collider.snapshotted",
+        "physics.character-collider.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-physics-kit",
+        "core-spatial-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-physics-blocker-collider",
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "blocker-collider",
+      "domainPath": "n:physics:blocker-collider",
+      "apiName": "v002PhysicsBlockerCollider",
+      "kind": "domain-service",
+      "purpose": "Blocker Collider kit for physics world, colliders, and queries.",
+      "dependencies": [
+        "n:physics:world"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "physics.blocker-collider.installed",
+        "physics.blocker-collider.reset",
+        "physics.blocker-collider.snapshotted",
+        "physics.blocker-collider.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-physics-kit",
+        "core-spatial-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-physics-queries",
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "queries",
+      "domainPath": "n:physics:queries",
+      "apiName": "v002PhysicsQueries",
+      "kind": "domain-service",
+      "purpose": "Queries kit for physics world, colliders, and queries.",
+      "dependencies": [
+        "n:physics:world",
+        "n:physics:terrain-collider"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "physics.queries.installed",
+        "physics.queries.reset",
+        "physics.queries.snapshotted",
+        "physics.queries.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "world-physics",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-physics-kit",
+        "core-spatial-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-control-input-context",
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "input-context",
+      "domainPath": "n:control:input-context",
+      "apiName": "v002ControlInputContext",
+      "kind": "domain-service",
+      "purpose": "Input Context kit for input, camera, grounding, and interaction input.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "control.input-context.installed",
+        "control.input-context.reset",
+        "control.input-context.snapshotted",
+        "control.input-context.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-input-kit",
+        "core-camera-kit",
+        "core-motion-kit",
+        "core-physics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-control-camera-relative-movement",
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "camera-relative-movement",
+      "domainPath": "n:control:camera-relative-movement",
+      "apiName": "v002ControlCameraRelativeMovement",
+      "kind": "execution",
+      "purpose": "Camera Relative Movement kit for input, camera, grounding, and interaction input.",
+      "dependencies": [
+        "n:control:input-context",
+        "n:control:third-person-camera"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "control.camera-relative-movement.installed",
+        "control.camera-relative-movement.reset",
+        "control.camera-relative-movement.snapshotted",
+        "control.camera-relative-movement.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-input-kit",
+        "core-camera-kit",
+        "core-motion-kit",
+        "core-physics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-control-third-person-camera",
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "third-person-camera",
+      "domainPath": "n:control:third-person-camera",
+      "apiName": "v002ControlThirdPersonCamera",
+      "kind": "execution",
+      "purpose": "Third Person Camera kit for input, camera, grounding, and interaction input.",
+      "dependencies": [
+        "n:control:input-context"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "control.third-person-camera.installed",
+        "control.third-person-camera.reset",
+        "control.third-person-camera.snapshotted",
+        "control.third-person-camera.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-input-kit",
+        "core-camera-kit",
+        "core-motion-kit",
+        "core-physics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-control-foot-grounding",
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "foot-grounding",
+      "domainPath": "n:control:foot-grounding",
+      "apiName": "v002ControlFootGrounding",
+      "kind": "execution",
+      "purpose": "Foot Grounding kit for input, camera, grounding, and interaction input.",
+      "dependencies": [
+        "n:world:raycast",
+        "n:physics:queries"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "control.foot-grounding.installed",
+        "control.foot-grounding.reset",
+        "control.foot-grounding.snapshotted",
+        "control.foot-grounding.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-input-kit",
+        "core-camera-kit",
+        "core-motion-kit",
+        "core-physics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-control-interaction-input",
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "interaction-input",
+      "domainPath": "n:control:interaction-input",
+      "apiName": "v002ControlInteractionInput",
+      "kind": "execution",
+      "purpose": "Interaction Input kit for input, camera, grounding, and interaction input.",
+      "dependencies": [
+        "n:control:input-context"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "control.interaction-input.installed",
+        "control.interaction-input.reset",
+        "control.interaction-input.snapshotted",
+        "control.interaction-input.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-input-kit",
+        "core-camera-kit",
+        "core-motion-kit",
+        "core-physics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-behavior-player-intent",
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "player-intent",
+      "domainPath": "n:behavior:player-intent",
+      "apiName": "v002BehaviorPlayerIntent",
+      "kind": "system-controller",
+      "purpose": "Player Intent kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+      "dependencies": [
+        "n:control:input-context"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "behavior.player-intent.installed",
+        "behavior.player-intent.reset",
+        "behavior.player-intent.snapshotted",
+        "behavior.player-intent.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": "system-controller",
+      "executionRole": null
+    },
+    {
+      "id": "v002-behavior-body-state",
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "body-state",
+      "domainPath": "n:behavior:body-state",
+      "apiName": "v002BehaviorBodyState",
+      "kind": "system-controller",
+      "purpose": "Body State kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+      "dependencies": [
+        "n:behavior:player-intent"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "behavior.body-state.installed",
+        "behavior.body-state.reset",
+        "behavior.body-state.snapshotted",
+        "behavior.body-state.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": "system-controller",
+      "executionRole": null
+    },
+    {
+      "id": "v002-behavior-interaction-director",
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "interaction-director",
+      "domainPath": "n:behavior:interaction-director",
+      "apiName": "v002BehaviorInteractionDirector",
+      "kind": "system-controller",
+      "purpose": "Interaction Director kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+      "dependencies": [
+        "n:behavior:player-intent",
+        "n:gameplay:interaction-hold"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "behavior.interaction-director.installed",
+        "behavior.interaction-director.reset",
+        "behavior.interaction-director.snapshotted",
+        "behavior.interaction-director.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": "system-controller",
+      "executionRole": null
+    },
+    {
+      "id": "v002-behavior-combat-posture",
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "combat-posture",
+      "domainPath": "n:behavior:combat-posture",
+      "apiName": "v002BehaviorCombatPosture",
+      "kind": "system-controller",
+      "purpose": "Combat Posture kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:gameplay:combat-pressure"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "behavior.combat-posture.installed",
+        "behavior.combat-posture.reset",
+        "behavior.combat-posture.snapshotted",
+        "behavior.combat-posture.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": "system-controller",
+      "executionRole": null
+    },
+    {
+      "id": "v002-behavior-train-sequence",
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "train-sequence",
+      "domainPath": "n:behavior:train-sequence",
+      "apiName": "v002BehaviorTrainSequence",
+      "kind": "system-controller",
+      "purpose": "Train Sequence kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:scene:train-loading"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "behavior.train-sequence.installed",
+        "behavior.train-sequence.reset",
+        "behavior.train-sequence.snapshotted",
+        "behavior.train-sequence.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": "system-controller",
+      "executionRole": null
+    },
+    {
+      "id": "v002-animation-arm-motion",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "arm-motion",
+      "domainPath": "n:animation:arm-motion",
+      "apiName": "v002AnimationArmMotion",
+      "kind": "execution",
+      "purpose": "Arm Motion kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.arm-motion.installed",
+        "animation.arm-motion.reset",
+        "animation.arm-motion.snapshotted",
+        "animation.arm-motion.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-leg-stride",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "leg-stride",
+      "domainPath": "n:animation:leg-stride",
+      "apiName": "v002AnimationLegStride",
+      "kind": "execution",
+      "purpose": "Leg Stride kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.leg-stride.installed",
+        "animation.leg-stride.reset",
+        "animation.leg-stride.snapshotted",
+        "animation.leg-stride.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-knee-bend",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "knee-bend",
+      "domainPath": "n:animation:knee-bend",
+      "apiName": "v002AnimationKneeBend",
+      "kind": "execution",
+      "purpose": "Knee Bend kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.knee-bend.installed",
+        "animation.knee-bend.reset",
+        "animation.knee-bend.snapshotted",
+        "animation.knee-bend.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-head-look",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "head-look",
+      "domainPath": "n:animation:head-look",
+      "apiName": "v002AnimationHeadLook",
+      "kind": "execution",
+      "purpose": "Head Look kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.head-look.installed",
+        "animation.head-look.reset",
+        "animation.head-look.snapshotted",
+        "animation.head-look.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-tool-swing",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "tool-swing",
+      "domainPath": "n:animation:tool-swing",
+      "apiName": "v002AnimationToolSwing",
+      "kind": "execution",
+      "purpose": "Tool Swing kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.tool-swing.installed",
+        "animation.tool-swing.reset",
+        "animation.tool-swing.snapshotted",
+        "animation.tool-swing.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-cargo-sway",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "cargo-sway",
+      "domainPath": "n:animation:cargo-sway",
+      "apiName": "v002AnimationCargoSway",
+      "kind": "execution",
+      "purpose": "Cargo Sway kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.cargo-sway.installed",
+        "animation.cargo-sway.reset",
+        "animation.cargo-sway.snapshotted",
+        "animation.cargo-sway.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-animation-animation-state",
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "animation-state",
+      "domainPath": "n:animation:animation-state",
+      "apiName": "v002AnimationAnimationState",
+      "kind": "execution",
+      "purpose": "Animation State kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+      "dependencies": [
+        "n:behavior:body-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "animation.animation-state.installed",
+        "animation.animation-state.reset",
+        "animation.animation-state.snapshotted",
+        "animation.animation-state.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "control-behavior-animation",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-animation-kit",
+        "core-motion-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": "execution-only"
+    },
+    {
+      "id": "v002-render-three-scene",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "three-scene",
+      "domainPath": "n:render:three-scene",
+      "apiName": "v002RenderThreeScene",
+      "kind": "renderer-adapter",
+      "purpose": "Three Scene kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:runtime:snapshots"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.three-scene.installed",
+        "render.three-scene.reset",
+        "render.three-scene.snapshotted",
+        "render.three-scene.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-render-terrain-renderer",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "terrain-renderer",
+      "domainPath": "n:render:terrain-renderer",
+      "apiName": "v002RenderTerrainRenderer",
+      "kind": "renderer-adapter",
+      "purpose": "Terrain Renderer kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:world:heightfield",
+        "n:world:masks"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.terrain-renderer.installed",
+        "render.terrain-renderer.reset",
+        "render.terrain-renderer.snapshotted",
+        "render.terrain-renderer.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-render-character-renderer",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "character-renderer",
+      "domainPath": "n:render:character-renderer",
+      "apiName": "v002RenderCharacterRenderer",
+      "kind": "renderer-adapter",
+      "purpose": "Character Renderer kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:animation:animation-state",
+        "n:behavior:body-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.character-renderer.installed",
+        "render.character-renderer.reset",
+        "render.character-renderer.snapshotted",
+        "render.character-renderer.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-render-object-instancing",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "object-instancing",
+      "domainPath": "n:render:object-instancing",
+      "apiName": "v002RenderObjectInstancing",
+      "kind": "renderer-adapter",
+      "purpose": "Object Instancing kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:world:placement"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.object-instancing.installed",
+        "render.object-instancing.reset",
+        "render.object-instancing.snapshotted",
+        "render.object-instancing.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-render-toon-materials",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "toon-materials",
+      "domainPath": "n:render:toon-materials",
+      "apiName": "v002RenderToonMaterials",
+      "kind": "renderer-adapter",
+      "purpose": "Toon Materials kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:render:three-scene"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.toon-materials.installed",
+        "render.toon-materials.reset",
+        "render.toon-materials.snapshotted",
+        "render.toon-materials.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-render-diegetic-cues",
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "diegetic-cues",
+      "domainPath": "n:render:diegetic-cues",
+      "apiName": "v002RenderDiegeticCues",
+      "kind": "renderer-adapter",
+      "purpose": "Diegetic Cues kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+      "dependencies": [
+        "n:gameplay:interaction-hold",
+        "n:scene:transition"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "render.diegetic-cues.installed",
+        "render.diegetic-cues.reset",
+        "render.diegetic-cues.snapshotted",
+        "render.diegetic-cues.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "render",
+      "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-graphics-kit",
+        "core-camera-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-interaction-hold",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "interaction-hold",
+      "domainPath": "n:gameplay:interaction-hold",
+      "apiName": "v002GameplayInteractionHold",
+      "kind": "scoped-domain",
+      "purpose": "Interaction Hold kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:control:interaction-input"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.interaction-hold.installed",
+        "gameplay.interaction-hold.reset",
+        "gameplay.interaction-hold.snapshotted",
+        "gameplay.interaction-hold.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-mining",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "mining",
+      "domainPath": "n:gameplay:mining",
+      "apiName": "v002GameplayMining",
+      "kind": "scoped-domain",
+      "purpose": "Mining kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:gameplay:interaction-hold",
+        "n:world:placement"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.mining.installed",
+        "gameplay.mining.reset",
+        "gameplay.mining.snapshotted",
+        "gameplay.mining.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-cargo",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "cargo",
+      "domainPath": "n:gameplay:cargo",
+      "apiName": "v002GameplayCargo",
+      "kind": "scoped-domain",
+      "purpose": "Cargo kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:gameplay:mining"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.cargo.installed",
+        "gameplay.cargo.reset",
+        "gameplay.cargo.snapshotted",
+        "gameplay.cargo.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-extraction",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "extraction",
+      "domainPath": "n:gameplay:extraction",
+      "apiName": "v002GameplayExtraction",
+      "kind": "scoped-domain",
+      "purpose": "Extraction kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:gameplay:cargo",
+        "n:world:routes"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.extraction.installed",
+        "gameplay.extraction.reset",
+        "gameplay.extraction.snapshotted",
+        "gameplay.extraction.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-combat-pressure",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "combat-pressure",
+      "domainPath": "n:gameplay:combat-pressure",
+      "apiName": "v002GameplayCombatPressure",
+      "kind": "scoped-domain",
+      "purpose": "Combat Pressure kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:gameplay:cargo"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.combat-pressure.installed",
+        "gameplay.combat-pressure.reset",
+        "gameplay.combat-pressure.snapshotted",
+        "gameplay.combat-pressure.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-gameplay-scoring-actions",
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "scoring-actions",
+      "domainPath": "n:gameplay:scoring-actions",
+      "apiName": "v002GameplayScoringActions",
+      "kind": "scoped-domain",
+      "purpose": "Scoring Actions kit for player-facing gameplay rules and actions.",
+      "dependencies": [
+        "n:gameplay:extraction"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "gameplay.scoring-actions.installed",
+        "gameplay.scoring-actions.reset",
+        "gameplay.scoring-actions.snapshotted",
+        "gameplay.scoring-actions.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-interaction-kit",
+        "core-simulation-kit",
+        "core-data-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-network-party-room",
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "party-room",
+      "domainPath": "n:network:party-room",
+      "apiName": "v002NetworkPartyRoom",
+      "kind": "scoped-domain",
+      "purpose": "Party Room kit for party, partition, staging, and handoff contracts.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "network.party-room.installed",
+        "network.party-room.reset",
+        "network.party-room.snapshotted",
+        "network.party-room.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "network",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-network-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-network-room-partitions",
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "room-partitions",
+      "domainPath": "n:network:room-partitions",
+      "apiName": "v002NetworkRoomPartitions",
+      "kind": "scoped-domain",
+      "purpose": "Room Partitions kit for party, partition, staging, and handoff contracts.",
+      "dependencies": [
+        "n:network:party-room"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "network.room-partitions.installed",
+        "network.room-partitions.reset",
+        "network.room-partitions.snapshotted",
+        "network.room-partitions.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "network",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-network-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-network-local-simulation",
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "local-simulation",
+      "domainPath": "n:network:local-simulation",
+      "apiName": "v002NetworkLocalSimulation",
+      "kind": "scoped-domain",
+      "purpose": "Local Simulation kit for party, partition, staging, and handoff contracts.",
+      "dependencies": [
+        "n:network:room-partitions"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "network.local-simulation.installed",
+        "network.local-simulation.reset",
+        "network.local-simulation.snapshotted",
+        "network.local-simulation.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "network",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-network-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-network-handoff",
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "handoff",
+      "domainPath": "n:network:handoff",
+      "apiName": "v002NetworkHandoff",
+      "kind": "scoped-domain",
+      "purpose": "Handoff kit for party, partition, staging, and handoff contracts.",
+      "dependencies": [
+        "n:network:party-room",
+        "n:scene:transition"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "network.handoff.installed",
+        "network.handoff.reset",
+        "network.handoff.snapshotted",
+        "network.handoff.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "network",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-network-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-audio-cue-state",
+      "version": "v0.0.2",
+      "domain": "audio",
+      "subdomain": "cue-state",
+      "domainPath": "n:audio:cue-state",
+      "apiName": "v002AudioCueState",
+      "kind": "domain-service",
+      "purpose": "Cue State kit for music, cue, one-shot, and fallback audio state.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "audio.cue-state.installed",
+        "audio.cue-state.reset",
+        "audio.cue-state.snapshotted",
+        "audio.cue-state.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "audio",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-audio-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-audio-music-state",
+      "version": "v0.0.2",
+      "domain": "audio",
+      "subdomain": "music-state",
+      "domainPath": "n:audio:music-state",
+      "apiName": "v002AudioMusicState",
+      "kind": "domain-service",
+      "purpose": "Music State kit for music, cue, one-shot, and fallback audio state.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "audio.music-state.installed",
+        "audio.music-state.reset",
+        "audio.music-state.snapshotted",
+        "audio.music-state.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "audio",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-audio-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-audio-one-shots",
+      "version": "v0.0.2",
+      "domain": "audio",
+      "subdomain": "one-shots",
+      "domainPath": "n:audio:one-shots",
+      "apiName": "v002AudioOneShots",
+      "kind": "domain-service",
+      "purpose": "One Shots kit for music, cue, one-shot, and fallback audio state.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "audio.one-shots.installed",
+        "audio.one-shots.reset",
+        "audio.one-shots.snapshotted",
+        "audio.one-shots.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "audio",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-audio-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-audio-fallback-synthesis",
+      "version": "v0.0.2",
+      "domain": "audio",
+      "subdomain": "fallback-synthesis",
+      "domainPath": "n:audio:fallback-synthesis",
+      "apiName": "v002AudioFallbackSynthesis",
+      "kind": "domain-service",
+      "purpose": "Fallback Synthesis kit for music, cue, one-shot, and fallback audio state.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "audio.fallback-synthesis.installed",
+        "audio.fallback-synthesis.reset",
+        "audio.fallback-synthesis.snapshotted",
+        "audio.fallback-synthesis.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "audio",
+      "validator": "tools/validation/validate-v002-domain-structure.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-audio-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-content-source-asset-intake",
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "source-asset-intake",
+      "domainPath": "n:content:source-asset-intake",
+      "apiName": "v002ContentSourceAssetIntake",
+      "kind": "host-support",
+      "purpose": "Source Asset Intake kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+      "dependencies": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "content.source-asset-intake.installed",
+        "content.source-asset-intake.reset",
+        "content.source-asset-intake.snapshotted",
+        "content.source-asset-intake.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "content",
+      "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null,
+      "examples": {
+        "input": {
+          "command": "register-source-pack",
+          "sourcePackId": "quaternius-modular-train-pack",
+          "sourceUrl": "https://quaternius.com/packs/modulartrain.html",
+          "mirrorUrl": "https://poly.pizza/bundle/Modular-Train-Pack-jYEybkFVr1",
+          "stagingRoot": "external/asset-intake/quaternius-modular-train-pack",
+          "assetKinds": [
+            "blend",
+            "fbx",
+            "obj"
+          ],
+          "importJobId": "goldrush-train-import-001"
+        },
+        "output": {
+          "domainPath": "n:content:source-asset-intake",
+          "health": "registered",
+          "sourcePackId": "quaternius-modular-train-pack",
+          "fileCount": 59
+        },
+        "resetSnapshot": {
+          "version": "v0.0.2",
+          "domain": "content",
+          "subdomain": "source-asset-intake",
+          "installed": false,
+          "resetCount": 1,
+          "sourcePackId": null
+        }
+      }
+    },
+    {
+      "id": "v002-content-license-provenance",
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "license-provenance",
+      "domainPath": "n:content:license-provenance",
+      "apiName": "v002ContentLicenseProvenance",
+      "kind": "host-support",
+      "purpose": "License Provenance kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+      "dependencies": [
+        "n:content:source-asset-intake"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "content.license-provenance.installed",
+        "content.license-provenance.reset",
+        "content.license-provenance.snapshotted",
+        "content.license-provenance.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "content",
+      "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null,
+      "examples": {
+        "input": {
+          "command": "record-license",
+          "licenseId": "CC0-1.0",
+          "licenseLabel": "CC0 1.0 Universal",
+          "sourcePackId": "quaternius-modular-train-pack"
+        },
+        "output": {
+          "domainPath": "n:content:license-provenance",
+          "health": "registered",
+          "runtimePromotion": false
+        },
+        "resetSnapshot": {
+          "version": "v0.0.2",
+          "domain": "content",
+          "subdomain": "license-provenance",
+          "installed": false,
+          "resetCount": 1,
+          "licenseId": null
+        }
+      }
+    },
+    {
+      "id": "v002-content-source-file-inventory",
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "source-file-inventory",
+      "domainPath": "n:content:source-file-inventory",
+      "apiName": "v002ContentSourceFileInventory",
+      "kind": "host-support",
+      "purpose": "Source File Inventory kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+      "dependencies": [
+        "n:content:license-provenance",
+        "n:content:source-asset-intake"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "content.source-file-inventory.installed",
+        "content.source-file-inventory.reset",
+        "content.source-file-inventory.snapshotted",
+        "content.source-file-inventory.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "content",
+      "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null,
+      "examples": {
+        "input": {
+          "command": "hash-source-files",
+          "sourcePackId": "quaternius-modular-train-pack",
+          "extensions": [
+            "blend",
+            "fbx",
+            "obj",
+            "mtl",
+            "png",
+            "txt"
+          ]
+        },
+        "output": {
+          "domainPath": "n:content:source-file-inventory",
+          "health": "registered",
+          "fileCount": 59,
+          "hashPolicy": "sha256"
+        },
+        "resetSnapshot": {
+          "version": "v0.0.2",
+          "domain": "content",
+          "subdomain": "source-file-inventory",
+          "installed": false,
+          "resetCount": 1,
+          "fileCount": 0
+        }
+      }
+    },
+    {
+      "id": "v002-content-fbx-conversion-request",
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "fbx-conversion-request",
+      "domainPath": "n:content:fbx-conversion-request",
+      "apiName": "v002ContentFbxConversionRequest",
+      "kind": "host-support",
+      "purpose": "FBX Conversion Request kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+      "dependencies": [
+        "n:content:source-file-inventory"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "content.fbx-conversion-request.installed",
+        "content.fbx-conversion-request.reset",
+        "content.fbx-conversion-request.snapshotted",
+        "content.fbx-conversion-request.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "content",
+      "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-composition-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null,
+      "examples": {
+        "input": {
+          "command": "request-fbx-conversion",
+          "sourcePackId": "quaternius-modular-train-pack",
+          "preferredRuntimeFormat": "glb",
+          "jobId": "goldrush-train-import-001"
+        },
+        "output": {
+          "domainPath": "n:content:fbx-conversion-request",
+          "health": "requested",
+          "runtimePromotion": false
+        },
+        "resetSnapshot": {
+          "version": "v0.0.2",
+          "domain": "content",
+          "subdomain": "fbx-conversion-request",
+          "installed": false,
+          "resetCount": 1,
+          "requestedJobs": 0
+        }
+      }
+    },
+    {
+      "id": "v002-goldrush-train-asset-set",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-asset-set",
+      "domainPath": "n:goldrush:train-asset-set",
+      "apiName": "v002GoldrushTrainAssetSet",
+      "kind": "composite-domain",
+      "purpose": "Train Asset Set kit for GoldRush-specific train source ingestion, staging, and composition.",
+      "dependencies": [
+        "n:content:source-asset-intake",
+        "n:content:license-provenance",
+        "n:content:source-file-inventory",
+        "n:content:fbx-conversion-request"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-asset-set.installed",
+        "goldrush.train-asset-set.reset",
+        "goldrush.train-asset-set.snapshotted",
+        "goldrush.train-asset-set.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-train-asset-set.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit",
+        "core-scene-kit",
+        "core-graphics-kit"
+      ],
+      "ownsGameRules": false,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null,
+      "examples": {
+        "input": {
+          "command": "compose-train-asset-set",
+          "sourcePackId": "quaternius-modular-train-pack",
+          "selectedFamilies": [
+            "Locomotive_Front",
+            "Locomotive_Wagon",
+            "RailwayTrack_Straight"
+          ],
+          "runtimeTarget": "glb-only"
+        },
+        "output": {
+          "domainPath": "n:goldrush:train-asset-set",
+          "health": "registered",
+          "selectedFamilies": 3,
+          "runtimeTarget": "glb-only"
+        },
+        "resetSnapshot": {
+          "version": "v0.0.2",
+          "domain": "goldrush",
+          "subdomain": "train-asset-set",
+          "installed": false,
+          "resetCount": 1,
+          "selectedFamilies": 0
+        }
+      }
+    },
+    {
+      "id": "v002-match-lifecycle",
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "lifecycle",
+      "domainPath": "n:match:lifecycle",
+      "apiName": "v002MatchLifecycle",
+      "kind": "scoped-domain",
+      "purpose": "Lifecycle kit for match lifecycle, receipts, scoring, replay, and results.",
+      "dependencies": [
+        "n:runtime:events"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "match.lifecycle.installed",
+        "match.lifecycle.reset",
+        "match.lifecycle.snapshotted",
+        "match.lifecycle.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-match-receipts",
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "receipts",
+      "domainPath": "n:match:receipts",
+      "apiName": "v002MatchReceipts",
+      "kind": "scoped-domain",
+      "purpose": "Receipts kit for match lifecycle, receipts, scoring, replay, and results.",
+      "dependencies": [
+        "n:match:lifecycle"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "match.receipts.installed",
+        "match.receipts.reset",
+        "match.receipts.snapshotted",
+        "match.receipts.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-match-scoring",
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "scoring",
+      "domainPath": "n:match:scoring",
+      "apiName": "v002MatchScoring",
+      "kind": "scoped-domain",
+      "purpose": "Scoring kit for match lifecycle, receipts, scoring, replay, and results.",
+      "dependencies": [
+        "n:match:receipts"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "match.scoring.installed",
+        "match.scoring.reset",
+        "match.scoring.snapshotted",
+        "match.scoring.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-match-replay-summary",
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "replay-summary",
+      "domainPath": "n:match:replay-summary",
+      "apiName": "v002MatchReplaySummary",
+      "kind": "scoped-domain",
+      "purpose": "Replay Summary kit for match lifecycle, receipts, scoring, replay, and results.",
+      "dependencies": [
+        "n:match:receipts"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "match.replay-summary.installed",
+        "match.replay-summary.reset",
+        "match.replay-summary.snapshotted",
+        "match.replay-summary.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-match-results",
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "results",
+      "domainPath": "n:match:results",
+      "apiName": "v002MatchResults",
+      "kind": "scoped-domain",
+      "purpose": "Results kit for match lifecycle, receipts, scoring, replay, and results.",
+      "dependencies": [
+        "n:match:scoring",
+        "n:match:replay-summary"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "match.results.installed",
+        "match.results.reset",
+        "match.results.snapshotted",
+        "match.results.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "gameplay-match",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "local-v002-incubation",
+      "coreKitReuse": [
+        "core-simulation-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-prospector",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "prospector",
+      "domainPath": "n:goldrush:prospector",
+      "apiName": "v002GoldrushProspector",
+      "kind": "composite-domain",
+      "purpose": "Prospector kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:control:camera-relative-movement",
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.prospector.installed",
+        "goldrush.prospector.reset",
+        "goldrush.prospector.snapshotted",
+        "goldrush.prospector.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-desert-map",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "desert-map",
+      "domainPath": "n:goldrush:desert-map",
+      "apiName": "v002GoldrushDesertMap",
+      "kind": "composite-domain",
+      "purpose": "Desert Map kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:world:terrain-source",
+        "n:world:routes",
+        "n:physics:terrain-collider"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.desert-map.installed",
+        "goldrush.desert-map.reset",
+        "goldrush.desert-map.snapshotted",
+        "goldrush.desert-map.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-train-boarding",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-boarding",
+      "domainPath": "n:goldrush:train-boarding",
+      "apiName": "v002GoldrushTrainBoarding",
+      "kind": "composite-domain",
+      "purpose": "Train Boarding kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:scene:train-loading",
+        "n:behavior:train-sequence",
+        "n:network:handoff"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-boarding.installed",
+        "goldrush.train-boarding.reset",
+        "goldrush.train-boarding.snapshotted",
+        "goldrush.train-boarding.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-train-route",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-route",
+      "domainPath": "n:goldrush:train-route",
+      "apiName": "v002GoldrushTrainRoute",
+      "kind": "composite-domain",
+      "purpose": "Train Route kit for GoldRush-specific route sampling, boarding pathing, and departure motion.",
+      "dependencies": [
+        "n:world:routes",
+        "n:scene:train-loading",
+        "n:goldrush:train-asset-set"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-route.installed",
+        "goldrush.train-route.reset",
+        "goldrush.train-route.snapshotted",
+        "goldrush.train-route.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-train-boarding-cue",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-boarding-cue",
+      "domainPath": "n:goldrush:train-boarding-cue",
+      "apiName": "v002GoldrushTrainBoardingCue",
+      "kind": "composite-domain",
+      "purpose": "Train Boarding Cue kit for GoldRush-specific cue visibility, anchor placement, and boarding readability.",
+      "dependencies": [
+        "n:scene:train-loading",
+        "n:goldrush:train-route",
+        "n:behavior:train-sequence"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-boarding-cue.installed",
+        "goldrush.train-boarding-cue.reset",
+        "goldrush.train-boarding-cue.snapshotted",
+        "goldrush.train-boarding-cue.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-train-ride-attach",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-ride-attach",
+      "domainPath": "n:goldrush:train-ride-attach",
+      "apiName": "v002GoldrushTrainRideAttach",
+      "kind": "composite-domain",
+      "purpose": "Train Ride Attach kit for GoldRush-specific player attachment, camera follow, and in-ride pose selection.",
+      "dependencies": [
+        "n:control:third-person-camera",
+        "n:behavior:body-state",
+        "n:goldrush:train-route"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-ride-attach.installed",
+        "goldrush.train-ride-attach.reset",
+        "goldrush.train-ride-attach.snapshotted",
+        "goldrush.train-ride-attach.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-train-departure-handoff",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-departure-handoff",
+      "domainPath": "n:goldrush:train-departure-handoff",
+      "apiName": "v002GoldrushTrainDepartureHandoff",
+      "kind": "composite-domain",
+      "purpose": "Train Departure Handoff kit for GoldRush-specific departure gating, peer readiness, and ride-state transfer.",
+      "dependencies": [
+        "n:network:handoff",
+        "n:match:lifecycle",
+        "n:goldrush:train-boarding-cue"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.train-departure-handoff.installed",
+        "goldrush.train-departure-handoff.reset",
+        "goldrush.train-departure-handoff.snapshotted",
+        "goldrush.train-departure-handoff.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-mine-carry-cashout",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "mine-carry-cashout",
+      "domainPath": "n:goldrush:mine-carry-cashout",
+      "apiName": "v002GoldrushMineCarryCashout",
+      "kind": "composite-domain",
+      "purpose": "Mine Carry Cashout kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:gameplay:mining",
+        "n:gameplay:cargo",
+        "n:gameplay:extraction"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.mine-carry-cashout.installed",
+        "goldrush.mine-carry-cashout.reset",
+        "goldrush.mine-carry-cashout.snapshotted",
+        "goldrush.mine-carry-cashout.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-ambush-pressure",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "ambush-pressure",
+      "domainPath": "n:goldrush:ambush-pressure",
+      "apiName": "v002GoldrushAmbushPressure",
+      "kind": "composite-domain",
+      "purpose": "Ambush Pressure kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:gameplay:combat-pressure",
+        "n:behavior:combat-posture"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.ambush-pressure.installed",
+        "goldrush.ambush-pressure.reset",
+        "goldrush.ambush-pressure.snapshotted",
+        "goldrush.ambush-pressure.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    },
+    {
+      "id": "v002-goldrush-match-orchestration",
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "match-orchestration",
+      "domainPath": "n:goldrush:match-orchestration",
+      "apiName": "v002GoldrushMatchOrchestration",
+      "kind": "composite-domain",
+      "purpose": "Match Orchestration kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+      "dependencies": [
+        "n:match:lifecycle",
+        "n:match:results",
+        "n:network:local-simulation"
+      ],
+      "publicApi": [
+        "install",
+        "reset",
+        "snapshot",
+        "validate"
+      ],
+      "events": [
+        "goldrush.match-orchestration.installed",
+        "goldrush.match-orchestration.reset",
+        "goldrush.match-orchestration.snapshotted",
+        "goldrush.match-orchestration.validated"
+      ],
+      "snapshot": [
+        "version",
+        "domain",
+        "subdomain",
+        "domainPath",
+        "installed",
+        "health",
+        "dependencies",
+        "proofGroup"
+      ],
+      "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+      "proofGroup": "goldrush-integrated",
+      "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+      "promotionStatus": "game-specific-v002",
+      "coreKitReuse": [
+        "core-composition-kit",
+        "core-data-kit",
+        "core-diagnostics-kit"
+      ],
+      "ownsGameRules": true,
+      "ownsRenderTruth": false,
+      "controllerRole": null,
+      "executionRole": null
+    }
+  ],
+  "integratedLoop": [
+    "title",
+    "lobby",
+    "train-loading",
+    "gold-field",
+    "move",
+    "mine",
+    "carry",
+    "combat-pressure",
+    "cashout",
+    "score",
+    "results"
+  ],
+  "inheritedFromV001": [
+    "domain kit contract system",
+    "runtime registry shape",
+    "terrain source fixture contracts through material and biome masks",
+    "validation and sanitizer gates",
+    "NexusSimulator sanitized output policy",
+    "scene-site and first-sequence train handoff contracts"
+  ],
+  "rejectedFromV001": [
+    "stale public proof",
+    "helper-only proof paths",
+    "unapproved assets or audio",
+    "simulator proof described as live multiplayer proof",
+    "renderer-only terrain or object claims"
+  ]
+});
+
+export const v002KitRegistry = Object.freeze(v002Registry.kits);
+export const v002ProofGroups = Object.freeze(v002Registry.proofGroups);
+export const v002Domains = Object.freeze(v002Registry.domains);
+
+export function getV002KitByDomainPath(domainPath) {
+  return v002KitRegistry.find((kit) => kit.domainPath === domainPath) ?? null;
+}
+
+export function getV002KitsByDomain(domain) {
+  return v002KitRegistry.filter((kit) => kit.domain === domain);
+}
+
+export function getV002KitsByProofGroup(proofGroupId) {
+  return v002KitRegistry.filter((kit) => kit.proofGroup === proofGroupId);
+}
+
+export function createV002RegistrySnapshot() {
+  return structuredClone(v002Registry);
+}
+
+export function createV002ProofGroupSnapshots() {
+  return v002ProofGroups.map((group) => {
+    const groupKits = getV002KitsByProofGroup(group.id);
+    return {
+      ...structuredClone(group),
+      kitCount: groupKits.length,
+      domainPaths: groupKits.map((kit) => kit.domainPath),
+      validators: Array.from(new Set(groupKits.map((kit) => kit.validator))),
+      health: groupKits.length > 0 ? "ready" : "empty",
+    };
+  });
+}
+
+export function validateV002Registry() {
+  const failures = [];
+  const requiredFields = [
+    "domain",
+    "subdomain",
+    "domainPath",
+    "kind",
+    "purpose",
+    "dependencies",
+    "publicApi",
+    "events",
+    "snapshot",
+    "reset",
+    "proofGroup",
+    "validator",
+    "promotionStatus",
+  ];
+  const domainPaths = new Set();
+  const proofGroupIds = new Set(v002ProofGroups.map((group) => group.id));
+  for (const kit of v002KitRegistry) {
+    for (const field of requiredFields) {
+      if (!(field in kit)) failures.push(`missing-field:${kit.domainPath ?? kit.id}:${field}`);
+    }
+    if (kit.domainPath !== `n:${kit.domain}:${kit.subdomain}`) failures.push(`bad-domain-path:${kit.domainPath}`);
+    if (domainPaths.has(kit.domainPath)) failures.push(`duplicate-domain-path:${kit.domainPath}`);
+    domainPaths.add(kit.domainPath);
+    if (!proofGroupIds.has(kit.proofGroup)) failures.push(`unknown-proof-group:${kit.domainPath}:${kit.proofGroup}`);
+    for (const dependency of kit.dependencies) {
+      if (!dependency.startsWith("n:")) failures.push(`dependency-not-domain-path:${kit.domainPath}:${dependency}`);
+    }
+    if (!kit.publicApi.includes("snapshot") || !kit.publicApi.includes("reset") || !kit.publicApi.includes("validate")) {
+      failures.push(`missing-standard-public-api:${kit.domainPath}`);
+    }
+  }
+  for (const dependency of v002KitRegistry.flatMap((kit) => kit.dependencies)) {
+    if (!domainPaths.has(dependency)) failures.push(`missing-dependency:${dependency}`);
+  }
+  return {
+    passed: failures.length === 0,
+    failures,
+    version: V002_VERSION,
+    domains: v002Domains.length,
+    kits: v002KitRegistry.length,
+    proofGroups: v002ProofGroups.length,
+  };
+}

@@ -1,0 +1,73 @@
+{
+  "id": "v002-goldrush-prospector",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "prospector",
+  "domainPath": "n:goldrush:prospector",
+  "apiName": "v002GoldrushProspector",
+  "kind": "composite-domain",
+  "purpose": "Prospector kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+  "dependencies": [
+    "n:control:camera-relative-movement",
+    "n:behavior:body-state",
+    "n:animation:animation-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.prospector.installed",
+    "goldrush.prospector.reset",
+    "goldrush.prospector.snapshotted",
+    "goldrush.prospector.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:goldrush:prospector",
+      "upstreamSnapshots": [
+        "n:control:camera-relative-movement",
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:goldrush:prospector",
+      "health": "registered",
+      "proofGroup": "goldrush-integrated"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "prospector",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

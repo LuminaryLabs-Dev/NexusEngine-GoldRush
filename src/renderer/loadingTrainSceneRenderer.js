@@ -1,15 +1,21 @@
 import * as THREE from "three";
+import { createTrainBoardingCueKit, resolveTrainBoardingCueState, trainBoardingAnchor } from "../kits/v0.0.2/goldrush/train-boarding-cue/index.js";
+import { createTrainDepartureHandoffKit, resolveTrainDepartureHandoffState } from "../kits/v0.0.2/goldrush/train-departure-handoff/index.js";
+import { createTrainRideAttachKit, resolveTrainRideAttachment } from "../kits/v0.0.2/goldrush/train-ride-attach/index.js";
+import { createTrainRouteKit } from "../kits/v0.0.2/goldrush/train-route/index.js";
 
 export function createLoadingTrainSceneRenderer(root) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 180);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const train = createTrain();
-  const trainPathKit = createTrainPathKit();
+  const trainRouteKit = createTrainRouteKit();
+  const trainBoardingCueKit = createTrainBoardingCueKit();
+  const trainRideAttachKit = createTrainRideAttachKit();
+  const trainDepartureHandoffKit = createTrainDepartureHandoffKit();
   const player = createSmallProspector(0x253b36);
   const partyGhosts = new THREE.Group();
   const boardingCue = createBoardingCue();
-  const trainBoardingTarget = new THREE.Vector3();
   const boardingCueTarget = new THREE.Vector3();
   const state = {
     kitGroup: "loading-yard-train",
@@ -18,15 +24,18 @@ export function createLoadingTrainSceneRenderer(root) {
     loadingPhase: "approaching",
     trainDeparting: false,
     trainPosition: { x: 0, z: -50 },
-    trainPath: trainPathKit.snapshot(),
+    trainRoute: trainRouteKit.snapshot(),
     doorOpen: false,
     playerLockedToTrain: false,
     boardingRadius: 3.2,
+    trainBoardingCue: trainBoardingCueKit.snapshot(),
+    trainRideAttachment: trainRideAttachKit.snapshot(),
+    trainDepartureHandoff: trainDepartureHandoffKit.snapshot(),
     boardingCue: {
       contract: "goldrush-train-boarding-cue-v1",
       visible: false,
       status: "waiting-for-train",
-      anchor: { x: 0, z: -7.4 },
+      anchor: structuredClone(trainBoardingAnchor),
     },
   };
 
@@ -68,27 +77,52 @@ export function createLoadingTrainSceneRenderer(root) {
     doorProgress = 0,
     departureProgress = 0,
     playerLockedToTrain = false,
+    boardingStatus = null,
+    peerHandoffGate = null,
+    departureStartedAt = null,
     trainReadout = null,
   }) {
     resize();
-    const pathSample = trainPathKit.sample(trainDeparting ? "departure" : "approach", trainDeparting ? departureProgress : approachProgress);
+    const pathSample = trainRouteKit.sample(trainDeparting ? "departure" : "approach", trainDeparting ? departureProgress : approachProgress);
     train.position.set(pathSample.position.x, 0, pathSample.position.z);
     train.rotation.y = pathSample.yaw;
     animateTrainDoor(train, doorProgress);
-    updateBoardingCue(boardingCue, {
+    const boardingCueState = resolveTrainBoardingCueState({
       doorProgress,
       playerLockedToTrain,
       trainReadout,
       elapsedSeconds: performance.now() / 1000,
     });
+    const trainDepartureHandoff = resolveTrainDepartureHandoffState({
+      boardingStatus,
+      peerHandoffGate,
+      departureStartedAt,
+      departureProgress,
+      playerLockedToTrain,
+    });
+    updateBoardingCue(boardingCue, boardingCueState);
     train.updateMatrixWorld(true);
 
     train.userData.boardingAnchor.getWorldPosition(boardingCueTarget);
+    const rideAttachment = resolveTrainRideAttachment({
+      localPlayer,
+      playerLockedToTrain,
+      routeSample: pathSample,
+      trainPosition: { x: train.position.x, z: train.position.z },
+      boardingAnchorWorldPosition: boardingCueTarget,
+    });
     state.trainDeparting = trainDeparting;
     state.loadingPhase = loadingPhase;
     state.trainPosition = { x: Number(train.position.x.toFixed(2)), z: Number(train.position.z.toFixed(2)) };
     state.doorOpen = doorProgress >= 0.92;
     state.playerLockedToTrain = playerLockedToTrain;
+    state.trainRoute = trainRouteKit.snapshot({
+      routeSample: pathSample,
+      loadingPhase,
+    });
+    state.trainBoardingCue = boardingCueState;
+    state.trainRideAttachment = rideAttachment;
+    state.trainDepartureHandoff = trainDepartureHandoff;
     state.approachProgress = Number(approachProgress.toFixed(3));
     state.doorProgress = Number(doorProgress.toFixed(3));
     state.departureProgress = Number(departureProgress.toFixed(3));
@@ -104,37 +138,24 @@ export function createLoadingTrainSceneRenderer(root) {
       cameraDirective: trainReadout?.cameraDirective ?? null,
     };
 
-    const position = playerLockedToTrain
-      ? train.userData.boardingAnchor.getWorldPosition(trainBoardingTarget)
-      : localPlayer.position;
+    const position = rideAttachment.playerPosition ?? localPlayer.position;
     player.position.set(position.x, 0.68, position.z);
-    player.rotation.y = playerLockedToTrain ? train.rotation.y : localPlayer.heading;
+    player.rotation.y = rideAttachment.playerHeading ?? localPlayer.heading;
     player.userData.leftLeg.rotation.x = localPlayer.isMoving ? Math.sin(performance.now() / 120) * 0.25 : 0;
     player.userData.rightLeg.rotation.x = localPlayer.isMoving ? -Math.sin(performance.now() / 120) * 0.25 : 0;
 
     syncPartyGhosts(party, position);
 
-    if (playerLockedToTrain || trainDeparting) {
-      const tangent = pathSample.tangent;
-      const side = { x: tangent.z, z: -tangent.x };
-      camera.position.set(
-        position.x - tangent.x * 9 + side.x * 3.4,
-        4.2,
-        position.z - tangent.z * 9 + side.z * 3.4
-      );
-      camera.lookAt(position.x + tangent.x * 5, 1.45, position.z + tangent.z * 5);
-    } else {
-      const yaw = localPlayer.look?.yaw ?? Math.PI;
-      const pitch = localPlayer.look?.pitch ?? -0.08;
-      const forward = { x: Math.sin(yaw), z: Math.cos(yaw) };
-      const side = { x: Math.cos(yaw), z: -Math.sin(yaw) };
-      camera.position.set(
-        position.x - forward.x * 6.4 + side.x * 2.2,
-        3.45,
-        position.z - forward.z * 6.4 + side.z * 2.2
-      );
-      camera.lookAt(position.x + forward.x * 5, 1.35 + pitch * 3.2, position.z + forward.z * 5);
-    }
+    camera.position.set(
+      rideAttachment.cameraPosition?.x ?? camera.position.x,
+      rideAttachment.cameraPosition?.y ?? camera.position.y,
+      rideAttachment.cameraPosition?.z ?? camera.position.z
+    );
+    camera.lookAt(
+      rideAttachment.cameraLookAt?.x ?? position.x,
+      rideAttachment.cameraLookAt?.y ?? 1.35,
+      rideAttachment.cameraLookAt?.z ?? position.z
+    );
     renderer.render(scene, camera);
   }
 
@@ -428,7 +449,7 @@ function createBoardingCue() {
   cap.position.y = 1.62;
   cap.rotation.y = Math.PI / 4;
   group.add(ring, post, cap);
-  group.position.set(-1.68, 0, -3.72);
+  group.position.set(trainBoardingAnchor.x, trainBoardingAnchor.y, trainBoardingAnchor.z);
   group.userData.status = "waiting-for-door";
   group.visible = false;
   return group;

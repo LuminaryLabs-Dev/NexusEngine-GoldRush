@@ -1,0 +1,69 @@
+{
+  "id": "v002-network-party-room",
+  "version": "v0.0.2",
+  "domain": "network",
+  "subdomain": "party-room",
+  "domainPath": "n:network:party-room",
+  "apiName": "v002NetworkPartyRoom",
+  "kind": "scoped-domain",
+  "purpose": "Party Room kit for party, partition, staging, and handoff contracts.",
+  "dependencies": [
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "network.party-room.installed",
+    "network.party-room.reset",
+    "network.party-room.snapshotted",
+    "network.party-room.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "network",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-network-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:network:party-room",
+      "upstreamSnapshots": [
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:network:party-room",
+      "health": "registered",
+      "proofGroup": "network"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "party-room",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "v002-render-three-scene",
+  "version": "v0.0.2",
+  "domain": "render",
+  "subdomain": "three-scene",
+  "domainPath": "n:render:three-scene",
+  "apiName": "v002RenderThreeScene",
+  "kind": "renderer-adapter",
+  "purpose": "Three Scene kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+  "dependencies": [
+    "n:runtime:snapshots"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "render.three-scene.installed",
+    "render.three-scene.reset",
+    "render.three-scene.snapshotted",
+    "render.three-scene.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "render",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-graphics-kit",
+    "core-camera-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:render:three-scene",
+      "upstreamSnapshots": [
+        "n:runtime:snapshots"
+      ]
+    },
+    "output": {
+      "domainPath": "n:render:three-scene",
+      "health": "registered",
+      "proofGroup": "render"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "three-scene",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "v002-render-character-renderer",
+  "version": "v0.0.2",
+  "domain": "render",
+  "subdomain": "character-renderer",
+  "domainPath": "n:render:character-renderer",
+  "apiName": "v002RenderCharacterRenderer",
+  "kind": "renderer-adapter",
+  "purpose": "Character Renderer kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+  "dependencies": [
+    "n:animation:animation-state",
+    "n:behavior:body-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "render.character-renderer.installed",
+    "render.character-renderer.reset",
+    "render.character-renderer.snapshotted",
+    "render.character-renderer.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "render",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-graphics-kit",
+    "core-camera-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:render:character-renderer",
+      "upstreamSnapshots": [
+        "n:animation:animation-state",
+        "n:behavior:body-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:render:character-renderer",
+      "health": "registered",
+      "proofGroup": "render"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "character-renderer",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

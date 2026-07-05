@@ -4,23 +4,28 @@ Status: active pointer
 
 ## Newest Version
 
-`v0.0.1`
+`v0.0.2`
 
 ## Required Next Decision
 
-`v0.0.1` has been audited in `v0.0.1-audit.md`.
+`v0.0.2` has been created from the `v0.0.1` update-ready gate and now has an explicit train-loop contract slice.
 
 The current recommendation is:
 
-- continue `v0.0.1`
+- continue `v0.0.2`
+
+## Current Mode
+
+`train-loop-contract`
 
 ## Current Constraint
 
-Do not create `v0.0.2` unless a future audit finds that `v0.0.1` has become stuck, structurally wrong, overcomplicated, fake, stale, or hack-heavy.
+Do not replace existing gameplay ownership with v0.0.2 systems until v0.0.2 validators and grouped proof surfaces prove each slice.
 
 ## Next Turn Checklist
 
-1. Read `v0.0.1-audit.md`.
-2. Continue `v0.0.1` with one atomic roadmap slice.
-3. Next source-fixture atom: `.agent/research/aaa-100/drawn-terrain-source/source-artboard-production-workbook/fixture-preflight-001/micro-006-walkable-blocker-mask-contract/`.
-4. Update this pointer if a future audit creates a new version.
+1. Read `v0.0.2-audit.md`.
+2. Read `v0.0.2-plan.md`.
+3. Continue `v0.0.2` with the next highest-value slice after train boarding and ride handoff.
+4. Keep `v0.0.1-update-ready.md` as reference only.
+5. Update this pointer if a future audit creates a new version.

@@ -1,0 +1,71 @@
+{
+  "id": "v002-runtime-validation",
+  "version": "v0.0.2",
+  "domain": "runtime",
+  "subdomain": "validation",
+  "domainPath": "n:runtime:validation",
+  "apiName": "v002RuntimeValidation",
+  "kind": "runtime",
+  "purpose": "Validation kit for runtime composition and evidence flow.",
+  "dependencies": [
+    "n:runtime:registry",
+    "n:runtime:snapshots"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "runtime.validation.installed",
+    "runtime.validation.reset",
+    "runtime.validation.snapshotted",
+    "runtime.validation.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "runtime",
+  "validator": "tools/validation/validate-v002-kit-registry.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:runtime:validation",
+      "upstreamSnapshots": [
+        "n:runtime:registry",
+        "n:runtime:snapshots"
+      ]
+    },
+    "output": {
+      "domainPath": "n:runtime:validation",
+      "health": "registered",
+      "proofGroup": "runtime"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "validation",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

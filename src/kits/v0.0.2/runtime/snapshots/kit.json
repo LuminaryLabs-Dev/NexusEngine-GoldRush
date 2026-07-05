@@ -1,0 +1,71 @@
+{
+  "id": "v002-runtime-snapshots",
+  "version": "v0.0.2",
+  "domain": "runtime",
+  "subdomain": "snapshots",
+  "domainPath": "n:runtime:snapshots",
+  "apiName": "v002RuntimeSnapshots",
+  "kind": "runtime",
+  "purpose": "Snapshots kit for runtime composition and evidence flow.",
+  "dependencies": [
+    "n:runtime:registry",
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "runtime.snapshots.installed",
+    "runtime.snapshots.reset",
+    "runtime.snapshots.snapshotted",
+    "runtime.snapshots.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "runtime",
+  "validator": "tools/validation/validate-v002-kit-registry.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:runtime:snapshots",
+      "upstreamSnapshots": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:runtime:snapshots",
+      "health": "registered",
+      "proofGroup": "runtime"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "snapshots",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

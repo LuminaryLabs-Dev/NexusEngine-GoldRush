@@ -1,0 +1,71 @@
+{
+  "id": "v002-content-license-provenance",
+  "version": "v0.0.2",
+  "domain": "content",
+  "subdomain": "license-provenance",
+  "domainPath": "n:content:license-provenance",
+  "apiName": "v002ContentLicenseProvenance",
+  "kind": "host-support",
+  "purpose": "License Provenance kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+  "dependencies": [
+    "n:content:source-asset-intake"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "content.license-provenance.installed",
+    "content.license-provenance.reset",
+    "content.license-provenance.snapshotted",
+    "content.license-provenance.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "content",
+  "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "record-license-provenance",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "licenseId": "CC0-1.0",
+      "licenseLabel": "CC0 1.0 Universal",
+      "attribution": "Quaternius Modular Train Pack"
+    },
+    "output": {
+      "domainPath": "n:content:license-provenance",
+      "health": "registered",
+      "licenseId": "CC0-1.0",
+      "runtimePromotion": false
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "license-provenance",
+      "installed": false,
+      "resetCount": 1,
+      "licenseId": null
+    }
+  }
+}

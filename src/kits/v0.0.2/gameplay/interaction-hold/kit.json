@@ -1,0 +1,69 @@
+{
+  "id": "v002-gameplay-interaction-hold",
+  "version": "v0.0.2",
+  "domain": "gameplay",
+  "subdomain": "interaction-hold",
+  "domainPath": "n:gameplay:interaction-hold",
+  "apiName": "v002GameplayInteractionHold",
+  "kind": "scoped-domain",
+  "purpose": "Interaction Hold kit for player-facing gameplay rules and actions.",
+  "dependencies": [
+    "n:control:interaction-input"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "gameplay.interaction-hold.installed",
+    "gameplay.interaction-hold.reset",
+    "gameplay.interaction-hold.snapshotted",
+    "gameplay.interaction-hold.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-interaction-kit",
+    "core-simulation-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:gameplay:interaction-hold",
+      "upstreamSnapshots": [
+        "n:control:interaction-input"
+      ]
+    },
+    "output": {
+      "domainPath": "n:gameplay:interaction-hold",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "interaction-hold",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

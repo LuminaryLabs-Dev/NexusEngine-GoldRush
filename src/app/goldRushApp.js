@@ -1,6 +1,7 @@
 import { createNetworkOrchestrator } from "../network/networkOrchestrator.js";
 import { createPeerPartyRoom } from "../network/peerPartyRoom.js";
 import { createGoldRushRuntime } from "../kits/goldRushRuntime.js";
+import { createV002GoldRushState } from "../kits/v0.0.2/state.js";
 import { createGoldRushAudioManager } from "../audio/goldRushAudioManager.js";
 import { goldRushLegacyModes, resolveLegacyMode } from "../content/goldrushLegacyModes.js";
 import { createGoldRushEnvironmentSpace } from "../content/goldrushEnvironmentSpace.js";
@@ -525,6 +526,11 @@ export function createGoldRushApp(root) {
         },
         audioManager: audio.snapshot(),
         firstSequence: firstSequence.snapshot(),
+        v002: createV002GoldRushState({
+          screen,
+          scenario,
+          sceneKitLoader: sceneKitSnapshot,
+        }),
       };
     },
   };
@@ -995,6 +1001,9 @@ export function createGoldRushApp(root) {
       doorProgress: sequence.doorProgress,
       departureProgress: sequence.departureProgress,
       playerLockedToTrain: sequence.playerLockedToTrain,
+      boardingStatus: sequence.boardingStatus,
+      peerHandoffGate: sequence.peerHandoffGate,
+      departureStartedAt: sequence.departureStartedAt,
       trainReadout,
     });
     audio.sync({ screen: "loading", scenario: runtime.snapshot(), loadingPhase, trainReadout });

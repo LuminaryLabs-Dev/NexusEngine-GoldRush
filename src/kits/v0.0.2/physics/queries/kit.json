@@ -1,0 +1,71 @@
+{
+  "id": "v002-physics-queries",
+  "version": "v0.0.2",
+  "domain": "physics",
+  "subdomain": "queries",
+  "domainPath": "n:physics:queries",
+  "apiName": "v002PhysicsQueries",
+  "kind": "domain-service",
+  "purpose": "Queries kit for physics world, colliders, and queries.",
+  "dependencies": [
+    "n:physics:world",
+    "n:physics:terrain-collider"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "physics.queries.installed",
+    "physics.queries.reset",
+    "physics.queries.snapshotted",
+    "physics.queries.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-physics-kit",
+    "core-spatial-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:physics:queries",
+      "upstreamSnapshots": [
+        "n:physics:world",
+        "n:physics:terrain-collider"
+      ]
+    },
+    "output": {
+      "domainPath": "n:physics:queries",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "queries",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

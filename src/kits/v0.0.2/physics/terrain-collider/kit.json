@@ -1,0 +1,73 @@
+{
+  "id": "v002-physics-terrain-collider",
+  "version": "v0.0.2",
+  "domain": "physics",
+  "subdomain": "terrain-collider",
+  "domainPath": "n:physics:terrain-collider",
+  "apiName": "v002PhysicsTerrainCollider",
+  "kind": "domain-service",
+  "purpose": "Terrain Collider kit for physics world, colliders, and queries.",
+  "dependencies": [
+    "n:physics:world",
+    "n:world:heightfield",
+    "n:world:masks"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "physics.terrain-collider.installed",
+    "physics.terrain-collider.reset",
+    "physics.terrain-collider.snapshotted",
+    "physics.terrain-collider.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-physics-kit",
+    "core-spatial-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:physics:terrain-collider",
+      "upstreamSnapshots": [
+        "n:physics:world",
+        "n:world:heightfield",
+        "n:world:masks"
+      ]
+    },
+    "output": {
+      "domainPath": "n:physics:terrain-collider",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "terrain-collider",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

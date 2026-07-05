@@ -1,0 +1,69 @@
+{
+  "id": "v002-goldrush-train-route",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "train-route",
+  "domainPath": "n:goldrush:train-route",
+  "apiName": "v002GoldrushTrainRoute",
+  "kind": "composite-domain",
+  "purpose": "Train Route kit for GoldRush-specific train source ingestion, staging, and composition.",
+  "dependencies": [
+    "n:world:routes",
+    "n:physics:terrain-collider"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.train-route.installed",
+    "goldrush.train-route.reset",
+    "goldrush.train-route.snapshotted",
+    "goldrush.train-route.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "sample-train-route",
+      "routeId": "goldrush-train-route-v1",
+      "phase": "departure",
+      "progress": 0.5
+    },
+    "output": {
+      "domainPath": "n:goldrush:train-route",
+      "routeId": "goldrush-train-route-v1",
+      "phase": "departure"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-route",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "v002-render-object-instancing",
+  "version": "v0.0.2",
+  "domain": "render",
+  "subdomain": "object-instancing",
+  "domainPath": "n:render:object-instancing",
+  "apiName": "v002RenderObjectInstancing",
+  "kind": "renderer-adapter",
+  "purpose": "Object Instancing kit for renderer descriptors and presentation adapters. It consumes descriptors and never owns gameplay truth.",
+  "dependencies": [
+    "n:world:placement"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "render.object-instancing.installed",
+    "render.object-instancing.reset",
+    "render.object-instancing.snapshotted",
+    "render.object-instancing.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "render",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-graphics-kit",
+    "core-camera-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:render:object-instancing",
+      "upstreamSnapshots": [
+        "n:world:placement"
+      ]
+    },
+    "output": {
+      "domainPath": "n:render:object-instancing",
+      "health": "registered",
+      "proofGroup": "render"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "render",
+      "subdomain": "object-instancing",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

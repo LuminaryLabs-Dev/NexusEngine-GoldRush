@@ -10,8 +10,11 @@ Status: active
 - The companion ME ledger is referenced as `<documents>/Me/GoldRush/.agent/goal.md`; do not write absolute local paths into shareable repo docs.
 - The local repo is the only edit target. Legacy repos and NexusRealtime-related source repos are cloud/GPT-it inspection or transfer sources unless the user explicitly changes that rule.
 - GoldRush work now routes through a strict full-version rebuild loop. A version is a complete ground-up rebuild attempt, not a patch. Continue the newest version by default, increment only when the audit shows it is stuck or structurally wrong, and carry forward only validated parts, contracts, lessons, design docs, and roadmap goals.
+- `v0.0.2` is the active kit-by-kit rebuild layer. It organizes top-level kits by `domain/subdomain`, uses grouped proof pages, and keeps behavior system controllers separate from narrow execution kits.
+- The `content` domain in `v0.0.2` is source-only intake for FBX/OBJ/BLEND provenance, inventory, and conversion requests. GLB is the runtime target, and `public/assets` remains approved-runtime only.
 - `AGENTS.md` and `.agent/agent-it-operating-contract.md` are now the repo-level handoff for any future "follow agent-it" run: read them first, then follow the newest version packet and prove every promoted claim.
 - The most important active product loop is title -> lobby -> loading-yard train -> spawn -> move -> mine -> carry -> pressure/combat -> extract -> score -> results.
+- The train boarding loop now has explicit GoldRush-local kits for route, boarding cue, ride attach, and departure handoff. Future work should extend or replace those kits rather than re-burying the logic inside the renderer or first-sequence controller.
 - Generic incubator kits are promotable only if they avoid GoldRush naming/rules, expose public API/events/snapshot/reset, and have validation.
 - GoldRush custom kits own the game-specific composition: scene flow, train loading, player movement, gold carrying, ambush pressure, cashout, scoring, results, and presentation.
 - Current proof convention: screenshots for both local and public state; videos only when diagnosing motion/camera/timing.

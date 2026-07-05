@@ -1,0 +1,70 @@
+{
+  "id": "v002-control-third-person-camera",
+  "version": "v0.0.2",
+  "domain": "control",
+  "subdomain": "third-person-camera",
+  "domainPath": "n:control:third-person-camera",
+  "apiName": "v002ControlThirdPersonCamera",
+  "kind": "execution",
+  "purpose": "Third Person Camera kit for input, camera, grounding, and interaction input.",
+  "dependencies": [
+    "n:control:input-context"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "control.third-person-camera.installed",
+    "control.third-person-camera.reset",
+    "control.third-person-camera.snapshotted",
+    "control.third-person-camera.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-input-kit",
+    "core-camera-kit",
+    "core-motion-kit",
+    "core-physics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:control:third-person-camera",
+      "upstreamSnapshots": [
+        "n:control:input-context"
+      ]
+    },
+    "output": {
+      "domainPath": "n:control:third-person-camera",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "third-person-camera",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

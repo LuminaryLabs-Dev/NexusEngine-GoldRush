@@ -1,0 +1,69 @@
+{
+  "id": "v002-world-terrain-source",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "terrain-source",
+  "domainPath": "n:world:terrain-source",
+  "apiName": "v002WorldTerrainSource",
+  "kind": "domain-service",
+  "purpose": "Terrain Source kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:runtime:snapshots"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.terrain-source.installed",
+    "world.terrain-source.reset",
+    "world.terrain-source.snapshotted",
+    "world.terrain-source.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:terrain-source",
+      "upstreamSnapshots": [
+        "n:runtime:snapshots"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:terrain-source",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "terrain-source",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

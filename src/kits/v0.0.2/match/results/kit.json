@@ -1,0 +1,71 @@
+{
+  "id": "v002-match-results",
+  "version": "v0.0.2",
+  "domain": "match",
+  "subdomain": "results",
+  "domainPath": "n:match:results",
+  "apiName": "v002MatchResults",
+  "kind": "scoped-domain",
+  "purpose": "Results kit for match lifecycle, receipts, scoring, replay, and results.",
+  "dependencies": [
+    "n:match:scoring",
+    "n:match:replay-summary"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "match.results.installed",
+    "match.results.reset",
+    "match.results.snapshotted",
+    "match.results.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-simulation-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:match:results",
+      "upstreamSnapshots": [
+        "n:match:scoring",
+        "n:match:replay-summary"
+      ]
+    },
+    "output": {
+      "domainPath": "n:match:results",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "results",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

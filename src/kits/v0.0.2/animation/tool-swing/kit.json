@@ -1,0 +1,71 @@
+{
+  "id": "v002-animation-tool-swing",
+  "version": "v0.0.2",
+  "domain": "animation",
+  "subdomain": "tool-swing",
+  "domainPath": "n:animation:tool-swing",
+  "apiName": "v002AnimationToolSwing",
+  "kind": "execution",
+  "purpose": "Tool Swing kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+  "dependencies": [
+    "n:behavior:body-state",
+    "n:animation:animation-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "animation.tool-swing.installed",
+    "animation.tool-swing.reset",
+    "animation.tool-swing.snapshotted",
+    "animation.tool-swing.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-animation-kit",
+    "core-motion-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:animation:tool-swing",
+      "upstreamSnapshots": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:animation:tool-swing",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "tool-swing",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import { resolveTrainDepartureHandoffState } from "../kits/v0.0.2/goldrush/train-departure-handoff/index.js";
+
 export const defaultFirstSequenceTimings = {
   approachMs: 2800,
   doorMs: 900,
@@ -160,13 +162,18 @@ export function createGoldRushFirstSequenceController({ timings = defaultFirstSe
     const departureProgress = departureStartedAt !== null
       ? clamp01((now - departureStartedAt) / timings.departMs)
       : 0;
-    const phase = playerLockedToTrain && departureStartedAt === null
-      ? "boarding-syncing"
-      : playerLockedToTrain
-        ? departureProgress >= 1 ? "handoff-ready" : "train-departing"
-      : approachProgress < 1 ? "train-approaching"
-        : doorProgress < 1 ? "door-opening"
-          : "boarding-open";
+    const trainDepartureHandoff = resolveTrainDepartureHandoffState({
+      boardingStatus,
+      peerHandoffGate,
+      departureStartedAt,
+      departureProgress,
+      playerLockedToTrain,
+    });
+    const phase = approachProgress < 1
+      ? "train-approaching"
+      : doorProgress < 1
+        ? "door-opening"
+        : trainDepartureHandoff.phase;
 
     state = {
       ...state,
@@ -180,6 +187,7 @@ export function createGoldRushFirstSequenceController({ timings = defaultFirstSe
       boardingManifest,
       boardingStatus,
       peerHandoffGate,
+      trainDepartureHandoff,
     };
     if (phase === "handoff-ready" && !state.handoffReadyReceiptWritten) {
       state = { ...state, handoffReadyReceiptWritten: true };
@@ -249,9 +257,10 @@ export function validateFirstSequenceSnapshot(snapshot) {
   if (!Number.isFinite(snapshot.timings?.approachMs)) failures.push("missing-approach-timing");
   if (!Number.isFinite(snapshot.timings?.doorMs)) failures.push("missing-door-timing");
   if (!Number.isFinite(snapshot.timings?.departMs)) failures.push("missing-depart-timing");
-    if (snapshot.screen === "loading") {
+  if (snapshot.screen === "loading") {
     if (snapshot.boardingStatus?.contract !== "goldrush-train-boarding-v1") failures.push("missing-boarding-contract");
     if (snapshot.peerHandoffGate?.contract !== "goldrush-peer-handoff-gate-v1") failures.push("missing-peer-handoff-gate");
+    if (snapshot.trainDepartureHandoff?.contract !== "goldrush-train-departure-handoff-v1") failures.push("missing-train-departure-handoff");
     if (snapshot.approachProgress < 0 || snapshot.approachProgress > 1) failures.push("invalid-approach-progress");
     if (snapshot.doorProgress < 0 || snapshot.doorProgress > 1) failures.push("invalid-door-progress");
     if (snapshot.departureProgress < 0 || snapshot.departureProgress > 1) failures.push("invalid-departure-progress");
@@ -283,6 +292,7 @@ function createTrainReadout(snapshot) {
   const departing = phase === "train-departing" || phase === "handoff-ready";
   const partyStatus = snapshot.boardingStatus ?? null;
   const peerGate = snapshot.peerHandoffGate ?? null;
+  const handoff = snapshot.trainDepartureHandoff ?? null;
   const currentBeat = phase === "train-approaching"
     ? "train-arrival"
     : phase === "door-opening"
@@ -302,9 +312,7 @@ function createTrainReadout(snapshot) {
         ? "board-train"
         : phase === "boarding-syncing"
           ? "wait-for-party"
-          : departing
-            ? "ride-train"
-            : "continue";
+          : handoff?.nextPlayerAction ?? (departing ? "ride-train" : "continue");
   const playerCue = phase === "train-approaching"
     ? "Train incoming. Watch the platform."
     : phase === "door-opening"
@@ -327,7 +335,11 @@ function createTrainReadout(snapshot) {
     localBoarded: Boolean(partyStatus?.localBoarded),
     partyReady: Boolean(partyStatus?.allReady),
     peerReady: Boolean(peerGate?.ready),
-    cameraDirective: departing || snapshot.playerLockedToTrain ? "follow-train" : "over-shoulder-walk",
+    boardingStatus: partyStatus,
+    peerHandoffGate: peerGate,
+    departureStartedAt: snapshot.departureStartedAt ?? null,
+    departureProgress: Number(snapshot.departureProgress ?? 0),
+    cameraDirective: handoff?.cameraDirective ?? (departing || snapshot.playerLockedToTrain ? "follow-train" : "over-shoulder-walk"),
     boardingCueVisible: doorOpen && !snapshot.playerLockedToTrain,
   };
 }

@@ -1,0 +1,65 @@
+{
+  "id": "v002-runtime-registry",
+  "version": "v0.0.2",
+  "domain": "runtime",
+  "subdomain": "registry",
+  "domainPath": "n:runtime:registry",
+  "apiName": "v002RuntimeRegistry",
+  "kind": "runtime",
+  "purpose": "Registry kit for runtime composition and evidence flow.",
+  "dependencies": [],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "runtime.registry.installed",
+    "runtime.registry.reset",
+    "runtime.registry.snapshotted",
+    "runtime.registry.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "runtime",
+  "validator": "tools/validation/validate-v002-kit-registry.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:runtime:registry",
+      "upstreamSnapshots": []
+    },
+    "output": {
+      "domainPath": "n:runtime:registry",
+      "health": "registered",
+      "proofGroup": "runtime"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "runtime",
+      "subdomain": "registry",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

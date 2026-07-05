@@ -1,0 +1,71 @@
+{
+  "id": "v002-gameplay-mining",
+  "version": "v0.0.2",
+  "domain": "gameplay",
+  "subdomain": "mining",
+  "domainPath": "n:gameplay:mining",
+  "apiName": "v002GameplayMining",
+  "kind": "scoped-domain",
+  "purpose": "Mining kit for player-facing gameplay rules and actions.",
+  "dependencies": [
+    "n:gameplay:interaction-hold",
+    "n:world:placement"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "gameplay.mining.installed",
+    "gameplay.mining.reset",
+    "gameplay.mining.snapshotted",
+    "gameplay.mining.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-interaction-kit",
+    "core-simulation-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:gameplay:mining",
+      "upstreamSnapshots": [
+        "n:gameplay:interaction-hold",
+        "n:world:placement"
+      ]
+    },
+    "output": {
+      "domainPath": "n:gameplay:mining",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "mining",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

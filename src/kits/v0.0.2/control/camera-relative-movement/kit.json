@@ -1,0 +1,72 @@
+{
+  "id": "v002-control-camera-relative-movement",
+  "version": "v0.0.2",
+  "domain": "control",
+  "subdomain": "camera-relative-movement",
+  "domainPath": "n:control:camera-relative-movement",
+  "apiName": "v002ControlCameraRelativeMovement",
+  "kind": "execution",
+  "purpose": "Camera Relative Movement kit for input, camera, grounding, and interaction input.",
+  "dependencies": [
+    "n:control:input-context",
+    "n:control:third-person-camera"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "control.camera-relative-movement.installed",
+    "control.camera-relative-movement.reset",
+    "control.camera-relative-movement.snapshotted",
+    "control.camera-relative-movement.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-input-kit",
+    "core-camera-kit",
+    "core-motion-kit",
+    "core-physics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:control:camera-relative-movement",
+      "upstreamSnapshots": [
+        "n:control:input-context",
+        "n:control:third-person-camera"
+      ]
+    },
+    "output": {
+      "domainPath": "n:control:camera-relative-movement",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "camera-relative-movement",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

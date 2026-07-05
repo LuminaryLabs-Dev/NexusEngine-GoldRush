@@ -1,0 +1,69 @@
+{
+  "id": "v002-gameplay-cargo",
+  "version": "v0.0.2",
+  "domain": "gameplay",
+  "subdomain": "cargo",
+  "domainPath": "n:gameplay:cargo",
+  "apiName": "v002GameplayCargo",
+  "kind": "scoped-domain",
+  "purpose": "Cargo kit for player-facing gameplay rules and actions.",
+  "dependencies": [
+    "n:gameplay:mining"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "gameplay.cargo.installed",
+    "gameplay.cargo.reset",
+    "gameplay.cargo.snapshotted",
+    "gameplay.cargo.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-interaction-kit",
+    "core-simulation-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:gameplay:cargo",
+      "upstreamSnapshots": [
+        "n:gameplay:mining"
+      ]
+    },
+    "output": {
+      "domainPath": "n:gameplay:cargo",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "gameplay",
+      "subdomain": "cargo",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

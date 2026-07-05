@@ -1,0 +1,68 @@
+{
+  "id": "v002-goldrush-train-ride-attach",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "train-ride-attach",
+  "domainPath": "n:goldrush:train-ride-attach",
+  "apiName": "v002GoldrushTrainRideAttach",
+  "kind": "composite-domain",
+  "purpose": "Train Ride Attach kit for GoldRush-specific train source ingestion, staging, and composition.",
+  "dependencies": [
+    "n:goldrush:train-route",
+    "n:control:third-person-camera"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.train-ride-attach.installed",
+    "goldrush.train-ride-attach.reset",
+    "goldrush.train-ride-attach.snapshotted",
+    "goldrush.train-ride-attach.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "resolve-train-ride-attachment",
+      "playerLockedToTrain": true,
+      "routePhase": "departure"
+    },
+    "output": {
+      "domainPath": "n:goldrush:train-ride-attach",
+      "attached": true,
+      "cameraDirective": "follow-train"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-ride-attach",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

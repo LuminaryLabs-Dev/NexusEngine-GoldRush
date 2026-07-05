@@ -1,0 +1,69 @@
+{
+  "id": "v002-world-heightfield",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "heightfield",
+  "domainPath": "n:world:heightfield",
+  "apiName": "v002WorldHeightfield",
+  "kind": "domain-service",
+  "purpose": "Heightfield kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:world:terrain-source"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.heightfield.installed",
+    "world.heightfield.reset",
+    "world.heightfield.snapshotted",
+    "world.heightfield.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:heightfield",
+      "upstreamSnapshots": [
+        "n:world:terrain-source"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:heightfield",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "heightfield",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

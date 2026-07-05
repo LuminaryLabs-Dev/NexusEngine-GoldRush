@@ -1,0 +1,71 @@
+{
+  "id": "v002-scene-train-loading",
+  "version": "v0.0.2",
+  "domain": "scene",
+  "subdomain": "train-loading",
+  "domainPath": "n:scene:train-loading",
+  "apiName": "v002SceneTrainLoading",
+  "kind": "scoped-domain",
+  "purpose": "Train Loading kit for scene site loading and transitions.",
+  "dependencies": [
+    "n:runtime:registry",
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "scene.train-loading.installed",
+    "scene.train-loading.reset",
+    "scene.train-loading.snapshotted",
+    "scene.train-loading.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "scene",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-scene-kit",
+    "core-composition-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:scene:train-loading",
+      "upstreamSnapshots": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:scene:train-loading",
+      "health": "registered",
+      "proofGroup": "scene"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "train-loading",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

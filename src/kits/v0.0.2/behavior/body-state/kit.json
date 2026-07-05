@@ -1,0 +1,69 @@
+{
+  "id": "v002-behavior-body-state",
+  "version": "v0.0.2",
+  "domain": "behavior",
+  "subdomain": "body-state",
+  "domainPath": "n:behavior:body-state",
+  "apiName": "v002BehaviorBodyState",
+  "kind": "system-controller",
+  "purpose": "Body State kit for outside-perspective system controllers that decide intent. It decides high-level intent from an outside-controller perspective and emits descriptors for execution kits.",
+  "dependencies": [
+    "n:behavior:player-intent"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "behavior.body-state.installed",
+    "behavior.body-state.reset",
+    "behavior.body-state.snapshotted",
+    "behavior.body-state.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-simulation-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": "system-controller",
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:behavior:body-state",
+      "upstreamSnapshots": [
+        "n:behavior:player-intent"
+      ]
+    },
+    "output": {
+      "domainPath": "n:behavior:body-state",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "behavior",
+      "subdomain": "body-state",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

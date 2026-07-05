@@ -1,0 +1,71 @@
+{
+  "id": "v002-network-handoff",
+  "version": "v0.0.2",
+  "domain": "network",
+  "subdomain": "handoff",
+  "domainPath": "n:network:handoff",
+  "apiName": "v002NetworkHandoff",
+  "kind": "scoped-domain",
+  "purpose": "Handoff kit for party, partition, staging, and handoff contracts.",
+  "dependencies": [
+    "n:network:party-room",
+    "n:scene:transition"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "network.handoff.installed",
+    "network.handoff.reset",
+    "network.handoff.snapshotted",
+    "network.handoff.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "network",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-network-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:network:handoff",
+      "upstreamSnapshots": [
+        "n:network:party-room",
+        "n:scene:transition"
+      ]
+    },
+    "output": {
+      "domainPath": "n:network:handoff",
+      "health": "registered",
+      "proofGroup": "network"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "network",
+      "subdomain": "handoff",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

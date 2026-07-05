@@ -1,7 +1,7 @@
 # Version Rebuild Loop
 
 Status: active docs-only
-Current baseline: `v0.0.1`
+Current baseline: `v0.0.2`
 
 ## Purpose
 
@@ -78,13 +78,31 @@ Every version packet must record:
 
 Use `version-packet-template.md` when creating a new version packet.
 
-## Current First Task
+## Current Task
 
-`v0.0.1` is the current prototype baseline.
+`v0.0.2` is the active kit-by-kit rebuild layer.
 
-Do not create `v0.0.2` until `v0.0.1` has a clear continue-or-increment decision.
+Continue `v0.0.2` by migrating one proofable slice at a time through the registry, grouped proof pages, validators, and `GoldRushHost.getState().v002`.
 
-The first implementation-facing task is to audit `v0.0.1` honestly, not to patch it blindly.
+Do not create `v0.0.3` unless the `v0.0.2` audit shows the new architecture is stuck, structurally wrong, stale, fake, overcomplicated, or carrying bad assumptions.
+
+## v0.0.1 Update-Ready Gate
+
+Before creating `v0.0.2`, freeze `v0.0.1` as an inheritance base in `v0.0.1-update-ready.md`.
+
+The gate must name:
+
+- proven contracts that may be inherited
+- partial systems that need a narrower claim
+- stale proof that must be refreshed
+- fake/helper-only/debug-only proof that must not carry forward
+- rejected assumptions
+- unresolved blockers
+- the exact decision rule for continuing `v0.0.1` or incrementing to `v0.0.2`
+
+`v0.0.2` should only be created after the update-ready packet proves the baseline can be rebuilt from validated contracts and lessons instead of inherited app state.
+
+This gate is now complete. Keep `v0.0.1-update-ready.md` as the reference for what `v0.0.2` may inherit and reject.
 
 ## Hard Rules
 

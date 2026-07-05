@@ -1,0 +1,71 @@
+{
+  "id": "v002-animation-cargo-sway",
+  "version": "v0.0.2",
+  "domain": "animation",
+  "subdomain": "cargo-sway",
+  "domainPath": "n:animation:cargo-sway",
+  "apiName": "v002AnimationCargoSway",
+  "kind": "execution",
+  "purpose": "Cargo Sway kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+  "dependencies": [
+    "n:behavior:body-state",
+    "n:animation:animation-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "animation.cargo-sway.installed",
+    "animation.cargo-sway.reset",
+    "animation.cargo-sway.snapshotted",
+    "animation.cargo-sway.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-animation-kit",
+    "core-motion-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:animation:cargo-sway",
+      "upstreamSnapshots": [
+        "n:behavior:body-state",
+        "n:animation:animation-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:animation:cargo-sway",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "cargo-sway",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

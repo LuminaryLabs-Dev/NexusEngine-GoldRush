@@ -1,0 +1,73 @@
+{
+  "id": "v002-goldrush-desert-map",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "desert-map",
+  "domainPath": "n:goldrush:desert-map",
+  "apiName": "v002GoldrushDesertMap",
+  "kind": "composite-domain",
+  "purpose": "Desert Map kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+  "dependencies": [
+    "n:world:terrain-source",
+    "n:world:routes",
+    "n:physics:terrain-collider"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.desert-map.installed",
+    "goldrush.desert-map.reset",
+    "goldrush.desert-map.snapshotted",
+    "goldrush.desert-map.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:goldrush:desert-map",
+      "upstreamSnapshots": [
+        "n:world:terrain-source",
+        "n:world:routes",
+        "n:physics:terrain-collider"
+      ]
+    },
+    "output": {
+      "domainPath": "n:goldrush:desert-map",
+      "health": "registered",
+      "proofGroup": "goldrush-integrated"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "desert-map",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

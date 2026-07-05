@@ -1,0 +1,71 @@
+{
+  "id": "v002-scene-transition",
+  "version": "v0.0.2",
+  "domain": "scene",
+  "subdomain": "transition",
+  "domainPath": "n:scene:transition",
+  "apiName": "v002SceneTransition",
+  "kind": "scoped-domain",
+  "purpose": "Transition kit for scene site loading and transitions.",
+  "dependencies": [
+    "n:runtime:registry",
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "scene.transition.installed",
+    "scene.transition.reset",
+    "scene.transition.snapshotted",
+    "scene.transition.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "scene",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-scene-kit",
+    "core-composition-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:scene:transition",
+      "upstreamSnapshots": [
+        "n:runtime:registry",
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:scene:transition",
+      "health": "registered",
+      "proofGroup": "scene"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "scene",
+      "subdomain": "transition",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

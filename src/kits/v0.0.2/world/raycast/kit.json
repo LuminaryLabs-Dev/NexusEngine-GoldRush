@@ -1,0 +1,71 @@
+{
+  "id": "v002-world-raycast",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "raycast",
+  "domainPath": "n:world:raycast",
+  "apiName": "v002WorldRaycast",
+  "kind": "domain-service",
+  "purpose": "Raycast kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:world:heightfield",
+    "n:world:masks"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.raycast.installed",
+    "world.raycast.reset",
+    "world.raycast.snapshotted",
+    "world.raycast.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:raycast",
+      "upstreamSnapshots": [
+        "n:world:heightfield",
+        "n:world:masks"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:raycast",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "raycast",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

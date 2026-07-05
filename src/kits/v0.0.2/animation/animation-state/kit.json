@@ -1,0 +1,69 @@
+{
+  "id": "v002-animation-animation-state",
+  "version": "v0.0.2",
+  "domain": "animation",
+  "subdomain": "animation-state",
+  "domainPath": "n:animation:animation-state",
+  "apiName": "v002AnimationAnimationState",
+  "kind": "execution",
+  "purpose": "Animation State kit for narrow execution kits for body and tool motion. It applies one narrow motion descriptor and never owns game rules.",
+  "dependencies": [
+    "n:behavior:body-state"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "animation.animation-state.installed",
+    "animation.animation-state.reset",
+    "animation.animation-state.snapshotted",
+    "animation.animation-state.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-animation-kit",
+    "core-motion-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:animation:animation-state",
+      "upstreamSnapshots": [
+        "n:behavior:body-state"
+      ]
+    },
+    "output": {
+      "domainPath": "n:animation:animation-state",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "animation",
+      "subdomain": "animation-state",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "v002-audio-one-shots",
+  "version": "v0.0.2",
+  "domain": "audio",
+  "subdomain": "one-shots",
+  "domainPath": "n:audio:one-shots",
+  "apiName": "v002AudioOneShots",
+  "kind": "domain-service",
+  "purpose": "One Shots kit for music, cue, one-shot, and fallback audio state.",
+  "dependencies": [
+    "n:runtime:events"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "audio.one-shots.installed",
+    "audio.one-shots.reset",
+    "audio.one-shots.snapshotted",
+    "audio.one-shots.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "audio",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-audio-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:audio:one-shots",
+      "upstreamSnapshots": [
+        "n:runtime:events"
+      ]
+    },
+    "output": {
+      "domainPath": "n:audio:one-shots",
+      "health": "registered",
+      "proofGroup": "audio"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "audio",
+      "subdomain": "one-shots",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

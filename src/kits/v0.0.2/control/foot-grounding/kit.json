@@ -1,0 +1,72 @@
+{
+  "id": "v002-control-foot-grounding",
+  "version": "v0.0.2",
+  "domain": "control",
+  "subdomain": "foot-grounding",
+  "domainPath": "n:control:foot-grounding",
+  "apiName": "v002ControlFootGrounding",
+  "kind": "execution",
+  "purpose": "Foot Grounding kit for input, camera, grounding, and interaction input.",
+  "dependencies": [
+    "n:world:raycast",
+    "n:physics:queries"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "control.foot-grounding.installed",
+    "control.foot-grounding.reset",
+    "control.foot-grounding.snapshotted",
+    "control.foot-grounding.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "control-behavior-animation",
+  "validator": "tools/validation/validate-v002-system-controller-boundaries.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-input-kit",
+    "core-camera-kit",
+    "core-motion-kit",
+    "core-physics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": "execution-only",
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:control:foot-grounding",
+      "upstreamSnapshots": [
+        "n:world:raycast",
+        "n:physics:queries"
+      ]
+    },
+    "output": {
+      "domainPath": "n:control:foot-grounding",
+      "health": "registered",
+      "proofGroup": "control-behavior-animation"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "control",
+      "subdomain": "foot-grounding",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

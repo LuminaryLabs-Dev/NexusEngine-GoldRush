@@ -1,0 +1,73 @@
+{
+  "id": "v002-goldrush-match-orchestration",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "match-orchestration",
+  "domainPath": "n:goldrush:match-orchestration",
+  "apiName": "v002GoldrushMatchOrchestration",
+  "kind": "composite-domain",
+  "purpose": "Match Orchestration kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+  "dependencies": [
+    "n:match:lifecycle",
+    "n:match:results",
+    "n:network:local-simulation"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.match-orchestration.installed",
+    "goldrush.match-orchestration.reset",
+    "goldrush.match-orchestration.snapshotted",
+    "goldrush.match-orchestration.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:goldrush:match-orchestration",
+      "upstreamSnapshots": [
+        "n:match:lifecycle",
+        "n:match:results",
+        "n:network:local-simulation"
+      ]
+    },
+    "output": {
+      "domainPath": "n:goldrush:match-orchestration",
+      "health": "registered",
+      "proofGroup": "goldrush-integrated"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "match-orchestration",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

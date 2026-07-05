@@ -1,0 +1,79 @@
+{
+  "id": "v002-goldrush-train-asset-set",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "train-asset-set",
+  "domainPath": "n:goldrush:train-asset-set",
+  "apiName": "v002GoldrushTrainAssetSet",
+  "kind": "composite-domain",
+  "purpose": "Train Asset Set kit for GoldRush-specific train source ingestion, staging, and composition.",
+  "dependencies": [
+    "n:content:source-asset-intake",
+    "n:content:license-provenance",
+    "n:content:source-file-inventory",
+    "n:content:fbx-conversion-request"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.train-asset-set.installed",
+    "goldrush.train-asset-set.reset",
+    "goldrush.train-asset-set.snapshotted",
+    "goldrush.train-asset-set.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-train-asset-set.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-scene-kit",
+    "core-graphics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "compose-train-asset-set",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "selectedFamilies": [
+        "Locomotive_Front",
+        "Locomotive_Wagon",
+        "RailwayTrack_Straight"
+      ],
+      "runtimeTarget": "glb-only"
+    },
+    "output": {
+      "domainPath": "n:goldrush:train-asset-set",
+      "health": "registered",
+      "selectedFamilies": 3,
+      "runtimeTarget": "glb-only"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-asset-set",
+      "installed": false,
+      "resetCount": 1,
+      "selectedFamilies": 0
+    }
+  }
+}

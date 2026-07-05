@@ -1,0 +1,69 @@
+{
+  "id": "v002-match-scoring",
+  "version": "v0.0.2",
+  "domain": "match",
+  "subdomain": "scoring",
+  "domainPath": "n:match:scoring",
+  "apiName": "v002MatchScoring",
+  "kind": "scoped-domain",
+  "purpose": "Scoring kit for match lifecycle, receipts, scoring, replay, and results.",
+  "dependencies": [
+    "n:match:receipts"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "match.scoring.installed",
+    "match.scoring.reset",
+    "match.scoring.snapshotted",
+    "match.scoring.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "gameplay-match",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-simulation-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:match:scoring",
+      "upstreamSnapshots": [
+        "n:match:receipts"
+      ]
+    },
+    "output": {
+      "domainPath": "n:match:scoring",
+      "health": "registered",
+      "proofGroup": "gameplay-match"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "match",
+      "subdomain": "scoring",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

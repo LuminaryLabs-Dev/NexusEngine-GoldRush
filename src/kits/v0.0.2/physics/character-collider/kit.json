@@ -1,0 +1,69 @@
+{
+  "id": "v002-physics-character-collider",
+  "version": "v0.0.2",
+  "domain": "physics",
+  "subdomain": "character-collider",
+  "domainPath": "n:physics:character-collider",
+  "apiName": "v002PhysicsCharacterCollider",
+  "kind": "domain-service",
+  "purpose": "Character Collider kit for physics world, colliders, and queries.",
+  "dependencies": [
+    "n:physics:world"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "physics.character-collider.installed",
+    "physics.character-collider.reset",
+    "physics.character-collider.snapshotted",
+    "physics.character-collider.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-physics-kit",
+    "core-spatial-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:physics:character-collider",
+      "upstreamSnapshots": [
+        "n:physics:world"
+      ]
+    },
+    "output": {
+      "domainPath": "n:physics:character-collider",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "physics",
+      "subdomain": "character-collider",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

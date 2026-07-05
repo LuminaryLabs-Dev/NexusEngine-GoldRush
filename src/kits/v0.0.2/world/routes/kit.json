@@ -1,0 +1,71 @@
+{
+  "id": "v002-world-routes",
+  "version": "v0.0.2",
+  "domain": "world",
+  "subdomain": "routes",
+  "domainPath": "n:world:routes",
+  "apiName": "v002WorldRoutes",
+  "kind": "domain-service",
+  "purpose": "Routes kit for authored world data and terrain queries.",
+  "dependencies": [
+    "n:world:terrain-source",
+    "n:world:masks"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "world.routes.installed",
+    "world.routes.reset",
+    "world.routes.snapshotted",
+    "world.routes.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "world-physics",
+  "validator": "tools/validation/validate-v002-domain-structure.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-spatial-kit",
+    "core-scene-kit",
+    "core-data-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:world:routes",
+      "upstreamSnapshots": [
+        "n:world:terrain-source",
+        "n:world:masks"
+      ]
+    },
+    "output": {
+      "domainPath": "n:world:routes",
+      "health": "registered",
+      "proofGroup": "world-physics"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "world",
+      "subdomain": "routes",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

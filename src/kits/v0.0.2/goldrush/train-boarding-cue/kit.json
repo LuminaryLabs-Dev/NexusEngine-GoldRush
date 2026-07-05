@@ -1,0 +1,68 @@
+{
+  "id": "v002-goldrush-train-boarding-cue",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "train-boarding-cue",
+  "domainPath": "n:goldrush:train-boarding-cue",
+  "apiName": "v002GoldrushTrainBoardingCue",
+  "kind": "composite-domain",
+  "purpose": "Train Boarding Cue kit for GoldRush-specific train source ingestion, staging, and composition.",
+  "dependencies": [
+    "n:goldrush:train-route",
+    "n:scene:train-loading"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.train-boarding-cue.installed",
+    "goldrush.train-boarding-cue.reset",
+    "goldrush.train-boarding-cue.snapshotted",
+    "goldrush.train-boarding-cue.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-train-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "resolve-train-boarding-cue",
+      "doorProgress": 0.92,
+      "playerLockedToTrain": false
+    },
+    "output": {
+      "domainPath": "n:goldrush:train-boarding-cue",
+      "status": "board-now",
+      "visible": true
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-boarding-cue",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

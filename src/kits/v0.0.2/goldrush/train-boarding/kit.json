@@ -1,0 +1,73 @@
+{
+  "id": "v002-goldrush-train-boarding",
+  "version": "v0.0.2",
+  "domain": "goldrush",
+  "subdomain": "train-boarding",
+  "domainPath": "n:goldrush:train-boarding",
+  "apiName": "v002GoldrushTrainBoarding",
+  "kind": "composite-domain",
+  "purpose": "Train Boarding kit for GoldRush-specific orchestration, content, and rules. It composes generic kits into GoldRush-specific orchestration.",
+  "dependencies": [
+    "n:scene:train-loading",
+    "n:behavior:train-sequence",
+    "n:network:handoff"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "goldrush.train-boarding.installed",
+    "goldrush.train-boarding.reset",
+    "goldrush.train-boarding.snapshotted",
+    "goldrush.train-boarding.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "goldrush-integrated",
+  "validator": "tools/validation/validate-v002-integrated-loop-contract.mjs",
+  "promotionStatus": "game-specific-v002",
+  "coreKitReuse": [
+    "core-composition-kit",
+    "core-data-kit",
+    "core-diagnostics-kit"
+  ],
+  "ownsGameRules": true,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "install-kit",
+      "domainPath": "n:goldrush:train-boarding",
+      "upstreamSnapshots": [
+        "n:scene:train-loading",
+        "n:behavior:train-sequence",
+        "n:network:handoff"
+      ]
+    },
+    "output": {
+      "domainPath": "n:goldrush:train-boarding",
+      "health": "registered",
+      "proofGroup": "goldrush-integrated"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "goldrush",
+      "subdomain": "train-boarding",
+      "installed": false,
+      "resetCount": 1
+    }
+  }
+}

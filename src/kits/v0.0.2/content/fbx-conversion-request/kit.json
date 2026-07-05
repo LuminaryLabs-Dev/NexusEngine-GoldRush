@@ -1,0 +1,75 @@
+{
+  "id": "v002-content-fbx-conversion-request",
+  "version": "v0.0.2",
+  "domain": "content",
+  "subdomain": "fbx-conversion-request",
+  "domainPath": "n:content:fbx-conversion-request",
+  "apiName": "v002ContentFbxConversionRequest",
+  "kind": "host-support",
+  "purpose": "FBX Conversion Request kit for GoldRush FBX asset ingestion, staging, and provenance tracking.",
+  "dependencies": [
+    "n:content:source-file-inventory",
+    "n:content:license-provenance"
+  ],
+  "publicApi": [
+    "install",
+    "reset",
+    "snapshot",
+    "validate"
+  ],
+  "events": [
+    "content.fbx-conversion-request.installed",
+    "content.fbx-conversion-request.reset",
+    "content.fbx-conversion-request.snapshotted",
+    "content.fbx-conversion-request.validated"
+  ],
+  "snapshot": [
+    "version",
+    "domain",
+    "subdomain",
+    "domainPath",
+    "installed",
+    "health",
+    "dependencies",
+    "proofGroup"
+  ],
+  "reset": "Clear kit-local proof state and rebuild from registry metadata plus upstream snapshots.",
+  "proofGroup": "content",
+  "validator": "tools/validation/validate-v002-content-asset-kits.mjs",
+  "promotionStatus": "local-v002-incubation",
+  "coreKitReuse": [
+    "core-data-kit",
+    "core-diagnostics-kit",
+    "core-composition-kit"
+  ],
+  "ownsGameRules": false,
+  "ownsRenderTruth": false,
+  "controllerRole": null,
+  "executionRole": null,
+  "examples": {
+    "input": {
+      "command": "request-conversion",
+      "sourcePackId": "quaternius-modular-train-pack",
+      "targetFormat": "glb",
+      "selectedFiles": [
+        "FBX/Locomotive_Front.fbx",
+        "FBX/Locomotive_Wagon.fbx",
+        "FBX/RailwayTrack_Straight.fbx"
+      ]
+    },
+    "output": {
+      "domainPath": "n:content:fbx-conversion-request",
+      "health": "registered",
+      "taskCount": 3,
+      "targetFormat": "glb"
+    },
+    "resetSnapshot": {
+      "version": "v0.0.2",
+      "domain": "content",
+      "subdomain": "fbx-conversion-request",
+      "installed": false,
+      "resetCount": 1,
+      "taskCount": 0
+    }
+  }
+}
