@@ -1,0 +1,104 @@
+{
+  "schema": "nexusengine.goldrush.source-tool-access-evidence.v1",
+  "version": "0.1.0",
+  "generatedAt": "2026-06-29",
+  "status": "evidence-only-not-promotion",
+  "importJobId": "goldrush-dual-source-001",
+  "purpose": "Record read-only GitHub connector evidence that the expected legacy Gold Rush Unity roots and scene markers are visible before any cloud-side copy, sanitation, or public promotion work.",
+  "scope": {
+    "destinationRepository": "LuminaryLabs-Dev/NexusEngine-GoldRush",
+    "destinationBranchBase": "development",
+    "sourceRepositoryReadOnly": "thecrimsondeveloper/Gold_Rush",
+    "localCodexMayCloneLegacyRepos": false,
+    "oldRepositoriesMutated": false,
+    "rawFilesCopied": false,
+    "sanitizedFilesProduced": false,
+    "publicRuntimeAssetsPromoted": false,
+    "runtimeCodeChanged": false
+  },
+  "safety": {
+    "notCloudWorkerCopyLedger": true,
+    "notHumanReviewApproval": true,
+    "notLicenseDecision": true,
+    "notRuntimeAssetApproval": true,
+    "mustNotBeUsedAsPublicPromotionGate": true,
+    "nextRequiredGate": "Execute manifests/import-jobs/goldrush-cloud-transfer-handoff.json through a GPT/cloud worker with deny-path scan, secret scan, copy ledger, hashes, conversion, license provenance, and human review."
+  },
+  "sourceRoots": [
+    {
+      "sourceKey": "goldrush-modern-unity",
+      "repository": "thecrimsondeveloper/Gold_Rush",
+      "branch": "development",
+      "root": "GoldRush/",
+      "productNameEvidence": {
+        "path": "GoldRush/ProjectSettings/ProjectSettings.asset",
+        "field": "productName",
+        "observedValue": "GoldRush"
+      },
+      "unityVersionEvidence": {
+        "path": "GoldRush/ProjectSettings/ProjectVersion.txt",
+        "observedEditorVersion": "6000.0.37f1"
+      },
+      "sceneEvidence": [
+        {
+          "path": "GoldRush/Assets/Scenes/Lobby.unity",
+          "evidenceType": "EditorBuildSettings entry",
+          "observed": true
+        },
+        {
+          "path": "GoldRush/Assets/Scenes/Arena.unity",
+          "evidenceType": "EditorBuildSettings entry",
+          "observed": true
+        },
+        {
+          "path": "GoldRush/Assets/Entities/Player/PlayerTest.unity",
+          "evidenceType": "file fetch with Unity YAML header",
+          "observed": true
+        }
+      ]
+    },
+    {
+      "sourceKey": "goldrush-classic-unity",
+      "repository": "thecrimsondeveloper/Gold_Rush",
+      "branch": "development",
+      "root": "GoldRush_Old/",
+      "productNameEvidence": {
+        "path": "GoldRush_Old/ProjectSettings/ProjectSettings.asset",
+        "field": "productName",
+        "observedValue": "Gold Rush"
+      },
+      "unityVersionEvidence": {
+        "path": "GoldRush_Old/ProjectSettings/ProjectVersion.txt",
+        "observedEditorVersion": "2022.3.5f1"
+      },
+      "sceneEvidence": [
+        {
+          "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/MainMenu.unity",
+          "evidenceType": "EditorBuildSettings entry",
+          "observed": true
+        },
+        {
+          "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game.unity",
+          "evidenceType": "EditorBuildSettings entry",
+          "observed": true
+        },
+        {
+          "path": "GoldRush_Old/Assets/_GOLDRUSH/00_Scenes/Game_SinglePlayer.unity",
+          "evidenceType": "file fetch with Unity YAML header",
+          "observed": true
+        }
+      ]
+    }
+  ],
+  "recommendedNextCommands": [
+    "npm install",
+    "npm run check",
+    "node tools/validation/validate-cloud-transfer-handoff.mjs",
+    "node tools/validation/validate-approved-asset-registry.mjs"
+  ],
+  "notes": [
+    "This file is intentionally provenance-only and contains no Unity asset payloads.",
+    "This file does not replace the required sourceDiscoveryReport, copyLedger, hashManifest, conversion report, license provenance report, or human review report.",
+    "Runtime assets must still land under public/assets/ only after approved sanitized outputs validate through src/content/goldrushApprovedAssets.js."
+  ]
+}
