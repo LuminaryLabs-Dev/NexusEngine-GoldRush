@@ -1,5 +1,7 @@
 # NexusEngine Gold Rush
 
+![NexusEngine Gold Rush playable-loop overview](docs/assets/brand/cover-1280x640.png)
+
 `NexusEngine-GoldRush` is the destination repo for a NexusRealtime-driven browser rebuild of the old Gold Rush Unity games.
 
 The repo is intentionally structured as a thin game host:
@@ -51,3 +53,14 @@ npm run proof:peer-party-disconnect
 ## Deploy
 
 Pushing the `Build` branch runs `.github/workflows/deploy-build.yml` and publishes the static Vite build to GitHub Pages.
+
+## Documentation
+
+- [Documentation index](docs/README.md)
+- [Current playable loop](docs/current-playable-loop.md)
+- [Reality status](docs/reality-status.md)
+- [Domain Service Kits](docs/domain-service-kits.md)
+- [Asset ingestion policy](docs/asset-ingestion-policy.md)
+- [Local validation gates](docs/local-validation-gates.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
