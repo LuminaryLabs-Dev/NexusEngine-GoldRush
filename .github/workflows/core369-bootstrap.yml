@@ -1,0 +1,235 @@
+name: Gold Rush Core 369 Bootstrap
+
+on:
+  push:
+    branches:
+      - core369-bootstrap-20260827
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      BASE_SHA: baf47c718fcf22261ce4c32924a8f1a28c42abd6
+      FINAL_DIR: /tmp/goldrush-final
+      PROOF_DIR: /tmp/goldrush-proof
+    steps:
+      - name: Checkout bootstrap harness
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Verify main baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          remote_main="$(git rev-parse origin/main)"
+          test "$remote_main" = "$BASE_SHA"
+          rm -rf "$FINAL_DIR"
+          git worktree add --detach "$FINAL_DIR" "$BASE_SHA"
+          python bootstrap/core369_payload.py "$FINAL_DIR" > /tmp/payload-extract.json
+
+      - name: Generate and normalize Core 369
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          python -m pip install --disable-pip-version-check --no-input numpy==2.3.5 trimesh==4.11.1 Pillow==12.3.0
+          GOLDRUSH_ASSET_FACTORY_ROOT="$FINAL_DIR/output/goldrush-core-369" python tools/assets/goldrush-core-369/generate.py
+          python tools/assets/goldrush-core-369/normalize.py \
+            --source-root "$FINAL_DIR/output/goldrush-core-369" \
+            --output-root "$FINAL_DIR"
+          python tools/assets/goldrush-core-369/emit_runtime_library.py
+          mkdir -p reports/asset-review/goldrush-core-369/v1
+          cp output/goldrush-core-369/review/P0-overview.png reports/asset-review/goldrush-core-369/v1/P0-overview.png
+          cp output/goldrush-core-369/review/railroad.png reports/asset-review/goldrush-core-369/v1/railroad.png
+          cp output/goldrush-core-369/review/mining.png reports/asset-review/goldrush-core-369/v1/mining.png
+          cp output/goldrush-core-369/review/characters.png reports/asset-review/goldrush-core-369/v1/characters.png
+
+      - name: Validate generated assets and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          mkdir -p reports/validation
+          {
+            node tools/validation/validate-goldrush-core-369.mjs
+            node tools/validation/validate-goldrush-glb-runtime.mjs
+            node tools/validation/validate-goldrush-asset-bindings.mjs
+            node tools/validation/validate-first-region-assets.mjs
+            node tools/validation/validate-goldrush-generated-assets.mjs
+          } | tee reports/validation/generated-assets-validation.txt
+          find src tools -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
+          python -m py_compile tools/assets/goldrush-core-369/generate.py tools/assets/goldrush-core-369/normalize.py tools/assets/goldrush-core-369/compact_glb.py tools/assets/goldrush-core-369/emit_runtime_library.py
+          test "$(find public/assets/glb/goldrush-core-369/v1 -type f -name '*.glb' | wc -l)" -eq 369
+          test -z "$(find . -type f -name '*.zip' -not -path './.git/*' -print -quit)"
+          ! grep -R -nE '/mnt/data|sandbox:|user-B6' . \
+            --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=output --exclude='*.glb' --exclude='*.png'
+
+      - name: Install and run full repository checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          npm ci
+          npm run validate
+          npm run build
+          npx playwright install --with-deps chromium
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
+
+      - name: Capture pre-push First Region review
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/goldrush-preview.log 2>&1 &
+          echo $! > /tmp/goldrush-preview.pid
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:4173/NexusEngine-GoldRush/ >/dev/null 2>&1 || curl -fsS http://127.0.0.1:4173/ >/dev/null 2>&1; then break; fi
+            sleep 1
+          done
+          cat > /tmp/core369-preproof.mjs <<'NODE'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const out = '/tmp/core369-shots'; fs.mkdirSync(out,{recursive:true});
+          const browser = await chromium.launch({headless:true});
+          const page = await browser.newPage({viewport:{width:1280,height:720}});
+          const errors=[]; page.on('console',m=>{if(m.type()==='error') errors.push(m.text())}); page.on('pageerror',e=>errors.push(e.message));
+          const candidates=['http://127.0.0.1:4173/NexusEngine-GoldRush/?publicSmoke=1','http://127.0.0.1:4173/?publicSmoke=1'];
+          let loaded=false; for(const url of candidates){ try{const r=await page.goto(url,{waitUntil:'domcontentloaded',timeout:15000}); if(r?.ok()){loaded=true;break}}catch{} } if(!loaded) throw new Error('preview unavailable');
+          await page.locator('[data-action="play-title"]').click();
+          await page.locator('[data-action="enter-run"]').waitFor({state:'visible',timeout:20000});
+          await page.locator('[data-action="enter-run"]').click();
+          await page.waitForFunction(()=>window.GoldRushHost?.getState?.().screen==='loading',null,{timeout:20000});
+          await page.waitForFunction(()=>window.GoldRushHost?.getState?.().loadingScene?.doorOpen===true,null,{timeout:25000});
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtTrainDoor?.());
+          await page.keyboard.down('w'); await page.waitForTimeout(1800); await page.keyboard.up('w');
+          await page.waitForFunction(()=>window.GoldRushHost?.getState?.().screen==='run',null,{timeout:25000});
+          await page.waitForFunction(()=>window.GoldRushHost?.getState?.().renderer?.firstRegion?.loadedPlacementCount>0,null,{timeout:25000});
+          await page.screenshot({path:`${out}/01-run.png`});
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtNearestObjectAffordance?.({action:'mine-gold'}));
+          await page.keyboard.down('e'); await page.waitForTimeout(2200); await page.keyboard.up('e');
+          await page.screenshot({path:`${out}/02-mining.png`});
+          await page.mouse.down({button:'right'}); for(let i=0;i<3;i++){await page.mouse.click(640,360); await page.waitForTimeout(400)} await page.mouse.up({button:'right'});
+          await page.screenshot({path:`${out}/03-combat.png`});
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtExtractionSetpiece?.());
+          await page.screenshot({path:`${out}/04-extraction.png`});
+          const state=await page.evaluate(()=>window.GoldRushHost?.getState?.());
+          if(errors.length) throw new Error(`browser errors: ${errors.join(' | ')}`);
+          if(state?.renderer?.firstRegion?.failures?.length) throw new Error(`first region failures: ${state.renderer.firstRegion.failures.join(' | ')}`);
+          fs.writeFileSync('/tmp/core369-preproof-state.json',JSON.stringify({screen:state.screen,firstRegion:state.renderer?.firstRegion,firstRegionGameplay:state.renderer?.firstRegionGameplay},null,2));
+          await browser.close();
+          NODE
+          node /tmp/core369-preproof.mjs
+          python - <<'PY'
+          from PIL import Image, ImageDraw
+          from pathlib import Path
+          shots=[Path('/tmp/core369-shots')/f'{i:02d}-{name}.png' for i,name in [(1,'run'),(2,'mining'),(3,'combat'),(4,'extraction')]]
+          imgs=[Image.open(p).convert('RGB') for p in shots]
+          w,h=imgs[0].size; sheet=Image.new('RGB',(w*2,h*2),(20,18,16))
+          labels=['Run / Dustfall','Mining','Combat','Extraction']
+          for i,(img,label) in enumerate(zip(imgs,labels)):
+              x=(i%2)*w; y=(i//2)*h; sheet.paste(img,(x,y)); ImageDraw.Draw(sheet).rectangle((x+12,y+12,x+220,y+48),fill=(20,18,16)); ImageDraw.Draw(sheet).text((x+22,y+21),label,fill='white')
+          out=Path('reports/asset-review/goldrush-core-369/v1/first-region-contact-sheet.png'); out.parent.mkdir(parents=True,exist_ok=True); sheet.save(out,optimize=True)
+          PY
+
+      - name: Build one atomic main commit
+        id: atomic
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          python "$GITHUB_WORKSPACE/bootstrap/core369_payload.py" --list > /tmp/core369-payload-paths.txt
+          while IFS= read -r p; do git add -- "$p"; done < /tmp/core369-payload-paths.txt
+          git add -- \
+            public/assets/glb/goldrush-core-369/v1 \
+            public/assets/manifests/goldrush-core-369.v1.json \
+            public/assets/manifests/goldrush-core-369.hashes.json \
+            src/content/goldrushGeneratedAssetLibrary.js \
+            reports/provenance/goldrush-core-369.v1.json \
+            reports/validation/goldrush-core-369.v1.json \
+            reports/validation/generated-assets-validation.txt \
+            reports/asset-review/goldrush-core-369/v1
+          changed="$(git diff --cached --name-only)"
+          test "$(printf '%s\n' "$changed" | grep -c '^public/assets/glb/goldrush-core-369/v1/.*\.glb$')" -eq 369
+          ! printf '%s\n' "$changed" | grep -q '^\.github/workflows/'
+          ! printf '%s\n' "$changed" | grep -q '\.zip$'
+          ! printf '%s\n' "$changed" | grep -q '^output/'
+          tree_sha="$(git write-tree)"
+          final_commit="$(printf '%s\n\n%s\n' 'Integrate Gold Rush Core 369 asset system' 'Adds the normalized 369-GLB library, semantic runtime integration, First Region gameplay, toon rendering, provenance, validation, and maintenance documentation.' | git commit-tree "$tree_sha" -p "$BASE_SHA")"
+          test "$(git rev-parse "$final_commit^")" = "$BASE_SHA"
+          remote_main="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test "$remote_main" = "$BASE_SHA"
+          git push origin "$final_commit:refs/heads/main"
+          remote_after="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test "$remote_after" = "$final_commit"
+          echo "commit=$final_commit" >> "$GITHUB_OUTPUT"
+          mkdir -p "$PROOF_DIR"
+          printf '%s\n' "$final_commit" > "$PROOF_DIR/commit.txt"
+          cp /tmp/core369-preproof-state.json "$PROOF_DIR/prepush-state.json"
+
+      - name: Record 60 seconds of post-push gameplay
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$FINAL_DIR"
+          cat > /tmp/core369-video.mjs <<'NODE'
+          import { chromium } from 'playwright'; import fs from 'node:fs';
+          const proof=process.env.PROOF_DIR; fs.mkdirSync(`${proof}/raw`,{recursive:true});
+          const contextStart=Date.now(); const browser=await chromium.launch({headless:true});
+          const context=await browser.newContext({viewport:{width:1280,height:720},recordVideo:{dir:`${proof}/raw`,size:{width:1280,height:720}}});
+          const page=await context.newPage(); const errors=[]; page.on('console',m=>{if(m.type()==='error')errors.push(m.text())}); page.on('pageerror',e=>errors.push(e.message));
+          let loaded=false; for(const url of ['http://127.0.0.1:4173/NexusEngine-GoldRush/?publicSmoke=1','http://127.0.0.1:4173/?publicSmoke=1']){try{const r=await page.goto(url,{waitUntil:'domcontentloaded',timeout:15000});if(r?.ok()){loaded=true;break}}catch{}} if(!loaded) throw new Error('preview unavailable');
+          await page.locator('[data-action="play-title"]').click(); await page.locator('[data-action="enter-run"]').waitFor({state:'visible',timeout:20000}); await page.locator('[data-action="enter-run"]').click();
+          await page.waitForFunction(()=>window.GoldRushHost?.getState?.().screen==='loading',null,{timeout:20000}); await page.waitForFunction(()=>window.GoldRushHost?.getState?.().loadingScene?.doorOpen===true,null,{timeout:25000});
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtTrainDoor?.()); await page.keyboard.down('w'); await page.waitForTimeout(1800); await page.keyboard.up('w'); await page.waitForFunction(()=>window.GoldRushHost?.getState?.().screen==='run',null,{timeout:25000});
+          const runOffset=(Date.now()-contextStart)/1000; fs.writeFileSync(`${proof}/run-offset.txt`,String(runOffset));
+          await page.keyboard.down('w'); await page.keyboard.down('Shift'); await page.waitForTimeout(9000); await page.keyboard.up('Shift'); await page.keyboard.up('w');
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtNearestObjectAffordance?.({action:'mine-gold'})); await page.keyboard.down('e'); await page.waitForTimeout(3000); await page.keyboard.up('e');
+          await page.keyboard.down('d'); await page.keyboard.down('w'); await page.waitForTimeout(8000); await page.keyboard.up('d'); await page.keyboard.up('w');
+          await page.mouse.down({button:'right'}); for(let i=0;i<8;i++){await page.mouse.click(640,360); await page.waitForTimeout(650)} await page.mouse.up({button:'right'});
+          await page.keyboard.down('a'); await page.keyboard.down('w'); await page.waitForTimeout(9000); await page.keyboard.up('a'); await page.keyboard.up('w');
+          await page.evaluate(()=>window.GoldRushHost?.actions?.publicSmokePlaceAtExtractionSetpiece?.()); await page.keyboard.down('e'); await page.waitForTimeout(8000); await page.keyboard.up('e');
+          await page.keyboard.down('s'); await page.waitForTimeout(7000); await page.keyboard.up('s');
+          await page.waitForTimeout(13000);
+          const state=await page.evaluate(()=>window.GoldRushHost?.getState?.()); fs.writeFileSync(`${proof}/final-state.json`,JSON.stringify({screen:state.screen,firstRegion:state.renderer?.firstRegion,firstRegionGameplay:state.renderer?.firstRegionGameplay},null,2));
+          fs.writeFileSync(`${proof}/browser-errors.json`,JSON.stringify(errors,null,2));
+          await context.close(); await browser.close(); if(errors.length) throw new Error(`browser errors: ${errors.join(' | ')}`);
+          NODE
+          node /tmp/core369-video.mjs
+          raw="$(find "$PROOF_DIR/raw" -type f -name '*.webm' | head -1)"
+          test -n "$raw"
+          offset="$(cat "$PROOF_DIR/run-offset.txt")"
+          ffmpeg -y -ss "$offset" -i "$raw" -t 60 -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p -an "$PROOF_DIR/goldrush-gameplay-60s.mp4" >/tmp/ffmpeg.log 2>&1
+          duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$PROOF_DIR/goldrush-gameplay-60s.mp4")"
+          python - "$duration" <<'PY'
+          import sys
+          d=float(sys.argv[1]); assert 59.5 <= d <= 60.5, d
+          PY
+          test "$(cat "$PROOF_DIR/commit.txt")" = "${{ steps.atomic.outputs.commit }}"
+
+      - name: Upload gameplay proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: goldrush-core369-gameplay-proof
+          path: /tmp/goldrush-proof
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Remove bootstrap branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin --delete "$GITHUB_REF_NAME"
