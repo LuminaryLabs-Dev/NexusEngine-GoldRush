@@ -61,6 +61,27 @@ assert(attachState.contract === "goldrush-train-ride-attach-v1", "ride attach co
 assert(attachState.attached === true, "ride attach should attach when player is locked");
 assert(attachState.cameraDirective === "follow-train", "ride attach camera should follow the train");
 
+const walkYaw = 0.8;
+const walkPitch = -0.1;
+const walkState = resolveTrainRideAttachment({
+  localPlayer: { position: { x: 1, y: 0, z: 2 }, heading: walkYaw, look: { yaw: walkYaw, pitch: walkPitch } },
+  playerLockedToTrain: false,
+  routeSample: approachSample,
+  trainPosition: { x: 0, z: -9.1 },
+  boardingAnchorWorldPosition: { x: -1.68, z: -3.72 },
+});
+const walkView = {
+  x: walkState.cameraLookAt.x - walkState.cameraPosition.x,
+  y: walkState.cameraLookAt.y - walkState.cameraPosition.y,
+  z: walkState.cameraLookAt.z - walkState.cameraPosition.z,
+};
+const walkPlanarLength = Math.hypot(walkView.x, walkView.z);
+const walkYawDot = (walkView.x / walkPlanarLength) * Math.sin(walkYaw)
+  + (walkView.z / walkPlanarLength) * Math.cos(walkYaw);
+const resolvedWalkPitch = Math.atan2(walkView.y, walkPlanarLength);
+assert(walkYawDot >= 0.999999, "walk camera must look along the same yaw used by W movement");
+assert(Math.abs(resolvedWalkPitch - walkPitch) <= 0.000001, "walk camera must look along the same pitch stored by mouse look");
+
 const handoffRuntime = createTrainDepartureHandoffKit();
 const handoffState = resolveTrainDepartureHandoffState({
   boardingStatus: { localBoarded: true, allReady: true },

@@ -175,7 +175,9 @@ assert(!colliderSource.includes("centralMountainLift") && !colliderSource.includ
 assert(colliderSource.includes("raycastTerrainDown") && colliderSource.includes("barycentric2D"), "terrain collider must support downward raycasting onto visible terrain triangles");
 assert(!proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must not retain unused central mountain geometry");
 assert(proceduralSource.includes("createSpawnPedestalGeometry"), "renderer must include a spawn pedestal under the local skeleton character");
-assert(proceduralSource.includes("shoulderTarget") && proceduralSource.includes("state.localPlayer") && proceduralSource.includes("state.localPlayer.look?.yaw"), "camera must attach over the local skeleton character shoulder and follow mouse-look yaw");
+assert(proceduralSource.includes("camera.position") && proceduralSource.includes("state.localPlayer") && proceduralSource.includes("state.localPlayer.look?.yaw"), "camera must attach over the local skeleton character shoulder and follow mouse-look yaw");
+assert(appSource.includes("rightOnGround") && appSource.includes("-Math.cos(lookYaw)"), "camera-relative D movement must use the rendered camera screen-right basis");
+assert(proceduralSource.includes("planarForward") && proceduralSource.includes("screenRight") && proceduralSource.includes("lookDirection"), "movement and rendered camera must derive from one canonical look transform");
 assert(proceduralSource.includes("goldrush-linear-camera-controller-v1") && proceduralSource.includes("single-three-camera-render"), "camera must expose a linear decoupled controller contract");
 assert(proceduralSource.includes("per-frame-camera-catalog-selection"), "camera contract must explicitly reject per-frame catalog selection");
 assert(proceduralSource.includes("createMicroInteractionMarker"), "renderer must expose visible interaction markers from object protokit affordances");

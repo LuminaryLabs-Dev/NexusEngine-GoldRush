@@ -1413,7 +1413,7 @@ function createMovementController({
   bounds = walkBounds,
   initialPosition = { x: -12, z: -20 },
   initialLookYaw = 0,
-  initialLookPitch = -0.04,
+  initialLookPitch = -0.14,
   forwardSign = 1,
   terrainSampler = null,
   terrainRaycaster = null,
@@ -1461,8 +1461,8 @@ function createMovementController({
     lastTime = now;
     const strafeAxis = (keys.has("right") ? 1 : 0) - (keys.has("left") ? 1 : 0);
     const forwardAxis = ((keys.has("forward") ? 1 : 0) - (keys.has("back") ? 1 : 0)) * forwardSign;
-    const xAxis = Math.sin(lookYaw) * forwardAxis + Math.cos(lookYaw) * strafeAxis;
-    const zAxis = Math.cos(lookYaw) * forwardAxis - Math.sin(lookYaw) * strafeAxis;
+    const xAxis = Math.sin(lookYaw) * forwardAxis - Math.cos(lookYaw) * strafeAxis;
+    const zAxis = Math.cos(lookYaw) * forwardAxis + Math.sin(lookYaw) * strafeAxis;
     const length = Math.hypot(xAxis, zAxis);
     moving = length > 0;
     const baseSpeed = keys.has("sprint") ? 7.2 : 4.4;
@@ -1556,6 +1556,10 @@ function createMovementController({
         forwardOnGround: {
           x: Number((Math.sin(lookYaw) * forwardSign).toFixed(4)),
           z: Number((Math.cos(lookYaw) * forwardSign).toFixed(4)),
+        },
+        rightOnGround: {
+          x: Number((-Math.cos(lookYaw)).toFixed(4)),
+          z: Number(Math.sin(lookYaw).toFixed(4)),
         },
       },
       movementModifiers: structuredClone(movementModifiers),

@@ -25,8 +25,6 @@ import {
   validateTerrainColliderDescriptor,
 } from "../physics/terrainCollider.js";
 
-const Y_AXIS = new THREE.Vector3(0, 1, 0);
-
 export const proceduralRendererKitSpecs = [
   {
     id: "goldrush.procTerrain.patchTessellation",
@@ -2592,24 +2590,20 @@ function mountLightingCameraKit(scene, descriptor, root) {
       if (state.localPlayer?.position) {
         const player = state.localPlayer.position;
         const playerY = terrainGroundHeight(state.localPlayer, player.x, player.z);
-        const heading = state.localPlayer.look?.yaw ?? state.localPlayer.heading ?? 0;
+        const lookYaw = state.localPlayer.look?.yaw ?? state.localPlayer.heading ?? 0;
         const pitch = state.localPlayer.look?.pitch ?? -0.04;
-        const presetPosition = new THREE.Vector3(...preset.position);
-        const presetLookAt = new THREE.Vector3(...preset.lookAt);
-        const catalogOffset = presetPosition.sub(presetLookAt);
-        const shoulderOffset = new THREE.Vector3(
-          Math.sign(catalogOffset.x || 1) * 0.72,
-          1.58,
-          -2.95 + Math.min(0, catalogOffset.z) * 0.12
-        ).applyAxisAngle(Y_AXIS, heading);
-        const shoulderTarget = new THREE.Vector3(player.x, playerY + 1.24, player.z);
-        const lookAhead = new THREE.Vector3(
-          Math.sin(heading) * 3.4,
-          Math.sin(pitch) * 3.0,
-          Math.cos(heading) * 3.4
-        );
-        camera.position.copy(shoulderTarget).add(shoulderOffset);
-        lookAtTarget = shoulderTarget.add(lookAhead);
+        const planarForward = new THREE.Vector3(Math.sin(lookYaw), 0, Math.cos(lookYaw));
+        const screenRight = new THREE.Vector3(-Math.cos(lookYaw), 0, Math.sin(lookYaw));
+        const lookDirection = new THREE.Vector3(
+          Math.sin(lookYaw) * Math.cos(pitch),
+          Math.sin(pitch),
+          Math.cos(lookYaw) * Math.cos(pitch)
+        ).normalize();
+        camera.position
+          .set(player.x, playerY + 2.3, player.z)
+          .addScaledVector(planarForward, state.cameraMode === "combat" ? -2.9 : -3.5)
+          .addScaledVector(screenRight, state.cameraMode === "combat" ? 0.58 : 0.72);
+        lookAtTarget = camera.position.clone().addScaledVector(lookDirection, 8);
         camera.lookAt(lookAtTarget);
       } else {
         camera.position.fromArray(preset.position);
@@ -2636,6 +2630,7 @@ function mountLightingCameraKit(scene, descriptor, root) {
         fov: Number(camera.fov.toFixed(3)),
         position: vectorSnapshot(camera.position),
         lookAt: vectorSnapshot(lookAtTarget ?? new THREE.Vector3()),
+        lookDirection: vectorSnapshot(camera.getWorldDirection(new THREE.Vector3())),
         selectedPerspectiveId: state.cameraState?.selectedPerspective?.id ?? null,
         selectionKey: state.cameraState?.selectionKey ?? null,
         motionAuthority: state.cameraState?.motionAuthority ?? "renderer-fallback",

@@ -77,19 +77,21 @@ function resolveFollowCamera(routeSample, playerPosition) {
 function resolveWalkCamera(localPlayer) {
   const yaw = localPlayer?.look?.yaw ?? Math.PI;
   const pitch = localPlayer?.look?.pitch ?? -0.08;
-  const position = localPlayer?.position ?? { x: 0, z: 0 };
+  const position = localPlayer?.position ?? { x: 0, y: 0, z: 0 };
   const forward = { x: Math.sin(yaw), z: Math.cos(yaw) };
-  const side = { x: Math.cos(yaw), z: -Math.sin(yaw) };
+  const right = { x: -Math.cos(yaw), z: Math.sin(yaw) };
+  const cameraPosition = {
+    x: position.x - forward.x * 6.4 + right.x * 2.2,
+    y: Number(position.y ?? 0) + 2.65,
+    z: position.z - forward.z * 6.4 + right.z * 2.2,
+  };
+  const horizontalLook = Math.cos(pitch) * 8;
   return {
-    position: {
-      x: position.x - forward.x * 6.4 + side.x * 2.2,
-      y: 3.45,
-      z: position.z - forward.z * 6.4 + side.z * 2.2,
-    },
+    position: cameraPosition,
     lookAt: {
-      x: position.x + forward.x * 5,
-      y: 1.35 + pitch * 3.2,
-      z: position.z + forward.z * 5,
+      x: cameraPosition.x + forward.x * horizontalLook,
+      y: cameraPosition.y + Math.sin(pitch) * 8,
+      z: cameraPosition.z + forward.z * horizontalLook,
     },
   };
 }

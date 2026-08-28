@@ -53,6 +53,7 @@ try {
   report.setup = summarizeSetup(setupState);
   assert(setupState?.localPlayer?.inputModel?.id === "camera-relative-wasd", "run player must use camera-relative WASD");
   assert(setupState?.localPlayer?.inputModel?.mouseLookDrivesCamera === true, "mouse look must drive camera");
+  assert(setupState?.localPlayer?.inputModel?.rightOnGround, "run player must expose camera screen-right movement");
   assert(setupState?.localPlayer?.ground?.placement === "downward-triangle-raycast", "player grounding must use terrain raycast placement");
   assert(setupState?.terrainPhysics?.engine === "cannon-es", "terrain physics backend must be cannon-es for this proof slice");
 
@@ -119,6 +120,9 @@ try {
   assert(metrics.unstableFrameCount === 0, `frame samples must not include invalid camera/player data: ${metrics.unstableFrameCount}`);
   assert(metrics.lookYawDelta > 0.01, "lookDelta input should move player yaw enough to prove mouse-look path is active");
   assert(metrics.moveDistance > 0.1, "WASD movement should move the player enough to prove camera-relative movement path is active");
+  assert(metrics.minMovementCameraForwardDot >= 0.999, `W movement and camera look must share one yaw; minimum dot ${metrics.minMovementCameraForwardDot}`);
+  assert(metrics.minStrafeCameraRightDot >= 0.999, `D movement must follow camera screen-right; minimum dot ${metrics.minStrafeCameraRightDot}`);
+  assert(metrics.maxForwardRightDot <= 0.001, `forward and strafe vectors must stay perpendicular; maximum absolute dot ${metrics.maxForwardRightDot}`);
   assert(metrics.maxOneFrameCameraJump <= 4.5, `camera should not jump back and forth; max jump ${metrics.maxOneFrameCameraJump}`);
   assert(metrics.maxOneFrameGroundDelta <= 0.85, `ground samples should not pulse violently; max delta ${metrics.maxOneFrameGroundDelta}`);
 
@@ -132,6 +136,8 @@ try {
     "motion-authority-stable",
     "mouse-look-yaw-active",
     "camera-relative-wasd-active",
+    "movement-camera-look-aligned",
+    "strafe-camera-right-aligned",
     "movement-ground-matches-player-y",
     "render-ground-matches-movement-ground",
     "no-large-camera-jumps",
@@ -204,7 +210,7 @@ function chooseCameraRelativeKeysTowardTrain(state) {
   const desired = { x: toTarget.x / distance, z: toTarget.z / distance };
   const forwardLength = Math.hypot(forward.x, forward.z) || 1;
   const fwd = { x: forward.x / forwardLength, z: forward.z / forwardLength };
-  const right = { x: fwd.z, z: -fwd.x };
+  const right = inputModel?.rightOnGround ?? { x: -fwd.z, z: fwd.x };
   const forwardDot = desired.x * fwd.x + desired.z * fwd.z;
   const rightDot = desired.x * right.x + desired.z * right.z;
   const keys = new Set();
@@ -273,6 +279,9 @@ function calculateMetrics(samples) {
   let maxRenderGroundMismatch = 0;
   let maxOneFrameCameraJump = 0;
   let maxOneFrameGroundDelta = 0;
+  let minMovementCameraForwardDot = 1;
+  let minStrafeCameraRightDot = 1;
+  let maxForwardRightDot = 0;
   let unstableFrameCount = 0;
   let previousCamera = null;
   let previousGround = null;
@@ -290,6 +299,19 @@ function calculateMetrics(samples) {
     if (Number.isFinite(renderGroundY) && Number.isFinite(groundY)) maxRenderGroundMismatch = Math.max(maxRenderGroundMismatch, Math.abs(renderGroundY - groundY));
     if (!sample.descriptorPosition?.every(Number.isFinite) || !sample.descriptorLookAt?.every(Number.isFinite)) unstableFrameCount += 1;
     const cameraPoint = getCameraPoint(sample);
+    const movementForward = sample.inputModel?.forwardOnGround;
+    const movementRight = sample.inputModel?.rightOnGround;
+    const cameraLook = sample.rendererCamera?.lookDirection;
+    if (movementForward && movementRight && cameraLook) {
+      const cameraPlanarLength = Math.hypot(cameraLook.x, cameraLook.z) || 1;
+      const cameraForward = { x: cameraLook.x / cameraPlanarLength, z: cameraLook.z / cameraPlanarLength };
+      const cameraRight = { x: -cameraForward.z, z: cameraForward.x };
+      minMovementCameraForwardDot = Math.min(minMovementCameraForwardDot, movementForward.x * cameraForward.x + movementForward.z * cameraForward.z);
+      minStrafeCameraRightDot = Math.min(minStrafeCameraRightDot, movementRight.x * cameraRight.x + movementRight.z * cameraRight.z);
+      maxForwardRightDot = Math.max(maxForwardRightDot, Math.abs(movementForward.x * movementRight.x + movementForward.z * movementRight.z));
+    } else {
+      unstableFrameCount += 1;
+    }
     if (previousCamera && cameraPoint) maxOneFrameCameraJump = Math.max(maxOneFrameCameraJump, distance3(previousCamera, cameraPoint));
     if (Number.isFinite(previousGround) && Number.isFinite(groundY)) maxOneFrameGroundDelta = Math.max(maxOneFrameGroundDelta, Math.abs(groundY - previousGround));
     previousCamera = cameraPoint ?? previousCamera;
@@ -308,6 +330,9 @@ function calculateMetrics(samples) {
     maxRenderGroundMismatch: round(maxRenderGroundMismatch),
     maxOneFrameCameraJump: round(maxOneFrameCameraJump),
     maxOneFrameGroundDelta: round(maxOneFrameGroundDelta),
+    minMovementCameraForwardDot: round(minMovementCameraForwardDot),
+    minStrafeCameraRightDot: round(minStrafeCameraRightDot),
+    maxForwardRightDot: round(maxForwardRightDot),
     unstableFrameCount,
     lookYawDelta: round(Math.abs(Number(last.playerLook?.yaw ?? 0) - Number(first.playerLook?.yaw ?? 0))),
     moveDistance: round(distance2(first.playerPosition, last.playerPosition)),
