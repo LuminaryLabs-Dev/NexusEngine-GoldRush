@@ -34,7 +34,7 @@ assert(Math.max(
   terrainFieldHeight(-17.5, 6.8)
 ) - terrainFieldHeight(0, -4) < 3, "basin center must not contain isolated mountain spikes");
 assert(Number.isInteger(terrainFieldColor(9.2, 17.4)), "terrain color must remain centralized");
-assert(raycastTerrainDown({ x: 0, z: -4 })?.bandId === "canonical-world-band", "basin center must raycast to the canonical terrain surface");
+assert(raycastTerrainDown({ x: 0, z: -4 })?.bandId === "lod-near", "basin center must raycast to the nearest seeded terrain ring");
 
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");

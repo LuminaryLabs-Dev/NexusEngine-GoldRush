@@ -31,7 +31,12 @@ import {
   defaultFirstSequenceTimings,
 } from "../scenes/goldRushFirstSequence.js";
 
-const walkBounds = { minX: -88, maxX: 88, minZ: -54, maxZ: 56 };
+const walkBounds = {
+  minX: -TERRAIN_WIDTH / 2 + TERRAIN_PATCH_SIZE,
+  maxX: TERRAIN_WIDTH / 2 - TERRAIN_PATCH_SIZE,
+  minZ: -TERRAIN_DEPTH / 2 + TERRAIN_PATCH_SIZE,
+  maxZ: TERRAIN_DEPTH / 2 - TERRAIN_PATCH_SIZE,
+};
 
 const roomTypes = [
   {

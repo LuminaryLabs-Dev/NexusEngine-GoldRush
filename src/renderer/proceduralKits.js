@@ -24,6 +24,12 @@ import {
   terrainFieldHeight,
   validateTerrainColliderDescriptor,
 } from "../physics/terrainCollider.js";
+import {
+  GOLD_RUSH_WORLD_RECIPE,
+  createActiveTerrainTiles,
+  createSeededTileFeatures,
+  createSeededWorldSnapshot,
+} from "../kits/v0.0.2/world/terrain-source/seededWorld.js";
 
 export const proceduralRendererKitSpecs = [
   {
@@ -106,13 +112,7 @@ export const proceduralRendererKitSpecs = [
 export function createGoldRushProceduralScene() {
   const authoredSource = createGoldRushAuthoredTerrainFixture();
   const terrain = createTerrainDescriptor();
-  const terrainCollider = createTerrainColliderDescriptor({
-    minX: terrain.bounds.minX,
-    maxX: terrain.bounds.maxX,
-    minZ: terrain.bounds.minZ,
-    maxZ: terrain.bounds.maxZ,
-    step: terrain.patchSize,
-  });
+  const terrainCollider = createTerrainColliderDescriptor();
   const route = createRouteDescriptor(terrain);
   const goldNodes = createGoldNodeDescriptor(terrain);
   const networkPresence = createNetworkPresenceDescriptor(terrain);
@@ -175,10 +175,10 @@ export function mountGoldRushProceduralScene({ scene, root }) {
   }
 
   scene.background = new THREE.Color(0x6f9eaa);
-  scene.fog = new THREE.Fog(0x7c9386, 62, 230);
+  scene.fog = new THREE.Fog(0x7c9386, 170, 1050);
 
   const skyKit = mountSkyHorizonKit(scene, descriptors.sky);
-  const terrainGroup = mountTerrainKit(scene, descriptors.terrain);
+  const terrainKit = mountTerrainKit(scene, descriptors.terrain);
   const canyonKit = mountCanyonCompositionKit(scene, descriptors.canyonComposition);
   const greyboxLandmarkGroup = mountGreyboxLandmarkKit(scene, descriptors.greyboxLayout);
   const cloudKit = mountCloudPlaneKit(scene, descriptors.clouds);
@@ -208,7 +208,8 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       canyonKit.update(state);
       cloudKit.update(elapsedSeconds);
       lightingKit.update(state);
-      terrainGroup.position.y = state.cameraMode === "combat" ? -0.18 : 0;
+      terrainKit.update(state);
+      terrainKit.group.position.y = state.cameraMode === "combat" ? -0.18 : 0;
       const pressure = state.finalRush?.pressureScalar ?? 0;
       const atmosphere = resolveConditionAtmosphere(state.frontierConditionEffects?.render, pressure);
       scene.background = new THREE.Color(atmosphere.background);
@@ -229,6 +230,7 @@ export function mountGoldRushProceduralScene({ scene, root }) {
         },
         objectMicroKits: microObjectKit.snapshot(),
         playerRig: thirdPersonKit.snapshot(),
+        terrainRuntime: terrainKit.snapshot(),
         greybox: {
           sourceId: descriptors.authoredSource.fixtureId,
           revisionId: descriptors.authoredSource.revisionId,
@@ -243,16 +245,16 @@ export function mountGoldRushProceduralScene({ scene, root }) {
 }
 
 function resolveConditionAtmosphere(render = null, pressure = 0) {
-  if (pressure > 0.6) return { background: 0x8c6d56, fog: 0x9b7958, fogNear: 44, fogFar: 190 };
-  if (pressure > 0) return { background: 0x8da39a, fog: 0xa5a071, fogNear: 54, fogFar: 215 };
+  if (pressure > 0.6) return { background: 0x8c6d56, fog: 0x9b7958, fogNear: 125, fogFar: 720 };
+  if (pressure > 0) return { background: 0x8da39a, fog: 0xa5a071, fogNear: 150, fogFar: 880 };
   const dust = Math.max(0, Math.min(1, render?.dust ?? 0.15));
   const fogDensity = Math.max(0.04, Math.min(0.4, render?.fogDensity ?? 0.08));
   const palette = atmospherePalette(render?.lightingKey, render?.sky);
   return {
     background: palette.background,
     fog: palette.fog,
-    fogNear: Math.round(68 - dust * 28 - fogDensity * 20),
-    fogFar: Math.round(250 - dust * 70 - fogDensity * 90),
+    fogNear: Math.round(210 - dust * 80 - fogDensity * 55),
+    fogFar: Math.round(1120 - dust * 260 - fogDensity * 220),
   };
 }
 
@@ -285,41 +287,11 @@ function createTerrainDescriptor() {
   const patchColumns = TERRAIN_PATCH_COLUMNS;
   const patchRows = TERRAIN_PATCH_ROWS;
   const patchSize = TERRAIN_PATCH_SIZE;
-  const width = patchColumns * patchSize;
-  const depth = patchRows * patchSize;
-  const patches = [];
-
-  for (let row = 0; row < patchRows; row += 1) {
-    for (let column = 0; column < patchColumns; column += 1) {
-      const x = (column - patchColumns / 2 + 0.5) * patchSize;
-      const z = (row - patchRows / 2 + 0.5) * patchSize;
-      const ridge = Math.sin(column * 0.9) * 0.18 + Math.cos(row * 0.65) * 0.14;
-      const biomeSeed = (column * 17 + row * 31) % 7;
-      const edge = Math.abs(column - patchColumns / 2) / (patchColumns / 2);
-      const lodBand = edge > 0.76 || row < 4 || row > patchRows - 5 ? "far" : edge > 0.42 ? "mid" : "near";
-      const canyonSide = edge > 0.62 ? (column < patchColumns / 2 ? "west-wall" : "east-wall") : "wash-floor";
-      patches.push({
-        id: `terrain-patch-${row + 1}-${column + 1}`,
-        seed: column * 73856093 ^ row * 19349663,
-        column,
-        row,
-        x,
-        z,
-        size: patchSize,
-        lodBand,
-        vertexGrid: lodBand === "near" ? 24 : lodBand === "mid" ? 14 : 8,
-        canyonSide,
-        erosion: Number((0.42 + ((column * 13 + row * 19) % 31) / 100).toFixed(2)),
-        heightRange: canyonSide === "wash-floor" ? [Number((ridge - 0.35).toFixed(2)), Number((ridge + 0.72).toFixed(2))] : [0.8, 5.8],
-        strataBands: ["sandstone-base", "red-rock-mid", "dark-shadow-seam", "pale-ridge-cap"],
-        elevation: Number(ridge.toFixed(3)),
-        biome: biomeSeed < 2 ? "dry-wash" : biomeSeed < 5 ? "scrub" : "ridge",
-        color: biomeSeed < 2 ? 0x866538 : biomeSeed < 5 ? 0x9b7a45 : 0x6f7246,
-      });
-    }
-  }
-
-  const tessellationBands = createTerrainTessellationBands({ width, depth, patchSize });
+  const width = TERRAIN_WIDTH;
+  const depth = TERRAIN_DEPTH;
+  const focus = { x: -12, z: -20 };
+  const patches = createActiveTerrainTiles({ focus });
+  const tessellationBands = createTerrainTessellationBands({ focusX: focus.x, focusZ: focus.z });
 
   return {
     id: "goldrush.procTerrain.patchTessellation",
@@ -329,14 +301,13 @@ function createTerrainDescriptor() {
     width,
     depth,
     patches,
-    tessellationAlgorithm: "single-banded-triangle-terrain-v1",
+    worldRecipe: createSeededWorldSnapshot(),
+    focus,
+    activeTiles: patches,
+    tessellationAlgorithm: "seeded-radial-tile-terrain-v1",
     tessellationBands,
-    bounds: {
-      minX: -width / 2,
-      maxX: width / 2,
-      minZ: -depth / 2,
-      maxZ: depth / 2,
-    },
+    bounds: { ...GOLD_RUSH_WORLD_RECIPE.bounds },
+    presentationBounds: { minX: -220, maxX: 220, minZ: -180, maxZ: 260 },
   };
 }
 
@@ -370,7 +341,7 @@ function createRouteDescriptor(terrain) {
 }
 
 function createGoldNodeDescriptor(terrain) {
-  const patches = terrain.patches.filter((patch) => (patch.column * 3 + patch.row * 5) % 11 === 0).slice(0, 32);
+  const patches = terrain.patches.filter((_patch, index) => index % 5 === 0).slice(0, 32);
   return {
     id: "goldrush.procTerrain.goldNodeScatter",
     nodes: patches.map((patch, index) => ({
@@ -472,10 +443,10 @@ function createCanyonCompositionDescriptor(terrain) {
     const t = index / 27;
     return {
       id: `canyon.farRidge.${String(index + 1).padStart(2, "0")}`,
-      x: terrain.bounds.minX + terrain.width * t,
-      z: terrain.bounds.maxZ + 14 + Math.sin(t * Math.PI * 4.2) * 5.4,
-      height: Number((3.8 + Math.sin(t * Math.PI * 7.4) * 1.2 + (index % 4) * 0.72).toFixed(2)),
-      width: Number((8.2 + (index % 5) * 1.35).toFixed(2)),
+      x: terrain.presentationBounds.minX + (terrain.presentationBounds.maxX - terrain.presentationBounds.minX) * t,
+      z: terrain.presentationBounds.maxZ + 28 + Math.sin(t * Math.PI * 4.2) * 16,
+      height: Number((18 + Math.sin(t * Math.PI * 7.4) * 6 + (index % 4) * 3.4).toFixed(2)),
+      width: Number((34 + (index % 5) * 7).toFixed(2)),
     };
   });
 
@@ -754,28 +725,98 @@ function mountOpenSourceGlbKit(scene, descriptor) {
 function mountTerrainKit(scene, descriptor) {
   const group = new THREE.Group();
   group.name = descriptor.id;
-  const mesh = new THREE.Mesh(
-    createBandedTriangleTerrainGeometry(descriptor),
-    new THREE.MeshStandardMaterial({
-      roughness: 0.98,
-      metalness: 0.01,
-      flatShading: false,
-      vertexColors: true,
-      side: THREE.FrontSide,
-      polygonOffset: true,
-      polygonOffsetFactor: 0.2,
-      polygonOffsetUnits: 0.2,
-    })
-  );
+  const material = new THREE.MeshStandardMaterial({
+    roughness: 0.98,
+    metalness: 0.01,
+    flatShading: false,
+    vertexColors: true,
+    side: THREE.FrontSide,
+  });
+  const mesh = new THREE.Mesh(createBandedTriangleTerrainGeometry(descriptor), material);
   mesh.name = `${descriptor.id}.continuousField`;
   mesh.userData.meshReliability = {
     winding: "front-side-upward",
-    overlapPolicy: "finer-terrain-bands-carve-coarse-band-top-faces",
-    physicsSource: "terrainCollider-heightfield",
+    overlapPolicy: "exclusive-tile-ownership-with-shared-world-edge-samples",
+    physicsSource: "seeded-world-local-collision-window",
   };
-  group.add(mesh);
+  const featureGroup = new THREE.Group();
+  featureGroup.name = `${descriptor.id}.seededFeatures`;
+  group.add(mesh, featureGroup);
   scene.add(group);
-  return group;
+  let focusTileKey = `${Math.floor(descriptor.focus.x / descriptor.patchSize)}:${Math.floor(descriptor.focus.z / descriptor.patchSize)}`;
+  let activeTiles = descriptor.activeTiles;
+  let featureCount = rebuildSeededFeatureInstances(featureGroup, activeTiles);
+
+  return {
+    group,
+    update(state = {}) {
+      const focus = state.localPlayer?.position ?? descriptor.focus;
+      const nextKey = `${Math.floor(focus.x / descriptor.patchSize)}:${Math.floor(focus.z / descriptor.patchSize)}`;
+      if (nextKey === focusTileKey) return;
+      focusTileKey = nextKey;
+      activeTiles = createActiveTerrainTiles({ focus });
+      mesh.geometry.dispose();
+      mesh.geometry = createBandedTriangleTerrainGeometry({ ...descriptor, focus, activeTiles, patches: activeTiles });
+      featureCount = rebuildSeededFeatureInstances(featureGroup, activeTiles);
+    },
+    snapshot() {
+      return {
+        contract: "goldrush-seeded-terrain-runtime-v1",
+        worldRevisionId: GOLD_RUSH_WORLD_RECIPE.revisionId,
+        focusTileKey,
+        activeTileCount: activeTiles.length,
+        lodCounts: Object.fromEntries(GOLD_RUSH_WORLD_RECIPE.lodRings.map((ring) => [
+          ring.id,
+          activeTiles.filter((tile) => tile.ringId === ring.id).length,
+        ])),
+        collisionTileCount: activeTiles.filter((tile) => tile.collision).length,
+        featureCount,
+      };
+    },
+  };
+}
+
+function rebuildSeededFeatureInstances(group, tiles) {
+  group.children.forEach((child) => {
+    child.geometry?.dispose?.();
+    child.material?.dispose?.();
+  });
+  group.clear();
+  const features = tiles.flatMap((tile) => createSeededTileFeatures(tile));
+  const definitions = {
+    rock: {
+      geometry: new THREE.IcosahedronGeometry(1, 0),
+      material: new THREE.MeshStandardMaterial({ color: 0x7d3b26, roughness: 1, flatShading: true }),
+    },
+    scrub: {
+      geometry: new THREE.ConeGeometry(0.55, 1.5, 5),
+      material: new THREE.MeshStandardMaterial({ color: 0x596536, roughness: 0.95, flatShading: true }),
+    },
+    cactus: {
+      geometry: new THREE.CylinderGeometry(0.28, 0.38, 2.5, 7),
+      material: new THREE.MeshStandardMaterial({ color: 0x416b43, roughness: 0.9, flatShading: true }),
+    },
+  };
+  const transform = new THREE.Object3D();
+  Object.entries(definitions).forEach(([kind, definition]) => {
+    const entries = features.filter((feature) => feature.kind === kind);
+    if (entries.length === 0) return;
+    const instances = new THREE.InstancedMesh(definition.geometry, definition.material, entries.length);
+    instances.name = `${group.name}.${kind}`;
+    entries.forEach((feature, index) => {
+      const heightScale = kind === "rock" ? 0.58 : 1;
+      transform.position.set(feature.position.x, feature.position.y + feature.scale * heightScale * 0.45, feature.position.z);
+      transform.rotation.set(kind === "rock" ? 0.12 : 0, feature.yaw, kind === "rock" ? -0.08 : 0);
+      transform.scale.set(feature.scale, feature.scale * heightScale, feature.scale);
+      transform.updateMatrix();
+      instances.setMatrixAt(index, transform.matrix);
+    });
+    instances.instanceMatrix.needsUpdate = true;
+    instances.castShadow = true;
+    instances.receiveShadow = true;
+    group.add(instances);
+  });
+  return features.length;
 }
 
 function mountMicroObjectKit(scene, descriptor) {
@@ -1338,28 +1379,28 @@ function mountGreyboxLandmarkKit(scene, descriptor) {
     root.position.set(landmark.x, terrainFieldHeight(landmark.x, landmark.z), landmark.z);
     root.rotation.y = landmark.yaw;
     if (landmark.role === "mine-entrance") {
-      const rockFace = new THREE.Mesh(createCuboidGeometry(10, 5.5, 2.2), materials.rock);
-      rockFace.position.y = 2.75;
+      const rockFace = new THREE.Mesh(createCuboidGeometry(16, 9, 3.2), materials.rock);
+      rockFace.position.y = 4.5;
       const frame = new THREE.Mesh(createMineFrameGeometry(), materials.timber);
-      frame.position.set(0, 0.2, -1.2);
-      frame.scale.setScalar(3.4);
+      frame.position.set(0, 0.3, -1.75);
+      frame.scale.setScalar(5.3);
       root.add(rockFace, frame);
     } else if (landmark.role === "gold-seam") {
-      const face = new THREE.Mesh(createCuboidGeometry(7.5, 3.8, 1.2), materials.rock);
-      face.position.y = 1.9;
+      const face = new THREE.Mesh(createCuboidGeometry(11, 6, 1.8), materials.rock);
+      face.position.y = 3;
       const seam = new THREE.Mesh(createGoldSeamGeometry(), materials.gold);
-      seam.position.set(0, 2.1, -0.7);
-      seam.scale.set(4.2, 2.4, 1.4);
+      seam.position.set(0, 3.3, -1);
+      seam.scale.set(6.2, 3.5, 1.8);
       root.add(face, seam);
     } else {
-      const platform = new THREE.Mesh(createCuboidGeometry(10, 0.45, 7), materials.depot);
-      platform.position.y = 0.22;
-      const leftPost = new THREE.Mesh(createCuboidGeometry(0.7, 5.4, 0.7), materials.timber);
+      const platform = new THREE.Mesh(createCuboidGeometry(16, 0.65, 11), materials.depot);
+      platform.position.y = 0.32;
+      const leftPost = new THREE.Mesh(createCuboidGeometry(0.9, 8, 0.9), materials.timber);
       const rightPost = leftPost.clone();
-      leftPost.position.set(-3.2, 2.9, 0);
-      rightPost.position.set(3.2, 2.9, 0);
-      const crossbeam = new THREE.Mesh(createCuboidGeometry(7.1, 0.7, 0.8), materials.timber);
-      crossbeam.position.set(0, 5.3, 0);
+      leftPost.position.set(-5.2, 4.3, 0);
+      rightPost.position.set(5.2, 4.3, 0);
+      const crossbeam = new THREE.Mesh(createCuboidGeometry(11.4, 0.9, 1), materials.timber);
+      crossbeam.position.set(0, 8, 0);
       root.add(platform, leftPost, rightPost, crossbeam);
     }
     root.traverse((object) => {
@@ -2556,7 +2597,7 @@ function poseKneeLegRig(rig, { stride = 0, combat = false, idlePhase = 0 } = {})
 }
 
 function mountLightingCameraKit(scene, descriptor, root) {
-  const camera = new THREE.PerspectiveCamera(descriptor.camera.exploration.fov, 1, 0.1, 260);
+  const camera = new THREE.PerspectiveCamera(descriptor.camera.exploration.fov, 1, 0.1, 1600);
   let lastSnapshot = {
     mode: "unmounted",
     position: { x: 0, y: 0, z: 0 },
@@ -2880,6 +2921,38 @@ export function createBandedTriangleTerrainGeometry(descriptor) {
   const colors = [];
   const indices = [];
   const color = new THREE.Color();
+  if (descriptor.activeTiles?.length) {
+    descriptor.activeTiles.forEach((tile) => {
+      for (let z = tile.bounds.minZ; z < tile.bounds.maxZ; z += tile.step) {
+        for (let x = tile.bounds.minX; x < tile.bounds.maxX; x += tile.step) {
+          pushTerrainCell(
+            vertices,
+            colors,
+            indices,
+            color,
+            descriptor,
+            tile,
+            x,
+            z,
+            Math.min(x + tile.step, tile.bounds.maxX),
+            Math.min(z + tile.step, tile.bounds.maxZ),
+            tile.lod
+          );
+        }
+      }
+      pushTerrainBandSkirts(vertices, colors, indices, color, descriptor, {
+        ...tile,
+        skirtDepth: Math.max(10, tile.step * 1.6),
+      }, tile.lod);
+    });
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setIndex(indices);
+    geometry.computeVertexNormals();
+    return geometry;
+  }
+
   const sortedBands = [...descriptor.tessellationBands].sort((a, b) => b.priority - a.priority);
 
   sortedBands.forEach((band, bandIndex) => {
@@ -2999,7 +3072,7 @@ function isCoveredByFinerTerrainBand(currentBand, bands, x, z) {
 
 function sampleTerrainRenderColor(x, z, descriptor, band) {
   const color = new THREE.Color(terrainFieldColor(x, z) || 0x92703d);
-  if (band.id !== "canonical-world-band") return color;
+  if (band.id !== "canonical-world-band" && band.ringId !== "lod-horizon") return color;
   const edgeX = Math.abs(x) / Math.max(1, descriptor.width * 0.5);
   const edgeZ = Math.abs(z) / Math.max(1, descriptor.depth * 0.5);
   const edge = Math.max(edgeX, edgeZ);
@@ -3893,16 +3966,15 @@ function createIndexedGeometry(vertices, indices) {
 }
 
 function validateTerrainDescriptor(descriptor) {
-  return descriptor?.patches?.length >= 4000
-    && descriptor.width >= 180
-    && descriptor.depth >= 110
-    && descriptor.patchColumns > descriptor.patchRows
-    && descriptor.tessellationAlgorithm === "single-banded-triangle-terrain-v1"
-    && descriptor.tessellationBands?.length === 1
-    && descriptor.tessellationBands[0].id === "canonical-world-band"
-    && descriptor.tessellationBands[0].step === descriptor.patchSize
-    && descriptor.patches.every((patch) => patch.size < 3)
-    && descriptor.patches.filter((patch) => patch.lodBand === "near" && patch.vertexGrid >= 24).length >= 250
+  return descriptor?.activeTiles?.length >= 150
+    && descriptor.width >= 10000
+    && descriptor.depth >= 10000
+    && descriptor.patchColumns === descriptor.patchRows
+    && descriptor.tessellationAlgorithm === "seeded-radial-tile-terrain-v1"
+    && descriptor.tessellationBands?.length >= 4
+    && descriptor.tessellationBands[0].id === "lod-near"
+    && descriptor.activeTiles.some((tile) => tile.ringId === "lod-near" && tile.collision)
+    && descriptor.activeTiles.some((tile) => tile.ringId === "lod-horizon")
     && descriptor.patches.every((patch) => patch.strataBands?.includes("dark-shadow-seam"));
 }
 

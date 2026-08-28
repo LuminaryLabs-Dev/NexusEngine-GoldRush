@@ -9,17 +9,16 @@ for (const entry of validation.entries) {
   assert(entry.passed, `${entry.id} failed procedural kit validation`);
 }
 
-assert(descriptors.terrain.patches.length >= 4000, "terrain must use many small tessellated patches across the expanded field");
-assert(descriptors.terrain.width > descriptors.terrain.depth, "terrain must read as a broad landscape, not an arena token");
-assert(descriptors.terrain.width >= 180 && descriptors.terrain.depth >= 110, "terrain footprint must be roughly four times the prior play space");
-assert(descriptors.terrain.tessellationAlgorithm === "single-banded-triangle-terrain-v1", "terrain must use the single banded triangle terrain algorithm");
-assert(descriptors.terrain.tessellationBands.length === 1, "terrain must use one continuous tessellation band");
-assert(descriptors.terrain.tessellationBands[0].id === "canonical-world-band", "terrain must expose the canonical world band");
+assert(descriptors.terrain.activeTiles.length >= 150, "terrain must expose a substantial camera-centred active tile set");
+assert(descriptors.terrain.width >= 10000 && descriptors.terrain.depth >= 10000, "terrain footprint must be at least ten kilometers wide and deep");
+assert(descriptors.terrain.tessellationAlgorithm === "seeded-radial-tile-terrain-v1", "terrain must use seeded radial tile LOD");
+assert(descriptors.terrain.tessellationBands.length >= 4, "terrain must expose near, mid, far, and horizon LOD rings");
+assert(descriptors.terrain.tessellationBands[0].id === "lod-near", "terrain must expose the near LOD ring first");
 assert(descriptors.terrainCollider.bridgeTargets.includes("cannon-es-heightfield"), "terrain collider must be bridgeable to cannon-es heightfields");
 assert(descriptors.terrainCollider.bridgeTargets.includes("rapier-heightfield"), "terrain collider must be bridgeable to Rapier heightfields");
 assert(descriptors.terrainCollider.raycast.mode === "downward-triangle-raycast", "terrain collider must include downward raycast placement");
 assert(descriptors.terrainCollider.samples.length === descriptors.terrainCollider.columns * descriptors.terrainCollider.rows, "terrain collider heightfield samples must be valid");
-assert(descriptors.terrain.patches.filter((patch) => patch.lodBand === "near" && patch.vertexGrid >= 24).length >= 250, "near terrain patches need high tessellation metadata");
+assert(descriptors.terrain.activeTiles.some((tile) => tile.lodBand === "near" && tile.vertexGrid >= 24), "near terrain tiles need high tessellation metadata");
 assert(descriptors.terrain.patches.every((patch) => patch.strataBands?.includes("dark-shadow-seam")), "terrain patches must carry strata band metadata");
 assert(descriptors.route.routePoints[0].x < -20, "route must start near the far terrain edge");
 assert(descriptors.route.routePoints.at(-1).x > 20, "route must cross toward the far terrain edge");
@@ -157,6 +156,7 @@ const rendererSource = readFileSync(new URL("../../src/renderer/goldRushRenderer
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const objectKitSource = readFileSync(new URL("../../src/content/goldrushObjectMicroKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");
+const seededWorldSource = readFileSync(new URL("../../src/kits/v0.0.2/world/terrain-source/seededWorld.js", import.meta.url), "utf8");
 const appSource = readFileSync(new URL("../../src/app/goldRushApp.js", import.meta.url), "utf8");
 const extractionLoopSource = readFileSync(new URL("../../src/kits/goldRushExtractionLoopKit.js", import.meta.url), "utf8");
 const playerActionSurfaceSource = readFileSync(new URL("../../src/content/goldrushPlayerActionSurface.js", import.meta.url), "utf8");
@@ -167,10 +167,10 @@ assert(!rendererSource.includes("BoxGeometry"), "renderer must not use box marke
 assert(rendererSource.includes("toneMapping"), "renderer must use tone mapping for the immersive 3D view");
 assert(proceduralSource.includes("physics/terrainCollider.js"), "procedural renderer must import the shared terrain collider");
 assert(!proceduralSource.includes("createTrailRibbon"), "route must not be duplicated as overlay ribbon geometry");
-assert(colliderSource.includes("routeDistance") && colliderSource.includes("terrainFieldColor"), "route must be cut and colored into the canonical terrain source");
+assert(seededWorldSource.includes("routeDistance") && colliderSource.includes("terrainFieldColor"), "route must be cut and colored into the canonical terrain source");
 assert(proceduralSource.includes("createBandedTriangleTerrainGeometry") && proceduralSource.includes("pushTerrainCell"), "renderer must generate banded triangle terrain from one algorithm");
 assert(proceduralSource.includes("createEnvironmentPhysicalForm"), "renderer must turn environment-space descriptors into physical scene forms");
-assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift"), "terrain height must be shaped by canonical world-space understanding");
+assert(seededWorldSource.includes("trailBanks") && seededWorldSource.includes("basinBowl") && seededWorldSource.includes("goldFaceLift"), "terrain height must be shaped by canonical world-space understanding");
 assert(!colliderSource.includes("centralMountainLift") && !colliderSource.includes("sampleMountainWalkaroundClearance"), "terrain collider must not retain legacy central mountain shaping");
 assert(colliderSource.includes("raycastTerrainDown") && colliderSource.includes("barycentric2D"), "terrain collider must support downward raycasting onto visible terrain triangles");
 assert(!proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must not retain unused central mountain geometry");

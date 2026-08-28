@@ -34,7 +34,7 @@ export const GOLD_RUSH_GREYBOX_LAYOUT = Object.freeze({
     Object.freeze({
       id: "route.main-wash",
       role: "entrance-to-cashout",
-      width: 4.4,
+      width: 7,
       points: Object.freeze([
         Object.freeze({ x: -84, z: -38 }),
         Object.freeze({ x: -62, z: -31 }),
@@ -48,7 +48,7 @@ export const GOLD_RUSH_GREYBOX_LAYOUT = Object.freeze({
     Object.freeze({
       id: "route.mine-spur",
       role: "basin-to-mine",
-      width: 3.6,
+      width: 5.8,
       points: Object.freeze([
         Object.freeze({ x: -12, z: -20 }),
         Object.freeze({ x: -24, z: -8 }),
@@ -63,11 +63,11 @@ export const GOLD_RUSH_GREYBOX_LAYOUT = Object.freeze({
     return Object.freeze({
       id: `canyon.wall.${side < 0 ? "west" : "east"}.${segment + 1}`,
       side,
-      x: side * (85 + (segment % 2) * 2.5),
+      x: side * (88 + (segment % 2) * 2.5),
       z: -45 + segment * 18,
-      width: 15 + (segment % 3) * 2,
-      depth: 20,
-      height: 8 + (segment % 3) * 1.8,
+      width: 24 + (segment % 3) * 5,
+      depth: 28,
+      height: 13 + (segment % 3) * 2.8,
       baseInset: -0.9,
     });
   })),

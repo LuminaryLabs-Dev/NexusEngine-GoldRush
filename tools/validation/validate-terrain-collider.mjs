@@ -31,7 +31,7 @@ assert(Number.isFinite(terrainFieldHeight(-12, -20)), "terrain height sampler mu
 
 const spawnHit = raycastTerrainDown({ x: -12, z: -20 });
 assert(spawnHit?.kind === "downward-triangle-raycast", "player placement must raycast down onto a terrain triangle");
-assert(spawnHit.bandId === "canonical-world-band", "player spawn should hit the canonical world band");
+assert(spawnHit.bandId === "lod-near", "player spawn should hit the near collision LOD ring");
 const spawnGround = sampleTerrainCollider({ x: -12, z: -20 });
 assert(spawnGround.kind === "sampled-heightfield", "terrain sampler must identify sampled heightfield ground");
 assert(spawnGround.placement === "downward-triangle-raycast", "terrain sampler must use downward raycast placement");
@@ -53,7 +53,8 @@ assert(appSource.includes("sampleTerrainCollider"), "app movement controller mus
 assert(appSource.includes("raycastTerrainDown"), "app movement controller must place the player by downward terrain raycast");
 assert(appSource.includes("terrainColliderDescriptor"), "browser state must expose the terrain collider descriptor");
 assert(appSource.includes("terrainPhysics"), "browser state must expose the terrain physics descriptor");
-assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift"), "terrain collider must preserve the canonical greybox height algorithm");
+assert(colliderSource.includes("sampleSeededTerrainHeight"), "terrain collider must consume the canonical seeded world height source");
+assert(colliderSource.includes("seeded-radial-tile-terrain-v1"), "terrain collider must expose the seeded radial tile terrain contract");
 assert(!colliderSource.includes("centralMountainLift"), "open basin terrain must not contain legacy central mountain lift");
 
 console.log("terrain collider passed");
