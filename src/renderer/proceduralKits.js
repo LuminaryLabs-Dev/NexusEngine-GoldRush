@@ -9,7 +9,10 @@ import {
 import { createGoldRushEnvironmentSpace, validateGoldRushEnvironmentSpace } from "../content/goldrushEnvironmentSpace.js";
 import { openSourceGlbAssets } from "../content/openSourceGlbAssets.js";
 import {
-  CENTRAL_MOUNTAIN_FORMS,
+  GOLD_RUSH_GREYBOX_LAYOUT,
+  createGoldRushAuthoredTerrainFixture,
+} from "../content/goldrushAuthoredTerrainFixture.js";
+import {
   TERRAIN_DEPTH,
   TERRAIN_PATCH_COLUMNS,
   TERRAIN_PATCH_ROWS,
@@ -17,7 +20,6 @@ import {
   TERRAIN_WIDTH,
   createTerrainColliderDescriptor,
   createTerrainTessellationBands,
-  terrainFieldBaseHeight,
   terrainFieldColor,
   terrainFieldHeight,
   validateTerrainColliderDescriptor,
@@ -104,6 +106,7 @@ export const proceduralRendererKitSpecs = [
 ];
 
 export function createGoldRushProceduralScene() {
+  const authoredSource = createGoldRushAuthoredTerrainFixture();
   const terrain = createTerrainDescriptor();
   const terrainCollider = createTerrainColliderDescriptor({
     minX: terrain.bounds.minX,
@@ -127,6 +130,8 @@ export function createGoldRushProceduralScene() {
   const worldElements = createGoldRushWorldElements();
 
   return {
+    authoredSource,
+    greyboxLayout: authoredSource.worldLayout,
     terrain,
     terrainCollider,
     route,
@@ -177,21 +182,26 @@ export function mountGoldRushProceduralScene({ scene, root }) {
   const skyKit = mountSkyHorizonKit(scene, descriptors.sky);
   const terrainGroup = mountTerrainKit(scene, descriptors.terrain);
   const canyonKit = mountCanyonCompositionKit(scene, descriptors.canyonComposition);
-  const routeGroup = mountRouteKit(scene, descriptors.route);
-  const goldGroup = mountGoldNodeKit(scene, descriptors.goldNodes);
+  const greyboxLandmarkGroup = mountGreyboxLandmarkKit(scene, descriptors.greyboxLayout);
   const cloudKit = mountCloudPlaneKit(scene, descriptors.clouds);
   const microObjectKit = mountMicroObjectKit(scene, descriptors.objectMicroKits);
-  mountDesertItemKit(scene, descriptors.desertItems);
-  const glbKit = mountOpenSourceGlbKit(scene, descriptors.glbAssets);
-  const worldElementKit = mountWorldElementKit(scene, descriptors.worldElements);
-  mountEnvironmentSpaceKit(scene, descriptors.environmentSpace);
-  const networkPresenceKit = mountNetworkPresenceKit(scene, descriptors.networkPresence);
   const thirdPersonKit = mountThirdPersonPlayerKit(scene, descriptors.playerRig);
   const playerActionSurfacePromptKit = mountPlayerActionSurfacePromptKit(scene);
   const playerGuidanceCueKit = mountPlayerGuidanceCueKit(scene);
   const extractionLoopMarkerKit = mountExtractionLoopMarkerKit(scene);
   const lightingKit = mountLightingCameraKit(scene, descriptors.lighting, root);
 
+  [
+    descriptors.objectMicroKits.id,
+    descriptors.playerRig.id,
+    `${descriptors.playerRig.id}.spawnPedestal`,
+    "goldrush.procGameplay.playerActionSurfacePrompt",
+    "goldrush.procGameplay.playerGuidanceCue",
+    "goldrush.procGameplay.extractionLoopMarkers",
+  ].forEach((name) => {
+    const object = scene.getObjectByName(name);
+    if (object) object.visible = false;
+  });
   return {
     descriptors,
     validation,
@@ -199,21 +209,6 @@ export function mountGoldRushProceduralScene({ scene, root }) {
       skyKit.update(state);
       canyonKit.update(state);
       cloudKit.update(elapsedSeconds);
-      microObjectKit.update(state, elapsedSeconds);
-      glbKit.update(state, elapsedSeconds);
-      worldElementKit.update(state);
-      networkPresenceKit.update(state);
-      thirdPersonKit.update(state, elapsedSeconds);
-      playerActionSurfacePromptKit.update(state, elapsedSeconds);
-      playerGuidanceCueKit.update(state, elapsedSeconds);
-      extractionLoopMarkerKit.update(state, elapsedSeconds);
-      goldGroup.rotation.y += state.cameraMode === "combat" ? 0.004 : 0.0015;
-      routeGroup.children.forEach((child, index) => {
-        const opacity = state.cameraMode === "combat" && index === 1 ? 0.92 : child.userData.baseOpacity;
-        child.children.forEach((routeMarker) => {
-          routeMarker.material.opacity = opacity;
-        });
-      });
       lightingKit.update(state);
       terrainGroup.position.y = state.cameraMode === "combat" ? -0.18 : 0;
       const pressure = state.finalRush?.pressureScalar ?? 0;
@@ -236,6 +231,13 @@ export function mountGoldRushProceduralScene({ scene, root }) {
         },
         objectMicroKits: microObjectKit.snapshot(),
         playerRig: thirdPersonKit.snapshot(),
+        greybox: {
+          sourceId: descriptors.authoredSource.fixtureId,
+          revisionId: descriptors.authoredSource.revisionId,
+          layoutId: descriptors.greyboxLayout.id,
+          landmarks: greyboxLandmarkGroup.children.length,
+          deferredLayers: ["player", "combat", "network", "decorative-assets", "micro-objects"],
+        },
         validation,
       };
     },
@@ -341,23 +343,29 @@ function createTerrainDescriptor() {
 }
 
 function createRouteDescriptor(terrain) {
-  const routePoints = Array.from({ length: 44 }, (_, index) => {
-    const t = index / 43;
-    const x = terrain.bounds.minX + terrain.width * t;
-    const centralDetour = Math.exp(-Math.pow((t - 0.52) / 0.16, 2)) * 21;
-    const z = Math.sin(t * Math.PI * 2.4) * 8.5 + (t - 0.5) * terrain.depth * 0.38 + centralDetour;
-    return { x, z };
+  const [mainRoute, mineSpur] = GOLD_RUSH_GREYBOX_LAYOUT.routes;
+  const routePoints = mainRoute.points.slice(0, -1).flatMap((point, segmentIndex) => {
+    const next = mainRoute.points[segmentIndex + 1];
+    return Array.from({ length: 7 }, (_, step) => {
+      const t = step / 7;
+      return { x: point.x + (next.x - point.x) * t, z: point.z + (next.z - point.z) * t };
+    });
   });
-  const combatRidge = Array.from({ length: 24 }, (_, index) => {
-    const t = index / 23;
-    return {
-      x: terrain.bounds.maxX - terrain.width * 0.36 - t * terrain.width * 0.28,
-      z: terrain.bounds.minZ + terrain.depth * 0.24 + Math.sin(t * Math.PI) * 4.6,
-    };
+  routePoints.push({ ...mainRoute.points.at(-1) });
+  const combatRidge = mineSpur.points.slice(0, -1).flatMap((point, segmentIndex) => {
+    const next = mineSpur.points[segmentIndex + 1];
+    return Array.from({ length: 6 }, (_, step) => {
+      const t = step / 6;
+      return { x: point.x + (next.x - point.x) * t, z: point.z + (next.z - point.z) * t };
+    });
   });
+  combatRidge.push({ ...mineSpur.points.at(-1) });
 
   return {
     id: "goldrush.procTerrain.routeRibbon",
+    sourceLayoutId: GOLD_RUSH_GREYBOX_LAYOUT.id,
+    routeWidth: mainRoute.width,
+    mineSpurWidth: mineSpur.width,
     routePoints,
     combatRidge,
   };
@@ -458,24 +466,10 @@ function createCloudPlaneDescriptor(terrain) {
 }
 
 function createCanyonCompositionDescriptor(terrain) {
-  const walls = [];
-  const wallZ = [-58, -44, -30, -16, -3, 12, 28, 44, 58];
-  for (const side of [-1, 1]) {
-    wallZ.forEach((z, index) => {
-      walls.push({
-        id: `canyon.wall.${side < 0 ? "west" : "east"}.${index + 1}`,
-        side,
-        x: side * (terrain.width * 0.48 + (index % 2) * 4.2),
-        z,
-        width: 12.8 + (index % 3) * 2.2,
-        depth: 11.2 + (index % 2) * 2.1,
-        height: 5.2 + index * 0.7,
-        baseInset: -1.05,
-        color: index % 2 ? 0xae5c35 : 0xc06a3a,
-      });
-    });
-  }
-  const centralMountains = createCentralMountainDescriptor();
+  const walls = GOLD_RUSH_GREYBOX_LAYOUT.canyonWalls.map((wall, index) => ({
+    ...wall,
+    color: index % 2 ? 0x8f4930 : 0xa95734,
+  }));
   const farRidge = Array.from({ length: 28 }, (_, index) => {
     const t = index / 27;
     return {
@@ -489,27 +483,12 @@ function createCanyonCompositionDescriptor(terrain) {
 
   return {
     id: "goldrush.procLandmarks.canyonComposition",
+    sourceLayoutId: GOLD_RUSH_GREYBOX_LAYOUT.id,
     role: "frame-field-and-break-flat-horizon",
     walls,
-    centralMountains,
     farRidge,
     minWallCount: 10,
   };
-}
-
-function createCentralMountainDescriptor() {
-  return CENTRAL_MOUNTAIN_FORMS.map((form, index) => ({
-    ...form,
-    composition: "midground-walkaround-terraced-shoulders",
-    screenRole: "midground-landmark",
-    terraceCount: 4,
-    skyClearance: true,
-    placement: "base-terrain-not-lifted-collider-summit",
-    routeGapRole: index === 1 ? "split-left-right-with-visible-sky-gap" : "supporting-shoulder-not-ceiling",
-    visualHeight: Number(Math.min(4.7, form.height * 0.48).toFixed(2)),
-    visualWidth: Number((form.width * (index === 2 ? 0.64 : 0.7)).toFixed(2)),
-    visualDepth: Number((form.depth * (index === 2 ? 0.62 : 0.68)).toFixed(2)),
-  }));
 }
 
 function createDesertItemDescriptor(terrain) {
@@ -686,22 +665,7 @@ function mountCanyonCompositionKit(scene, descriptor) {
     mesh.receiveShadow = true;
     group.add(mesh);
   });
-  descriptor.centralMountains.forEach((mountain, index) => {
-    const material = new THREE.MeshStandardMaterial({
-      color: mountain.color,
-      roughness: 0.94,
-      flatShading: true,
-      emissive: 0x2a1208,
-      emissiveIntensity: 0.045,
-    });
-    const mesh = new THREE.Mesh(createWalkaroundMountainGeometry(mountain), material);
-    mesh.name = mountain.id;
-    mesh.position.set(mountain.x, terrainFieldBaseHeight(mountain.x, mountain.z) + 0.16, mountain.z);
-    mesh.rotation.y = -0.18 + index * 0.2;
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    group.add(mesh);
-  });
+  group.userData.basinPresentation = "open-center-with-boundary-canyon-walls";
   scene.add(group);
 
   return {
@@ -797,7 +761,7 @@ function mountTerrainKit(scene, descriptor) {
     new THREE.MeshStandardMaterial({
       roughness: 0.98,
       metalness: 0.01,
-      flatShading: true,
+      flatShading: false,
       vertexColors: true,
       side: THREE.FrontSide,
       polygonOffset: true,
@@ -1360,12 +1324,55 @@ function createEnvironmentPhysicalForm(form, material) {
   return root;
 }
 
-function mountRouteKit(scene, descriptor) {
+function mountGreyboxLandmarkKit(scene, descriptor) {
   const group = new THREE.Group();
-  group.name = descriptor.id;
-  group.add(createTrailRibbon(descriptor.routePoints, 0xb9864d, 0.34, 1.45));
-  group.add(createRouteLine(descriptor.routePoints, 0xf5b544, 0.78, 0.09));
-  group.add(createRouteLine(descriptor.combatRidge, 0x74d0c2, 0.62, 0.075));
+  group.name = "goldrush.greybox.landmarks";
+  const materials = {
+    rock: new THREE.MeshStandardMaterial({ color: 0x75452f, roughness: 0.96 }),
+    timber: new THREE.MeshStandardMaterial({ color: 0x4c3226, roughness: 0.9 }),
+    gold: new THREE.MeshStandardMaterial({ color: 0xf0bd45, emissive: 0x5c3a00, emissiveIntensity: 0.34, roughness: 0.48 }),
+    depot: new THREE.MeshStandardMaterial({ color: 0xa9713d, roughness: 0.9 }),
+  };
+
+  descriptor.landmarks.forEach((landmark) => {
+    const root = new THREE.Group();
+    root.name = landmark.id;
+    root.position.set(landmark.x, terrainFieldHeight(landmark.x, landmark.z), landmark.z);
+    root.rotation.y = landmark.yaw;
+    if (landmark.role === "mine-entrance") {
+      const rockFace = new THREE.Mesh(createCuboidGeometry(10, 5.5, 2.2), materials.rock);
+      rockFace.position.y = 2.75;
+      const frame = new THREE.Mesh(createMineFrameGeometry(), materials.timber);
+      frame.position.set(0, 0.2, -1.2);
+      frame.scale.setScalar(3.4);
+      root.add(rockFace, frame);
+    } else if (landmark.role === "gold-seam") {
+      const face = new THREE.Mesh(createCuboidGeometry(7.5, 3.8, 1.2), materials.rock);
+      face.position.y = 1.9;
+      const seam = new THREE.Mesh(createGoldSeamGeometry(), materials.gold);
+      seam.position.set(0, 2.1, -0.7);
+      seam.scale.set(4.2, 2.4, 1.4);
+      root.add(face, seam);
+    } else {
+      const platform = new THREE.Mesh(createCuboidGeometry(10, 0.45, 7), materials.depot);
+      platform.position.y = 0.22;
+      const leftPost = new THREE.Mesh(createCuboidGeometry(0.7, 5.4, 0.7), materials.timber);
+      const rightPost = leftPost.clone();
+      leftPost.position.set(-3.2, 2.9, 0);
+      rightPost.position.set(3.2, 2.9, 0);
+      const crossbeam = new THREE.Mesh(createCuboidGeometry(7.1, 0.7, 0.8), materials.timber);
+      crossbeam.position.set(0, 5.3, 0);
+      root.add(platform, leftPost, rightPost, crossbeam);
+    }
+    root.traverse((object) => {
+      if (object.isMesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    group.add(root);
+  });
+
   scene.add(group);
   return group;
 }
@@ -2873,24 +2880,6 @@ function createWorldPathLine(points, material) {
   return group;
 }
 
-function createTrailRibbon(points, color, opacity, width) {
-  const group = new THREE.Group();
-  group.userData.baseOpacity = opacity;
-  const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide });
-  for (let index = 0; index < points.length - 1; index += 1) {
-    const a = points[index];
-    const b = points[index + 1];
-    const dx = b.x - a.x;
-    const dz = b.z - a.z;
-    const length = Math.hypot(dx, dz);
-    const mesh = new THREE.Mesh(createCuboidGeometry(width, 0.012, length), material);
-    mesh.position.set((a.x + b.x) / 2, 0.055, (a.z + b.z) / 2);
-    mesh.rotation.y = Math.atan2(dx, dz);
-    group.add(mesh);
-  }
-  return group;
-}
-
 export function createBandedTriangleTerrainGeometry(descriptor) {
   const vertices = [];
   const colors = [];
@@ -2911,10 +2900,6 @@ export function createBandedTriangleTerrainGeometry(descriptor) {
     }
     pushTerrainBandSkirts(vertices, colors, indices, color, descriptor, band, bandIndex);
   });
-
-  if (descriptor.centralMountainPhysics?.enabled) {
-    // Reserved for the physics pass: the visible terrain and colliders share this same height algorithm.
-  }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
@@ -3019,7 +3004,7 @@ function isCoveredByFinerTerrainBand(currentBand, bands, x, z) {
 
 function sampleTerrainRenderColor(x, z, descriptor, band) {
   const color = new THREE.Color(terrainFieldColor(x, z) || 0x92703d);
-  if (band.id !== "far-horizon-band") return color;
+  if (band.id !== "canonical-world-band") return color;
   const edgeX = Math.abs(x) / Math.max(1, descriptor.width * 0.5);
   const edgeZ = Math.abs(z) / Math.max(1, descriptor.depth * 0.5);
   const edge = Math.max(edgeX, edgeZ);
@@ -3118,60 +3103,6 @@ function createCanyonWallGeometry(wall) {
     6, 7, 9, 6, 9, 8,
     0, 3, 2, 0, 2, 1,
   ];
-  return createIndexedGeometry(vertices, indices);
-}
-
-function createWalkaroundMountainGeometry(mountain) {
-  const width = mountain.visualWidth ?? mountain.width * 0.78;
-  const depth = mountain.visualDepth ?? mountain.depth * 0.78;
-  const height = mountain.visualHeight ?? mountain.height * 0.56;
-  const rings = [
-    { y: 0, sx: 0.5, sz: 0.5, notch: 0 },
-    { y: height * 0.22, sx: 0.42, sz: 0.43, notch: 0.1 },
-    { y: height * 0.48, sx: 0.3, sz: 0.29, notch: 0.18 },
-    { y: height * 0.72, sx: 0.18, sz: 0.16, notch: 0.28 },
-  ];
-  const vertices = [];
-  rings.forEach((ring, ringIndex) => {
-    const y = ring.y;
-    const leftShoulder = ringIndex % 2 ? -0.08 : 0.04;
-    vertices.push(
-      -width * ring.sx, y, -depth * ring.sz + depth * ring.notch,
-      width * ring.sx, y + height * 0.03, -depth * ring.sz + depth * ring.notch * 0.7,
-      width * (ring.sx * 0.78), y + height * 0.01, depth * ring.sz,
-      leftShoulder * width, y - height * 0.02, depth * (ring.sz * 0.78),
-      -width * (ring.sx * 0.86), y + height * 0.02, depth * (ring.sz * 0.76)
-    );
-  });
-  const peakBase = vertices.length / 3;
-  vertices.push(
-    -width * 0.08, height * 0.95, -depth * 0.02,
-    width * 0.16, height * 0.86, depth * 0.04,
-    width * 0.02, height * 0.7, depth * 0.22
-  );
-
-  const indices = [];
-  const ringSize = 5;
-  for (let ring = 0; ring < rings.length - 1; ring += 1) {
-    const lower = ring * ringSize;
-    const upper = (ring + 1) * ringSize;
-    for (let index = 0; index < ringSize; index += 1) {
-      const next = (index + 1) % ringSize;
-      indices.push(
-        lower + index, lower + next, upper + index,
-        lower + next, upper + next, upper + index
-      );
-    }
-  }
-  const topRing = (rings.length - 1) * ringSize;
-  for (let index = 0; index < ringSize; index += 1) {
-    const next = (index + 1) % ringSize;
-    indices.push(topRing + index, topRing + next, peakBase + (index % 3));
-  }
-  indices.push(peakBase, peakBase + 1, peakBase + 2);
-  for (let index = 1; index < ringSize - 1; index += 1) {
-    indices.push(0, index, index + 1);
-  }
   return createIndexedGeometry(vertices, indices);
 }
 
@@ -3972,9 +3903,9 @@ function validateTerrainDescriptor(descriptor) {
     && descriptor.depth >= 110
     && descriptor.patchColumns > descriptor.patchRows
     && descriptor.tessellationAlgorithm === "single-banded-triangle-terrain-v1"
-    && descriptor.tessellationBands?.length === 3
-    && descriptor.tessellationBands[0].step < descriptor.tessellationBands[1].step
-    && descriptor.tessellationBands[1].step < descriptor.tessellationBands[2].step
+    && descriptor.tessellationBands?.length === 1
+    && descriptor.tessellationBands[0].id === "canonical-world-band"
+    && descriptor.tessellationBands[0].step === descriptor.patchSize
     && descriptor.patches.every((patch) => patch.size < 3)
     && descriptor.patches.filter((patch) => patch.lodBand === "near" && patch.vertexGrid >= 24).length >= 250
     && descriptor.patches.every((patch) => patch.strataBands?.includes("dark-shadow-seam"));
@@ -4041,17 +3972,6 @@ function validateCanyonCompositionDescriptor(descriptor) {
     && descriptor.walls.some((wall) => wall.side < 0)
     && descriptor.walls.some((wall) => wall.side > 0)
     && descriptor.walls.every((wall) => wall.height >= 2.5 && Math.abs(wall.x) > 45 && wall.baseInset <= 0)
-    && descriptor.centralMountains?.length >= 3
-    && descriptor.centralMountains.every((mountain) => (
-      mountain.height >= 6
-      && mountain.blockerRadius >= 6
-      && mountain.visualHeight <= 4.8
-      && mountain.visualHeight < mountain.height
-      && mountain.composition === "midground-walkaround-terraced-shoulders"
-      && mountain.skyClearance === true
-      && mountain.placement === "base-terrain-not-lifted-collider-summit"
-      && ["walkaround", "split", "detour"].some((term) => mountain.routeRole?.includes(term))
-    ))
     && descriptor.farRidge?.length >= 18
     && descriptor.farRidge.every((ridge) => ridge.height > 0.8 && ridge.width > 3);
 }

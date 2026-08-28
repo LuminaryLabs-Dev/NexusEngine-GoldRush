@@ -1,81 +1,53 @@
 import { readFileSync } from "node:fs";
+import { GOLD_RUSH_GREYBOX_LAYOUT } from "../../src/content/goldrushAuthoredTerrainFixture.js";
 import { createGoldRushProceduralScene } from "../../src/renderer/proceduralKits.js";
 import {
-  CENTRAL_MOUNTAIN_FORMS,
   raycastTerrainDown,
-  sampleMountainViewClearanceMask,
-  sampleMountainWalkaroundClearance,
   sampleTerrainCollider,
-  terrainFieldBaseHeight,
   terrainFieldColor,
   terrainFieldHeight,
 } from "../../src/physics/terrainCollider.js";
 
 const descriptors = createGoldRushProceduralScene();
-const centralMountains = descriptors.canyonComposition.centralMountains;
+const layout = descriptors.greyboxLayout;
+const samples = {
+  spawn: sampleTerrainCollider({ x: -12, z: -20 }),
+  basinCenter: sampleTerrainCollider({ x: 0, z: -4 }),
+  formerNorthSpur: sampleTerrainCollider({ x: -8.5, z: 29 }),
+  formerGoldSpine: sampleTerrainCollider({ x: 9.2, z: 17.4 }),
+  formerSouthShoulder: sampleTerrainCollider({ x: -17.5, z: 6.8 }),
+  westBoundary: sampleTerrainCollider({ x: -85, z: 0 }),
+  eastBoundary: sampleTerrainCollider({ x: 85, z: 0 }),
+};
 
-assert(CENTRAL_MOUNTAIN_FORMS.length >= 3, "mountain forms must remain present");
-assert(centralMountains.length >= 3, "renderer must expose central mountain descriptors");
-assert(centralMountains.every((mountain) => mountain.composition === "midground-walkaround-terraced-shoulders"), "mountains must be terraced midground landmarks");
-assert(centralMountains.every((mountain) => mountain.visualHeight <= 4.8), "visible mountain meshes must not become foreground slabs");
-assert(centralMountains.every((mountain) => mountain.visualHeight < mountain.height), "visual mountain caps must be lower than collider heightfield mass");
-assert(centralMountains.every((mountain) => mountain.blockerRadius >= 6), "mountains must still block direct traversal through the core");
-assert(centralMountains.every((mountain) => mountain.placement === "base-terrain-not-lifted-collider-summit"), "mountains must render from base terrain instead of stacking on collider summit");
-
-const spawn = sampleTerrainCollider({ x: -12, z: -20 });
-const approach = sampleTerrainCollider({ x: -4, z: -7.5 });
-const westRoute = sampleTerrainCollider({ x: -26, z: 6 });
-const eastRoute = sampleTerrainCollider({ x: 25, z: 6 });
-const mountainCore = sampleTerrainCollider({ x: 9.2, z: 17.4 });
-
-assert(spawn.walkable, "spawn must remain walkable");
-assert(approach.walkable, "spawn-facing mountain approach must remain walkable");
-assert(westRoute.walkable, "west walkaround corridor must be walkable");
-assert(eastRoute.walkable, "east walkaround corridor must be walkable");
-assert(!mountainCore.walkable && mountainCore.blockingFeatureId === "central-mountain.gold-spine", "mountain core must still block traversal");
-assert(sampleMountainViewClearanceMask(-4, -7.5) > 0.35, "spawn-facing view corridor must have clearance mask");
-assert(sampleMountainWalkaroundClearance(-26, 6) > 0.35, "west route must have walkaround clearance");
-assert(sampleMountainWalkaroundClearance(25, 6) > 0.35, "east route must have walkaround clearance");
-
-const nearCorridorHeight = terrainFieldHeight(-4, -7.5);
-const coreHeight = terrainFieldHeight(9.2, 17.4);
-const coreBaseHeight = terrainFieldBaseHeight(9.2, 17.4);
-assert(coreHeight > nearCorridorHeight + 2.6, "mountain core must still read taller than the cleared approach");
-assert(coreHeight > coreBaseHeight + 4.5, "collider mountain must remain a real blocker above base terrain");
-assert(Math.max(...centralMountains.map((mountain) => mountain.visualHeight)) < coreHeight - coreBaseHeight, "visible mountain cap must remain lower than collider lift");
-assert(Number.isInteger(terrainFieldColor(9.2, 17.4)), "mountain color must remain centralized");
-assert(raycastTerrainDown({ x: -4, z: -7.5 })?.bandId === "near-play-band", "approach must raycast to visible terrain");
+assert(layout.id === GOLD_RUSH_GREYBOX_LAYOUT.id, "renderer must consume the canonical greybox layout");
+assert(layout.playableBounds.width === 180 && layout.playableBounds.depth === 110, "greybox must preserve the bounded normal-area footprint");
+assert(layout.canyonWalls.length >= 10, "canyon walls must frame the basin perimeter");
+assert(!Object.hasOwn(descriptors.canyonComposition, "centralMountains"), "open basin must not retain central mountain descriptors");
+assert(samples.spawn.walkable && samples.basinCenter.walkable, "spawn and basin center must remain walkable");
+assert(samples.formerNorthSpur.walkable && samples.formerGoldSpine.walkable && samples.formerSouthShoulder.walkable, "legacy central mountain footprints must be open terrain");
+assert(!samples.westBoundary.walkable && samples.westBoundary.blockingFeatureId === "blocker.west-wall", "west canyon boundary must block traversal");
+assert(!samples.eastBoundary.walkable && samples.eastBoundary.blockingFeatureId === "blocker.east-wall", "east canyon boundary must block traversal");
+assert(Math.max(
+  terrainFieldHeight(-8.5, 29),
+  terrainFieldHeight(9.2, 17.4),
+  terrainFieldHeight(-17.5, 6.8)
+) - terrainFieldHeight(0, -4) < 3, "basin center must not contain isolated mountain spikes");
+assert(Number.isInteger(terrainFieldColor(9.2, 17.4)), "terrain color must remain centralized");
+assert(raycastTerrainDown({ x: 0, z: -4 })?.bandId === "canonical-world-band", "basin center must raycast to the canonical terrain surface");
 
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const colliderSource = readFileSync(new URL("../../src/physics/terrainCollider.js", import.meta.url), "utf8");
-assert(proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must use terraced mountain geometry");
-assert(proceduralSource.includes("midground-walkaround-terraced-shoulders"), "renderer descriptor must name the BUG-002 composition intent");
-assert(proceduralSource.includes("terrainFieldBaseHeight"), "renderer must place visual mountains from base terrain");
-assert(colliderSource.includes("sampleCentralMountainHeight"), "heightfield must own central mountain shaping");
-assert(colliderSource.includes("sampleMountainViewClearanceMask"), "heightfield must own camera-view clearance");
-assert(colliderSource.includes("sampleMountainWalkaroundClearance"), "heightfield must own walkaround clearance");
+assert(proceduralSource.includes("open-center-with-boundary-canyon-walls"), "renderer must declare the open-basin presentation intent");
+assert(!proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must not retain central mountain geometry");
+assert(!colliderSource.includes("centralMountainLift"), "heightfield must not retain central mountain shaping");
 
 console.log(JSON.stringify({
-  status: "goldrush-mountain-readability-ready",
-  mountainCount: centralMountains.length,
-  maxVisualHeight: Math.max(...centralMountains.map((mountain) => mountain.visualHeight)),
-  routeSamples: {
-    spawn: summarizeGround(spawn),
-    approach: summarizeGround(approach),
-    westRoute: summarizeGround(westRoute),
-    eastRoute: summarizeGround(eastRoute),
-    mountainCore: summarizeGround(mountainCore),
-  },
-  clearance: {
-    view: Number(sampleMountainViewClearanceMask(-4, -7.5).toFixed(3)),
-    west: Number(sampleMountainWalkaroundClearance(-26, 6).toFixed(3)),
-    east: Number(sampleMountainWalkaroundClearance(25, 6).toFixed(3)),
-  },
-  stacking: {
-    coreHeight: Number(coreHeight.toFixed(3)),
-    coreBaseHeight: Number(coreBaseHeight.toFixed(3)),
-    colliderLift: Number((coreHeight - coreBaseHeight).toFixed(3)),
-  },
+  status: "goldrush-basin-readability-ready",
+  layoutId: layout.id,
+  bounds: layout.playableBounds,
+  canyonWallCount: layout.canyonWalls.length,
+  samples: Object.fromEntries(Object.entries(samples).map(([id, ground]) => [id, summarizeGround(ground)])),
 }, null, 2));
 
 function summarizeGround(ground) {

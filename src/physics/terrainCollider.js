@@ -1,56 +1,49 @@
-export const TERRAIN_PATCH_COLUMNS = 88;
-export const TERRAIN_PATCH_ROWS = 56;
-export const TERRAIN_PATCH_SIZE = 2.15;
+import { GOLD_RUSH_GREYBOX_LAYOUT } from "../content/goldrushAuthoredTerrainFixture.js";
+
+export const TERRAIN_PATCH_COLUMNS = 180;
+export const TERRAIN_PATCH_ROWS = 110;
+export const TERRAIN_PATCH_SIZE = 1;
 export const TERRAIN_WIDTH = TERRAIN_PATCH_COLUMNS * TERRAIN_PATCH_SIZE;
 export const TERRAIN_DEPTH = TERRAIN_PATCH_ROWS * TERRAIN_PATCH_SIZE;
 export const TERRAIN_RAYCAST_FROM_Y = 80;
 export const TERRAIN_RAYCAST_TO_Y = -30;
 
-export const CENTRAL_MOUNTAIN_FORMS = [
-  { id: "central-mountain.north-spur", x: -8.5, z: 29, width: 19, depth: 21, height: 8.4, blockerRadius: 7.1, routeRole: "force-west-or-east-walkaround", color: 0xb8623d },
-  { id: "central-mountain.gold-spine", x: 9.2, z: 17.4, width: 17.5, depth: 16.5, height: 9.2, blockerRadius: 7.6, routeRole: "split-main-route", color: 0xc16c40 },
-  { id: "central-mountain.south-shoulder", x: -17.5, z: 6.8, width: 14, depth: 14, height: 6.2, blockerRadius: 6.4, routeRole: "force-canyon-detour", color: 0x9f5132 },
-];
-
-const MOUNTAIN_CLEARANCE_CORRIDORS = [
-  { id: "spawn-sightline-clearance", x: -4, z: -7.5, width: 31, depth: 28, strength: 0.82 },
-  { id: "west-walkaround-clearance", x: -27, z: 10, width: 15, depth: 50, strength: 0.86 },
-  { id: "east-walkaround-clearance", x: 26, z: 10, width: 16, depth: 48, strength: 0.84 },
-];
-
 export function terrainFieldBaseHeight(x, z) {
-  const rolling = Math.sin(x * 0.085) * 0.42 + Math.cos(z * 0.11) * 0.34;
-  const wash = Math.sin((x + z) * 0.045) * 0.18 + Math.cos((x - z) * 0.033) * 0.14;
-  const canyonLift = Math.pow(Math.max(0, Math.abs(x) - TERRAIN_WIDTH * 0.38) / 26, 1.35) * 4.6;
-  const routeT = (x + TERRAIN_WIDTH / 2) / TERRAIN_WIDTH;
-  const trailCenter = Math.sin(routeT * Math.PI * 2.4) * 8.5 + (routeT - 0.5) * TERRAIN_DEPTH * 0.38 + Math.exp(-Math.pow((routeT - 0.52) / 0.16, 2)) * 21;
-  const trailCut = Math.max(0, 1 - Math.abs(z - trailCenter) / 5.2) * -0.58;
-  const trailBanks = Math.max(0, 1 - Math.abs(Math.abs(z - trailCenter) - 6.7) / 2.1) * 0.34;
-  const basinBowl = Math.max(0, 1 - Math.hypot(x * 0.34, z * 0.48) / 34) * -0.42;
-  const mineShelf = Math.max(0, 1 - Math.hypot((x + 8.8) / 7.8, (z - 7.2) / 4.7)) * 0.52;
-  const townShelf = Math.max(0, 1 - Math.hypot((x - 8.3) / 9.2, (z - 8.6) / 4.8)) * 0.34;
-  const goldFaceLift = Math.max(0, 1 - Math.hypot((x + 10.2) / 7.6, (z - 9.3) / 1.8)) * 0.7;
+  const layout = GOLD_RUSH_GREYBOX_LAYOUT;
+  const rolling = Math.sin(x * 0.055) * 0.2 + Math.cos(z * 0.07) * 0.16;
+  const wash = Math.sin((x + z) * 0.035) * 0.09 + Math.cos((x - z) * 0.028) * 0.07;
+  const edgeDistance = Math.max(0, Math.abs(x) - layout.basin.radiusX);
+  const canyonLift = Math.pow(edgeDistance / 16, 1.45) * 5.8;
+  const routeDistance = Math.min(...layout.routes.map((route) => distanceToPolyline(x, z, route.points)));
+  const routeWidth = Math.max(...layout.routes.map((route) => route.width));
+  const trailCut = Math.max(0, 1 - routeDistance / routeWidth) * -0.18;
+  const trailBanks = Math.max(0, 1 - Math.abs(routeDistance - routeWidth * 1.35) / 1.8) * 0.08;
+  const basinRadius = Math.hypot((x - layout.basin.x) / layout.basin.radiusX, (z - layout.basin.z) / layout.basin.radiusZ);
+  const basinBowl = Math.max(0, 1 - basinRadius) * layout.basin.floorHeight;
+  const mineShelf = shelfInfluence(layout.shelves.find((shelf) => shelf.role === "mine"), x, z);
+  const townShelf = shelfInfluence(layout.shelves.find((shelf) => shelf.role === "cashout"), x, z);
+  const goldSeam = layout.landmarks.find((landmark) => landmark.role === "gold-seam");
+  const goldFaceLift = Math.max(0, 1 - Math.hypot((x - goldSeam.x) / 9, (z - goldSeam.z) / 5)) * 0.58;
   return rolling + wash + canyonLift + trailCut + trailBanks + basinBowl + mineShelf + townShelf + goldFaceLift;
 }
 
 export function terrainFieldHeight(x, z) {
-  const base = terrainFieldBaseHeight(x, z);
-  const centralMountainLift = CENTRAL_MOUNTAIN_FORMS.reduce((total, mountain) => {
-    return total + sampleCentralMountainHeight(x, z, mountain);
-  }, 0);
-  return base + centralMountainLift;
+  return terrainFieldBaseHeight(x, z);
 }
 
 export function terrainFieldColor(x, z) {
+  const layout = GOLD_RUSH_GREYBOX_LAYOUT;
   const wash = Math.sin((x + z) * 0.09);
   const scrub = Math.cos(x * 0.21) + Math.sin(z * 0.17);
-  const slope = Math.max(0, Math.abs(x) - TERRAIN_WIDTH * 0.38) / 26;
-  const mountainInfluence = sampleCentralMountainInfluence(x, z);
-  if (mountainInfluence > 0.46) return 0xb85f38;
-  if (mountainInfluence > 0.2) return 0xc9804d;
-  if (Math.hypot((x + 8.8) / 7.8, (z - 7.2) / 4.7) < 1) return 0x74523a;
-  if (Math.hypot((x - 8.3) / 9.2, (z - 8.6) / 4.8) < 1) return 0xa77b45;
-  if (Math.hypot((x + 10.2) / 7.6, (z - 9.3) / 1.8) < 1) return 0x9f5030;
+  const slope = Math.max(0, Math.abs(x) - layout.basin.radiusX) / 18;
+  const mineShelf = layout.shelves.find((shelf) => shelf.role === "mine");
+  const townShelf = layout.shelves.find((shelf) => shelf.role === "cashout");
+  const goldSeam = layout.landmarks.find((landmark) => landmark.role === "gold-seam");
+  const routeDistance = Math.min(...layout.routes.map((route) => distanceToPolyline(x, z, route.points)));
+  if (insideShelf(mineShelf, x, z)) return 0x714a35;
+  if (insideShelf(townShelf, x, z)) return 0xa8753e;
+  if (Math.hypot((x - goldSeam.x) / 9, (z - goldSeam.z) / 5) < 1) return 0x9f5030;
+  if (routeDistance < 4.4) return 0x7f5a32;
   if (slope > 0.75) return 0x6d351f;
   if (slope > 0.42) return 0xb45b32;
   if (wash > 0.62) return 0xb98b50;
@@ -64,7 +57,9 @@ export function sampleTerrainCollider({ x, z, sampleStep = 0.75, maxWalkableSlop
   const dx = (raycastTerrainHeight(x + sampleStep, z) - raycastTerrainHeight(x - sampleStep, z)) / (sampleStep * 2);
   const dz = (raycastTerrainHeight(x, z + sampleStep) - raycastTerrainHeight(x, z - sampleStep)) / (sampleStep * 2);
   const slopeGrade = Math.hypot(dx, dz);
-  const mountain = sampleCentralMountainBlocker(x, z);
+  const boundary = GOLD_RUSH_GREYBOX_LAYOUT.blockedAreas.find((area) => (
+    x >= area.minX && x <= area.maxX && z >= area.minZ && z <= area.maxZ
+  ));
 
   return {
     kind: "sampled-heightfield",
@@ -76,51 +71,37 @@ export function sampleTerrainCollider({ x, z, sampleStep = 0.75, maxWalkableSlop
     y: height,
     slopeGrade,
     normal: normalize({ x: -dx, y: 1, z: -dz }),
-    walkable: slopeGrade <= maxWalkableSlope && !mountain,
-    blockingFeatureId: mountain?.id ?? null,
+    walkable: slopeGrade <= maxWalkableSlope && !boundary,
+    blockingFeatureId: boundary?.id ?? null,
     sampleStep,
     hit,
   };
 }
 
-export function sampleCentralMountainHeight(x, z, mountain) {
-  const radius = Math.hypot((x - mountain.x) / (mountain.width * 0.56), (z - mountain.z) / (mountain.depth * 0.56));
-  const core = Math.pow(smoothStep(1, 0, radius), 1.28) * mountain.height;
-  const walkaroundClearance = sampleMountainWalkaroundClearance(x, z);
-  const viewClearance = sampleMountainViewClearanceMask(x, z);
-  const clearance = Math.max(walkaroundClearance, viewClearance);
-  return core * (1 - clearance);
+function shelfInfluence(shelf, x, z) {
+  if (!shelf) return 0;
+  const radius = Math.hypot((x - shelf.x) / (shelf.width * 0.5), (z - shelf.z) / (shelf.depth * 0.5));
+  return smoothStep(1.15, 0.72, radius) * shelf.elevation;
 }
 
-export function sampleMountainWalkaroundClearance(x, z) {
-  return Math.max(
-    sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[1], x, z),
-    sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[2], x, z)
-  );
+function insideShelf(shelf, x, z) {
+  return Boolean(shelf)
+    && Math.abs(x - shelf.x) <= shelf.width * 0.5
+    && Math.abs(z - shelf.z) <= shelf.depth * 0.5;
 }
 
-export function sampleMountainViewClearanceMask(x, z) {
-  return sampleClearanceCorridor(MOUNTAIN_CLEARANCE_CORRIDORS[0], x, z);
-}
-
-export function sampleCentralMountainInfluence(x, z) {
-  return CENTRAL_MOUNTAIN_FORMS.reduce((maximum, mountain) => {
-    const radius = Math.hypot((x - mountain.x) / (mountain.width * 0.62), (z - mountain.z) / (mountain.depth * 0.62));
-    return Math.max(maximum, smoothStep(1, 0, radius));
-  }, 0);
-}
-
-function sampleCentralMountainBlocker(x, z) {
-  const clearance = Math.max(sampleMountainWalkaroundClearance(x, z), sampleMountainViewClearanceMask(x, z));
-  if (clearance > 0.5) return null;
-  return CENTRAL_MOUNTAIN_FORMS.find((form) => {
-    return Math.hypot((x - form.x) / form.blockerRadius, (z - form.z) / form.blockerRadius) < 1;
-  }) ?? null;
-}
-
-function sampleClearanceCorridor(corridor, x, z) {
-  const radius = Math.hypot((x - corridor.x) / (corridor.width * 0.5), (z - corridor.z) / (corridor.depth * 0.5));
-  return smoothStep(1, 0, radius) * corridor.strength;
+function distanceToPolyline(x, z, points) {
+  let nearest = Number.POSITIVE_INFINITY;
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const start = points[index];
+    const end = points[index + 1];
+    const dx = end.x - start.x;
+    const dz = end.z - start.z;
+    const lengthSquared = dx * dx + dz * dz;
+    const t = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, ((x - start.x) * dx + (z - start.z) * dz) / lengthSquared));
+    nearest = Math.min(nearest, Math.hypot(x - (start.x + dx * t), z - (start.z + dz * t)));
+  }
+  return nearest;
 }
 
 function smoothStep(edge0, edge1, value) {
@@ -139,19 +120,23 @@ export function raycastTerrainDown({
   toY = TERRAIN_RAYCAST_TO_Y,
   bands = createTerrainTessellationBands(),
 } = {}) {
-  const sortedBands = [...bands].sort((a, b) => b.priority - a.priority);
-  const hits = sortedBands
-    .flatMap((band, bandIndex) => raycastBandCell({
+  const sortedBands = [...bands].sort((a, b) => a.step - b.step);
+  for (let bandIndex = 0; bandIndex < sortedBands.length; bandIndex += 1) {
+    const band = sortedBands[bandIndex];
+    if (x < band.bounds.minX || x > band.bounds.maxX || z < band.bounds.minZ || z > band.bounds.maxZ) continue;
+    const hits = raycastBandCell({
       x,
       z,
       fromY,
       toY,
       band,
-      bandYOffset: bandIndex * 0.012,
-    }))
+      bandYOffset: (bands.length - bandIndex - 1) * 0.012,
+    })
     .filter(Boolean)
     .sort((a, b) => b.point.y - a.point.y);
-  return hits[0] ?? null;
+    if (hits[0]) return hits[0];
+  }
+  return null;
 }
 
 export function createTerrainColliderDescriptor({
@@ -188,13 +173,7 @@ export function createTerrainColliderDescriptor({
     columns,
     rows,
     samples,
-    centralMountainBlockers: CENTRAL_MOUNTAIN_FORMS.map((form) => ({
-      id: form.id,
-      x: form.x,
-      z: form.z,
-      radius: form.blockerRadius,
-      height: form.height,
-    })),
+    blockedAreas: GOLD_RUSH_GREYBOX_LAYOUT.blockedAreas.map((area) => ({ ...area })),
   };
 }
 
@@ -205,35 +184,13 @@ export function createTerrainTessellationBands({
 } = {}) {
   return [
     {
-      id: "near-play-band",
+      id: "canonical-world-band",
       priority: 1,
-      bounds: scaleBounds(width, depth, 0.42, 0.38),
-      step: patchSize / 3,
-      role: "player-footing-and-camera-detail",
-      overlapCells: 3,
-      skirtDepth: 2.2,
-      renderOrder: 3,
-    },
-    {
-      id: "middle-route-band",
-      priority: 2,
-      bounds: scaleBounds(width, depth, 0.72, 0.68),
       step: patchSize,
-      role: "walkable-route-and-mountain-approach",
-      overlapCells: 4,
-      skirtDepth: 4.4,
-      renderOrder: 2,
-    },
-    {
-      id: "far-horizon-band",
-      priority: 3,
       bounds: scaleBounds(width, depth, 1, 1),
-      step: patchSize * 2,
-      role: "large-world-silhouette",
-      overlapCells: 6,
+      role: "single-continuous-visible-and-collidable-world-surface",
+      overlapCells: 0,
       skirtDepth: 10,
-      horizonFadeStart: 0.72,
-      horizonFadeEnd: 1,
       renderOrder: 1,
     },
   ];
@@ -284,7 +241,7 @@ export function validateTerrainColliderDescriptor(descriptor = createTerrainColl
   if (!descriptor.bridgeTargets?.includes("rapier-heightfield")) failures.push("missing-rapier-bridge-target");
   if (descriptor.samples.length !== descriptor.columns * descriptor.rows) failures.push("sample-count-mismatch");
   if (descriptor.columns < 40 || descriptor.rows < 25) failures.push("heightfield-too-sparse");
-  if (!descriptor.centralMountainBlockers?.length) failures.push("missing-central-mountain-blockers");
+  if (!descriptor.blockedAreas?.length) failures.push("missing-canonical-blocked-areas");
   if (descriptor.raycast?.mode !== "downward-triangle-raycast") failures.push("missing-downward-raycast-mode");
   return { passed: failures.length === 0, failures, descriptor };
 }
@@ -296,9 +253,9 @@ export function validateTerrainContinuityDescriptor(descriptor = createTerrainCo
   if (!descriptor.noDebugBlue) failures.push("debug-blue-not-disabled");
   if (!descriptor.edgeTreatment || descriptor.edgeTreatment.exposedBandEdges !== "skirted") failures.push("missing-skirted-edge-treatment");
   if (descriptor.edgeTreatment?.colliderAffectedBySkirts !== false) failures.push("skirts-must-not-affect-collider");
-  if (!Array.isArray(descriptor.bands) || descriptor.bands.length < 3) failures.push("missing-render-bands");
+  if (!Array.isArray(descriptor.bands) || descriptor.bands.length !== 1) failures.push("terrain-must-use-one-continuous-band");
   descriptor.bands?.forEach((band) => {
-    if (!Number.isFinite(band.overlapCells) || band.overlapCells < 1) failures.push(`missing-overlap-cells:${band.id}`);
+    if (!Number.isFinite(band.overlapCells) || band.overlapCells !== 0) failures.push(`single-band-must-not-overlap:${band.id}`);
     if (!Number.isFinite(band.skirtDepth) || band.skirtDepth <= 0) failures.push(`missing-skirt-depth:${band.id}`);
     if (!Number.isFinite(band.renderOrder)) failures.push(`missing-render-order:${band.id}`);
   });

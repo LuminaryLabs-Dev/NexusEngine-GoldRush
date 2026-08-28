@@ -32,11 +32,6 @@ import {
 } from "../scenes/goldRushFirstSequence.js";
 
 const walkBounds = { minX: -88, maxX: 88, minZ: -54, maxZ: 56 };
-const centralMountainBlockers = [
-  { x: -5.5, z: 16, radius: 9.8 },
-  { x: 8.4, z: 8.6, radius: 10.8 },
-  { x: -1.8, z: -7.8, radius: 9.4 },
-];
 
 const roomTypes = [
   {
@@ -103,7 +98,6 @@ export function createGoldRushApp(root) {
     initialPosition: { x: 0, z: 10.2 },
     initialLookYaw: Math.PI,
     initialLookPitch: -0.08,
-    blockers: [],
   });
   let runLoopId = null;
   let loadingLoopId = null;
@@ -1420,7 +1414,6 @@ function createMovementController({
   initialPosition = { x: -12, z: -20 },
   initialLookYaw = 0,
   initialLookPitch = -0.04,
-  blockers = centralMountainBlockers,
   forwardSign = 1,
   terrainSampler = null,
   terrainRaycaster = null,
@@ -1482,7 +1475,7 @@ function createMovementController({
       const nz = zAxis / length;
       position.x = clamp(position.x + nx * currentSpeed * dt, bounds.minX, bounds.maxX);
       position.z = clamp(position.z + nz * currentSpeed * dt, bounds.minZ, bounds.maxZ);
-      pushOutOfMountainBlockers(position, blockers, bounds);
+      clampToWalkBounds(position, bounds);
       const nextGround = sampleGround(position.x, position.z);
       const stepDelta = nextGround.height - previousGround.height;
       terrainBlocked = !nextGround.walkable || stepDelta > maxStepUp;
@@ -1641,16 +1634,7 @@ function normalizeAngle(value) {
   return ((value + Math.PI) % fullTurn + fullTurn) % fullTurn - Math.PI;
 }
 
-function pushOutOfMountainBlockers(position, blockers = centralMountainBlockers, bounds = walkBounds) {
-  blockers.forEach((blocker) => {
-    const dx = position.x - blocker.x;
-    const dz = position.z - blocker.z;
-    const distance = Math.hypot(dx, dz);
-    if (distance >= blocker.radius) return;
-    const safeDistance = distance || 0.001;
-    position.x = blocker.x + (dx / safeDistance) * blocker.radius;
-    position.z = blocker.z + (dz / safeDistance) * blocker.radius;
-  });
+function clampToWalkBounds(position, bounds = walkBounds) {
   position.x = clamp(position.x, bounds.minX, bounds.maxX);
   position.z = clamp(position.z, bounds.minZ, bounds.maxZ);
 }

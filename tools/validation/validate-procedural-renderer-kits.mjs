@@ -13,8 +13,8 @@ assert(descriptors.terrain.patches.length >= 4000, "terrain must use many small 
 assert(descriptors.terrain.width > descriptors.terrain.depth, "terrain must read as a broad landscape, not an arena token");
 assert(descriptors.terrain.width >= 180 && descriptors.terrain.depth >= 110, "terrain footprint must be roughly four times the prior play space");
 assert(descriptors.terrain.tessellationAlgorithm === "single-banded-triangle-terrain-v1", "terrain must use the single banded triangle terrain algorithm");
-assert(descriptors.terrain.tessellationBands.length === 3, "terrain must define near, middle, and far tessellation bands");
-assert(descriptors.terrain.tessellationBands[0].step < descriptors.terrain.tessellationBands[1].step && descriptors.terrain.tessellationBands[1].step < descriptors.terrain.tessellationBands[2].step, "terrain tessellation bands must reduce density with distance");
+assert(descriptors.terrain.tessellationBands.length === 1, "terrain must use one continuous tessellation band");
+assert(descriptors.terrain.tessellationBands[0].id === "canonical-world-band", "terrain must expose the canonical world band");
 assert(descriptors.terrainCollider.bridgeTargets.includes("cannon-es-heightfield"), "terrain collider must be bridgeable to cannon-es heightfields");
 assert(descriptors.terrainCollider.bridgeTargets.includes("rapier-heightfield"), "terrain collider must be bridgeable to Rapier heightfields");
 assert(descriptors.terrainCollider.raycast.mode === "downward-triangle-raycast", "terrain collider must include downward raycast placement");
@@ -28,12 +28,7 @@ assert(descriptors.sky.radius >= 150, "sky kit must surround the expanded terrai
 assert(descriptors.clouds.count >= 6, "cloud kit must provide multiple scrolling 2D planes");
 assert(descriptors.canyonComposition.walls.length >= 10, "canyon composition must frame the field with large walls");
 assert(descriptors.canyonComposition.farRidge.length >= 18, "canyon composition needs varied far ridge silhouettes");
-assert(descriptors.canyonComposition.centralMountains.length >= 3, "canyon composition must include central mountains that force walk-around routing");
-assert(descriptors.canyonComposition.centralMountains.every((mountain) => mountain.height >= 6 && mountain.blockerRadius >= 6), "central mountains need readable collision footprints");
-assert(
-  descriptors.canyonComposition.centralMountains.every((mountain) => mountain.composition === "midground-walkaround-terraced-shoulders" && mountain.visualHeight <= 5.5 && mountain.skyClearance === true),
-  "central mountains must use midground terraced composition instead of dark slab meshes"
-);
+assert(!Object.hasOwn(descriptors.canyonComposition, "centralMountains"), "open basin must not retain legacy central mountain descriptors");
 assert(
   descriptors.canyonComposition.walls.some((wall) => wall.side < 0) && descriptors.canyonComposition.walls.some((wall) => wall.side > 0),
   "canyon walls must frame both sides of the playable field"
@@ -171,13 +166,14 @@ assert(!rendererSource.includes("CircleGeometry"), "renderer must not use circul
 assert(!rendererSource.includes("BoxGeometry"), "renderer must not use box markers as the core player field");
 assert(rendererSource.includes("toneMapping"), "renderer must use tone mapping for the immersive 3D view");
 assert(proceduralSource.includes("physics/terrainCollider.js"), "procedural renderer must import the shared terrain collider");
-assert(proceduralSource.includes("createTrailRibbon"), "route kit must render a readable trail ribbon");
+assert(!proceduralSource.includes("createTrailRibbon"), "route must not be duplicated as overlay ribbon geometry");
+assert(colliderSource.includes("routeDistance") && colliderSource.includes("terrainFieldColor"), "route must be cut and colored into the canonical terrain source");
 assert(proceduralSource.includes("createBandedTriangleTerrainGeometry") && proceduralSource.includes("pushTerrainCell"), "renderer must generate banded triangle terrain from one algorithm");
 assert(proceduralSource.includes("createEnvironmentPhysicalForm"), "renderer must turn environment-space descriptors into physical scene forms");
-assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift") && colliderSource.includes("centralMountainLift"), "terrain height must be shaped by world-space understanding and central mountains");
-assert(colliderSource.includes("sampleMountainWalkaroundClearance") && colliderSource.includes("sampleMountainViewClearanceMask"), "terrain collider must own mountain walkaround and view-clearance masks");
+assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift"), "terrain height must be shaped by canonical world-space understanding");
+assert(!colliderSource.includes("centralMountainLift") && !colliderSource.includes("sampleMountainWalkaroundClearance"), "terrain collider must not retain legacy central mountain shaping");
 assert(colliderSource.includes("raycastTerrainDown") && colliderSource.includes("barycentric2D"), "terrain collider must support downward raycasting onto visible terrain triangles");
-assert(proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must build terraced walkaround mountain geometry");
+assert(!proceduralSource.includes("createWalkaroundMountainGeometry"), "renderer must not retain unused central mountain geometry");
 assert(proceduralSource.includes("createSpawnPedestalGeometry"), "renderer must include a spawn pedestal under the local skeleton character");
 assert(proceduralSource.includes("shoulderTarget") && proceduralSource.includes("state.localPlayer") && proceduralSource.includes("state.localPlayer.look?.yaw"), "camera must attach over the local skeleton character shoulder and follow mouse-look yaw");
 assert(proceduralSource.includes("goldrush-linear-camera-controller-v1") && proceduralSource.includes("single-three-camera-render"), "camera must expose a linear decoupled controller contract");

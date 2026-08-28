@@ -21,6 +21,67 @@ export const AUTHORED_TERRAIN_CONSUMERS = Object.freeze([
   Object.freeze({ consumerId: "public-proof", domainPath: "n:runtime:validation", role: "public-proof" }),
 ]);
 
+export const GOLD_RUSH_GREYBOX_LAYOUT = Object.freeze({
+  id: "goldrush.desert.greybox.normal-area.001",
+  purpose: "One source-owned basin, mine shelf, town shelf, route network, canyon boundary, and landmark layout.",
+  playableBounds: Object.freeze({ minX: -90, maxX: 90, minZ: -55, maxZ: 55, width: 180, depth: 110 }),
+  basin: Object.freeze({ id: "zone.basin", x: 0, z: -4, radiusX: 72, radiusZ: 43, floorHeight: -0.42 }),
+  shelves: Object.freeze([
+    Object.freeze({ id: "zone.mine-shelf", role: "mine", x: -42, z: 18, width: 38, depth: 24, elevation: 2.4 }),
+    Object.freeze({ id: "zone.town-shelf", role: "cashout", x: 42, z: 20, width: 44, depth: 28, elevation: 1.65 }),
+  ]),
+  routes: Object.freeze([
+    Object.freeze({
+      id: "route.main-wash",
+      role: "entrance-to-cashout",
+      width: 4.4,
+      points: Object.freeze([
+        Object.freeze({ x: -84, z: -38 }),
+        Object.freeze({ x: -62, z: -31 }),
+        Object.freeze({ x: -36, z: -24 }),
+        Object.freeze({ x: -12, z: -20 }),
+        Object.freeze({ x: 18, z: 6 }),
+        Object.freeze({ x: 43, z: 15 }),
+        Object.freeze({ x: 72, z: 23 }),
+      ]),
+    }),
+    Object.freeze({
+      id: "route.mine-spur",
+      role: "basin-to-mine",
+      width: 3.6,
+      points: Object.freeze([
+        Object.freeze({ x: -12, z: -20 }),
+        Object.freeze({ x: -24, z: -8 }),
+        Object.freeze({ x: -36, z: 6 }),
+        Object.freeze({ x: -42, z: 18 }),
+      ]),
+    }),
+  ]),
+  canyonWalls: Object.freeze(Array.from({ length: 12 }, (_, index) => {
+    const side = index < 6 ? -1 : 1;
+    const segment = index % 6;
+    return Object.freeze({
+      id: `canyon.wall.${side < 0 ? "west" : "east"}.${segment + 1}`,
+      side,
+      x: side * (85 + (segment % 2) * 2.5),
+      z: -45 + segment * 18,
+      width: 15 + (segment % 3) * 2,
+      depth: 20,
+      height: 8 + (segment % 3) * 1.8,
+      baseInset: -0.9,
+    });
+  })),
+  landmarks: Object.freeze([
+    Object.freeze({ id: "landmark.mine-entrance", role: "mine-entrance", x: -48, z: 24, yaw: 0.38 }),
+    Object.freeze({ id: "landmark.gold-seam", role: "gold-seam", x: -45, z: 20, yaw: 0.34 }),
+    Object.freeze({ id: "landmark.cashout-depot", role: "cashout-depot", x: 46, z: 22, yaw: -0.22 }),
+  ]),
+  blockedAreas: Object.freeze([
+    Object.freeze({ id: "blocker.west-wall", minX: -90, maxX: -79, minZ: -55, maxZ: 55 }),
+    Object.freeze({ id: "blocker.east-wall", minX: 79, maxX: 90, minZ: -55, maxZ: 55 }),
+  ]),
+});
+
 const DEFAULT_AUTHORING = Object.freeze({
   sourceFamily: "desert-artboard-fixture",
   intendedSlice: "source-identity-and-revision",
@@ -33,6 +94,7 @@ const DEFAULT_SOURCE_LAYERS = Object.freeze({
   revision: "micro-001",
   scaleIntent: "small-source-fixture",
   consumerEchoPolicy: "all-consumers-echo-fixture-revision-source-hash",
+  greyboxLayout: GOLD_RUSH_GREYBOX_LAYOUT.id,
 });
 
 const DEFAULT_COORDINATE_SYSTEM = Object.freeze({
@@ -458,6 +520,7 @@ export function createGoldRushAuthoredTerrainFixture(overrides = {}) {
     scaleConsumers: cloneJson(DEFAULT_SCALE_CONSUMERS),
     consumerScaleEcho: cloneJson(DEFAULT_CONSUMER_SCALE_ECHO),
     scaleRevisionPolicy: cloneJson(DEFAULT_SCALE_REVISION_POLICY),
+    worldLayout: cloneJson(GOLD_RUSH_GREYBOX_LAYOUT),
   };
 
   const source = deepMerge(base, withoutKeys(overrides, ["revisionId", "sourceHash", "consumerEchoes", "restartPacket"]));
@@ -561,6 +624,7 @@ export function createAuthoredTerrainSourceHashInputs(source) {
     scaleConsumers: fixture.scaleConsumers,
     consumerScaleEcho: fixture.consumerScaleEcho,
     scaleRevisionPolicy: fixture.scaleRevisionPolicy,
+    worldLayout: fixture.worldLayout,
   });
 }
 
@@ -1313,6 +1377,7 @@ export function validateAuthoredTerrainSourceFixture(fixture) {
   validateHeightSampleContract(fixture, failures);
   validateNormalSlopeContract(fixture, failures);
   validateMaterialBiomeContract(fixture, failures);
+  validateGreyboxWorldLayout(fixture.worldLayout, failures);
   validateConsumerEchoes(fixture, failures);
 
   const passed = failures.length === 0;
@@ -1326,6 +1391,23 @@ export function validateAuthoredTerrainSourceFixture(fixture) {
       consumerValidationSkipped: false,
     }),
   };
+}
+
+function validateGreyboxWorldLayout(layout, failures) {
+  if (!layout || typeof layout !== "object") {
+    failures.push("greybox-world-layout-missing");
+    return;
+  }
+  if (layout.id !== GOLD_RUSH_GREYBOX_LAYOUT.id) failures.push("greybox-world-layout-id-mismatch");
+  if (layout.playableBounds?.width !== 180 || layout.playableBounds?.depth !== 110) failures.push("greybox-playable-bounds-invalid");
+  if (!layout.basin || layout.basin.radiusX < 60 || layout.basin.radiusZ < 35) failures.push("greybox-basin-invalid");
+  if (layout.shelves?.length !== 2) failures.push("greybox-shelves-invalid");
+  if (layout.routes?.length !== 2 || layout.routes.some((route) => route.points?.length < 4 || route.width < 3)) failures.push("greybox-routes-invalid");
+  if (layout.canyonWalls?.length < 10) failures.push("greybox-canyon-walls-invalid");
+  if (!layout.landmarks?.some((landmark) => landmark.role === "mine-entrance")) failures.push("greybox-mine-landmark-missing");
+  if (!layout.landmarks?.some((landmark) => landmark.role === "gold-seam")) failures.push("greybox-gold-landmark-missing");
+  if (!layout.landmarks?.some((landmark) => landmark.role === "cashout-depot")) failures.push("greybox-cashout-landmark-missing");
+  if (layout.blockedAreas?.length < 2) failures.push("greybox-blocked-areas-invalid");
 }
 
 export function detectConsumerDrift(fixture) {

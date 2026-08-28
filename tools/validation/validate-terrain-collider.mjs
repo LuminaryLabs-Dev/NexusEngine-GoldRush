@@ -5,7 +5,6 @@ import {
   validateCannonTerrainPhysics,
 } from "../../src/physics/cannonTerrainPhysics.js";
 import {
-  CENTRAL_MOUNTAIN_FORMS,
   createTerrainColliderDescriptor,
   raycastTerrainDown,
   sampleTerrainCollider,
@@ -32,7 +31,7 @@ assert(Number.isFinite(terrainFieldHeight(-12, -20)), "terrain height sampler mu
 
 const spawnHit = raycastTerrainDown({ x: -12, z: -20 });
 assert(spawnHit?.kind === "downward-triangle-raycast", "player placement must raycast down onto a terrain triangle");
-assert(spawnHit.bandId === "near-play-band", "player spawn should hit the near play terrain band first");
+assert(spawnHit.bandId === "canonical-world-band", "player spawn should hit the canonical world band");
 const spawnGround = sampleTerrainCollider({ x: -12, z: -20 });
 assert(spawnGround.kind === "sampled-heightfield", "terrain sampler must identify sampled heightfield ground");
 assert(spawnGround.placement === "downward-triangle-raycast", "terrain sampler must use downward raycast placement");
@@ -40,10 +39,9 @@ assert(spawnGround.walkable, "player spawn should be walkable");
 assert(Number.isFinite(spawnGround.height), "player spawn height must be finite");
 assert(spawnGround.normal.y > 0.25, "terrain normal must be usable for grounded movement");
 
-const mainMountain = CENTRAL_MOUNTAIN_FORMS.find((form) => form.id === "central-mountain.gold-spine") ?? CENTRAL_MOUNTAIN_FORMS[0];
-const mountainGround = sampleTerrainCollider({ x: mainMountain.x, z: mainMountain.z });
-assert(!mountainGround.walkable, "central mountain interiors must block player traversal");
-assert(mountainGround.blockingFeatureId?.startsWith("central-mountain."), "mountain blocker must report the blocking feature id");
+const westBoundary = sampleTerrainCollider({ x: -85, z: 0 });
+assert(!westBoundary.walkable, "canonical canyon boundary must block player traversal");
+assert(westBoundary.blockingFeatureId === "blocker.west-wall", "boundary blocker must report its canonical feature id");
 
 const proceduralSource = readFileSync(new URL("../../src/renderer/proceduralKits.js", import.meta.url), "utf8");
 const appSource = readFileSync(new URL("../../src/app/goldRushApp.js", import.meta.url), "utf8");
@@ -55,7 +53,8 @@ assert(appSource.includes("sampleTerrainCollider"), "app movement controller mus
 assert(appSource.includes("raycastTerrainDown"), "app movement controller must place the player by downward terrain raycast");
 assert(appSource.includes("terrainColliderDescriptor"), "browser state must expose the terrain collider descriptor");
 assert(appSource.includes("terrainPhysics"), "browser state must expose the terrain physics descriptor");
-assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift") && colliderSource.includes("centralMountainLift"), "terrain collider must preserve the full world-space height algorithm");
+assert(colliderSource.includes("trailBanks") && colliderSource.includes("basinBowl") && colliderSource.includes("goldFaceLift"), "terrain collider must preserve the canonical greybox height algorithm");
+assert(!colliderSource.includes("centralMountainLift"), "open basin terrain must not contain legacy central mountain lift");
 
 console.log("terrain collider passed");
 

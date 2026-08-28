@@ -4,6 +4,11 @@ import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
 import { DEFAULT_WORLD_PREVIEW_PRESETS, WORLD_PREVIEW_CAMERA_PRESETS } from "../../src/dev/world-preview/cameraPresets.js";
+import {
+  sanitizePathForOutput,
+  sanitizedConsoleJson,
+  writeSanitizedJsonArtifact,
+} from "../safety/publicArtifactSanitizer.mjs";
 
 const root = process.cwd();
 const outputDir = path.resolve(root, "artifacts/world-camera-preview");
@@ -43,10 +48,16 @@ try {
     }));
     const file = path.join(outputDir, `${phase}-${preset}.png`);
     await page.screenshot({ path: file });
-    captures.push({ preset, phase, file: path.relative(root, file), metadata });
+    captures.push({ preset, phase, file: sanitizePathForOutput(file, { repoRoot: root }), metadata });
   }
-  await fs.writeFile(path.join(outputDir, `${phase}-manifest.json`), `${JSON.stringify({ phase, captures }, null, 2)}\n`);
-  console.log(`Captured ${captures.length} Gold Rush world camera preview(s) in ${path.relative(root, outputDir)}.`);
+  const manifestPath = path.join(outputDir, `${phase}-manifest.json`);
+  await writeSanitizedJsonArtifact(manifestPath, { phase, captures }, { repoRoot: root });
+  console.log(sanitizedConsoleJson({
+    status: "goldrush-world-camera-preview-ready",
+    phase,
+    captures: captures.length,
+    manifest: sanitizePathForOutput(manifestPath, { repoRoot: root }),
+  }, { repoRoot: root }));
 } finally {
   if (browser) await browser.close();
   if (server) server.kill("SIGTERM");

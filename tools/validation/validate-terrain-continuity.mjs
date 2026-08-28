@@ -50,16 +50,16 @@ assert(upward > downward * 3, `terrain top winding should be upward; upward=${up
 const spawnHit = raycastTerrainDown({ x: -12, z: -20 });
 const mineHit = raycastTerrainDown({ x: -17.5, z: -16.5 });
 const extractionHit = raycastTerrainDown({ x: -33.5, z: -22.5 });
-assert(spawnHit?.bandId === "near-play-band", "spawn should still raycast to near-play band");
-assert(mineHit?.bandId === "near-play-band", "mine seam should still raycast to near-play band");
+assert(spawnHit?.bandId === "canonical-world-band", "spawn should raycast to the canonical world band");
+assert(mineHit?.bandId === "canonical-world-band", "mine seam should raycast to the canonical world band");
 assert(extractionHit?.point && Number.isFinite(extractionHit.point.y), "extraction should still raycast to terrain");
 assert(Number.isFinite(terrainFieldHeight(-17.5, -16.5)), "terrain height sampler should remain authoritative");
 assert(Number.isInteger(terrainFieldColor(-17.5, -16.5)), "terrain color sampler should remain authoritative");
 
 const source = await import("node:fs").then((fs) => fs.readFileSync("src/renderer/proceduralKits.js", "utf8"));
-assert(source.includes("pushTerrainBandSkirts"), "renderer should generate terrain band skirts");
+assert(source.includes("pushTerrainBandSkirts"), "renderer should skirt the outer terrain boundary");
 assert(source.includes("sampleTerrainRenderColor"), "renderer should use terrain render color sampler");
-assert(source.includes("isCoveredByFinerTerrainBand"), "renderer should carve coarse terrain bands under finer bands to avoid stacked surface flicker");
+assert(source.includes("canonical-world-band"), "renderer should use one canonical terrain band");
 assert(!source.includes("0x6f9eaa, roughness"), "terrain material must not use sky-blue debug color");
 
 console.log(JSON.stringify({
